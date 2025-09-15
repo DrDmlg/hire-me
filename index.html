@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация - HireMe</title>
+    <title>HireMe - Главное меню</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -37,123 +37,10 @@
             padding: 20px;
         }
 
-        .registration-container {
-            max-width: 480px;
-            margin: 40px auto;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .registration-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: var(--white);
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .registration-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .registration-header p {
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        .registration-body {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--bg-light);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-gray);
-            opacity: 0.7;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .telegram-integration {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .telegram-integration p {
-            color: var(--text-gray);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-telegram {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--primary);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .btn-telegram:hover {
-            background: var(--primary-hover);
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .logo {
@@ -161,14 +48,96 @@
             margin-bottom: 2rem;
         }
 
-        .logo h2 {
+        .logo h1 {
             color: var(--primary);
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .menu-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .menu-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .user-info {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-id {
+            color: var(--text-gray);
+            font-size: 0.9rem;
         }
 
         /* Анимации */
-        @keyframes slideIn {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -179,104 +148,68 @@
             }
         }
 
-        .registration-container {
-            animation: slideIn 0.6s ease-out;
+        .menu-item {
+            animation: fadeIn 0.6s ease-out;
         }
+
+        .menu-item:nth-child(1) { animation-delay: 0.1s; }
+        .menu-item:nth-child(2) { animation-delay: 0.2s; }
+        .menu-item:nth-child(3) { animation-delay: 0.3s; }
+        .menu-item:nth-child(4) { animation-delay: 0.4s; }
 
         /* Адаптивность */
         @media (max-width: 480px) {
-            body {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
                 padding: 10px;
             }
 
-            .registration-container {
-                margin: 20px auto;
+            .logo h1 {
+                font-size: 2rem;
             }
-
-            .registration-header {
-                padding: 1.5rem;
-            }
-
-            .registration-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .registration-body {
-                padding: 1.5rem;
-            }
-        }
-
-        /* Состояния загрузки */
-        .loading {
-            position: relative;
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--white);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-<div class="logo">
-    <h2>HireMe</h2>
-</div>
-
-<div class="registration-container">
-    <div class="registration-header">
-        <h1>📝 Завершите регистрацию</h1>
-        <p>Заполните данные для вашего профиля</p>
+<div class="container">
+    <div class="logo">
+        <h1>HireMe</h1>
+        <p>Ваш помощник в поиске работы</p>
     </div>
 
-    <div class="registration-body">
-        <form id="regForm">
-            <div class="form-group">
-                <label for="firstName">Имя</label>
-                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя" required>
-            </div>
+    <div class="user-info" id="userInfo">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div class="user-name" id="userName">Пользователь</div>
+        <div class="user-id" id="userId">ID: loading...</div>
+    </div>
 
-            <div class="form-group">
-                <label for="lastName">Фамилия</label>
-                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию" required>
-            </div>
+    <div class="menu-grid">
+        <a href="registration.html" class="menu-item">
+            <span class="menu-icon">📝</span>
+            <div class="menu-title">Регистрация</div>
+            <div class="menu-description">Заполните профиль для поиска работы</div>
+        </a>
 
-            <div class="form-group">
-                <label for="position">Должность</label>
-                <input type="text" id="position" name="position" class="form-input" placeholder="Например: Java Developer, Frontend Engineer" required>
-            </div>
+        <a href="https://t.me/PublicHireMe_bot?start=profile" class="menu-item">
+            <span class="menu-icon">👤</span>
+            <div class="menu-title">Мой профиль</div>
+            <div class="menu-description">Просмотр и редактирование данных</div>
+        </a>
 
-            <div class="form-group">
-                <label for="desiredSalary">Ожидаемый доход</label>
-                <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250000" required>
-            </div>
+        <a href="https://t.me/PublicHireMe_bot?start=vacancies" class="menu-item">
+            <span class="menu-icon">💼</span>
+            <div class="menu-title">Вакансии</div>
+            <div class="menu-description">Подходящие предложения работы</div>
+        </a>
 
-            <button type="submit" class="btn-primary" id="submitBtn">
-                ✅ Сохранить профиль
-            </button>
-        </form>
-
-        <div class="telegram-integration">
-            <p>Работаем через Telegram</p>
-            <a href="https://t.me/PublicHireMe_bot" class="btn-telegram" target="_blank">
-                <span>💬 Перейти в бота</span>
-            </a>
-        </div>
+        <a href="https://t.me/PublicHireMe_bot?start=support" class="menu-item">
+            <span class="menu-icon">🛟</span>
+            <div class="menu-title">Поддержка</div>
+            <div class="menu-description">Помощь и консультация</div>
+        </a>
     </div>
 </div>
 
@@ -288,74 +221,73 @@
     tg.expand();
     tg.setHeaderColor('#2563EB');
     tg.setBackgroundColor('#F8FAFC');
+    tg.enableClosingConfirmation();
 
-    // Обработка отправки формы
-    document.getElementById('regForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Показываем состояние загрузки
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.classList.add('loading');
-        submitBtn.textContent = 'Сохранение...';
-
-        // Собираем данные формы
-        const formData = new FormData(this);
-        const data = {
-            firstName: formData.get('firstName').trim(),
-            lastName: formData.get('lastName').trim(),
-            position: formData.get('position').trim(),
-            desiredSalary: formData.get('desiredSalary').trim(),
-            timestamp: new Date().toISOString(),
-            user: tg.initDataUnsafe.user || {}
-        };
-
-        // Валидация
-        if (!data.firstName || !data.lastName || !data.position || !data.desiredSalary) {
-            tg.showAlert('Пожалуйста, заполните все поля');
-            submitBtn.classList.remove('loading');
-            submitBtn.textContent = '✅ Сохранить профиль';
-            return;
-        }
-
-        // Отправляем данные в бот
-        setTimeout(() => {
-            tg.sendData(JSON.stringify(data));
-
-            // Показываем подтверждение
-            tg.showPopup({
-                title: '✅ Готово!',
-                message: 'Ваш профиль успешно сохранен',
-                buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
-            }, () => {
-                // Закрываем WebApp
-                tg.close();
-            });
-        }, 1000);
-    });
-
-    // Автозаполнение из данных Telegram, если есть
+    // Показываем информацию о пользователе
     document.addEventListener('DOMContentLoaded', function() {
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
 
-            if (user.first_name && !document.getElementById('firstName').value) {
-                document.getElementById('firstName').value = user.first_name;
+            // Аватар
+            const userAvatar = document.getElementById('userAvatar');
+            if (user.photo_url) {
+                userAvatar.style.backgroundImage = `url(${user.photo_url})`;
+                userAvatar.style.backgroundSize = 'cover';
+                userAvatar.textContent = '';
+            } else if (user.first_name) {
+                userAvatar.textContent = user.first_name[0].toUpperCase();
             }
 
-            if (user.last_name && !document.getElementById('lastName').value) {
-                document.getElementById('lastName').value = user.last_name;
-            }
+            // Имя
+            let userName = '';
+            if (user.first_name) userName += user.first_name;
+            if (user.last_name) userName += ' ' + user.last_name;
+            if (userName.trim() === '') userName = 'Пользователь';
+
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userId').textContent = `ID: ${user.id}`;
+
+            // Устанавливаем цвет аватара на основе ID
+            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
+            const colorIndex = user.id % colors.length;
+            userAvatar.style.backgroundColor = colors[colorIndex];
         }
-    });
 
-    // Плавное появление формы
-    document.addEventListener('DOMContentLoaded', function() {
+        // Плавное появление
         document.body.style.opacity = '0';
         document.body.style.transition = 'opacity 0.5s ease';
-
         setTimeout(() => {
             document.body.style.opacity = '1';
         }, 100);
+    });
+
+    // Простая навигация для локального тестирования
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Для локальных HTML-страниц разрешаем стандартный переход
+            if (this.href.includes('.html')) {
+                return true; // Позволяем браузеру обработать переход
+            }
+
+            e.preventDefault();
+
+            // Проверяем, доступен ли метод showPopup
+            if (tg.showPopup) {
+                tg.showPopup({
+                    title: 'Переход',
+                    message: 'Открываем выбранный раздел...',
+                    buttons: [{type: 'default', text: 'OK'}]
+                });
+            } else {
+                // Просто логируем для локального тестирования
+                console.log('Переход в Telegram:', this.href);
+            }
+
+            // Открываем ссылку
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 500);
+        });
     });
 </script>
 </body>
