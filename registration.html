@@ -44,6 +44,30 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateX(-2px);
         }
 
         .registration-header {
@@ -51,6 +75,7 @@
             color: var(--white);
             padding: 2rem;
             text-align: center;
+            position: relative;
         }
 
         .registration-header h1 {
@@ -204,6 +229,11 @@
             .registration-body {
                 padding: 1.5rem;
             }
+
+            .back-button {
+                top: 0.5rem;
+                left: 0.5rem;
+            }
         }
 
         /* Состояния загрузки */
@@ -239,6 +269,9 @@
 </div>
 
 <div class="registration-container">
+    <!-- Кнопка назад -->
+    <button class="back-button" onclick="goBack()">←</button>
+
     <div class="registration-header">
         <h1>📝 Завершите регистрацию</h1>
         <p>Заполните данные для вашего профиля</p>
@@ -289,6 +322,16 @@
     tg.setHeaderColor('#2563EB');
     tg.setBackgroundColor('#F8FAFC');
 
+    // Функция для возврата назад
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Если нет истории, переходим на главную
+            window.location.href = 'index.html';
+        }
+    }
+
     // Обработка отправки формы
     document.getElementById('regForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -311,7 +354,12 @@
 
         // Валидация
         if (!data.firstName || !data.lastName || !data.position || !data.desiredSalary) {
-            tg.showAlert('Пожалуйста, заполните все поля');
+            // Используем alert если showAlert недоступен
+            if (tg.showAlert) {
+                tg.showAlert('Пожалуйста, заполните все поля');
+            } else {
+                alert('Пожалуйста, заполните все поля');
+            }
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
             return;
@@ -319,17 +367,32 @@
 
         // Отправляем данные в бот
         setTimeout(() => {
-            tg.sendData(JSON.stringify(data));
+            if (tg.sendData) {
+                tg.sendData(JSON.stringify(data));
+            } else {
+                console.log('Данные для отправки:', data);
+            }
 
             // Показываем подтверждение
-            tg.showPopup({
-                title: '✅ Готово!',
-                message: 'Ваш профиль успешно сохранен',
-                buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
-            }, () => {
-                // Закрываем WebApp
-                tg.close();
-            });
+            if (tg.showPopup) {
+                tg.showPopup({
+                    title: '✅ Готово!',
+                    message: 'Ваш профиль успешно сохранен',
+                    buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
+                }, () => {
+                    if (tg.close) {
+                        tg.close();
+                    } else {
+                        goBack(); // Возвращаемся назад если нельзя закрыть
+                    }
+                });
+            } else {
+                alert('✅ Готово! Ваш профиль успешно сохранен');
+                // Возвращаемся на главную
+                setTimeout(() => {
+                    goBack();
+                }, 1000);
+            }
         }, 1000);
     });
 
@@ -356,6 +419,13 @@
         setTimeout(() => {
             document.body.style.opacity = '1';
         }, 100);
+    });
+
+    // Обработка кнопки "Назад" через Escape или аппаратную кнопку
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            goBack();
+        }
     });
 </script>
 </body>
