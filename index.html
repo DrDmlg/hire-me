@@ -136,6 +136,39 @@
             font-size: 0.9rem;
         }
 
+        /* Стили для кнопки "Перейти в бота" */
+        .telegram-integration {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .telegram-integration p {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-telegram {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn-telegram:hover {
+            background: var(--primary-hover);
+        }
+
         /* Анимации */
         @keyframes fadeIn {
             from {
@@ -156,6 +189,10 @@
         .menu-item:nth-child(2) { animation-delay: 0.2s; }
         .menu-item:nth-child(3) { animation-delay: 0.3s; }
         .menu-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .telegram-integration {
+            animation: fadeIn 0.6s ease-out 0.5s both;
+        }
 
         /* Адаптивность */
         @media (max-width: 480px) {
@@ -211,8 +248,15 @@
             <div class="menu-description">Помощь и консультация</div>
         </a>
     </div>
-</div>
 
+    <!-- Перенесенная кнопка "Перейти в бота" -->
+    <div class="telegram-integration">
+        <p>Работаем через Telegram</p>
+        <a href="https://t.me/PublicHireMe_bot" class="btn-telegram" target="_blank">
+            <span>💬 Перейти в бота</span>
+        </a>
+    </div>
+</div>
 <script>
     // Инициализация Telegram WebApp
     let tg = window.Telegram.WebApp;
