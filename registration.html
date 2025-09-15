@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --bg-light: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --white: #FFFFFF;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .registration-container {
+            max-width: 480px;
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .registration-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .registration-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .registration-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .registration-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--bg-light);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-gray);
+            opacity: 0.7;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .telegram-integration {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .telegram-integration p {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-telegram {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn-telegram:hover {
+            background: var(--primary-hover);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        /* Анимации */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-container {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .registration-container {
+                margin: 20px auto;
+            }
+
+            .registration-header {
+                padding: 1.5rem;
+            }
+
+            .registration-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .registration-body {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Состояния загрузки */
+        .loading {
+            position: relative;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="logo">
+    <h2>HireMe</h2>
+</div>
+
+<div class="registration-container">
+    <div class="registration-header">
+        <h1>📝 Завершите регистрацию</h1>
+        <p>Заполните данные для вашего профиля</p>
+    </div>
+
+    <div class="registration-body">
+        <form id="regForm">
+            <div class="form-group">
+                <label for="firstName">Имя</label>
+                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Фамилия</label>
+                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию" required>
+            </div>
+
+            <div class="form-group">
+                <label for="position">Должность</label>
+                <input type="text" id="position" name="position" class="form-input" placeholder="Например: Java Developer, Frontend Engineer" required>
+            </div>
+
+            <div class="form-group">
+                <label for="desiredSalary">Ожидаемый доход</label>
+                <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250000" required>
+            </div>
+
+            <button type="submit" class="btn-primary" id="submitBtn">
+                ✅ Сохранить профиль
+            </button>
+        </form>
+
+        <div class="telegram-integration">
+            <p>Работаем через Telegram</p>
+            <a href="https://t.me/PublicHireMe_bot" class="btn-telegram" target="_blank">
+                <span>💬 Перейти в бота</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Инициализация Telegram WebApp
+    let tg = window.Telegram.WebApp;
+
+    // Раскрываем на весь экран и меняем цвет тему
+    tg.expand();
+    tg.setHeaderColor('#2563EB');
+    tg.setBackgroundColor('#F8FAFC');
+
+    // Обработка отправки формы
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Показываем состояние загрузки
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.classList.add('loading');
+        submitBtn.textContent = 'Сохранение...';
+
+        // Собираем данные формы
+        const formData = new FormData(this);
+        const data = {
+            firstName: formData.get('firstName').trim(),
+            lastName: formData.get('lastName').trim(),
+            position: formData.get('position').trim(),
+            desiredSalary: formData.get('desiredSalary').trim(),
+            timestamp: new Date().toISOString(),
+            user: tg.initDataUnsafe.user || {}
+        };
+
+        // Валидация
+        if (!data.firstName || !data.lastName || !data.position || !data.desiredSalary) {
+            tg.showAlert('Пожалуйста, заполните все поля');
+            submitBtn.classList.remove('loading');
+            submitBtn.textContent = '✅ Сохранить профиль';
+            return;
+        }
+
+        // Отправляем данные в бот
+        setTimeout(() => {
+            tg.sendData(JSON.stringify(data));
+
+            // Показываем подтверждение
+            tg.showPopup({
+                title: '✅ Готово!',
+                message: 'Ваш профиль успешно сохранен',
+                buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
+            }, () => {
+                // Закрываем WebApp
+                tg.close();
+            });
+        }, 1000);
+    });
+
+    // Автозаполнение из данных Telegram, если есть
+    document.addEventListener('DOMContentLoaded', function() {
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+
+            if (user.first_name && !document.getElementById('firstName').value) {
+                document.getElementById('firstName').value = user.first_name;
+            }
+
+            if (user.last_name && !document.getElementById('lastName').value) {
+                document.getElementById('lastName').value = user.last_name;
+            }
+        }
+    });
+
+    // Плавное появление формы
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    });
+</script>
+</body>
+</html>
