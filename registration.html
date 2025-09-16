@@ -328,8 +328,9 @@
             lastName: formData.get('lastName').trim(),
             position: formData.get('position').trim(),
             desiredSalary: formData.get('desiredSalary').trim(),
-            timestamp: new Date().toISOString(),
-            user: tg.initDataUnsafe.user || {}
+            formType: 'registration',
+            //timestamp: new Date().toISOString(),
+            //user: tg.initDataUnsafe.user || {}
         };
 
         // Валидация
