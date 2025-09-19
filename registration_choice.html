@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор роли - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --bg-light: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --white: #FFFFFF;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+
+            /* Цвета для разных ролей */
+            --job-seeker-color: #3B82F6;
+            --job-seeker-gradient: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            --job-seeker-light: #DBEAFE;
+
+            --employer-color: #8B5CF6;
+            --employer-gradient: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            --employer-light: #EDE9FE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .role-selection {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .role-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .role-card.job-seeker::before {
+            background: var(--job-seeker-gradient);
+        }
+
+        .role-card.employer::before {
+            background: var(--employer-gradient);
+        }
+
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .role-card.job-seeker:hover {
+            border-color: var(--job-seeker-color);
+        }
+
+        .role-card.employer:hover {
+            border-color: var(--employer-color);
+        }
+
+        .role-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .job-seeker .role-icon {
+            color: var(--job-seeker-color);
+        }
+
+        .employer .role-icon {
+            color: var(--employer-color);
+        }
+
+        .role-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .job-seeker .role-title {
+            color: var(--job-seeker-color);
+        }
+
+        .employer .role-title {
+            color: var(--employer-color);
+        }
+
+        .role-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-features {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .role-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .role-feature-icon {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .job-seeker .role-feature-icon {
+            color: var(--job-seeker-color);
+        }
+
+        .employer .role-feature-icon {
+            color: var(--employer-color);
+        }
+
+        .role-button-container {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .role-button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .job-seeker .role-button {
+            background: var(--job-seeker-color);
+            color: white;
+        }
+
+        .job-seeker .role-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .employer .role-button {
+            background: var(--employer-color);
+            color: white;
+        }
+
+        .employer .role-button:hover {
+            background: #7C3AED;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: var(--border);
+            transform: translateX(-4px);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .role-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .role-card.job-seeker {
+            animation-delay: 0.1s;
+        }
+
+        .role-card.employer {
+            animation-delay: 0.2s;
+        }
+
+        /* Адаптивность */
+        @media (min-width: 768px) {
+            .role-selection {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .logo h1 {
+                font-size: 2rem;
+            }
+
+            .role-card {
+                padding: 1.5rem;
+                min-height: 380px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-button">← Назад</a>
+
+    <div class="logo">
+        <h1>HireMe</h1>
+        <p>Ваш помощник в поиске работы и сотрудников</p>
+    </div>
+
+    <div class="page-header">
+        <h2>Кто вы?</h2>
+        <p>Выберите вашу роль в системе</p>
+    </div>
+
+    <div class="role-selection">
+        <div class="role-card job-seeker">
+            <span class="role-icon">👤</span>
+            <div class="role-title">Соискатель</div>
+            <div class="role-description">
+                Ищете новую работу или возможности для развития карьеры
+            </div>
+
+            <div class="role-features">
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Поиск подходящих вакансий</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Создание профессионального профиля</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Прямой контакт с работодателями</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Уведомления о новых вакансиях</span>
+                </div>
+            </div>
+
+            <div class="role-button-container">
+                <a href="registration_candidate.html" class="role-button">Выбрать</a>
+            </div>
+        </div>
+
+        <div class="role-card employer">
+            <span class="role-icon">🏢</span>
+            <div class="role-title">Работодатель</div>
+            <div class="role-description">
+                Ищете сотрудников для своей компании или работаете в HR-сфере
+            </div>
+
+            <div class="role-features">
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Размещение вакансий</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Поиск подходящих кандидатов</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Управление процессом найма</span>
+                </div>
+                <div class="role-feature">
+                    <span class="role-feature-icon">✓</span>
+                    <span>Аналитика откликов и просмотров</span>
+                </div>
+            </div>
+
+            <div class="role-button-container">
+                <a href="registration.html?role=employer" class="role-button">Выбрать</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Инициализация Telegram WebApp
+    let tg = window.Telegram.WebApp;
+
+    // Раскрываем на весь экран и меняем цвет тему
+    tg.expand();
+    tg.setHeaderColor('#2563EB');
+    tg.setBackgroundColor('#F8FAFC');
+    tg.enableClosingConfirmation();
+
+    // Плавное появление
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    });
+
+    // Обработка выбора роли
+    document.querySelectorAll('.role-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+
+            // Для локальных HTML-страниц разрешаем стандартный переход
+            if (this.href.includes('.html')) {
+                return true; // Позволяем браузеру обработать переход
+            }
+
+            e.preventDefault();
+
+            // Определяем роль из класса карточки
+            const roleCard = this.closest('.role-card');
+            const roleType = roleCard.classList.contains('job-seeker') ? 'job-seeker' : 'employer';
+
+            // Показываем подтверждение
+            if (tg.showPopup) {
+                tg.showPopup({
+                    title: 'Выбор роли',
+                    message: roleType === 'job-seeker'
+                        ? 'Вы выбрали роль соискателя'
+                        : 'Вы выбрали роль работодателя',
+                    buttons: [{type: 'default', text: 'Продолжить'}]
+                }, () => {
+                    // Переходим на страницу регистрации с параметром роли
+                    window.location.href = `registration_candidate.html?role=${roleType}`;
+                });
+            } else {
+                // Просто переходим если нет Telegram WebApp
+                window.location.href = this.href;
+            }
+        });
+    });
+</script>
+</body>
+</html>
