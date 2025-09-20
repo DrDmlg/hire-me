@@ -277,8 +277,8 @@
             </div>
 
             <div class="form-group">
-                <label for="position">Должность</label>
-                <input type="text" id="position" name="position" class="form-input" placeholder="Например: Java Developer, Frontend Engineer" required>
+                <label for="desiredPosition">Должность</label>
+                <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Например: Java Developer, Frontend Engineer" required>
             </div>
 
             <div class="form-group">
@@ -326,7 +326,7 @@
         const data = {
             firstName: formData.get('firstName').trim(),
             lastName: formData.get('lastName').trim(),
-            desiredPosition: formData.get('position').trim(),
+            desiredPosition: formData.get('desiredPosition').trim(),
             desiredSalary: formData.get('desiredSalary').trim(),
             formType: 'registration_candidate',
             //timestamp: new Date().toISOString(),
@@ -334,7 +334,7 @@
         };
 
         // Валидация
-        if (!data.firstName || !data.lastName || !data.position || !data.desiredSalary) {
+        if (!data.firstName || !data.lastName || !data.desiredPosition || !data.desiredSalary) {
             // Используем alert если showAlert недоступен
             if (tg.showAlert) {
                 tg.showAlert('Пожалуйста, заполните все поля');
