@@ -53,13 +53,11 @@
             padding: 2rem;
             text-align: center;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .back-button {
             position: absolute;
+            top: 1rem;
             left: 1rem;
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -72,6 +70,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             color: var(--white);
+            z-index: 10;
         }
 
         .back-button:hover {
@@ -79,19 +78,19 @@
             transform: translateX(-2px);
         }
 
-        .header-content {
-            max-width: 70%;
-        }
-
         .registration-header h1 {
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 5;
         }
 
         .registration-header p {
             opacity: 0.9;
             font-size: 1rem;
+            position: relative;
+            z-index: 5;
         }
 
         .registration-body {
@@ -302,19 +301,22 @@
 
             .registration-header {
                 padding: 1.5rem;
-                padding-left: 3.5rem;
             }
 
             .back-button {
-                left: 0.5rem;
-            }
-
-            .header-content {
-                max-width: 100%;
+                top: 0.8rem;
+                left: 0.8rem;
+                width: 36px;
+                height: 36px;
             }
 
             .registration-header h1 {
                 font-size: 1.5rem;
+                padding: 0 2.5rem;
+            }
+
+            .registration-header p {
+                padding: 0 1rem;
             }
 
             .registration-body {
@@ -357,10 +359,8 @@
 <div class="registration-container">
     <div class="registration-header">
         <button class="back-button" onclick="goBack()">←</button>
-        <div class="header-content">
-            <h1>📝 Завершите регистрацию</h1>
-            <p>Заполните данные для вашего профиля</p>
-        </div>
+        <h1>📝 Завершите регистрацию</h1>
+        <p>Заполните данные для вашего профиля</p>
     </div>
 
     <div class="registration-body">
