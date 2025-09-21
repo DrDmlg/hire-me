@@ -47,11 +47,21 @@
             position: relative;
         }
 
+        .registration-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .back-button {
             position: absolute;
-            top: 1rem;
             left: 1rem;
-            background: var(--bg-light);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             width: 40px;
             height: 40px;
@@ -61,21 +71,16 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 10;
+            color: var(--white);
         }
 
         .back-button:hover {
-            background: var(--primary);
-            color: var(--white);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateX(-2px);
         }
 
-        .registration-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: var(--white);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
+        .header-content {
+            max-width: 70%;
         }
 
         .registration-header h1 {
@@ -158,6 +163,82 @@
             background-color: var(--bg-light);
         }
 
+        /* Стили для переключателя статуса */
+        .status-toggle {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: var(--bg-light);
+            border-radius: var(--radius);
+        }
+
+        .status-label {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .status-description {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .status-active {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-inactive {
+            color: var(--text-gray);
+        }
+
         .btn-primary {
             width: 100%;
             background: var(--primary);
@@ -221,6 +302,15 @@
 
             .registration-header {
                 padding: 1.5rem;
+                padding-left: 3.5rem;
+            }
+
+            .back-button {
+                left: 0.5rem;
+            }
+
+            .header-content {
+                max-width: 100%;
             }
 
             .registration-header h1 {
@@ -229,11 +319,6 @@
 
             .registration-body {
                 padding: 1.5rem;
-            }
-
-            .back-button {
-                top: 0.5rem;
-                left: 0.5rem;
             }
         }
 
@@ -270,12 +355,12 @@
 </div>
 
 <div class="registration-container">
-    <!-- Кнопка назад -->
-    <button class="back-button" onclick="goBack()">←</button>
-
     <div class="registration-header">
-        <h1>📝 Завершите регистрацию</h1>
-        <p>Заполните данные для вашего профиля</p>
+        <button class="back-button" onclick="goBack()">←</button>
+        <div class="header-content">
+            <h1>📝 Завершите регистрацию</h1>
+            <p>Заполните данные для вашего профиля</p>
+        </div>
     </div>
 
     <div class="registration-body">
@@ -301,6 +386,19 @@
             <div class="form-group">
                 <label for="desiredSalary">Ожидаемый доход</label>
                 <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250000" required>
+            </div>
+
+            <!-- Блок статуса поиска работы -->
+            <div class="status-toggle">
+                <span class="status-label">Статус поиска работы</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="jobSearchStatus" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="status-description">
+                <span id="statusText" class="status-active">✅ В активном поиске</span>
+                <p id="statusHelp">Работодатели увидят ваш профиль и смогут предлагать вам вакансии</p>
             </div>
 
             <button type="submit" class="btn-primary" id="submitBtn">
@@ -351,6 +449,9 @@
     // Элементы DOM
     const positionInput = document.getElementById('desiredPosition');
     const dropdown = document.getElementById('positionDropdown');
+    const statusToggle = document.getElementById('jobSearchStatus');
+    const statusText = document.getElementById('statusText');
+    const statusHelp = document.getElementById('statusHelp');
     let selectedIndex = -1;
 
     // Функция для возврата назад
@@ -361,6 +462,21 @@
             window.location.href = 'index.html';
         }
     }
+
+    // Обработчик изменения статуса
+    statusToggle.addEventListener('change', function() {
+        if (this.checked) {
+            statusText.textContent = '✅ В активном поиске';
+            statusText.classList.remove('status-inactive');
+            statusText.classList.add('status-active');
+            statusHelp.textContent = 'Работодатели увидят ваш профиль и смогут предлагать вам вакансии';
+        } else {
+            statusText.textContent = '❌ Не ищу работу';
+            statusText.classList.remove('status-active');
+            statusText.classList.add('status-inactive');
+            statusHelp.textContent = 'Ваш профиль будет скрыт от работодателей';
+        }
+    });
 
     // Функция фильтрации должностей
     function filterPositions(query) {
@@ -464,6 +580,7 @@
             lastName: document.getElementById('lastName').value.trim(),
             desiredPosition: document.getElementById('desiredPosition').value.trim(),
             desiredSalary: document.getElementById('desiredSalary').value.trim(),
+            jobSearchStatus: document.getElementById('jobSearchStatus').checked ? 'active' : 'inactive',
             formType: 'registration_candidate'
         };
 
