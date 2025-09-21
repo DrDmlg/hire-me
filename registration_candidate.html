@@ -95,6 +95,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-group label {
@@ -127,6 +128,36 @@
             opacity: 0.7;
         }
 
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .autocomplete-item:hover, .autocomplete-item.selected {
+            background-color: var(--bg-light);
+        }
+
         .btn-primary {
             width: 100%;
             background: var(--primary);
@@ -149,23 +180,6 @@
 
         .btn-primary:active {
             transform: translateY(0);
-        }
-
-        .btn-telegram {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--primary);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .btn-telegram:hover {
-            background: var(--primary-hover);
         }
 
         .logo {
@@ -278,7 +292,10 @@
 
             <div class="form-group">
                 <label for="desiredPosition">Должность</label>
-                <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Например: Java Developer, Frontend Engineer" required>
+                <div class="autocomplete-container">
+                    <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Начните вводить название должности" autocomplete="off" required>
+                    <div class="autocomplete-dropdown" id="positionDropdown"></div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -302,14 +319,134 @@
     tg.setHeaderColor('#2563EB');
     tg.setBackgroundColor('#F8FAFC');
 
+    // Список доступных должностей
+    const positions = [
+        "Frontend Developer",
+        "Backend Developer",
+        "Fullstack Developer",
+        "Java Developer",
+        "Python Developer",
+        "JavaScript Developer",
+        "DevOps Engineer",
+        "Data Scientist",
+        "UI/UX Designer",
+        "Project Manager",
+        "QA Engineer",
+        "Mobile Developer",
+        "iOS Developer",
+        "Android Developer",
+        "System Administrator",
+        "Product Manager",
+        "Business Analyst",
+        "Team Lead",
+        "CTO",
+        "Scrum Master",
+        "Data Engineer",
+        "Machine Learning Engineer",
+        "Cloud Architect",
+        "Network Engineer",
+        "Security Specialist"
+    ];
+
+    // Элементы DOM
+    const positionInput = document.getElementById('desiredPosition');
+    const dropdown = document.getElementById('positionDropdown');
+    let selectedIndex = -1;
+
     // Функция для возврата назад
     function goBack() {
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            // Если нет истории, переходим на главную
             window.location.href = 'index.html';
         }
+    }
+
+    // Функция фильтрации должностей
+    function filterPositions(query) {
+        if (!query) return positions;
+
+        return positions.filter(position =>
+            position.toLowerCase().includes(query.toLowerCase())
+        );
+    }
+
+    // Функция отображения предложений
+    function showSuggestions(suggestions) {
+        dropdown.innerHTML = '';
+
+        if (suggestions.length === 0) {
+            dropdown.style.display = 'none';
+            return;
+        }
+
+        suggestions.forEach((suggestion, index) => {
+            const item = document.createElement('div');
+            item.className = 'autocomplete-item';
+            item.textContent = suggestion;
+            item.addEventListener('click', () => {
+                positionInput.value = suggestion;
+                dropdown.style.display = 'none';
+            });
+            dropdown.appendChild(item);
+        });
+
+        dropdown.style.display = 'block';
+        selectedIndex = -1;
+    }
+
+    // Обработчик ввода в поле должности
+    positionInput.addEventListener('input', function() {
+        const query = this.value;
+        const filtered = filterPositions(query);
+        showSuggestions(filtered);
+    });
+
+    // Обработчик фокуса
+    positionInput.addEventListener('focus', function() {
+        const query = this.value;
+        const filtered = filterPositions(query);
+        showSuggestions(filtered);
+    });
+
+    // Обработчик клика вне поля ввода
+    document.addEventListener('click', function(e) {
+        if (!positionInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // Обработчик клавиш для навигации по предложениям
+    positionInput.addEventListener('keydown', function(e) {
+        const items = dropdown.querySelectorAll('.autocomplete-item');
+
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex + 1) % items.length;
+            updateSelection(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+            updateSelection(items);
+        } else if (e.key === 'Enter' && selectedIndex >= 0) {
+            e.preventDefault();
+            positionInput.value = items[selectedIndex].textContent;
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // Обновление выделенного элемента
+    function updateSelection(items) {
+        items.forEach((item, index) => {
+            if (index === selectedIndex) {
+                item.classList.add('selected');
+                item.scrollIntoView({ block: 'nearest' });
+            } else {
+                item.classList.remove('selected');
+            }
+        });
     }
 
     // Обработка отправки формы
@@ -322,20 +459,16 @@
         submitBtn.textContent = 'Сохранение...';
 
         // Собираем данные формы
-        const formData = new FormData(this);
         const data = {
-            firstName: formData.get('firstName').trim(),
-            lastName: formData.get('lastName').trim(),
-            desiredPosition: formData.get('desiredPosition').trim(),
-            desiredSalary: formData.get('desiredSalary').trim(),
-            formType: 'registration_candidate',
-            //timestamp: new Date().toISOString(),
-            //user: tg.initDataUnsafe.user || {}
+            firstName: document.getElementById('firstName').value.trim(),
+            lastName: document.getElementById('lastName').value.trim(),
+            desiredPosition: document.getElementById('desiredPosition').value.trim(),
+            desiredSalary: document.getElementById('desiredSalary').value.trim(),
+            formType: 'registration_candidate'
         };
 
         // Валидация
         if (!data.firstName || !data.lastName || !data.desiredPosition || !data.desiredSalary) {
-            // Используем alert если showAlert недоступен
             if (tg.showAlert) {
                 tg.showAlert('Пожалуйста, заполните все поля');
             } else {
@@ -364,12 +497,11 @@
                     if (tg.close) {
                         tg.close();
                     } else {
-                        goBack(); // Возвращаемся назад если нельзя закрыть
+                        goBack();
                     }
                 });
             } else {
                 alert('✅ Готово! Ваш профиль успешно сохранен');
-                // Возвращаемся на главную
                 setTimeout(() => {
                     goBack();
                 }, 1000);
