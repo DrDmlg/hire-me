@@ -50,11 +50,43 @@
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+        }
+
+        /* Новая кнопка назад */
+        .back-button-header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--bg-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: var(--shadow);
+        }
+
+        .back-button-header:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateX(-2px);
+        }
+
+        /* Убираем старую кнопку назад */
+        .back-button-old {
+            display: none;
         }
 
         .logo {
             text-align: center;
             margin-bottom: 2rem;
+            padding-top: 10px;
         }
 
         .logo h1 {
@@ -238,25 +270,6 @@
             box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--bg-light);
-            color: var(--text-gray);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
-        }
-
-        .back-button:hover {
-            background: var(--border);
-            transform: translateX(-4px);
-        }
-
         /* Анимации */
         @keyframes fadeIn {
             from {
@@ -301,12 +314,20 @@
                 padding: 1.5rem;
                 min-height: 380px;
             }
+
+            .back-button-header {
+                top: 5px;
+                left: 5px;
+                width: 36px;
+                height: 36px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <a href="index.html" class="back-button">← Назад</a>
+    <!-- Новая кнопка назад -->
+    <button class="back-button-header" onclick="goBack()">←</button>
 
     <div class="logo">
         <h1>HireMe</h1>
@@ -393,6 +414,15 @@
     tg.setBackgroundColor('#F8FAFC');
     tg.enableClosingConfirmation();
 
+    // Функция для возврата назад
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+
     // Плавное появление
     document.addEventListener('DOMContentLoaded', function() {
         document.body.style.opacity = '0';
@@ -435,6 +465,13 @@
                 window.location.href = this.href;
             }
         });
+    });
+
+    // Обработка кнопки "Назад" через Escape или аппаратную кнопку
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            goBack();
+        }
     });
 </script>
 </body>
