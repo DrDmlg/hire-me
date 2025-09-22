@@ -273,6 +273,35 @@
             font-weight: 800;
         }
 
+        /* Стили для выбора валюты */
+        .salary-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .salary-input {
+            flex: 1;
+        }
+
+        .currency-select {
+            width: 100px;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--bg-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .currency-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
         /* Анимации */
         @keyframes slideIn {
             from {
@@ -321,6 +350,15 @@
 
             .registration-body {
                 padding: 1.5rem;
+            }
+
+            .salary-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .currency-select {
+                width: 100%;
             }
         }
 
@@ -385,7 +423,15 @@
 
             <div class="form-group">
                 <label for="desiredSalary">Ожидаемый доход</label>
-                <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250000" required>
+                <div class="salary-container">
+                    <div class="salary-input">
+                        <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250 000" inputmode="numeric" required>
+                    </div>
+                    <select id="currency" name="currency" class="currency-select">
+                        <option value="RUB">RUB</option>
+                        <option value="USD">USD</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Блок статуса поиска работы -->
@@ -452,7 +498,74 @@
     const statusToggle = document.getElementById('jobSearchStatus');
     const statusText = document.getElementById('statusText');
     const statusHelp = document.getElementById('statusHelp');
+    const salaryInput = document.getElementById('desiredSalary');
+    const currencySelect = document.getElementById('currency');
     let selectedIndex = -1;
+
+    // ===== ФУНКЦИИ ДЛЯ ФОРМАТИРОВАНИЯ ЗАРПЛАТЫ =====
+
+    // Функция для форматирования числа с пробелами
+    function formatSalary(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+    // Функция для удаления форматирования (убирает все нецифровые символы)
+    function unformatSalary(formattedNumber) {
+        return formattedNumber.replace(/\D/g, '');
+    }
+
+    // Обработчик ввода для поля зарплаты
+    salaryInput.addEventListener('input', function(e) {
+        // Сохраняем позицию курсора
+        const cursorPosition = e.target.selectionStart;
+
+        // Получаем текущее значение и убираем форматирование
+        const unformattedValue = unformatSalary(this.value);
+
+        // Форматируем значение с пробелами
+        const formattedValue = formatSalary(unformattedValue);
+
+        // Устанавливаем отформатированное значение
+        this.value = formattedValue;
+
+        // Восстанавливаем позицию курсора с учетом добавленных пробелов
+        const addedSpaces = formattedValue.length - unformattedValue.length;
+        const newCursorPosition = cursorPosition + addedSpaces;
+
+        // Устанавливаем курсор на правильную позицию
+        e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+    });
+
+    // Блокировка нецифровых символов с клавиатуры (кроме Backspace, Delete и т.д.)
+    salaryInput.addEventListener('keydown', function(e) {
+        const allowedKeys = [
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft',
+            'ArrowRight', 'ArrowUp', 'ArrowDown'
+        ];
+
+        if (!allowedKeys.includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+
+    // Обработчик вставки из буфера обмена
+    salaryInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        const numbers = unformatSalary(text);
+        const formatted = formatSalary(numbers);
+
+        // Вставляем отформатированное значение
+        document.execCommand('insertText', false, formatted);
+    });
+
+    // Обработчик перед отправкой формы - убираем форматирование
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        const salaryField = document.getElementById('desiredSalary');
+        salaryField.value = unformatSalary(salaryField.value);
+    });
+    // ===== КОНЕЦ ФУНКЦИЙ ДЛЯ ФОРМАТИРОВАНИЯ ЗАРПЛАТЫ =====
 
     // Функция для возврата назад
     function goBack() {
@@ -580,6 +693,7 @@
             lastName: document.getElementById('lastName').value.trim(),
             desiredPosition: document.getElementById('desiredPosition').value.trim(),
             desiredSalary: document.getElementById('desiredSalary').value.trim(),
+            currency: document.getElementById('currency').value,
             jobSearchStatus: document.getElementById('jobSearchStatus').checked ? 'active' : 'inactive',
             formType: 'registration_candidate'
         };
