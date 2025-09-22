@@ -470,7 +470,7 @@
             <div class="status-toggle">
                 <span class="status-label">Статус поиска работы</span>
                 <label class="toggle-switch">
-                    <input type="checkbox" id="jobSearchStatus" checked>
+                    <input type="checkbox" id="searchStatus" checked>
                     <span class="toggle-slider"></span>
                 </label>
             </div>
@@ -527,7 +527,7 @@
     // Элементы DOM
     const positionInput = document.getElementById('desiredPosition');
     const dropdown = document.getElementById('positionDropdown');
-    const statusToggle = document.getElementById('jobSearchStatus');
+    const statusToggle = document.getElementById('searchStatus');
     const statusText = document.getElementById('statusText');
     const statusHelp = document.getElementById('statusHelp');
     const salaryInput = document.getElementById('desiredSalary');
@@ -726,7 +726,7 @@
             desiredPosition: document.getElementById('desiredPosition').value.trim(),
             desiredSalary: document.getElementById('desiredSalary').value.trim(),
             currency: document.getElementById('currency').value,
-            jobSearchStatus: document.getElementById('jobSearchStatus').checked ? 'active' : 'inactive',
+            searchStatus: document.getElementById('searchStatus').checked ? 'active' : 'inactive',
             formType: 'registration_candidate'
         };
 
