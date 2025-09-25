@@ -789,7 +789,7 @@
             desiredSalary: document.getElementById('desiredSalary').value.trim(),
             currency: document.getElementById('currency').value,
             candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
-            chatId: tg.initDataUnsafe?.user?.id,
+            telegramData: JSON.stringify(tg.initDataUnsafe),
             formType: 'registration_candidate'
         };
 
