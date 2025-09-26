@@ -789,8 +789,7 @@
             desiredSalary: document.getElementById('desiredSalary').value.trim(),
             currency: document.getElementById('currency').value,
             candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
-            telegramData: JSON.stringify(tg.initDataUnsafe),
-            telegramUser: JSON.stringify(tg.initDataUnsafe?.user),
+            telegramData: JSON.stringify(tg),
             formType: 'registration_candidate'
         };
 
