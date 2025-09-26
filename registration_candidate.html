@@ -783,14 +783,17 @@
 
         // Собираем данные формы
         const data = {
-            firstName: document.getElementById('firstName').value.trim(),
-            lastName: document.getElementById('lastName').value.trim(),
-            desiredPosition: document.getElementById('desiredPosition').value.trim(),
-            desiredSalary: document.getElementById('desiredSalary').value.trim(),
-            currency: document.getElementById('currency').value,
-            candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
-            telegramData: JSON.stringify(tg),
-            formType: 'registration_candidate'
+            formType: 'registration_candidate',
+            candidateRegistrationData: {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                desiredPosition: document.getElementById('desiredPosition').value.trim(),
+                desiredSalary: document.getElementById('desiredSalary').value.trim(),
+                currency: document.getElementById('currency').value,
+                candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
+            },
+            initData: tg.initData,
+            initDataUnsafe: tg.initDataUnsafe
         };
 
         // Валидация
@@ -803,7 +806,7 @@
 
         try {
             // Отправляем данные на ваш Java бэкенд
-            const response = await fetch('https://5433b6164496ef9a20c8709c9d25239d.serveo.net/registration', {
+            const response = await fetch('https://25b98b0c690f47559706192dcd90751d.serveo.net/registration', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
