@@ -788,7 +788,7 @@
                 firstName: document.getElementById('firstName').value.trim(),
                 lastName: document.getElementById('lastName').value.trim(),
                 desiredPosition: document.getElementById('desiredPosition').value.trim(),
-                desiredSalary: document.getElementById('desiredSalary').value.trim(),
+                desiredSalary: parseFloat(document.getElementById('desiredSalary').value),
                 currency: document.getElementById('currency').value,
                 candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
             },
