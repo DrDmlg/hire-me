@@ -797,7 +797,8 @@
         };
 
         // Валидация
-        if (!data.firstName || !data.lastName || !data.desiredPosition || !data.desiredSalary) {
+        const formData = data.candidateRegistrationData;
+        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || formData.desiredSalary <= 0) {
             showError('Пожалуйста, заполните все поля');
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
