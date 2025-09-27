@@ -70,12 +70,42 @@
             transition: all 0.3s ease;
             z-index: 10;
             box-shadow: var(--shadow);
+            animation: rotateIn 0.8s ease-out;
         }
 
         .back-button-header:hover {
             background: var(--primary);
             color: var(--white);
             transform: translateX(-2px);
+        }
+
+        /* Анимация вращения при заходе на страницу */
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: rotate(10deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Дополнительная анимация при наведении */
+        .back-button-header:hover {
+            animation: gentlePulse 2s infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .logo {
@@ -410,27 +440,29 @@
         }
     }
 
-    // Обработка выбора роли
+    // Обработка выбора роли с задержкой
     document.querySelectorAll('.role-button').forEach(button => {
         button.addEventListener('click', function(e) {
-            // Для локальных HTML-страниц разрешаем стандартный переход
-            if (this.href.includes('.html')) {
-                return true;
-            }
-
             e.preventDefault();
 
-            // Определяем роль из класса карточки
-            const roleCard = this.closest('.role-card');
-            const roleType = roleCard.classList.contains('job-seeker') ? 'job-seeker' : 'employer';
+            // Анимация нажатия
+            this.style.transform = 'scale(0.98)';
+            this.style.transition = 'transform 0.2s ease';
 
-            // Быстрый переход без лишних подтверждений
-            if (tg.showPopup) {
-                // Только для внешних ссылок - быстрый переход
-                window.open(this.href, '_blank');
-            } else {
-                window.location.href = this.href;
-            }
+            // Задержка перед переходом (500 мс)
+            setTimeout(() => {
+                // Для локальных HTML-страниц
+                if (this.href.includes('.html')) {
+                    window.location.href = this.href;
+                } else {
+                    // Для внешних ссылок
+                    if (tg.showPopup) {
+                        window.open(this.href, '_blank');
+                    } else {
+                        window.location.href = this.href;
+                    }
+                }
+            }, 500);
         });
     });
 
@@ -439,6 +471,21 @@
         if (e.key === 'Escape') {
             goBack();
         }
+    });
+
+    // Сброс трансформации после анимации
+    document.querySelectorAll('.role-button').forEach(button => {
+        button.addEventListener('transitionend', function() {
+            this.style.transform = '';
+        });
+    });
+
+    // Дополнительная анимация для кнопки "назад" при клике
+    document.querySelector('.back-button-header').addEventListener('click', function() {
+        this.style.animation = 'rotateIn 0.6s ease-out';
+        setTimeout(() => {
+            goBack();
+        }, 300);
     });
 </script>
 </body>
