@@ -82,11 +82,38 @@
             transition: all 0.3s ease;
             color: var(--white);
             z-index: 10;
+            animation: rotateIn 0.8s ease-out;
         }
 
         .back-button:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateX(-2px);
+            animation: gentlePulse 2s infinite;
+        }
+
+        /* Анимация вращения при заходе на страницу */
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: rotate(10deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Дополнительная анимация при наведении */
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .registration-header h1 {
@@ -819,6 +846,15 @@
         if (e.key === 'Escape') {
             goBack();
         }
+    });
+
+    // Дополнительная анимация для кнопки "назад" при клике
+    document.querySelector('.back-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.style.animation = 'rotateIn 0.6s ease-out';
+        setTimeout(() => {
+            goBack();
+        }, 300);
     });
 </script>
 </body>
