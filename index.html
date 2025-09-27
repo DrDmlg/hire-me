@@ -304,18 +304,32 @@
             item.addEventListener('click', function(e) {
                 // Для локальных HTML-страниц разрешаем стандартный переход
                 if (this.href.includes('.html')) {
-                    return true;
+                    // Минимальная задержка для feedback
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.98)';
+
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 150);
+                    return;
                 }
 
                 e.preventDefault();
+                this.style.transform = 'scale(0.98)';
 
-                // Быстрый переход без лишних подтверждений
-                if (tg.showPopup) {
-                    // Только для внешних ссылок - быстрый переход
-                    window.open(this.href, '_blank');
-                } else {
-                    window.location.href = this.href;
-                }
+                setTimeout(() => {
+                    if (tg.showPopup) {
+                        window.open(this.href, '_blank');
+                    } else {
+                        window.location.href = this.href;
+                    }
+                }, 150);
+            });
+        });
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('transitionend', function() {
+                this.style.transform = '';
             });
         });
 
