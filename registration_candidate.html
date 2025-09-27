@@ -35,16 +35,34 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: slideDown 0.5s ease-out 0.2s forwards;
+        }
+
+        .logo h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 800;
         }
 
         .registration-container {
             max-width: 480px;
-            margin: 40px auto;
+            margin: 0 auto;
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out 0.3s forwards;
         }
 
         .registration-header {
@@ -71,6 +89,8 @@
             transition: all 0.3s ease;
             color: var(--white);
             z-index: 10;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.4s forwards;
         }
 
         .back-button:hover {
@@ -84,6 +104,9 @@
             margin-bottom: 0.5rem;
             position: relative;
             z-index: 5;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease-out 0.5s forwards;
         }
 
         .registration-header p {
@@ -91,6 +114,9 @@
             font-size: 1rem;
             position: relative;
             z-index: 5;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease-out 0.6s forwards;
         }
 
         .registration-body {
@@ -100,7 +126,16 @@
         .form-group {
             margin-bottom: 1.5rem;
             position: relative;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease-out forwards;
         }
+
+        /* Быстрая последовательность появления полей формы */
+        .form-group:nth-child(1) { animation-delay: 0.7s; }
+        .form-group:nth-child(2) { animation-delay: 0.75s; }
+        .form-group:nth-child(3) { animation-delay: 0.8s; }
+        .form-group:nth-child(4) { animation-delay: 0.85s; }
 
         .form-group label {
             display: block;
@@ -125,6 +160,7 @@
             border-color: var(--primary);
             background: var(--white);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
         }
 
         .form-input::placeholder {
@@ -150,6 +186,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             z-index: 100;
             display: none;
+            animation: fadeInUp 0.3s ease-out;
         }
 
         .autocomplete-item {
@@ -170,6 +207,9 @@
             padding: 1rem;
             background-color: var(--bg-light);
             border-radius: var(--radius);
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease-out 0.9s forwards;
         }
 
         .status-label {
@@ -227,6 +267,9 @@
             margin-top: 0.5rem;
             font-size: 0.85rem;
             color: var(--text-gray);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease-out 1s forwards;
         }
 
         .status-active {
@@ -250,6 +293,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease-out 1.1s forwards;
         }
 
         .btn-primary:hover {
@@ -260,17 +306,6 @@
 
         .btn-primary:active {
             transform: translateY(0);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo h2 {
-            color: var(--primary);
-            font-size: 2rem;
-            font-weight: 800;
         }
 
         /* Стили для выбора валюты */
@@ -315,6 +350,7 @@
             border-color: var(--primary);
             background: var(--white);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
         }
 
         .currency-select-wrapper::after {
@@ -328,8 +364,17 @@
             color: var(--text-gray);
         }
 
-        /* Анимации */
-        @keyframes slideIn {
+        /* Упрощенные анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -340,8 +385,15 @@
             }
         }
 
-        .registration-container {
-            animation: slideIn 0.6s ease-out;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Адаптивность */
@@ -351,7 +403,7 @@
             }
 
             .registration-container {
-                margin: 20px auto;
+                margin: 0 auto;
             }
 
             .registration-header {
@@ -389,6 +441,39 @@
 
             .currency-select-wrapper::after {
                 right: 8px;
+            }
+
+            /* Еще более быстрая анимация на мобильных */
+            .form-group {
+                animation-duration: 0.4s;
+            }
+
+            .form-group:nth-child(1) { animation-delay: 0.5s; }
+            .form-group:nth-child(2) { animation-delay: 0.55s; }
+            .form-group:nth-child(3) { animation-delay: 0.6s; }
+            .form-group:nth-child(4) { animation-delay: 0.65s; }
+            .status-toggle { animation-delay: 0.7s; }
+            .status-description { animation-delay: 0.75s; }
+            .btn-primary { animation-delay: 0.8s; }
+        }
+
+        /* Опционально: уменьшить анимации для пользователей, которые предпочитают меньше motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            body {
+                opacity: 1;
+            }
+
+            .logo, .registration-container, .back-button, .registration-header h1,
+            .registration-header p, .form-group, .status-toggle, .status-description, .btn-primary {
+                opacity: 1;
+                transform: none;
+                animation: none;
             }
         }
 
@@ -709,7 +794,7 @@
             }
         });
     }
-    
+
     // Обработка отправки формы
     document.getElementById('regForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -765,7 +850,7 @@
 
             if (response.ok) {
                 // Успешная регистрация
-                showSuccess(result.message || '✅ Профиль успешно сохранен!');
+                showSuccess('✅ Профиль успешно сохранен!');
 
                 // Закрываем WebApp через 2 секунды
                 setTimeout(() => {
@@ -828,17 +913,7 @@
         }
     });
 
-    // Плавное появление формы
-    document.addEventListener('DOMContentLoaded', function() {
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 0.5s ease';
-
-        setTimeout(() => {
-            document.body.style.opacity = '1';
-        }, 100);
-    });
-
-    // Обработка кнопки "Назад" через Escape или аппаратную кнопку
+    // Обработка кнопки "Назад" через Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             goBack();
