@@ -52,13 +52,42 @@
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+        }
+
+        /* Кнопка назад */
+        .back-button-header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--bg-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.2s forwards;
+        }
+
+        .back-button-header:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateX(-2px);
         }
 
         .logo {
             text-align: center;
             margin-bottom: 2rem;
+            padding-top: 10px;
             opacity: 0;
-            animation: slideDown 0.5s ease-out 0.2s forwards;
+            animation: slideDown 0.5s ease-out 0.3s forwards;
         }
 
         .logo h1 {
@@ -77,7 +106,7 @@
             text-align: center;
             margin-bottom: 2rem;
             opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.3s forwards;
+            animation: fadeInUp 0.5s ease-out 0.4s forwards;
         }
 
         .page-header h2 {
@@ -126,11 +155,11 @@
 
         /* Быстрая последовательность появления карточек */
         .role-card.job-seeker {
-            animation-delay: 0.4s;
+            animation-delay: 0.5s;
         }
 
         .role-card.employer {
-            animation-delay: 0.45s;
+            animation-delay: 0.55s;
         }
 
         .role-card::before {
@@ -325,17 +354,24 @@
                 min-height: 380px;
             }
 
+            .back-button-header {
+                top: 5px;
+                left: 5px;
+                width: 36px;
+                height: 36px;
+            }
+
             /* Еще более быстрая анимация на мобильных */
             .role-card {
                 animation-duration: 0.4s;
             }
 
             .role-card.job-seeker {
-                animation-delay: 0.3s;
+                animation-delay: 0.4s;
             }
 
             .role-card.employer {
-                animation-delay: 0.35s;
+                animation-delay: 0.45s;
             }
         }
 
@@ -351,7 +387,7 @@
                 opacity: 1;
             }
 
-            .logo, .page-header, .role-card {
+            .back-button-header, .logo, .page-header, .role-card {
                 opacity: 1;
                 transform: none;
                 animation: none;
@@ -361,6 +397,9 @@
 </head>
 <body>
 <div class="container">
+    <!-- Кнопка назад -->
+    <button class="back-button-header" onclick="goBack()">←</button>
+
     <div class="logo">
         <h1>HireMe</h1>
         <p>Ваш помощник в поиске работы и сотрудников</p>
