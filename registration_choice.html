@@ -44,8 +44,6 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
         }
 
         .container {
@@ -72,8 +70,6 @@
             transition: all 0.3s ease;
             z-index: 10;
             box-shadow: var(--shadow);
-            opacity: 0;
-            animation: fadeIn 0.5s ease-out 0.2s forwards;
         }
 
         .back-button-header:hover {
@@ -86,8 +82,6 @@
             text-align: center;
             margin-bottom: 2rem;
             padding-top: 10px;
-            opacity: 0;
-            animation: slideDown 0.5s ease-out 0.3s forwards;
         }
 
         .logo h1 {
@@ -105,8 +99,6 @@
         .page-header {
             text-align: center;
             margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.4s forwards;
         }
 
         .page-header h2 {
@@ -148,18 +140,6 @@
             min-height: 420px;
             display: flex;
             flex-direction: column;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-
-        /* Быстрая последовательность появления карточек */
-        .role-card.job-seeker {
-            animation-delay: 0.5s;
-        }
-
-        .role-card.employer {
-            animation-delay: 0.55s;
         }
 
         .role-card::before {
@@ -307,38 +287,6 @@
             box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        /* Упрощенные анимации */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Адаптивность */
         @media (max-width: 480px) {
             .container {
@@ -359,38 +307,6 @@
                 left: 5px;
                 width: 36px;
                 height: 36px;
-            }
-
-            /* Еще более быстрая анимация на мобильных */
-            .role-card {
-                animation-duration: 0.4s;
-            }
-
-            .role-card.job-seeker {
-                animation-delay: 0.4s;
-            }
-
-            .role-card.employer {
-                animation-delay: 0.45s;
-            }
-        }
-
-        /* Опционально: уменьшить анимации для пользователей, которые предпочитают меньше motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            body {
-                opacity: 1;
-            }
-
-            .back-button-header, .logo, .page-header, .role-card {
-                opacity: 1;
-                transform: none;
-                animation: none;
             }
         }
     </style>
