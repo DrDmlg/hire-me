@@ -709,69 +709,7 @@
             }
         });
     }
-
-    // Обработка отправки формы
-    // document.getElementById('regForm').addEventListener('submit', function(e) {
-    //     e.preventDefault();
-    //
-    //     // Показываем состояние загрузки
-    //     const submitBtn = document.getElementById('submitBtn');
-    //     submitBtn.classList.add('loading');
-    //     submitBtn.textContent = 'Сохранение...';
-    //
-    //     // Собираем данные формы
-    //     const data = {
-    //         firstName: document.getElementById('firstName').value.trim(),
-    //         lastName: document.getElementById('lastName').value.trim(),
-    //         desiredPosition: document.getElementById('desiredPosition').value.trim(),
-    //         desiredSalary: document.getElementById('desiredSalary').value.trim(),
-    //         currency: document.getElementById('currency').value,
-    //         candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
-    //         formType: 'registration_candidate'
-    //     };
-    //
-    //     // Валидация
-    //     if (!data.firstName || !data.lastName || !data.desiredPosition || !data.desiredSalary) {
-    //         if (tg.showAlert) {
-    //             tg.showAlert('Пожалуйста, заполните все поля');
-    //         } else {
-    //             alert('Пожалуйста, заполните все поля');
-    //         }
-    //         submitBtn.classList.remove('loading');
-    //         submitBtn.textContent = '✅ Сохранить профиль';
-    //         return;
-    //     }
-    //
-    //     // Отправляем данные в бот
-    //     setTimeout(() => {
-    //         if (tg.sendData) {
-    //             tg.sendData(JSON.stringify(data));
-    //         } else {
-    //             console.log('Данные для отправки:', data);
-    //         }
-    //
-    //         // Показываем подтверждение
-    //         if (tg.showPopup) {
-    //             tg.showPopup({
-    //                 title: '✅ Готово!',
-    //                 message: 'Ваш профиль успешно сохранен',
-    //                 buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
-    //             }, () => {
-    //                 if (tg.close) {
-    //                     tg.close();
-    //                 } else {
-    //                     goBack();
-    //                 }
-    //             });
-    //         } else {
-    //             alert('✅ Готово! Ваш профиль успешно сохранен');
-    //             setTimeout(() => {
-    //                 goBack();
-    //             }, 1000);
-    //         }
-    //     }, 1000);
-    // });
-
+    
     // Обработка отправки формы
     document.getElementById('regForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -822,8 +760,6 @@
                 })
             });
 
-            const result = await response.json();
-
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
 
@@ -842,7 +778,9 @@
 
             } else {
                 // Ошибка от бэкенда
-                handleBackendError(result);
+                const errorText = await response.text();
+                console.error('Ошибка сервера:', errorText);
+                showError('❌ Ошибка сервера: ' + response.status);
             }
 
         } catch (error) {
@@ -872,51 +810,6 @@
             });
         } else {
             alert(message);
-        }
-    }
-
-    // Обработка ошибок от бэкенда
-    function handleBackendError(errorResponse) {
-        const errorCode = errorResponse.code;
-        const errorMessage = errorResponse.message || 'Произошла ошибка';
-
-        switch (errorCode) {
-            case 'USER_ALREADY_EXISTS':
-                showError('❌ Вы уже зарегистрированы в системе!');
-                // Можно предложить дополнительные действия
-                showProfileExistsOptions();
-                break;
-
-            case 'VALIDATION_ERROR':
-                showError('❌ Проверьте правильность введенных данных: ' + errorMessage);
-                break;
-
-            case 'INVALID_TELEGRAM_DATA':
-                showError('❌ Ошибка авторизации. Перезапустите приложение.');
-                break;
-
-            default:
-                showError('❌ ' + errorMessage);
-        }
-    }
-
-    // Дополнительные опции если пользователь уже существует
-    function showProfileExistsOptions() {
-        if (tg.showPopup) {
-            tg.showPopup({
-                title: 'Профиль существует',
-                message: 'Хотите обновить данные профиля?',
-                buttons: [
-                    { type: 'default', text: 'Обновить профиль', id: 'update' },
-                    { type: 'destructive', text: 'Отмена', id: 'cancel' }
-                ]
-            }, (buttonId) => {
-                if (buttonId === 'update') {
-                    // Здесь можно реализовать логику обновления профиля
-                    // Например, предзаполнить форму данными существующего пользователя
-                    showError('Функция обновления профиля в разработке');
-                }
-            });
         }
     }
 
