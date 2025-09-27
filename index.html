@@ -35,8 +35,6 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
         }
 
         .container {
@@ -48,8 +46,6 @@
         .logo {
             text-align: center;
             margin-bottom: 2rem;
-            opacity: 0;
-            animation: slideDown 0.5s ease-out 0.2s forwards;
         }
 
         .logo h1 {
@@ -71,8 +67,6 @@
             margin-bottom: 2rem;
             box-shadow: var(--shadow);
             text-align: center;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.3s forwards;
         }
 
         .user-avatar {
@@ -118,16 +112,7 @@
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s ease-out forwards;
         }
-
-        /* Быстрая последовательность появления карточек */
-        .menu-item:nth-child(1) { animation-delay: 0.4s; }
-        .menu-item:nth-child(2) { animation-delay: 0.45s; }
-        .menu-item:nth-child(3) { animation-delay: 0.5s; }
-        .menu-item:nth-child(4) { animation-delay: 0.55s; }
 
         .menu-item::before {
             content: '';
@@ -182,8 +167,6 @@
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.6s forwards;
         }
 
         .telegram-integration p {
@@ -213,38 +196,6 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
-        /* Упрощенные анимации */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Адаптивность */
         @media (max-width: 480px) {
             .menu-grid {
@@ -257,35 +208,6 @@
 
             .logo h1 {
                 font-size: 2rem;
-            }
-
-            /* Еще более быстрая анимация на мобильных */
-            .menu-item {
-                animation-duration: 0.4s;
-            }
-
-            .menu-item:nth-child(1) { animation-delay: 0.3s; }
-            .menu-item:nth-child(2) { animation-delay: 0.35s; }
-            .menu-item:nth-child(3) { animation-delay: 0.4s; }
-            .menu-item:nth-child(4) { animation-delay: 0.45s; }
-        }
-
-        /* Опционально: уменьшить анимации для пользователей, которые предпочитают меньше motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            body {
-                opacity: 1;
-            }
-
-            .logo, .user-info, .menu-item, .telegram-integration {
-                opacity: 1;
-                transform: none;
-                animation: none;
             }
         }
     </style>
