@@ -36,51 +36,20 @@
             min-height: 100vh;
             padding: 20px;
             opacity: 0;
-            animation: pageReveal 1s ease-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         .container {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-        }
-
-        /* Кнопка назад */
-        .back-button-header {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--bg-light);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: slideInLeft 0.6s ease-out 0.3s forwards;
-        }
-
-        .back-button-header:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: translateX(-2px);
         }
 
         .logo {
             text-align: center;
             margin-bottom: 2rem;
-            padding-top: 10px;
             opacity: 0;
-            transform: translateY(30px);
-            animation: slideDown 0.8s ease-out 0.4s forwards;
+            animation: slideDown 0.5s ease-out 0.2s forwards;
         }
 
         .logo h1 {
@@ -103,8 +72,7 @@
             box-shadow: var(--shadow);
             text-align: center;
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideDown 0.8s ease-out 0.6s forwards;
+            animation: fadeInUp 0.5s ease-out 0.3s forwards;
         }
 
         .user-avatar {
@@ -119,25 +87,16 @@
             color: var(--white);
             font-size: 2rem;
             font-weight: bold;
-            opacity: 0;
-            transform: scale(0) rotate(-180deg);
-            animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards;
         }
 
         .user-name {
             font-weight: 700;
             margin-bottom: 0.5rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out 1s forwards;
         }
 
         .user-id {
             color: var(--text-gray);
             font-size: 0.9rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out 1.1s forwards;
         }
 
         .menu-grid {
@@ -155,14 +114,20 @@
             text-decoration: none;
             color: var(--text-dark);
             box-shadow: var(--shadow);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: scale(0.8) translateY(20px);
-            animation: cardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
         }
+
+        /* Быстрая последовательность появления карточек */
+        .menu-item:nth-child(1) { animation-delay: 0.4s; }
+        .menu-item:nth-child(2) { animation-delay: 0.45s; }
+        .menu-item:nth-child(3) { animation-delay: 0.5s; }
+        .menu-item:nth-child(4) { animation-delay: 0.55s; }
 
         .menu-item::before {
             content: '';
@@ -170,15 +135,15 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: var(--primary);
             transform: scaleX(0);
-            transition: transform 0.4s ease;
+            transition: transform 0.3s ease;
         }
 
         .menu-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             border-color: var(--primary);
         }
 
@@ -186,53 +151,28 @@
             transform: scaleX(1);
         }
 
-        /* Анимации для каждого элемента меню с разными задержками */
-        .menu-item:nth-child(1) { animation-delay: 1.2s; }
-        .menu-item:nth-child(2) { animation-delay: 1.4s; }
-        .menu-item:nth-child(3) { animation-delay: 1.6s; }
-        .menu-item:nth-child(4) { animation-delay: 1.8s; }
-
         .menu-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             display: block;
-            opacity: 0;
-            transform: scale(0) rotate(-180deg);
-            animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transition: transform 0.3s ease;
         }
 
-        .menu-item:nth-child(1) .menu-icon { animation-delay: 1.4s; }
-        .menu-item:nth-child(2) .menu-icon { animation-delay: 1.6s; }
-        .menu-item:nth-child(3) .menu-icon { animation-delay: 1.8s; }
-        .menu-item:nth-child(4) .menu-icon { animation-delay: 2.0s; }
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1);
+        }
 
         .menu-title {
             font-weight: 700;
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out forwards;
         }
-
-        .menu-item:nth-child(1) .menu-title { animation-delay: 1.5s; }
-        .menu-item:nth-child(2) .menu-title { animation-delay: 1.7s; }
-        .menu-item:nth-child(3) .menu-title { animation-delay: 1.9s; }
-        .menu-item:nth-child(4) .menu-title { animation-delay: 2.1s; }
 
         .menu-description {
             color: var(--text-gray);
             font-size: 0.9rem;
             line-height: 1.4;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out forwards;
         }
-
-        .menu-item:nth-child(1) .menu-description { animation-delay: 1.6s; }
-        .menu-item:nth-child(2) .menu-description { animation-delay: 1.8s; }
-        .menu-item:nth-child(3) .menu-description { animation-delay: 2.0s; }
-        .menu-item:nth-child(4) .menu-description { animation-delay: 2.2s; }
 
         /* Стили для кнопки "Перейти в бота" */
         .telegram-integration {
@@ -243,17 +183,13 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideDown 0.8s ease-out 2.4s forwards;
+            animation: fadeInUp 0.5s ease-out 0.6s forwards;
         }
 
         .telegram-integration p {
             color: var(--text-gray);
             margin-bottom: 1rem;
             font-size: 0.9rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out 2.6s forwards;
         }
 
         .btn-telegram {
@@ -266,76 +202,43 @@
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeUp 0.6s ease-out 2.7s forwards;
-        }
-
-        .btn-telegram::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn-telegram:hover::before {
-            left: 100%;
         }
 
         .btn-telegram:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
-        /* Анимации */
-        @keyframes pageReveal {
+        /* Упрощенные анимации */
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: scale(1.1);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
             }
         }
 
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-        }
-
-        @keyframes slideDown {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        @keyframes cardReveal {
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
             }
-        }
-
-        @keyframes iconPop {
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0);
-            }
-        }
-
-        @keyframes fadeUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -356,20 +259,39 @@
                 font-size: 2rem;
             }
 
-            .back-button-header {
-                top: 5px;
-                left: 5px;
-                width: 36px;
-                height: 36px;
+            /* Еще более быстрая анимация на мобильных */
+            .menu-item {
+                animation-duration: 0.4s;
+            }
+
+            .menu-item:nth-child(1) { animation-delay: 0.3s; }
+            .menu-item:nth-child(2) { animation-delay: 0.35s; }
+            .menu-item:nth-child(3) { animation-delay: 0.4s; }
+            .menu-item:nth-child(4) { animation-delay: 0.45s; }
+        }
+
+        /* Опционально: уменьшить анимации для пользователей, которые предпочитают меньше motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            body {
+                opacity: 1;
+            }
+
+            .logo, .user-info, .menu-item, .telegram-integration {
+                opacity: 1;
+                transform: none;
+                animation: none;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Кнопка назад -->
-    <button class="back-button-header" onclick="goBack()">←</button>
-
     <div class="logo">
         <h1>HireMe</h1>
         <p>Ваш помощник в поиске работы</p>
@@ -407,7 +329,6 @@
         </a>
     </div>
 
-    <!-- Перенесенная кнопка "Перейти в бота" -->
     <div class="telegram-integration">
         <p>Работаем через Telegram</p>
         <a href="https://t.me/PublicHireMe_bot" class="btn-telegram" target="_blank">
@@ -425,15 +346,6 @@
     tg.setHeaderColor('#2563EB');
     tg.setBackgroundColor('#F8FAFC');
     tg.enableClosingConfirmation();
-
-    // Функция для возврата назад
-    function goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
 
     // Показываем информацию о пользователе
     document.addEventListener('DOMContentLoaded', function() {
@@ -465,7 +377,7 @@
             userAvatar.style.backgroundColor = colors[colorIndex];
         }
 
-        // Обработка нажатия на элементы меню
+        // Упрощенная навигация
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 // Для локальных HTML-страниц разрешаем стандартный переход
@@ -475,44 +387,30 @@
 
                 e.preventDefault();
 
-                // Показываем подтверждение
+                // Быстрый переход без лишних подтверждений
                 if (tg.showPopup) {
-                    tg.showPopup({
-                        title: 'Переход',
-                        message: 'Открываем выбранный раздел...',
-                        buttons: [{type: 'default', text: 'Продолжить'}]
-                    }, () => {
-                        window.location.href = this.href;
-                    });
+                    // Только для внешних ссылок - быстрый переход
+                    window.open(this.href, '_blank');
                 } else {
                     window.location.href = this.href;
                 }
             });
         });
 
-        // Обработка кнопки "Перейти в бота"
+        // Быстрый переход для кнопки бота
         document.querySelector('.btn-telegram').addEventListener('click', function(e) {
             e.preventDefault();
-
-            if (tg.showPopup) {
-                tg.showPopup({
-                    title: 'Переход в бота',
-                    message: 'Открываем Telegram бота...',
-                    buttons: [{type: 'default', text: 'Продолжить'}]
-                }, () => {
-                    window.open(this.href, '_blank');
-                });
-            } else {
-                window.open(this.href, '_blank');
-            }
+            window.open(this.href, '_blank');
         });
+    });
 
-        // Обработка кнопки "Назад" через Escape или аппаратную кнопку
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                goBack();
+    // Простая функция назад по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (window.history.length > 1) {
+                window.history.back();
             }
-        });
+        }
     });
 </script>
 </body>
