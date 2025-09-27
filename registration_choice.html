@@ -449,7 +449,7 @@
             this.style.transform = 'scale(0.98)';
             this.style.transition = 'transform 0.2s ease';
 
-            // Задержка перед переходом (500 мс)
+            // Задержка перед переходом (50 мс)
             setTimeout(() => {
                 // Для локальных HTML-страниц
                 if (this.href.includes('.html')) {
@@ -462,7 +462,7 @@
                         window.location.href = this.href;
                     }
                 }
-            }, 500);
+            }, 50);
         });
     });
 
