@@ -791,9 +791,9 @@
 
             } else {
                 // Ошибка от бэкенда
-                const errorText = await response.text();
-                console.error('Ошибка сервера:', errorText);
-                showError('❌ Ошибка сервера: ' + response.status);
+                const errorMessage = await response.json();
+                console.error('Ошибка сервера:', errorMessage);
+                showError('❌ Ошибка сервера: ' + errorMessage.message);
             }
 
         } catch (error) {
