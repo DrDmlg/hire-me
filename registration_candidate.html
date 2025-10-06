@@ -457,6 +457,11 @@
             </div>
 
             <div class="form-group">
+                <label for="lastName">Email</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+            </div>
+
+            <div class="form-group">
                 <label for="desiredPosition">Должность</label>
                 <div class="autocomplete-container">
                     <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Начните вводить название должности" autocomplete="off" required>
@@ -738,6 +743,7 @@
             candidateRegistrationData: {
                 firstName: document.getElementById('firstName').value.trim(),
                 lastName: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
                 desiredPosition: document.getElementById('desiredPosition').value.trim(),
                 desiredSalary: parseFloat(document.getElementById('desiredSalary').value),
                 currency: document.getElementById('currency').value,
@@ -749,7 +755,7 @@
 
         // Валидация
         const formData = data.candidateRegistrationData;
-        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || formData.desiredSalary <= 0) {
+        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || formData.email || formData.desiredSalary <= 0) {
             showError('Пожалуйста, заполните все поля');
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
