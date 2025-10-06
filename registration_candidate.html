@@ -755,7 +755,7 @@
 
         // Валидация
         const formData = data.candidateRegistrationData;
-        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || formData.email || formData.desiredSalary <= 0) {
+        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || !formData.email || formData.desiredSalary <= 0) {
             showError('Пожалуйста, заполните все поля');
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
