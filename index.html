@@ -88,11 +88,6 @@
             margin-bottom: 0.5rem;
         }
 
-        .user-id {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -222,7 +217,6 @@
     <div class="user-info" id="userInfo">
         <div class="user-avatar" id="userAvatar">U</div>
         <div class="user-name" id="userName">Пользователь</div>
-        <div class="user-id" id="userId">ID: loading...</div>
     </div>
 
     <div class="menu-grid">
@@ -291,7 +285,6 @@
             if (userName.trim() === '') userName = 'Пользователь';
 
             document.getElementById('userName').textContent = userName;
-            document.getElementById('userId').textContent = `ID: ${user.id}`;
 
             // Устанавливаем цвет аватара на основе ID
             const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
