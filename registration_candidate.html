@@ -784,7 +784,7 @@
 
             if (response.ok) {
                 // Успешная регистрация
-                showSuccess(' Профиль успешно сохранен!');
+                showSuccess('✅ Профиль успешно сохранен!');
 
                 // Закрываем WebApp через 2 секунды
                 setTimeout(() => {
@@ -823,7 +823,7 @@
     function showSuccess(message) {
         if (tg.showPopup) {
             tg.showPopup({
-                title: '✅ ',
+                // title: '✅ ',
                 message: message,
                 buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
             });
