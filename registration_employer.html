@@ -308,9 +308,9 @@
             </div>
 
             <div class="form-group">
-                <label for="phone">Телефон</label>
-                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
-                <div class="error-message" id="phoneError">Пожалуйста, введите корректный номер телефона</div>
+                <label for="phoneNumber">Телефон</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
+                <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
             </div>
 
             <div class="form-group">
@@ -382,11 +382,11 @@
         }
 
         // Проверка телефона
-        const phone = document.getElementById('phone').value.trim();
-        const phonePattern = /^\+?[\d\s\-\(\)]+$/;
-        if (!phone || !phonePattern.test(phone) || phone.replace(/\D/g, '').length < 10) {
-            document.getElementById('phone').classList.add('error');
-            document.getElementById('phoneError').style.display = 'block';
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const phoneNumberPattern = /^\+?[\d\s\-\(\)]+$/;
+        if (!phoneNumber || !phoneNumberPattern.test(phoneNumber) || phoneNumber.replace(/\D/g, '').length < 10) {
+            document.getElementById('phoneNumber').classList.add('error');
+            document.getElementById('phoneNumberError').style.display = 'block';
             isValid = false;
         }
 
@@ -421,7 +421,7 @@
                 firstName: document.getElementById('firstName').value.trim(),
                 lastName: document.getElementById('lastName').value.trim(),
                 email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
+                phoneNumber: document.getElementById('phoneNumber').value.trim(),
                 position: document.getElementById('position').value.trim()
             },
             initData: tg.initData,
