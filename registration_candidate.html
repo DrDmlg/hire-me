@@ -201,6 +201,13 @@
             background-color: var(--bg-light);
         }
 
+        .error-message {
+            color: var(--error);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
         /* Стили для переключателя статуса */
         .status-toggle {
             display: flex;
@@ -458,7 +465,13 @@
 
             <div class="form-group">
                 <label for="lastName">Email</label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Телефон</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
+                <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
             </div>
 
             <div class="form-group">
@@ -744,6 +757,7 @@
                 firstName: document.getElementById('firstName').value.trim(),
                 lastName: document.getElementById('lastName').value.trim(),
                 email: document.getElementById('email').value.trim(),
+                phoneNumber: document.getElementById('phoneNumber').value.trim(),
                 desiredPosition: document.getElementById('desiredPosition').value.trim(),
                 desiredSalary: parseFloat(document.getElementById('desiredSalary').value),
                 currency: document.getElementById('currency').value,
@@ -752,6 +766,15 @@
             initData: tg.initData,
             initDataUnsafe: tg.initDataUnsafe
         };
+
+        // Проверка телефона
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const phoneNumberPattern = /^\+?[\d\s\-\(\)]+$/;
+        if (!phoneNumber || !phoneNumberPattern.test(phoneNumber) || phoneNumber.replace(/\D/g, '').length < 10) {
+            document.getElementById('phoneNumber').classList.add('error');
+            document.getElementById('phoneNumberError').style.display = 'block';
+            return;
+        }
 
         // Валидация
         const formData = data.candidateRegistrationData;
