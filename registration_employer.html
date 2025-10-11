@@ -417,12 +417,14 @@
         // Собираем данные формы
         const data = {
             formType: 'registration_employer',
-            employerRegistrationData: {
-                firstName: document.getElementById('firstName').value.trim(),
+            generalProfileRegistrationData: {
+                firstName: document.getElementById('firstName').value,
                 lastName: document.getElementById('lastName').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 phoneNumber: document.getElementById('phoneNumber').value.trim(),
-                position: document.getElementById('position').value.trim()
+                employerRegistrationData: {
+                    position: document.getElementById('position').value.trim()
+                }
             },
             initData: tg.initData,
             initDataUnsafe: tg.initDataUnsafe
