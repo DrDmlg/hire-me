@@ -42,7 +42,8 @@
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
-      padding: 0;
+      /* Добавляем отступ снизу для навигации */
+      padding: 0 0 90px;
     }
 
     .container {
@@ -251,6 +252,9 @@
     /* Content Sections */
     .content-section {
       padding: 0 1.5rem 1.5rem;
+      /* Убеждаемся, что контент не перекрывается */
+      position: relative;
+      z-index: 1;
     }
 
     .section-title {
@@ -433,6 +437,8 @@
       border-top: 1px solid var(--border);
       padding: 0.75rem 1.5rem;
       backdrop-filter: blur(10px);
+      z-index: 1000;
+      /* Убедимся, что навигация всегда поверх контента */
     }
 
     .nav-grid {
@@ -632,7 +638,7 @@
   <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <div class="nav-grid">
-      <a href="https://t.me/PublicHireMe_bot?start=main" class="nav-item">
+      <a href="index.html" class="nav-item">
         <span class="nav-icon">🏠</span>
         <span class="nav-label">Главная</span>
       </a>
