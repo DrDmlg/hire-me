@@ -780,8 +780,9 @@
         }
 
         // Валидация
-        const formData = data.candidateRegistrationData;
-        if (!formData.firstName || !formData.lastName || !formData.desiredPosition || !formData.email || formData.desiredSalary <= 0) {
+        const profileRegData = data.generalProfileRegistrationData;
+        const candidateRegData = data.generalProfileRegistrationData.candidateRegistrationData;
+        if (!profileRegData.firstName || !profileRegData.lastName || !candidateRegData.desiredPosition || !profileRegData.email || candidateRegData.desiredSalary <= 0) {
             showError('Пожалуйста, заполните все поля');
             submitBtn.classList.remove('loading');
             submitBtn.textContent = '✅ Сохранить профиль';
