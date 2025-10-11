@@ -517,6 +517,7 @@
     </div>
 </div>
 
+</body>
 <script>
     // Инициализация Telegram WebApp
     let tg = window.Telegram.WebApp;
@@ -753,15 +754,17 @@
         // Собираем данные формы
         const data = {
             formType: 'registration_candidate',
-            candidateRegistrationData: {
-                firstName: document.getElementById('firstName').value.trim(),
+            generalProfileRegistrationData: {
+                firstName: document.getElementById('firstName').value,
                 lastName: document.getElementById('lastName').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 phoneNumber: document.getElementById('phoneNumber').value.trim(),
-                desiredPosition: document.getElementById('desiredPosition').value.trim(),
-                desiredSalary: parseFloat(document.getElementById('desiredSalary').value),
-                currency: document.getElementById('currency').value,
-                candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
+                candidateRegistrationData: {
+                    desiredPosition: document.getElementById('desiredPosition').value.trim(),
+                    desiredSalary: parseFloat(document.getElementById('desiredSalary').value),
+                    currency: document.getElementById('currency').value,
+                    candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive',
+                }
             },
             initData: tg.initData,
             initDataUnsafe: tg.initDataUnsafe
@@ -886,5 +889,4 @@
         }, 300);
     });
 </script>
-</body>
 </html>
