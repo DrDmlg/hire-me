@@ -300,8 +300,7 @@
                     e.preventDefault();
 
                     // Проверяем существует ли профиль
-                    // let telegramUserId = tg.initDataUnsafe?.user?.id;
-                    let telegramUserId = 123456789;
+                    let telegramUserId = tg.initDataUnsafe?.user?.id;
 
                     try {
                         const response = await fetch(`https://4ffe4922f548d9.lhr.life/profile/check-access/${telegramUserId}`);
