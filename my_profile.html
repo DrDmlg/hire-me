@@ -536,7 +536,6 @@
       <button class="icon-button" onclick="goBack()">←</button>
       <h1 class="app-title">Профиль</h1>
       <div class="header-actions">
-        <button class="icon-button" onclick="editProfile()">✏️</button>
         <button class="icon-button" onclick="showSettings()">⚙️</button>
       </div>
     </div>
@@ -575,7 +574,7 @@
   <!-- Main Content -->
   <div class="content-section">
     <!-- Personal Info -->
-    <div class="section-title">Личная информация</div>
+    <div class="section-title">Основная информация</div>
     <div class="info-grid">
       <div class="info-card" onclick="editField('email')">
         <div class="info-header">
@@ -696,10 +695,6 @@
     } else {
       window.close();
     }
-  }
-
-  function editProfile() {
-    tg.showAlert('Редактирование профиля');
   }
 
   function showSettings() {
