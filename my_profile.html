@@ -42,7 +42,6 @@
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
-      /* Добавляем отступ снизу для навигации */
       padding: 0 0 90px;
     }
 
@@ -155,11 +154,53 @@
     .user-name {
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       color: white;
     }
 
+    .user-headline {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      padding: 0 1rem;
+    }
+
+    .user-tags {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
     .user-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: white;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .user-tag:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .tag-icon {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .status-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -175,7 +216,7 @@
       transition: all 0.3s ease;
     }
 
-    .user-tag:hover {
+    .status-tag:hover {
       background: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
     }
@@ -201,7 +242,7 @@
     /* Quick Stats */
     .quick-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1px;
       background: var(--border);
       margin: -1rem 1.5rem 1rem;
@@ -213,7 +254,7 @@
 
     .stat-item {
       background: var(--bg-card);
-      padding: 1.5rem 1rem;
+      padding: 1.25rem 0.75rem;
       text-align: center;
       transition: all 0.3s ease;
       position: relative;
@@ -239,24 +280,24 @@
     }
 
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--primary);
       margin-bottom: 0.25rem;
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       text-transform: uppercase;
       font-weight: 600;
       letter-spacing: 0.5px;
+      line-height: 1.2;
     }
 
     /* Content Sections */
     .content-section {
       padding: 0 1.5rem 1.5rem;
-      /* Убеждаемся, что контент не перекрывается */
       position: relative;
       z-index: 1;
     }
@@ -442,7 +483,6 @@
       padding: 0.75rem 1.5rem;
       backdrop-filter: blur(10px);
       z-index: 1000;
-      /* Убедимся, что навигация всегда поверх контента */
     }
 
     .nav-grid {
@@ -510,7 +550,7 @@
       }
 
       .quick-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         margin: -1rem 1rem 1rem;
       }
 
@@ -524,6 +564,15 @@
 
       .content-section {
         padding: 0 1rem 1rem;
+      }
+
+      .user-tags {
+        gap: 0.5rem;
+      }
+
+      .user-tag {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.8rem;
       }
     }
   </style>
@@ -548,7 +597,26 @@
         <!-- Avatar will be set dynamically -->
       </div>
       <h1 class="user-name" id="userName">Екатерина Смирнова</h1>
-      <div class="user-tag" onclick="toggleStatus()">
+
+      <!-- Headline -->
+      <div class="user-headline" id="userHeadline">
+        Senior Product Designer · FinTech Expert · UX Strategy
+      </div>
+
+      <!-- Теги опыта и образования -->
+      <div class="user-tags">
+        <div class="user-tag">
+          <span class="tag-icon">💼</span>
+          <span id="userExperience">5+ лет опыта</span>
+        </div>
+        <div class="user-tag">
+          <span class="tag-icon">🎓</span>
+          <span id="userEducation">Высшее образование</span>
+        </div>
+      </div>
+
+      <!-- Статус -->
+      <div class="status-tag" onclick="toggleStatus()">
         <span class="status-dot" id="statusDot"></span>
         <span id="userStatus">Активный поиск</span>
       </div>
@@ -558,7 +626,7 @@
   <!-- Quick Stats -->
   <div class="quick-stats">
     <div class="stat-item">
-      <div class="stat-value" id="statViews">24</div>
+      <div class="stat-value" id="statProfileViews">24</div>
       <div class="stat-label">Просмотры</div>
     </div>
     <div class="stat-item">
@@ -569,59 +637,34 @@
       <div class="stat-value" id="statMatches">12</div>
       <div class="stat-label">Совпадения</div>
     </div>
+    <div class="stat-item">
+      <div class="stat-value" id="statRating">4.8</div>
+      <div class="stat-label">Рейтинг</div>
+    </div>
   </div>
 
   <!-- Main Content -->
   <div class="content-section">
-    <!-- Personal Info -->
-    <div class="section-title">Основная информация</div>
-    <div class="info-grid">
-      <div class="info-card" onclick="editField('email')">
-        <div class="info-header">
-          <div class="info-label">Email</div>
-          <span class="info-icon">✏️</span>
-        </div>
-        <div class="info-value" id="infoEmail">ekaterina.s@example.com</div>
-      </div>
-
-      <div class="info-card" onclick="editField('phone')">
-        <div class="info-header">
-          <div class="info-label">Телефон</div>
-          <span class="info-icon">✏️</span>
-        </div>
-        <div class="info-value" id="infoPhone">+7 (912) 345-67-89</div>
-      </div>
-
-      <div class="info-card" onclick="editField('position')">
-        <div class="info-header">
-          <div class="info-label">Должность</div>
-          <span class="info-icon">✏️</span>
-        </div>
-        <div class="info-value" id="infoPosition">Senior Product Designer</div>
-      </div>
-
-      <div class="info-card" onclick="editField('salary')">
-        <div class="info-header">
-          <div class="info-label">Ожидания по ЗП</div>
-          <span class="info-icon">✏️</span>
-        </div>
-        <div class="info-value" id="infoSalary">350 000 ₽</div>
-      </div>
-    </div>
-
     <!-- Quick Actions -->
-    <div class="section-title" style="margin-top: 2rem;">Быстрые действия</div>
+    <div class="section-title">Быстрые действия</div>
     <div class="actions-grid">
-      <div class="action-card" onclick="openVacancies()">
+      <!-- Основной блок -->
+      <div class="action-card primary" onclick="openVacancies()">
         <span class="action-icon">💼</span>
         <div class="action-label">Найти вакансии</div>
-        <div class="action-description">Подходящие предложения</div>
+        <div class="action-description">125 подходящих</div>
       </div>
 
       <div class="action-card" onclick="openResponses()">
         <span class="action-icon">📨</span>
         <div class="action-label">Мои отклики</div>
-        <div class="action-description">5 активных</div>
+        <div class="action-description">8 активных · 3 новых</div>
+      </div>
+
+      <div class="action-card" onclick="openFavorites()">
+        <span class="action-icon">⭐</span>
+        <div class="action-label">Избранное</div>
+        <div class="action-description">12 сохраненных</div>
       </div>
 
       <div class="action-card" onclick="openResume()">
@@ -630,7 +673,40 @@
         <div class="action-description">Обновлено сегодня</div>
       </div>
 
-      <div class="action-card" onclick="openSettings()">
+      <!-- Профиль и портфолио -->
+      <div class="action-card" onclick="openPortfolio()">
+        <span class="action-icon">🏆</span>
+        <div class="action-label">Портфолио</div>
+        <div class="action-description">5 проектов</div>
+      </div>
+
+      <div class="action-card" onclick="openEditProfile()">
+        <span class="action-icon">👤</span>
+        <div class="action-label">Профиль</div>
+        <div class="action-description">Заполнен на 85%</div>
+      </div>
+
+      <!-- Взаимодействие -->
+      <div class="action-card" onclick="openChat()">
+        <span class="action-icon">💬</span>
+        <div class="action-label">Сообщения</div>
+        <div class="action-description">3 новых</div>
+      </div>
+
+      <div class="action-card" onclick="openNotifications()">
+        <span class="action-icon">🔔</span>
+        <div class="action-label">Уведомления</div>
+        <div class="action-description">5 новых вакансий</div>
+      </div>
+
+      <!-- Дополнительно -->
+      <div class="action-card" onclick="openStats()">
+        <span class="action-icon">📊</span>
+        <div class="action-label">Статистика</div>
+        <div class="action-description">Аналитика поиска</div>
+      </div>
+
+      <div class="action-card" onclick="openPreferences()">
         <span class="action-icon">🎯</span>
         <div class="action-label">Предпочтения</div>
         <div class="action-description">Настройки поиска</div>
@@ -675,16 +751,28 @@
   const userProfile = {
     firstName: 'Екатерина',
     lastName: 'Смирнова',
-    email: 'ekaterina.s@example.com',
-    phone: '+7 (912) 345-67-89',
+    headline: 'Senior Product Designer · FinTech Expert · UX Strategy',
+    experience: '5+ лет опыта',
+    education: 'Высшее образование',
     position: 'Senior Product Designer',
     salary: 350000,
     currency: 'RUB',
     isActive: true,
     stats: {
-      views: 24,
+      profileViews: 24,
       responses: 8,
-      matches: 12
+      matches: 12,
+      rating: 4.8
+    },
+    actions: {
+      vacancies: 125,
+      activeResponses: 8,
+      newResponses: 3,
+      favorites: 12,
+      portfolioProjects: 5,
+      profileCompletion: 85,
+      newMessages: 3,
+      newNotifications: 5
     }
   };
 
@@ -701,16 +789,7 @@
     tg.showAlert('Настройки приложения');
   }
 
-  function editField(field) {
-    const fieldNames = {
-      email: 'Email',
-      phone: 'Телефон',
-      position: 'Должность',
-      salary: 'Зарплата'
-    };
-    tg.showAlert(`Редактирование: ${fieldNames[field]}`);
-  }
-
+  // Основные функции действий
   function openVacancies() {
     window.open('https://t.me/PublicHireMe_bot?start=vacancies', '_blank');
   }
@@ -723,8 +802,33 @@
     window.open('https://t.me/PublicHireMe_bot?start=resume', '_blank');
   }
 
-  function openSettings() {
-    window.open('https://t.me/PublicHireMe_bot?start=settings', '_blank');
+  function openPreferences() {
+    window.open('https://t.me/PublicHireMe_bot?start=preferences', '_blank');
+  }
+
+  // Новые функции
+  function openFavorites() {
+    tg.showAlert(`Избранное: ${userProfile.actions.favorites} сохраненных вакансий`);
+  }
+
+  function openPortfolio() {
+    tg.showAlert(`Портфолио: ${userProfile.actions.portfolioProjects} проектов`);
+  }
+
+  function openEditProfile() {
+    tg.showAlert(`Редактирование профиля: заполнен на ${userProfile.actions.profileCompletion}%`);
+  }
+
+  function openChat() {
+    tg.showAlert(`Сообщения: ${userProfile.actions.newMessages} новых`);
+  }
+
+  function openNotifications() {
+    tg.showAlert(`Уведомления: ${userProfile.actions.newNotifications} новых вакансий`);
+  }
+
+  function openStats() {
+    tg.showAlert('Статистика поиска работы');
   }
 
   // Форматирование чисел
@@ -737,8 +841,8 @@
     userProfile.isActive = !userProfile.isActive;
     updateStatus();
 
-    // Показываем уведомление о смене статуса
     const statusText = userProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
+    tg.showAlert(`Статус изменен на: ${statusText}`);
   }
 
   // Обновление статуса
@@ -785,17 +889,16 @@
       document.getElementById('userName').textContent = userName;
     }
 
-    // Заполняем остальные данные
-    document.getElementById('infoEmail').textContent = userProfile.email;
-    document.getElementById('infoPhone').textContent = userProfile.phone;
-    document.getElementById('infoPosition').textContent = userProfile.position;
-    document.getElementById('infoSalary').textContent =
-            `${formatNumber(userProfile.salary)} ₽`;
+    // Заполняем данные профиля
+    document.getElementById('userHeadline').textContent = userProfile.headline;
+    document.getElementById('userExperience').textContent = userProfile.experience;
+    document.getElementById('userEducation').textContent = userProfile.education;
 
     // Заполняем статистику
-    document.getElementById('statViews').textContent = userProfile.stats.views;
+    document.getElementById('statProfileViews').textContent = userProfile.stats.profileViews;
     document.getElementById('statResponses').textContent = userProfile.stats.responses;
     document.getElementById('statMatches').textContent = userProfile.stats.matches;
+    document.getElementById('statRating').textContent = userProfile.stats.rating;
 
     // Обновляем статус
     updateStatus();
