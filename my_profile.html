@@ -107,7 +107,7 @@
     /* Hero Section */
     .profile-hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-      padding: 2.5rem 1.5rem 2rem;
+      padding: 2.5rem 1.5rem 1.5rem; /* Уменьшил нижний отступ */
       position: relative;
       overflow: hidden;
     }
@@ -239,17 +239,18 @@
       50% { opacity: 0.7; transform: scale(1.1); }
     }
 
-    /* Quick Stats */
+    /* Quick Stats - ОБНОВЛЕННАЯ СЕКЦИЯ */
     .quick-stats {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
-      margin: -1rem 1.5rem 1rem;
+      margin: -1.6rem 1.5rem 1.5rem; /* Увеличил отрицательный margin */
       border-radius: var(--radius-sm);
       overflow: hidden;
-      transform: translateY(-1rem);
+      position: relative;
       box-shadow: var(--shadow-lg);
+      animation: smoothSlideUp 0.8s ease-out;
     }
 
     .stat-item {
@@ -295,11 +296,13 @@
       line-height: 1.2;
     }
 
-    /* Content Sections */
+    /* Content Sections - ОБНОВЛЕННАЯ СЕКЦИЯ */
     .content-section {
       padding: 0 1.5rem 1.5rem;
       position: relative;
       z-index: 1;
+      animation: slideUp 0.6s ease-out;
+      margin-top: -0.5rem; /* Добавил отрицательный margin для согласованного движения */
     }
 
     .section-title {
@@ -535,12 +538,15 @@
       }
     }
 
-    .content-section {
-      animation: slideUp 0.6s ease-out;
-    }
-
-    .quick-stats {
-      animation: slideUp 0.8s ease-out;
+    @keyframes smoothSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Responsive */
@@ -551,7 +557,7 @@
 
       .quick-stats {
         grid-template-columns: repeat(2, 1fr);
-        margin: -1rem 1rem 1rem;
+        margin: -2rem 1rem 1rem;
       }
 
       .stat-item::after {
@@ -564,6 +570,7 @@
 
       .content-section {
         padding: 0 1rem 1rem;
+        margin-top: -0.5rem;
       }
 
       .user-tags {
@@ -623,7 +630,7 @@
     </div>
   </section>
 
-  <!-- Quick Stats -->
+  <!-- Quick Stats - ОБНОВЛЕННАЯ СЕКЦИЯ -->
   <div class="quick-stats">
     <div class="stat-item">
       <div class="stat-value" id="statProfileViews">24</div>
@@ -637,16 +644,11 @@
       <div class="stat-value" id="statMatches">12</div>
       <div class="stat-label">Совпадения</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-value" id="statRating">4.8</div>
-      <div class="stat-label">Рейтинг</div>
-    </div>
   </div>
 
-  <!-- Main Content -->
+  <!-- Main Content - ОБНОВЛЕННАЯ СЕКЦИЯ -->
   <div class="content-section">
     <!-- Quick Actions -->
-    <div class="section-title">Быстрые действия</div>
     <div class="actions-grid">
       <!-- Основной блок -->
       <div class="action-card primary" onclick="openVacancies()">
