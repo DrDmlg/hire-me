@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обо мне - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-light: #3B82F6;
+            --primary-dark: #1D4ED8;
+            --primary-soft: #EFF6FF;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --bg-main: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-hover: #F8FAFC;
+            --bg-soft: #F1F5F9;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --border-light: #F1F5F9;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-soft) 0%, var(--bg-main) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0 0 90px;
+        }
+
+        .container {
+            max-width: 428px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Кнопка назад как в registration_choice */
+        .back-button-header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--bg-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            animation: rotateIn 0.8s ease-out;
+            color: var(--text-primary);
+        }
+
+        .back-button-header:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateX(-2px);
+            animation: gentlePulse 2s infinite;
+        }
+
+        /* Анимации для кнопки назад */
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: rotate(10deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: translateX(-2px) scale(1);
+            }
+            50% {
+                transform: translateX(-2px) scale(1.05);
+            }
+        }
+
+        /* Header */
+        .app-header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-soft);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .icon-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Hero Section */
+        .profile-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 2rem 1.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+
+        .user-position {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        /* Progress Section */
+        .completion-section {
+            background: var(--bg-card);
+            margin: -1rem 1.5rem 1.5rem;
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 2;
+        }
+
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .completion-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .completion-percent {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 3px;
+            width: 85%;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Personal Description */
+        .personal-description {
+            background: var(--primary-soft);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .description-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .description-highlights {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .highlight-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .highlight-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Info Grid */
+        .info-grid-compact {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label-compact {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .info-value-compact {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .skill-category-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg-soft);
+            padding: 0.5rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Experience */
+        .experience-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .experience-item {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--success);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .experience-item.past {
+            border-left-color: var(--border);
+            opacity: 0.8;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-position {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-period {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .experience-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Education */
+        .education-item {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .education-institution {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .education-specialty {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-period {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Languages */
+        .languages-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .language-item:last-child {
+            border-bottom: none;
+        }
+
+        .language-name {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .language-level {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: var(--bg-soft);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.75rem 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-muted);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            background: var(--bg-hover);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .container {
+                padding: 0;
+            }
+
+            .content-section {
+                padding: 0 1rem 1rem;
+            }
+
+            .completion-section {
+                margin: -1rem 1rem 1rem;
+            }
+
+            .skill-tags {
+                gap: 0.4rem;
+            }
+
+            .skill-tag {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .back-button-header {
+                top: 5px;
+                left: 5px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Кнопка назад как в registration_choice -->
+    <button class="back-button-header" onclick="goBack()">←</button>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div style="width: 40px"></div> <!-- Spacer for balance -->
+            <h1 class="app-title">Обо мне</h1>
+            <button class="icon-button" onclick="editProfile()">✏️</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="profile-hero">
+        <div class="hero-content">
+            <div class="avatar-container" id="userAvatar">
+                <!-- Avatar will be set dynamically -->
+            </div>
+            <h1 class="user-name" id="userName">Екатерина Смирнова</h1>
+            <div class="user-position">Senior Product Designer</div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <div class="completion-section animate-slide-up">
+        <div class="completion-header">
+            <span class="completion-label">Заполнение профиля</span>
+            <span class="completion-percent">85%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <!-- Personal Description -->
+        <div class="personal-description animate-slide-up">
+            <div class="description-text">
+                Создаю цифровые продукты, которые решают реальные проблемы пользователей и приносят бизнесу прибыль. Специализируюсь на FinTech и B2B-сегменте.
+            </div>
+            <div class="description-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">5+ лет в продуктовом дизайне</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">Expert в Figma и Design Systems</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">Руковожу командой из 3 дизайнеров</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Info -->
+        <div class="section-title">Основная информация</div>
+        <div class="info-grid-compact animate-slide-up">
+            <div class="info-row">
+                <span class="info-label-compact">Специализация</span>
+                <span class="info-value-compact">Product Designer</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label-compact">Уровень</span>
+                <span class="info-value-compact">Senior</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label-compact">Опыт работы</span>
+                <span class="info-value-compact">5 лет 8 мес</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label-compact">Занятость</span>
+                <span class="info-value-compact">Полная, Удалённая</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label-compact">График</span>
+                <span class="info-value-compact">Гибкий</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label-compact">Желаемая зарплата</span>
+                <span class="info-value-compact">350 000 ₽</span>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="section-title">Навыки</div>
+        <div class="skills-grid">
+            <div class="skill-category animate-slide-up">
+                <div class="skill-category-title">User Research & Strategy</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">User Interviews</span>
+                    <span class="skill-tag">Jobs To Be Done</span>
+                    <span class="skill-tag">CJM</span>
+                    <span class="skill-tag">A/B Testing</span>
+                    <span class="skill-tag">Usability Testing</span>
+                </div>
+            </div>
+
+            <div class="skill-category animate-slide-up">
+                <div class="skill-category-title">UX & Прототипирование</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Information Architecture</span>
+                    <span class="skill-tag">Wireframing</span>
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Sketch</span>
+                    <span class="skill-tag">Adobe XD</span>
+                </div>
+            </div>
+
+            <div class="skill-category animate-slide-up">
+                <div class="skill-category-title">UI & Визуальный дизайн</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Design Systems</span>
+                    <span class="skill-tag">UI Kits</span>
+                    <span class="skill-tag">Auto Layout</span>
+                    <span class="skill-tag">Typography</span>
+                    <span class="skill-tag">Color Theory</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="section-title">Опыт работы</div>
+        <div class="experience-list">
+            <div class="experience-item animate-slide-up">
+                <div class="experience-company">Тинькофф</div>
+                <div class="experience-position">Senior Product Designer</div>
+                <div class="experience-period">2021 — настоящее время</div>
+                <div class="experience-description">
+                    Руковожу дизайном мобильного банка, увеличили NPS на 15 пунктов за год. Создал дизайн-систему для 5+ продуктов.
+                </div>
+            </div>
+
+            <div class="experience-item animate-slide-up past">
+                <div class="experience-company">Сбер</div>
+                <div class="experience-position">Middle UX/UI Designer</div>
+                <div class="experience-period">2019 — 2021</div>
+                <div class="experience-description">
+                    Разрабатывал пользовательские интерфейсы для корпоративного банкинга. Участвовал в создании дизайн-системы.
+                </div>
+            </div>
+
+            <div class="experience-item animate-slide-up past">
+                <div class="experience-company">Яндекс</div>
+                <div class="experience-position">UI Designer</div>
+                <div class="experience-period">2018 — 2019</div>
+                <div class="experience-description">
+                    Создавал интерфейсы для сервисов экосистемы. Работал над визуальной составляющей продуктов.
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section-title">Образование</div>
+        <div class="education-item animate-slide-up">
+            <div class="education-institution">НИУ ВШЭ</div>
+            <div class="education-specialty">Факультет дизайна, Бакалавр</div>
+            <div class="education-period">2014 — 2018</div>
+        </div>
+
+        <!-- Languages -->
+        <div class="section-title">Языки</div>
+        <div class="info-grid-compact animate-slide-up">
+            <div class="language-item">
+                <span class="language-name">Русский</span>
+                <span class="language-level">Родной</span>
+            </div>
+            <div class="language-item">
+                <span class="language-name">Английский</span>
+                <span class="language-level">C1 — Продвинутый</span>
+            </div>
+            <div class="language-item">
+                <span class="language-name">Немецкий</span>
+                <span class="language-level">A2 — Базовый</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-grid">
+            <a href="index.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Главная</span>
+            </a>
+            <a href="vacancies.html" class="nav-item">
+                <span class="nav-icon">💼</span>
+                <span class="nav-label">Вакансии</span>
+            </a>
+            <a href="my_profile.html" class="nav-item active">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Профиль</span>
+            </a>
+            <a href="chat.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Чат</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<script>
+    // Инициализация Telegram WebApp
+    let tg = window.Telegram.WebApp;
+
+    // Раскрываем на весь экран
+    tg.expand();
+    tg.setHeaderColor('#FFFFFF');
+    tg.setBackgroundColor('#F8FAFC');
+    tg.enableClosingConfirmation();
+
+    // Функции навигации
+    function goBack() {
+        // Анимация кнопки при клике
+        const backButton = document.querySelector('.back-button-header');
+        backButton.style.animation = 'rotateIn 0.6s ease-out';
+
+        setTimeout(() => {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'my_profile.html';
+            }
+        }, 300);
+    }
+
+    function editProfile() {
+        tg.showAlert('Редактирование профиля');
+    }
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        // Заполняем данные из Telegram
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            const avatar = document.getElementById('userAvatar');
+
+            // Устанавливаем аватар
+            if (user.photo_url) {
+                avatar.innerHTML = `<img src="${user.photo_url}" alt="Avatar" class="avatar-image">`;
+            } else if (user.first_name) {
+                avatar.textContent = user.first_name[0].toUpperCase();
+                // Цвет аватара на основе ID
+                const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
+                const colorIndex = user.id % colors.length;
+                avatar.style.background = colors[colorIndex];
+                avatar.style.color = 'white';
+            }
+
+            // Устанавливаем имя
+            let userName = '';
+            if (user.first_name) userName += user.first_name;
+            if (user.last_name) userName += ' ' + user.last_name;
+            if (userName.trim() === '') userName = 'Пользователь';
+
+            document.getElementById('userName').textContent = userName;
+        }
+
+        // Обработка навигации
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.getAttribute('href') && !this.getAttribute('href').includes('t.me')) {
+                    e.preventDefault();
+
+                    // Анимация нажатия
+                    this.style.transform = 'scale(0.98)';
+
+                    setTimeout(() => {
+                        window.location.href = this.getAttribute('href');
+                    }, 150);
+                }
+            });
+        });
+
+        // Дополнительная анимация для кнопки "назад" при клике
+        document.querySelector('.back-button-header').addEventListener('click', function() {
+            this.style.animation = 'rotateIn 0.6s ease-out';
+        });
+    });
+
+    // Обработка Escape для возврата
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            goBack();
+        }
+    });
+
+    // Анимация появления элементов при скролле
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Наблюдаем за всеми анимируемыми элементами
+    document.querySelectorAll('.animate-slide-up').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>

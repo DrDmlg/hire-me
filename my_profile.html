@@ -651,22 +651,10 @@
     <!-- Quick Actions -->
     <div class="actions-grid">
       <!-- Основной блок -->
-      <div class="action-card primary" onclick="openVacancies()">
-        <span class="action-icon">💼</span>
-        <div class="action-label">Найти вакансии</div>
-        <div class="action-description">125 подходящих</div>
-      </div>
-
-      <div class="action-card" onclick="openResponses()">
-        <span class="action-icon">📨</span>
-        <div class="action-label">Мои отклики</div>
-        <div class="action-description">8 активных · 3 новых</div>
-      </div>
-
-      <div class="action-card" onclick="openFavorites()">
-        <span class="action-icon">⭐</span>
-        <div class="action-label">Избранное</div>
-        <div class="action-description">12 сохраненных</div>
+      <div class="action-card" onclick="openAboutMe()">
+        <span class="action-icon">👤</span>
+        <div class="action-label">Обо мне</div>
+        <div class="action-description">Заполнено на 85%</div>
       </div>
 
       <div class="action-card" onclick="openResume()">
@@ -675,17 +663,23 @@
         <div class="action-description">Обновлено сегодня</div>
       </div>
 
-      <!-- Профиль и портфолио -->
+      <!-- Портфолио -->
       <div class="action-card" onclick="openPortfolio()">
         <span class="action-icon">🏆</span>
         <div class="action-label">Портфолио</div>
         <div class="action-description">5 проектов</div>
       </div>
 
-      <div class="action-card" onclick="openEditProfile()">
-        <span class="action-icon">👤</span>
-        <div class="action-label">Профиль</div>
-        <div class="action-description">Заполнен на 85%</div>
+      <div class="action-card" onclick="openVacancies()">
+        <span class="action-icon">💼</span>
+        <div class="action-label">Вакансии</div>
+        <div class="action-description">125 подходящих</div>
+      </div>
+
+      <div class="action-card" onclick="openFavorites()">
+        <span class="action-icon">⭐</span>
+        <div class="action-label">Избранное</div>
+        <div class="action-description">12 сохраненных</div>
       </div>
 
       <!-- Взаимодействие -->
@@ -699,19 +693,6 @@
         <span class="action-icon">🔔</span>
         <div class="action-label">Уведомления</div>
         <div class="action-description">5 новых вакансий</div>
-      </div>
-
-      <!-- Дополнительно -->
-      <div class="action-card" onclick="openStats()">
-        <span class="action-icon">📊</span>
-        <div class="action-label">Статистика</div>
-        <div class="action-description">Аналитика поиска</div>
-      </div>
-
-      <div class="action-card" onclick="openPreferences()">
-        <span class="action-icon">🎯</span>
-        <div class="action-label">Предпочтения</div>
-        <div class="action-description">Настройки поиска</div>
       </div>
     </div>
   </div>
@@ -796,16 +777,39 @@
     window.open('https://t.me/PublicHireMe_bot?start=vacancies', '_blank');
   }
 
-  function openResponses() {
-    window.open('https://t.me/PublicHireMe_bot?start=responses', '_blank');
+  // Функция перехода на страницу "Обо мне"
+  function openAboutMe() {
+    let telegramUserId = tg.initDataUnsafe?.user?.id;
+
+    // if (!telegramUserId) {
+    //   tg.showAlert('Не удалось идентифицировать пользователя');
+    //   return;
+    // }
+
+    // Проверяем доступ к профилю
+    checkProfileAccess(telegramUserId)
+            .then(hasAccess => {
+              if (hasAccess) {
+                window.location.href = 'about_me.html';
+              } else {
+                tg.showAlert('Для просмотра профиля необходимо зарегистрироваться');
+              }
+            })
+            .catch(error => {
+              console.error('Error checking profile access:', error);
+              tg.showAlert('Произошла ошибка при проверке профиля');
+            });
   }
 
-  function openResume() {
-    window.open('https://t.me/PublicHireMe_bot?start=resume', '_blank');
-  }
-
-  function openPreferences() {
-    window.open('https://t.me/PublicHireMe_bot?start=preferences', '_blank');
+  // Функция проверки доступа к профилю
+  async function checkProfileAccess(telegramUserId) {
+    try {
+      const response = await fetch(`https://hireme.serveo.net/profile/check-access/${telegramUserId}`);
+      return await response.json();
+    } catch (error) {
+      console.error('Profile access check failed:', error);
+      return false;
+    }
   }
 
   // Новые функции
@@ -827,10 +831,6 @@
 
   function openNotifications() {
     tg.showAlert(`Уведомления: ${userProfile.actions.newNotifications} новых вакансий`);
-  }
-
-  function openStats() {
-    tg.showAlert('Статистика поиска работы');
   }
 
   // Форматирование чисел
