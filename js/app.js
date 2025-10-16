@@ -1,3 +1,5 @@
+/** Главный файл приложения*/
+
 class App {
     constructor() {
         this.tg = window.Telegram?.WebApp;

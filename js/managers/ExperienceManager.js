@@ -1,3 +1,4 @@
+/** Менеджер опыта работы */
 class ExperienceManager {
     constructor() {
         this.experiences = [];

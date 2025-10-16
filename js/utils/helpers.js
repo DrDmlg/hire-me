@@ -1,3 +1,4 @@
+/** Вспомогательные функции*/
 class Helpers {
     static escapeHtml(text) {
         if (!text) return '';
