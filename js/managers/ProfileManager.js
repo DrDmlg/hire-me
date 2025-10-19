@@ -28,7 +28,7 @@ class ProfileManager {
             // ✅ ИСПОЛЬЗУЕМ МЕТОД getTelegramUserId()
             const telegramUserId = Helpers.getTelegramUserId();
             console.log('Loading profile for user:', telegramUserId);
-
+            tg.showMessage('Делаю запрос ...')
             const response = await fetch(`https://hireme.serveo.net/profile/${telegramUserId}`);
 
             if (!response.ok) {
@@ -46,6 +46,7 @@ class ProfileManager {
             throw error;
         }
     }
+
     // async loadProfile() {
     //     this.showLoading('Загрузка профиля...');
     //
