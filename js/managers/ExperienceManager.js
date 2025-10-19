@@ -1,4 +1,3 @@
-/** Менеджер опыта работы */
 class ExperienceManager {
     constructor() {
         this.experiences = [];
@@ -6,64 +5,18 @@ class ExperienceManager {
         this.isInitialized = false;
     }
 
-    async init() {
+    init(experiences = []) {
         if (this.isInitialized) return;
 
         try {
-            await this.loadExperiences();
-            this.bindEvents();
+            this.experiences = experiences;
+            this.render();      // ← СНАЧАЛА создаем кнопку
+            this.bindEvents();  // ← ПОТОМ навешиваем обработчики
             this.isInitialized = true;
-            console.log('ExperienceManager initialized');
+            console.log('ExperienceManager initialized with data');
         } catch (error) {
             console.error('ExperienceManager init error:', error);
-            this.showError('Не удалось загрузить опыт работы');
-        }
-    }
-
-    async loadExperiences() {
-        this.showLoading('Загрузка опыта работы...');
-
-        try {
-            // Имитация загрузки с бэкенда
-            await Helpers.delay(1000);
-
-            // В реальном приложении здесь будет:
-            // const response = await fetch('/api/experiences');
-            // this.experiences = await response.json();
-
-            // Мок данные для демонстрации
-            this.experiences = [
-                {
-                    id: 1,
-                    company: "Тинькофф",
-                    position: "Senior Product Designer",
-                    period: "2021 — настоящее время",
-                    description: "Руковожу дизайном мобильного банка, увеличили NPS на 15 пунктов за год. Создал дизайн-систему для 5+ продуктов.",
-                    isCurrent: true
-                },
-                {
-                    id: 2,
-                    company: "Сбер",
-                    position: "Middle UX/UI Designer",
-                    period: "2019 — 2021",
-                    description: "Разрабатывал пользовательские интерфейсы для корпоративного банкинга. Участвовал в создании дизайн-системы.",
-                    isCurrent: false
-                },
-                {
-                    id: 3,
-                    company: "Яндекс",
-                    position: "UI Designer",
-                    period: "2018 — 2019",
-                    description: "Создавал интерфейсы для сервисов экосистемы. Работал над визуальной составляющей продуктов.",
-                    isCurrent: false
-                }
-            ];
-
-            this.render();
-            Helpers.hideMessage();
-        } catch (error) {
-            this.showError('Ошибка загрузки опыта работы');
-            throw error;
+            this.showError('Не удалось инициализировать опыт работы');
         }
     }
 
@@ -83,6 +36,54 @@ class ExperienceManager {
         if (form) {
             form.addEventListener('submit', (e) => this.handleFormSubmit(e));
         }
+    }
+
+    render() {
+        const container = document.getElementById('experienceList');
+        if (!container) return;
+
+        if (this.experiences.length === 0) {
+            container.innerHTML = this.getEmptyState();
+            return;
+        }
+
+        container.innerHTML = this.experiences.map(exp => {
+            // Вычисляем period из startDate и endDate
+            const period = this.formatPeriod(exp.startDate, exp.endDate, exp.isCurrent);
+
+            return `
+            <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
+                <div class="experience-actions">
+                    <button class="action-btn edit-btn" 
+                            onclick="app.profileManager.managers.experience.edit(${exp.id})">
+                        ✏️
+                    </button>
+                    <button class="action-btn delete-btn" 
+                            onclick="app.profileManager.managers.experience.delete(${exp.id})">
+                        🗑️
+                    </button>
+                </div>
+                <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
+                <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
+                <div class="experience-period">${Helpers.escapeHtml(period)}</div>
+                <div class="experience-description">${Helpers.escapeHtml(exp.description || 'Описание не указано')}</div>
+            </div>
+        `;
+        }).join('');
+    }
+
+    // Добавь метод для форматирования периода
+    formatPeriod(startDate, endDate, isCurrent) {
+        const start = startDate;
+
+        let end = 'По настоящее время';
+        if (isCurrent) {
+           end = endDate;
+        } else {
+            end = ' настоящее время';
+        }
+
+        return `${start} - ${end}`;
     }
 
     showForm(experience = null) {
@@ -153,8 +154,15 @@ class ExperienceManager {
         this.showLoading('Сохранение...');
 
         try {
-            // Имитация задержки сети
-            await Helpers.delay(800);
+            let telegramUserId = Helpers.getTelegramUserId();
+            const response = await fetch(`https://hireme.serveo.net/work-experience/${telegramUserId}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(experienceData),
+                });
 
             if (this.currentEditId) {
                 // Обновление существующей записи
@@ -211,33 +219,6 @@ class ExperienceManager {
         }
     }
 
-    render() {
-        const container = document.getElementById('experienceList');
-        if (!container) return;
-
-        if (this.experiences.length === 0) {
-            container.innerHTML = this.getEmptyState();
-            return;
-        }
-
-        container.innerHTML = this.experiences.map(exp => `
-            <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
-                <div class="experience-actions">
-                    <button class="action-btn edit-btn" onclick="app.experienceManager.edit(${exp.id})">
-                        ✏️
-                    </button>
-                    <button class="action-btn delete-btn" onclick="app.experienceManager.delete(${exp.id})">
-                        🗑️
-                    </button>
-                </div>
-                <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
-                <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
-                <div class="experience-period">${Helpers.escapeHtml(exp.period)}</div>
-                <div class="experience-description">${Helpers.escapeHtml(exp.description || 'Описание не указано')}</div>
-            </div>
-        `).join('');
-    }
-
     getEmptyState() {
         return `
             <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
@@ -260,16 +241,7 @@ class ExperienceManager {
         this.deleteExperience(id);
     }
 
-    // Вспомогательные методы для сообщений
-    showLoading(text) {
-        Helpers.showMessage(text, 'loading');
-    }
-
-    showSuccess(text) {
-        Helpers.showMessage(text, 'success');
-    }
-
-    showError(text) {
-        Helpers.showMessage(text, 'error');
-    }
+    showLoading(text) { Helpers.showMessage(text, 'loading'); }
+    showSuccess(text) { Helpers.showMessage(text, 'success'); }
+    showError(text) { Helpers.showMessage(text, 'error'); }
 }

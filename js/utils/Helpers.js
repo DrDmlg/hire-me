@@ -65,4 +65,14 @@ class Helpers {
     static delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+    static getTelegramUserId() {
+        if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
+            return window.Telegram.WebApp.initDataUnsafe.user.id;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id');
+        return userId ? parseInt(userId) : 442485517; // test ID
+    }
 }

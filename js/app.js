@@ -3,26 +3,22 @@
 class App {
     constructor() {
         this.tg = window.Telegram?.WebApp;
-        this.experienceManager = new ExperienceManager();
+        this.profileManager = new ProfileManager();
     }
 
     async init() {
         try {
-            // Инициализация Telegram Web App
             if (this.tg) {
                 this.initTelegram();
             }
 
-            // Инициализация менеджеров
-            await this.experienceManager.init();
+            // Инициализируем профиль (он загрузит все данные)
+            await this.profileManager.init();
 
-            // Инициализация навигации и других компонентов
             this.initNavigation();
             this.initUserData();
 
-            // Делаем app глобально доступным для onclick атрибутов
             window.app = this;
-
             console.log('App initialized successfully');
         } catch (error) {
             console.error('App initialization error:', error);
