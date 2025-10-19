@@ -92,8 +92,9 @@ class ProfileManager {
         if (this.profileData) {
             document.getElementById('userName').textContent =
                 `${this.profileData.firstName} ${this.profileData.lastName}`;
-            document.getElementById('userPosition').textContent =
-                this.profileData.position || 'Не указано';
+            // document.getElementById('userPosition').textContent =
+            //     this.profileData.position || 'Не указано';
+            // Пока не понятно какую позицию устанавливать в профиле (то ли от кандидата то ли от сотрудника, а может совсем иную)
         } else {
             console.warn('No profile data to update static sections');
         }
