@@ -1,6 +1,4 @@
-/* Стили для блока опыта работы */
-
-/* Experience Section */
+/* Стили для блока опыта работы */ /* Experience Section */
 .experience-section {
     margin-bottom: 1.5rem;
 }
@@ -47,15 +45,6 @@
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
-    cursor: pointer; /* Добавляем курсор указателя */
-}
-
-/* Увеличиваем область тапа на мобильных устройствах */
-@media (max-width: 768px) {
-    .experience-item {
-        padding: 1.5rem; /* Увеличиваем отступы для большего размера тапа */
-        min-height: 60px; /* Минимальная высота для удобного тапа */
-    }
 }
 
 .experience-item:hover {
@@ -82,17 +71,6 @@
     opacity: 1;
 }
 
-/* Показываем действия при тапе на мобильных */
-@media (max-width: 768px) {
-    .experience-actions {
-        opacity: 1; /* Всегда показываем действия на мобильных */
-        background: var(--bg-card);
-        padding: 0.25rem;
-        border-radius: var(--radius-sm);
-        box-shadow: var(--shadow);
-    }
-}
-
 .action-btn {
     background: var(--bg-soft);
     border: none;
@@ -106,15 +84,6 @@
     font-size: 0.8rem;
     transition: all 0.3s ease;
     color: var(--text-muted);
-}
-
-/* Увеличиваем кнопки действий на мобильных */
-@media (max-width: 768px) {
-    .action-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
 }
 
 .action-btn:hover {
@@ -151,25 +120,6 @@
     font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.5;
-}
-
-/* Увеличиваем шрифты для лучшей читаемости на мобильных */
-@media (max-width: 768px) {
-    .experience-company {
-        font-size: 1.1rem;
-    }
-
-    .experience-position {
-        font-size: 1rem;
-    }
-
-    .experience-period {
-        font-size: 0.9rem;
-    }
-
-    .experience-description {
-        font-size: 0.95rem;
-    }
 }
 
 /* Experience Form */
@@ -212,14 +162,6 @@
     font-family: inherit;
 }
 
-/* Увеличиваем поля ввода для мобильных */
-@media (max-width: 768px) {
-    .form-input {
-        padding: 1rem;
-        font-size: 1rem;
-    }
-}
-
 .form-input:focus {
     outline: none;
     border-color: var(--primary);
@@ -243,14 +185,6 @@
     accent-color: var(--primary);
 }
 
-/* Увеличиваем чекбокс для мобильных */
-@media (max-width: 768px) {
-    .checkbox-group input[type="checkbox"] {
-        width: 24px;
-        height: 24px;
-    }
-}
-
 .form-actions {
     display: flex;
     gap: 0.75rem;
@@ -267,15 +201,6 @@
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: inherit;
-}
-
-/* Увеличиваем кнопки для мобильных */
-@media (max-width: 768px) {
-    .btn {
-        padding: 1rem 2rem;
-        font-size: 1rem;
-        min-height: 48px; /* Минимальная высота для удобного тапа */
-    }
 }
 
 .btn-primary {
@@ -334,4 +259,20 @@
 
 .fade-in {
     animation: fadeIn 0.5s ease-out;
+}
+
+/* 📱 Мобильное поведение — кнопки по тапу */
+@media (max-width: 768px) {
+    .experience-item:hover .experience-actions {
+        opacity: 0; /* hover на мобильных не нужен */
+    }
+
+    .experience-item.show-actions .experience-actions {
+        opacity: 1;
+    }
+
+    /* Чтобы карточка не прыгала */
+    .experience-item {
+        transition: none;
+    }
 }

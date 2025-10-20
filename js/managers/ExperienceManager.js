@@ -259,4 +259,33 @@ class ExperienceManager {
     showLoading(text) { Helpers.showMessage(text, 'loading'); }
     showSuccess(text) { Helpers.showMessage(text, 'success'); }
     showError(text) { Helpers.showMessage(text, 'error'); }
+
+
 }
+
+// Показываем кнопки действий по тапу на мобильных устройствах
+document.addEventListener('DOMContentLoaded', () => {
+    const experienceItems = document.querySelectorAll('.experience-item');
+
+    experienceItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            // Если кликнули по кнопке — не переключаем состояние
+            if (event.target.closest('.action-btn')) return;
+
+            // Если кликнули по другой карточке — скрываем предыдущие
+            experienceItems.forEach(el => {
+                if (el !== item) el.classList.remove('show-actions');
+            });
+
+            // Переключаем текущую карточку
+            item.classList.toggle('show-actions');
+        });
+    });
+
+    // Если клик вне карточки — скрыть кнопки
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.experience-item')) {
+            experienceItems.forEach(el => el.classList.remove('show-actions'));
+        }
+    });
+});
