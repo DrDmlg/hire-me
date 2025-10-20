@@ -1,3 +1,5 @@
+/* Стили для блока опыта работы */
+
 /* Experience Section */
 .experience-section {
     margin-bottom: 1.5rem;
@@ -45,16 +47,8 @@
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
-    cursor: pointer; /* ✅ Вся карточка кликабельна */
 }
 
-/* ✅ ОДНО правило для показа actions */
-.experience-item:active .experience-actions,
-.experience-item:hover .experience-actions {
-    opacity: 1;
-}
-
-/* ✅ Hover эффект для карточки */
 .experience-item:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
@@ -65,7 +59,6 @@
     opacity: 0.9;
 }
 
-/* ✅ Experience Actions */
 .experience-actions {
     position: absolute;
     top: 1rem;
@@ -76,10 +69,9 @@
     transition: opacity 0.3s ease;
 }
 
-/* ❌ УДАЛИ эту дублирующую строку */
-/* .experience-item:hover .experience-actions {
+.experience-item:hover .experience-actions {
     opacity: 1;
-} */
+}
 
 .action-btn {
     background: var(--bg-soft);
@@ -132,7 +124,7 @@
     line-height: 1.5;
 }
 
-/* Остальные стили без изменений */
+/* Experience Form */
 .experience-form {
     background: var(--bg-card);
     padding: 1.5rem;
@@ -253,6 +245,48 @@
 .message.loading {
     background: var(--warning);
     color: white;
+}
+
+/* Мобильная версия для experience items */
+@media (max-width: 768px) {
+    .experience-actions {
+        opacity: 1;
+        position: static;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .action-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+
+    .experience-item {
+        padding-bottom: 1rem;
+    }
+}
+
+/* Для десктопов сохраняем hover-эффект */
+@media (min-width: 769px) {
+    .experience-actions {
+        opacity: 0;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .experience-item:hover .experience-actions {
+        opacity: 1;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
 }
 
 /* Animations */
