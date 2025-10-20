@@ -65,12 +65,23 @@
     right: 1rem;
     display: flex;
     gap: 0.5rem;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
 .experience-item:hover .experience-actions {
     opacity: 1;
+}
+
+/* Убираем ховер-эффект для мобильных устройств */
+@media (hover: hover) {
+    .experience-actions {
+        opacity: 0;
+    }
+
+    .experience-item:hover .experience-actions {
+        opacity: 1;
+    }
 }
 
 .action-btn {
