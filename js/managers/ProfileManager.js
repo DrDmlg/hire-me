@@ -25,11 +25,8 @@ class ProfileManager {
         this.showLoading('Загрузка профиля...');
 
         try {
-            // ✅ ИСПОЛЬЗУЕМ МЕТОД getTelegramUserId()
-            // const telegramUserId = Helpers.getTelegramUserId();
-            const telegramUserId = 442485517
+            const telegramUserId = Helpers.getTelegramUserId();
             console.log('Loading profile for user:', telegramUserId);
-            // tg.showMessage('Делаю запрос ...')
             const response = await fetch(`https://hireme.serveo.net/profile/${telegramUserId}`);
 
             if (!response.ok) {
