@@ -260,19 +260,3 @@
 .fade-in {
     animation: fadeIn 0.5s ease-out;
 }
-
-/* 📱 Мобильное поведение — кнопки по тапу */
-@media (max-width: 768px) {
-    .experience-item:hover .experience-actions {
-        opacity: 0; /* hover на мобильных не нужен */
-    }
-
-    .experience-item.show-actions .experience-actions {
-        opacity: 1;
-    }
-
-    /* Чтобы карточка не прыгала */
-    .experience-item {
-        transition: none;
-    }
-}
