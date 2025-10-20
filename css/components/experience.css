@@ -47,6 +47,7 @@
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .experience-item:hover {
@@ -247,45 +248,52 @@
     color: white;
 }
 
-/* Мобильная версия для experience items */
-@media (max-width: 768px) {
-    .experience-actions {
-        opacity: 1;
-        position: static;
-        justify-content: flex-end;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-    }
-
-    .action-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.1rem;
-    }
-
-    .experience-item {
-        padding-bottom: 1rem;
-    }
-}
-
-/* Для десктопов сохраняем hover-эффект */
-@media (min-width: 769px) {
-    .experience-actions {
+/* Для десктопов оставляем hover */
+@media (hover: hover) and (pointer: fine) {
+    .experience-item .experience-actions {
         opacity: 0;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
     }
 
     .experience-item:hover .experience-actions {
         opacity: 1;
     }
+}
 
+/* Для мобильных устройств - показываем при тапе */
+@media (max-width: 768px) {
+    .experience-item {
+        position: relative;
+        -webkit-tap-highlight-color: transparent; /* Убираем синий highlight на тап */
+    }
+
+    .experience-item:active .experience-actions,
+    .experience-item:focus .experience-actions,
+    .experience-item:focus-within .experience-actions {
+        opacity: 1;
+    }
+
+    .experience-actions {
+        opacity: 0;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+        transition: opacity 0.2s ease;
+    }
+
+    /* Увеличиваем область клика для мобильных */
     .action-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 0.8rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    /* Чтобы кнопки оставались видимыми при клике на них */
+    .experience-actions:active,
+    .experience-actions:focus-within {
+        opacity: 1;
     }
 }
 
