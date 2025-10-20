@@ -164,16 +164,31 @@ class ExperienceManager {
                     body: JSON.stringify(experienceData),
                 });
 
-            if (this.currentEditId) {
-                // Обновление существующей записи
-                await this.updateExperience(this.currentEditId, experienceData);
-            } else {
-                // Создание новой записи
-                await this.createExperience(experienceData);
+            if (!response.ok) {
+                throw new Error(response.message);
             }
+
+            const savedExperience = await response.json();
+
+            if (this.currentEditId) {
+                // Редактирование - заменяем старую запись
+                this.experiences = this.experiences.map(exp =>
+                    exp.id === this.currentEditId ? savedExperience : exp
+                );
+            } else {
+                // Создание - добавляем новую запись
+                this.experiences.unshift(savedExperience);
+            }
+
+            // ОБНОВЛЯЕМ ИНТЕРФЕЙС
+            this.render();
+            this.hideForm();
+            this.showSuccess(this.currentEditId ? 'Данные обновлены' : 'Опыт работы добавлен');
 
         } catch (error) {
             this.showError('Ошибка сохранения');
+        } finally {
+            Helpers.hideMessage()
         }
     }
 

@@ -47,6 +47,13 @@
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
+    cursor: pointer; /* Делаем всю карточку кликабельной */
+}
+
+/* Показываем actions при активном состоянии (тап на мобильных) */
+.experience-item:active .experience-actions,
+.experience-item:hover .experience-actions {
+    opacity: 1;
 }
 
 .experience-item:hover {
