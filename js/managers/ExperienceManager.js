@@ -78,7 +78,7 @@ class ExperienceManager {
 
         let end = 'По настоящее время';
         if (isCurrent) {
-           end = endDate;
+            end = endDate;
         } else {
             end = ' настоящее время';
         }
@@ -150,6 +150,7 @@ class ExperienceManager {
         await this.saveExperience(formData);
     }
 
+    /** Добавление новой записи об опыте*/
     async saveExperience(experienceData) {
         this.showLoading('Сохранение...');
 
@@ -192,6 +193,31 @@ class ExperienceManager {
         }
     }
 
+    /** Удаление записи об опыте*/
+    async deleteExperience(id) {
+        if (!confirm('Вы уверены, что хотите удалить этот опыт работы?')) return;
+
+        this.showLoading('Удаление...');
+
+        try {
+
+            const response = await fetch(`https://hireme.serveo.net/work-experience/${id}`,
+                {
+                    method: 'DELETE',
+                });
+
+            if (response.ok) {
+                this.showSuccess('Опыт работы удален');
+            }
+            this.experiences = this.experiences.filter(exp => exp.id !== id);
+            this.render();
+        } catch (error) {
+            this.showError('Ошибка удаления');
+        } finally {
+            Helpers.hideMessage()
+        }
+    }
+
     async createExperience(experienceData) {
         // Имитация API вызова
         const newExperience = {
@@ -217,22 +243,6 @@ class ExperienceManager {
         this.showSuccess('Данные обновлены');
     }
 
-    async deleteExperience(id) {
-        if (!confirm('Вы уверены, что хотите удалить этот опыт работы?')) return;
-
-        this.showLoading('Удаление...');
-
-        try {
-            // Имитация API вызова
-            await Helpers.delay(600);
-
-            this.experiences = this.experiences.filter(exp => exp.id !== id);
-            this.render();
-            this.showSuccess('Опыт работы удален');
-        } catch (error) {
-            this.showError('Ошибка удаления');
-        }
-    }
 
     getEmptyState() {
         return `
@@ -256,7 +266,15 @@ class ExperienceManager {
         this.deleteExperience(id);
     }
 
-    showLoading(text) { Helpers.showMessage(text, 'loading'); }
-    showSuccess(text) { Helpers.showMessage(text, 'success'); }
-    showError(text) { Helpers.showMessage(text, 'error'); }
+    showLoading(text) {
+        Helpers.showMessage(text, 'loading');
+    }
+
+    showSuccess(text) {
+        Helpers.showMessage(text, 'success');
+    }
+
+    showError(text) {
+        Helpers.showMessage(text, 'error');
+    }
 }
