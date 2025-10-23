@@ -5,6 +5,7 @@ class ExperienceManager {
         this.isInitialized = false;
     }
 
+    // ============ ИНИЦИАЛИЗАЦИЯ ============
     init(experiences = []) {
         if (this.isInitialized) return;
 
@@ -21,85 +22,48 @@ class ExperienceManager {
     }
 
     bindEvents() {
-        const addBtn = document.getElementById('addExperienceBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
+        const pressedAddButton = document.getElementById('addExperienceBtn');
+        const pressedCancelButton = document.getElementById('cancelBtn');
         const form = document.getElementById('experienceFormElement');
 
-        if (addBtn) {
-            addBtn.addEventListener('click', () => this.showForm());
+        if (pressedAddButton) {
+            pressedAddButton.addEventListener('click', () => this.showForm());
         }
 
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => this.hideForm());
+        if (pressedCancelButton) {
+            pressedCancelButton.addEventListener('click', () => this.hideForm());
         }
 
         if (form) {
-            form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+            form.addEventListener('submit', (e) => this.onExperienceAction(e));
         }
     }
 
-    render() {
-        const container = document.getElementById('experienceList');
-        if (!container) return;
-
-        if (this.experiences.length === 0) {
-            container.innerHTML = this.getEmptyState();
-            return;
-        }
-
-        container.innerHTML = this.experiences.map(exp => {
-            // Вычисляем period из startDate и endDate
-            const period = this.formatPeriod(exp.startDate, exp.endDate, exp.isCurrent);
-
-            return `
-            <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
-                <div class="experience-actions">
-                    <button class="action-btn edit-btn" 
-                            onclick="app.profileManager.managers.experience.edit(${exp.id})">
-                        ✏️
-                    </button>
-                    <button class="action-btn delete-btn" 
-                            onclick="app.profileManager.managers.experience.delete(${exp.id})">
-                        🗑️
-                    </button>
-                </div>
-                <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
-                <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
-                <div class="experience-period">${Helpers.escapeHtml(period)}</div>
-                <div class="experience-description">${Helpers.escapeHtml(exp.description || 'Описание не указано')}</div>
-            </div>
-        `;
-        }).join('');
-    }
-
-    // Добавь метод для форматирования периода
-    formatPeriod(startDate, endDate, isCurrent) {
-        const start = startDate;
-
-        let end = 'По настоящее время';
-        if (isCurrent) {
-            end = endDate;
-        } else {
-            end = ' настоящее время';
-        }
-
-        return `${start} - ${end}`;
-    }
-
+    // ============ ФОРМА ============
     showForm(experience = null) {
         const form = document.getElementById('experienceForm');
         const formTitle = document.getElementById('formTitle');
+        const saveButton = document.getElementById('saveButton');
+        const updateButton = document.getElementById('updateButton');
 
         if (experience) {
-            // Режим редактирования
+            // Если режим редактирования существующей записи
             formTitle.textContent = 'Редактировать опыт работы';
             this.fillForm(experience);
             this.currentEditId = experience.id;
+
+            // Показываем кнопку "Обновить", скрываем "Сохранить"
+            saveButton.style.display = 'none';
+            updateButton.style.display = 'block';
         } else {
-            // Режим добавления
+            // Если режим добавления новой записи
             formTitle.textContent = 'Добавить опыт работы';
             this.clearForm();
             this.currentEditId = null;
+
+            // Показываем кнопку "Сохранить", скрываем "Обновить"
+            saveButton.style.display = 'block';
+            updateButton.style.display = 'none';
         }
 
         form.style.display = 'block';
@@ -108,9 +72,16 @@ class ExperienceManager {
 
     hideForm() {
         const form = document.getElementById('experienceForm');
+        const saveButton = document.getElementById('saveButton');
+        const updateButton = document.getElementById('updateButton');
+
         if (form) {
             form.style.display = 'none';
         }
+
+        // Всегда показываем кнопку "Сохранить" при скрытии формы
+        saveButton.style.display = 'block';
+        updateButton.style.display = 'none';
         this.clearForm();
         this.currentEditId = null;
     }
@@ -130,28 +101,48 @@ class ExperienceManager {
         }
     }
 
-    async handleFormSubmit(event) {
+    // ============ ОБРАБОТЧИКИ ФОРМЫ ============
+    /** Определяем какая кнопка была нажата на форме опыта работы*/
+    async onExperienceAction(event) {
         event.preventDefault();
 
-        const formData = {
+        const clickedButton = event.submitter;
+        const formData = this.collectFormData();
+
+        // Проверяем валидацию
+        if (!this.validateFormData(formData)) {
+            return;
+        }
+
+        if (clickedButton.id === 'saveButton') {
+            await this.createExperience(formData);
+        } else if (clickedButton.id === 'updateButton') {
+            await this.updateExperience(formData);
+        }
+    }
+
+    /** Валидация данных с формы*/
+    validateFormData(formData) {
+        if (!formData.company || !formData.position || !formData.period) {
+            this.showError('Заполните обязательные поля');
+            return false; // возвращаем false при ошибке
+        }
+        return true; // возвращаем true если все ок
+    }
+
+    collectFormData() {
+        return {
             company: document.getElementById('companyName').value.trim(),
             position: document.getElementById('position').value.trim(),
             period: document.getElementById('workPeriod').value.trim(),
             description: document.getElementById('workDescription').value.trim(),
             isCurrent: document.getElementById('currentJob').checked
         };
-
-        // Валидация
-        if (!formData.company || !formData.position || !formData.period) {
-            this.showError('Заполните обязательные поля');
-            return;
-        }
-
-        await this.saveExperience(formData);
     }
 
-    /** Добавление новой записи об опыте*/
-    async saveExperience(experienceData) {
+    // ============ API ОПЕРАЦИИ ============
+    /** Создание новой записи об опыте работы*/
+    async createExperience(experienceData) {
         this.showLoading('Сохранение...');
 
         try {
@@ -171,21 +162,12 @@ class ExperienceManager {
 
             const savedExperience = await response.json();
 
-            if (this.currentEditId) {
-                // Редактирование - заменяем старую запись
-                this.experiences = this.experiences.map(exp =>
-                    exp.id === this.currentEditId ? savedExperience : exp
-                );
-            } else {
-                // Создание - добавляем новую запись
-                this.experiences.unshift(savedExperience);
-            }
+            this.experiences.unshift(savedExperience);
 
-            // ОБНОВЛЯЕМ ИНТЕРФЕЙС
+            // Обновляем интерфейс
             this.render();
             this.hideForm();
-            this.showSuccess(this.currentEditId ? 'Данные обновлены' : 'Опыт работы добавлен');
-
+            this.showSuccess('Опыт работы добавлен');
         } catch (error) {
             this.showError('Ошибка сохранения');
         } finally {
@@ -193,14 +175,49 @@ class ExperienceManager {
         }
     }
 
+    /** Обновление редактируемой записи опыта работы*/
+    async updateExperience(experienceData) {
+        this.showLoading('Обновляем запись...');
+
+        try {
+            const response = await fetch(`https://hireme.serveo.net/work-experience/${this.currentEditId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(experienceData),
+                });
+
+            if (response.ok) {
+                this.showSuccess('Изменен опыт работы');
+            }
+
+            const updatedExperience = await response.json();
+
+            // Обновляем существующую запись
+            this.experiences = this.experiences.map(exp =>
+                exp.id === this.currentEditId ? updatedExperience : exp
+            );
+
+            // Обновляем интерфейс
+            this.render();
+            this.hideForm();
+            this.showSuccess('Данные обновлены');
+        } catch (error) {
+            this.showError('Ошибка обновления');
+        } finally {
+            Helpers.hideMessage()
+        }
+    }
+
     /** Удаление записи об опыте*/
-    async deleteExperience(id) {
+    async deleteExperienceRecord(id) {
         if (!confirm('Вы уверены, что хотите удалить этот опыт работы?')) return;
 
         this.showLoading('Удаление...');
 
         try {
-
             const response = await fetch(`https://hireme.serveo.net/work-experience/${id}`,
                 {
                     method: 'DELETE',
@@ -218,31 +235,51 @@ class ExperienceManager {
         }
     }
 
-    async createExperience(experienceData) {
-        // Имитация API вызова
-        const newExperience = {
-            id: Date.now(),
-            ...experienceData,
-            createdAt: new Date().toISOString()
-        };
+    // ============ ОТОБРАЖЕНИЕ ============
+    render() {
+        const container = document.getElementById('experienceList');
+        if (!container) return;
 
-        this.experiences.unshift(newExperience);
-        this.render();
-        this.hideForm();
-        this.showSuccess('Опыт работы добавлен');
+        if (this.experiences.length === 0) {
+            container.innerHTML = this.getEmptyState();
+            return;
+        }
+
+        container.innerHTML = this.experiences.map(exp => {
+            // Вычисляем period из startDate и endDate
+            const period = this.formatPeriod(exp.startDate, exp.endDate, exp.isCurrent);
+
+            return `
+            <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
+                <div class="experience-actions">
+                    <button class="action-btn edit-btn" 
+                            onclick="app.profileManager.managers.experience.editExperienceRecord(${exp.id})">
+                        ✏️
+                    </button>
+                    <button class="action-btn delete-btn" 
+                            onclick="app.profileManager.managers.experience.deleteExperienceRecord(${exp.id})">
+                        🗑️
+                    </button>
+                </div>
+                <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
+                <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
+                <div class="experience-period">${Helpers.escapeHtml(period)}</div>
+                <div class="experience-description">${Helpers.escapeHtml(exp.description || 'Описание не указано')}</div>
+            </div>
+        `;
+        }).join('');
     }
+    // Метод для форматирования периода
+    formatPeriod(startDate, endDate, isCurrent) {
+        const start = startDate;
+        let end = endDate;
 
-    async updateExperience(id, experienceData) {
-        // Имитация API вызова
-        this.experiences = this.experiences.map(exp =>
-            exp.id === id ? {...exp, ...experienceData} : exp
-        );
+        if (isCurrent) {
+            end = 'По настоящее время'; // Если текущая работа
+        }
 
-        this.render();
-        this.hideForm();
-        this.showSuccess('Данные обновлены');
+        return `${start} - ${end}`;
     }
-
 
     getEmptyState() {
         return `
@@ -254,18 +291,7 @@ class ExperienceManager {
         `;
     }
 
-    // Публичные методы для вызова из HTML
-    edit(id) {
-        const experience = this.experiences.find(exp => exp.id === id);
-        if (experience) {
-            this.showForm(experience);
-        }
-    }
-
-    delete(id) {
-        this.deleteExperience(id);
-    }
-
+    // ============ ВСПОМОГАТЕЛЬНЫЕ ============
     showLoading(text) {
         Helpers.showMessage(text, 'loading');
     }
@@ -276,5 +302,13 @@ class ExperienceManager {
 
     showError(text) {
         Helpers.showMessage(text, 'error');
+    }
+
+    // ============ ОСТАЛЬНЫЕ ============
+    editExperienceRecord(id) {
+        const experience = this.experiences.find(exp => exp.id === id);
+        if (experience) {
+            this.showForm(experience);
+        }
     }
 }
