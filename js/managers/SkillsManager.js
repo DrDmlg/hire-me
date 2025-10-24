@@ -1,13 +1,14 @@
 class SkillsManager {
     constructor() {
         this.skills = [];
+        this.availableSkills = []; // Список доступных навыков с бэкенда
         this.maxSkills = 10;
         this.isInitialized = false;
         this.isAdding = false;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
-    init(skills = []) {
+    init(skills = [], availableSkills = []) {
         if (this.isInitialized) return;
 
         try {
@@ -15,8 +16,12 @@ class SkillsManager {
             if (skills.length === 0) {
                 skills = this.getMockSkills();
             }
+            if (availableSkills.length === 0) {
+                availableSkills = this.getMockAvailableSkills();
+            }
 
             this.skills = skills;
+            this.availableSkills = availableSkills;
             this.render();
             this.bindEvents();
             this.isInitialized = true;
@@ -33,6 +38,19 @@ class SkillsManager {
             { id: 1, name: 'Figma' },
             { id: 2, name: 'User Research' },
             { id: 3, name: 'Prototyping' }
+        ];
+    }
+
+    // ТЕСТОВЫЕ ДАННЫЕ - доступные навыки
+    getMockAvailableSkills() {
+        return [
+            'Figma', 'User Research', 'Prototyping', 'UX Writing',
+            'Design Systems', 'A/B Testing', 'Usability Testing',
+            'HTML/CSS', 'JavaScript', 'React', 'TypeScript', 'Node.js',
+            'Python', 'Vue.js', 'Angular', 'UI Design', 'Wireframing',
+            'Product Management', 'Agile', 'Scrum', 'User Testing',
+            'Information Architecture', 'Interaction Design', 'Visual Design',
+            'Design Thinking', 'Data Analysis', 'UX Metrics', 'Accessibility'
         ];
     }
 
@@ -56,26 +74,26 @@ class SkillsManager {
         }
 
         let skillsHTML = this.skills.map(skill => `
-        <div class="skill-tag fade-in" data-id="${skill.id}">
-            <span class="skill-name">${Helpers.escapeHtml(skill.name)}</span>
-            <button class="skill-remove-btn" onclick="app.profileManager.managers.skills.removeSkill(${skill.id})">
-                ×
-            </button>
-        </div>
-    `).join('');
+            <div class="skill-tag fade-in" data-id="${skill.id}">
+                <span class="skill-name">${Helpers.escapeHtml(skill.name)}</span>
+                <button class="skill-remove-btn" onclick="app.profileManager.managers.skills.removeSkill(${skill.id})">
+                    ×
+                </button>
+            </div>
+        `).join('');
 
         // Добавляем input для ввода, если в режиме добавления
         if (this.isAdding) {
             skillsHTML += `
-            <div class="skill-input-tag">
-                <input type="text" class="skill-input-field" id="skillInputField" 
-                       placeholder="Введите навык..." maxlength="50">
-                <div class="skill-input-actions">
-                    <button class="skill-input-btn skill-input-confirm" id="skillInputConfirm">✓</button>
-                    <button class="skill-input-btn skill-input-cancel" id="skillInputCancel">×</button>
+                <div class="skill-input-tag">
+                    <input type="text" class="skill-input-field" id="skillInputField" 
+                           placeholder="Введите навык..." maxlength="50">
+                    <div class="skill-input-actions">
+                        <button class="skill-input-btn skill-input-confirm" id="skillInputConfirm">✓</button>
+                        <button class="skill-input-btn skill-input-cancel" id="skillInputCancel">×</button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
         }
 
         container.innerHTML = skillsHTML;
@@ -104,7 +122,7 @@ class SkillsManager {
             });
 
             inputField.addEventListener('input', (e) => {
-                this.updateInputState(e.target.value.trim());
+                this.handleInputChange(e.target.value);
             });
         }
 
@@ -130,12 +148,83 @@ class SkillsManager {
         }
     }
 
+    handleInputChange(value) {
+        this.showSuggestions(value);
+        this.updateInputState(value);
+    }
+
+    showSuggestions(filter = '') {
+        const suggestionsContainer = document.getElementById('skillSuggestions') || this.createSuggestionsContainer();
+
+        // Фильтруем доступные навыки по введенному тексту и убираем уже добавленные
+        const filteredSkills = this.availableSkills.filter(skill =>
+            skill.toLowerCase().includes(filter.toLowerCase()) &&
+            !this.skills.some(existingSkill => existingSkill.name.toLowerCase() === skill.toLowerCase())
+        ).slice(0, 8); // Ограничиваем количество подсказок
+
+        if (filteredSkills.length === 0) {
+            suggestionsContainer.style.display = 'none';
+
+            // Показываем сообщение, если ничего не найдено
+            if (filter.length >= 2) {
+                suggestionsContainer.innerHTML = `
+                    <div class="skill-suggestion empty">
+                        Навык не найден. Выберите из списка.
+                    </div>
+                `;
+                suggestionsContainer.style.display = 'block';
+            }
+            return;
+        }
+
+        suggestionsContainer.innerHTML = filteredSkills.map(skill => `
+            <div class="skill-suggestion" onclick="app.profileManager.managers.skills.selectSuggestion('${skill.replace(/'/g, "\\'")}')">
+                ${Helpers.escapeHtml(skill)}
+            </div>
+        `).join('');
+
+        suggestionsContainer.style.display = 'block';
+    }
+
+    createSuggestionsContainer() {
+        const container = document.createElement('div');
+        container.id = 'skillSuggestions';
+        container.className = 'skill-suggestions';
+
+        const inputRow = document.querySelector('.skill-input-tag');
+        if (inputRow) {
+            inputRow.appendChild(container);
+        }
+
+        return container;
+    }
+
+    selectSuggestion(skillName) {
+        const skillInput = document.getElementById('skillInputField');
+        skillInput.value = skillName;
+        this.hideSuggestions();
+        this.updateInputState(skillName);
+        skillInput.focus();
+    }
+
+    hideSuggestions() {
+        const suggestionsContainer = document.getElementById('skillSuggestions');
+        if (suggestionsContainer) {
+            suggestionsContainer.style.display = 'none';
+        }
+    }
+
     updateInputState(value) {
         const confirmBtn = document.getElementById('skillInputConfirm');
         if (confirmBtn) {
-            const isValid = value.length >= 2 &&
+            const trimmedValue = value.trim();
+            // Проверяем, что значение есть в списке доступных навыков
+            const isValid = trimmedValue.length >= 2 &&
+                this.availableSkills.some(skill =>
+                    skill.toLowerCase() === trimmedValue.toLowerCase()
+                ) &&
                 !this.skills.some(skill =>
-                    skill.name.toLowerCase() === value.toLowerCase()
+                    skill.name.toLowerCase() === trimmedValue.toLowerCase()
                 );
             confirmBtn.disabled = !isValid;
             confirmBtn.style.opacity = isValid ? '1' : '0.5';
@@ -159,6 +248,16 @@ class SkillsManager {
 
         const skillName = inputField.value.trim();
 
+        // Проверяем, что навык есть в доступных
+        const isAvailable = this.availableSkills.some(skill =>
+            skill.toLowerCase() === skillName.toLowerCase()
+        );
+
+        if (!isAvailable) {
+            this.showError('Выберите навык из списка');
+            return;
+        }
+
         if (this.validateSkill(skillName)) {
             this.addSkill(skillName);
             this.isAdding = false;
@@ -169,6 +268,7 @@ class SkillsManager {
         this.isAdding = false;
         this.render();
         document.removeEventListener('click', this.handleClickOutside);
+        this.hideSuggestions();
     }
 
     updateCounter() {
@@ -257,8 +357,13 @@ class SkillsManager {
             return false;
         }
 
-        if (skillName.length > 50) {
-            this.showError('Название навыка слишком длинное');
+        // Проверяем, что навык есть в доступных
+        const isAvailable = this.availableSkills.some(skill =>
+            skill.toLowerCase() === skillName.toLowerCase()
+        );
+
+        if (!isAvailable) {
+            this.showError('Выберите навык из списка предложенных');
             return false;
         }
 
@@ -269,6 +374,12 @@ class SkillsManager {
 
         if (isDuplicate) {
             this.showError('Этот навык уже добавлен');
+            return false;
+        }
+
+        // Проверка лимита
+        if (this.skills.length >= this.maxSkills) {
+            this.showError(`Максимум ${this.maxSkills} навыков`);
             return false;
         }
 
