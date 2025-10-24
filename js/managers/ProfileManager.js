@@ -45,48 +45,6 @@ class ProfileManager {
         }
     }
 
-    // async loadProfile() {
-    //     this.showLoading('Загрузка профиля...');
-    //
-    //     try {
-    //         // ВРЕМЕННО: используем мок-данные вместо реального API
-    //         console.log('Using mock data for testing');
-    //         await Helpers.delay(1000); // имитация загрузки
-    //
-    //         this.profileData = {
-    //             firstName: "Екатерина",
-    //             lastName: "Смирнова",
-    //             position: "Senior Product Designer",
-    //             workExperiences: [
-    //                 {
-    //                     id: 1,
-    //                     company: "Тинькофф",
-    //                     position: "Senior Product Designer",
-    //                     period: "2021 — настоящее время",
-    //                     description: "Руковожу дизайном мобильного банка, увеличили NPS на 15 пунктов за год.",
-    //                     isCurrent: true
-    //                 },
-    //                 {
-    //                     id: 2,
-    //                     company: "Сбер",
-    //                     position: "Middle UX/UI Designer",
-    //                     period: "2019 — 2021",
-    //                     description: "Разрабатывал пользовательские интерфейсы для корпоративного банкинга.",
-    //                     isCurrent: false
-    //                 }
-    //             ]
-    //         };
-    //
-    //         Helpers.hideMessage();
-    //
-    //     } catch (error) {
-    //         console.error('Load profile error:', error);
-    //         Helpers.hideMessage();
-    //         this.showError('Ошибка загрузки профиля');
-    //         throw error;
-    //     }
-    // }
-
     updateStaticSections() {
         if (this.profileData) {
             document.getElementById('userName').textContent =
