@@ -1,0 +1,294 @@
+/* Skills Section */
+.skills-section {
+    margin-bottom: 1.5rem;
+}
+
+.skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.skills-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.skills-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+.skills-counter {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+/* Остальные стили без изменений */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 60px;
+    align-items: flex-start;
+}
+
+.skill-tag {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-light);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.skill-tag:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.skill-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skill-remove-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+    font-family: inherit;
+    line-height: 1;
+}
+
+.skill-remove-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Skill Input Tag */
+.skill-input-tag {
+    background: white;
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    animation: inputAppear 0.3s ease-out;
+}
+
+@keyframes inputAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.skill-input-field {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    width: 120px;
+    font-family: inherit;
+}
+
+.skill-input-field::placeholder {
+    color: var(--text-muted);
+}
+
+/* Skill Input Actions */
+.skill-input-actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.skill-input-btn {
+    background: var(--bg-soft);
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+    font-family: inherit;
+}
+
+.skill-input-confirm {
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.skill-input-confirm:hover:not(:disabled) {
+    background: var(--success);
+    color: white;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.skill-input-confirm:disabled {
+    background: var(--border);
+    color: var(--text-muted);
+    border-color: var(--border);
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+}
+
+.skill-input-cancel {
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.skill-input-cancel:hover {
+    background: var(--error);
+    color: white;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Empty State */
+.skills-empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    width: 100%;
+}
+
+.skills-empty-state .empty-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.skills-empty-state .empty-text {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+}
+
+.skills-empty-state .empty-hint {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Limit Warning States */
+.skills-counter.warning {
+    color: var(--warning);
+}
+
+.skills-counter.error {
+    color: var(--error);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .skill-tag {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .skill-name {
+        max-width: 120px;
+    }
+
+    .skills-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .skills-title {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .skill-input-field {
+        width: 100px;
+    }
+}
+
+@media (max-width: 380px) {
+    .skill-tag {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.5rem;
+    }
+
+    .skill-name {
+        max-width: 100px;
+    }
+
+    .skills-empty-state {
+        padding: 1.5rem;
+    }
+
+    .skills-empty-state .empty-icon {
+        font-size: 1.5rem;
+    }
+
+    .skill-input-field {
+        width: 80px;
+    }
+}

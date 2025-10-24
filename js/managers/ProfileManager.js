@@ -2,7 +2,8 @@ class ProfileManager {
     constructor() {
         this.profileData = null;
         this.managers = {
-            experience: new ExperienceManager()
+            experience: new ExperienceManager(),
+            skills: new SkillsManager()
         };
     }
 
@@ -12,6 +13,8 @@ class ProfileManager {
 
             if (this.profileData) {
                 this.managers.experience.init(this.profileData.workExperiences || []);
+                this.managers.skills.init(this.profileData.skills || []);
+
                 this.updateStaticSections();
                 console.log('ProfileManager initialized successfully');
             }

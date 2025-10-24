@@ -9,6 +9,7 @@
     <!-- Стили -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components/experience.css">
+    <link rel="stylesheet" href="css/components/skills.css">
 </head>
 <body>
 <div class="container">
@@ -158,18 +159,19 @@
             <div class="education-period">2014 — 2018</div>
         </div>
 
-        <!-- Skills -->
-        <div class="section-title">Навыки</div>
-        <div class="skills-grid">
-            <div class="skill-category animate-slide-up">
-                <div class="skill-category-title">User Research & Strategy</div>
-                <div class="skill-tags">
-                    <span class="skill-tag">User Interviews</span>
-                    <span class="skill-tag">Jobs To Be Done</span>
-                    <span class="skill-tag">CJM</span>
-                    <span class="skill-tag">A/B Testing</span>
-                    <span class="skill-tag">Usability Testing</span>
+        <!-- Skills Section -->
+        <div class="skills-section">
+            <div class="section-header">
+                <div class="section-title">
+                    Навыки
+                    <span class="skills-counter" id="skillsCounter">(0/10)</span>
                 </div>
+                <button class="add-button" id="addSkillBtn">+</button>
+            </div>
+
+            <!-- Список навыков -->
+            <div class="skills-list" id="skillsList">
+                <!-- Будет заполняться динамически -->
             </div>
         </div>
 
@@ -218,6 +220,7 @@
 <script src="js/utils/Helpers.js"></script>
 <script src="js/managers/ProfileManager.js"></script>
 <script src="js/managers/ExperienceManager.js"></script>
+<script src="js/managers/SkillsManager.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
