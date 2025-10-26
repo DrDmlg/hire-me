@@ -289,10 +289,6 @@
         card.style.transform = 'translateY(-2px)';
         card.style.background = 'var(--primary-soft)';
 
-        // Сохраняем выбор
-        localStorage.setItem('selectedProfile', profileType);
-        localStorage.setItem('profileSelectionTime', new Date().toISOString());
-
         // Переход с задержкой для анимации
         setTimeout(() => {
             if (profileType === 'candidate') {
@@ -302,25 +298,6 @@
             }
         }, 200);
     }
-
-    // Автопереход если выбор уже сделан
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectedProfile = localStorage.getItem('selectedProfile');
-        const selectionTime = localStorage.getItem('profileSelectionTime');
-
-        if (selectedProfile && selectionTime) {
-            const hoursDiff = (new Date() - new Date(selectionTime)) / (1000 * 60 * 60);
-
-            // Если выбор сделан менее 24 часов назад - переходим автоматически
-            if (hoursDiff < 24) {
-                if (selectedProfile === 'candidate') {
-                    window.location.href = 'my_profile.html';
-                } else {
-                    window.location.href = 'employer_profile.html';
-                }
-            }
-        }
-    });
 
     // Обработка Escape для возврата
     document.addEventListener('keydown', function(e) {
