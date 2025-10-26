@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор профиля - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-light: #3B82F6;
+            --primary-dark: #1D4ED8;
+            --primary-soft: #EFF6FF;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --bg-main: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-hover: #F8FAFC;
+            --bg-soft: #F1F5F9;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --border-light: #F1F5F9;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-soft) 0%, var(--bg-main) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 428px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        /* Header */
+        .app-header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 1.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            max-width: 428px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-soft);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Question Section */
+        .question-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-top: 5rem;
+        }
+
+        .question-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .question-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Action Cards - Центрированные */
+        .content-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 300px;
+        }
+
+        .action-card {
+            background: var(--bg-card);
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .action-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .action-card.candidate:hover::before {
+            background: var(--primary);
+        }
+
+        .action-card.employer:hover::before {
+            background: var(--accent);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            transform: scale(1.1);
+        }
+
+        .action-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+                max-width: 250px;
+            }
+
+            .question-title {
+                font-size: 1.3rem;
+            }
+
+            .question-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h1 class="app-title">Выбор профиля</h1>
+            <div style="width: 40px"></div>
+        </div>
+    </header>
+
+    <!-- Question Section -->
+    <div class="question-section">
+        <h1 class="question-title">Кто вы сегодня?</h1>
+        <p class="question-subtitle">Выберите свою роль в мире карьеры</p>
+    </div>
+
+    <!-- Action Cards - Центрированные -->
+    <div class="content-section">
+        <div class="actions-grid">
+            <!-- Candidate Card -->
+            <div class="action-card candidate" onclick="selectProfile('candidate')">
+                <span class="action-icon">🚀</span>
+                <div class="action-label">Ищу работу</div>
+            </div>
+
+            <!-- Employer Card -->
+            <div class="action-card employer" onclick="selectProfile('employer')">
+                <span class="action-icon">⭐</span>
+                <div class="action-label">Ищу таланты</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+        tg.expand();
+        tg.enableClosingConfirmation();
+    }
+
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+
+    function selectProfile(profileType) {
+        const card = event.currentTarget;
+
+        // Анимация нажатия
+        card.style.transform = 'translateY(-2px)';
+        card.style.background = 'var(--primary-soft)';
+
+        // Сохраняем выбор
+        localStorage.setItem('selectedProfile', profileType);
+        localStorage.setItem('profileSelectionTime', new Date().toISOString());
+
+        // Переход с задержкой для анимации
+        setTimeout(() => {
+            if (profileType === 'candidate') {
+                window.location.href = 'my_profile.html';
+            } else {
+                window.location.href = 'employer_profile.html';
+            }
+        }, 200);
+    }
+
+    // Автопереход если выбор уже сделан
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedProfile = localStorage.getItem('selectedProfile');
+        const selectionTime = localStorage.getItem('profileSelectionTime');
+
+        if (selectedProfile && selectionTime) {
+            const hoursDiff = (new Date() - new Date(selectionTime)) / (1000 * 60 * 60);
+
+            // Если выбор сделан менее 24 часов назад - переходим автоматически
+            if (hoursDiff < 24) {
+                if (selectedProfile === 'candidate') {
+                    window.location.href = 'my_profile.html';
+                } else {
+                    window.location.href = 'employer_profile.html';
+                }
+            }
+        }
+    });
+
+    // Обработка Escape для возврата
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            goBack();
+        }
+    });
+</script>
+</body>
+</html>
