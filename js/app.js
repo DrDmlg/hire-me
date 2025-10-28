@@ -125,7 +125,7 @@ class App {
             if (window.history.length > 1) {
                 window.history.back();
             } else {
-                window.location.href = 'my_profile.html';
+                window.location.href = 'profile.html';
             }
         }, 300);
     }

@@ -268,7 +268,7 @@
             <div class="action-description">Заполните профиль для поиска работы или сотрудника</div>
         </a>
 
-        <a href="my_profile.html" class="action-card">
+        <a href="profile.html" class="action-card">
             <span class="action-icon">👤</span>
             <div class="action-label">Мой профиль</div>
             <div class="action-description">Просмотр и редактирование данных</div>
@@ -338,7 +338,7 @@
         document.querySelectorAll('.action-card').forEach(item => {
             item.addEventListener('click', async function (e) {
                 // ОСОБАЯ ПРОВЕРКА ДЛЯ "МОЙ ПРОФИЛЬ"
-                if (this.href.includes('my_profile.html')) {
+                if (this.href.includes('profile.html')) {
                     e.preventDefault();
 
                     // Проверяем существует ли профиль
@@ -349,7 +349,7 @@
                         const profileExist = await response.json();
 
                         if (profileExist) {
-                            window.location.href = 'my_profile.html';
+                            window.location.href = 'profile.html';
                         } else {
                             tg.showAlert('Для просмотра и редактирования профиля необходимо зарегистрироваться');
                         }
