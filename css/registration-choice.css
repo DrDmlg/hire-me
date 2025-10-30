@@ -1,5 +1,3 @@
-/* Стили для главной страницы (index.html) */
-
 :root {
     --primary: #2563EB;
     --primary-hover: #1D4ED8;
@@ -37,6 +35,28 @@ body {
     padding: 20px;
 }
 
+/* Кнопка назад */
+.back-button {
+    background: var(--white);
+    border: 1px solid var(--border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateX(-2px);
+}
+
 .logo {
     text-align: center;
     margin-bottom: 2rem;
@@ -54,35 +74,23 @@ body {
     font-size: 1.1rem;
 }
 
-.user-info {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
+.page-header {
     text-align: center;
+    margin-bottom: 2rem;
 }
 
-.user-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.user-name {
-    font-weight: 700;
+.page-header h2 {
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
+    color: var(--text-dark);
 }
 
-/* ОБНОВЛЕННЫЕ СТИЛИ МЕНЮ - с описаниями */
+.page-header p {
+    color: var(--text-gray);
+    font-size: 1rem;
+}
+
+/* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -159,44 +167,32 @@ body {
     max-width: 120px;
 }
 
-/* Стили для кнопки "Перейти в бота" */
-.telegram-integration {
-    text-align: center;
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+/* Цвета для разных ролей */
+.job-seeker {
+    --card-color: #3B82F6;
 }
 
-.telegram-integration p {
-    color: var(--text-gray);
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+.employer {
+    --card-color: #8B5CF6;
 }
 
-.btn-telegram {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--primary);
-    color: var(--white);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+.job-seeker::before {
+    background: var(--card-color);
 }
 
-.btn-telegram:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+.employer::before {
+    background: var(--card-color);
 }
 
-/* Адаптивность - улучшенная */
+.job-seeker:hover {
+    border-color: var(--card-color);
+}
+
+.employer:hover {
+    border-color: var(--card-color);
+}
+
+/* Адаптивность */
 @media (max-width: 480px) {
     .container {
         padding: 10px;

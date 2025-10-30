@@ -5,439 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --primary: #2563EB;
-            --primary-hover: #1D4ED8;
-            --accent: #8B5CF6;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --error: #EF4444;
-            --bg-light: #F8FAFC;
-            --text-dark: #1E293B;
-            --text-gray: #64748B;
-            --white: #FFFFFF;
-            --border: #E2E8F0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
-            color: var(--text-dark);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .logo h2 {
-            color: var(--primary);
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .registration-container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .registration-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: var(--white);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--white);
-            z-index: 10;
-            animation: rotateIn 0.8s ease-out;
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-2px);
-            animation: gentlePulse 2s infinite;
-        }
-
-        /* Анимация вращения при заходе на страницу */
-        @keyframes rotateIn {
-            0% {
-                transform: rotate(-180deg) scale(0.5);
-                opacity: 0;
-            }
-            70% {
-                transform: rotate(10deg) scale(1.1);
-            }
-            100% {
-                transform: rotate(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Дополнительная анимация при наведении */
-        @keyframes gentlePulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .registration-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 5;
-        }
-
-        .registration-header p {
-            opacity: 0.9;
-            font-size: 1rem;
-            position: relative;
-            z-index: 5;
-        }
-
-        .registration-body {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--bg-light);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-gray);
-            opacity: 0.7;
-        }
-
-        .autocomplete-container {
-            position: relative;
-        }
-
-        .autocomplete-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 200px;
-            overflow-y: auto;
-            background: var(--white);
-            border: 2px solid var(--primary);
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            display: none;
-        }
-
-        .autocomplete-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .autocomplete-item:hover, .autocomplete-item.selected {
-            background-color: var(--bg-light);
-        }
-
-        .error-message {
-            color: var(--error);
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        /* Стили для переключателя статуса */
-        .status-toggle {
-            display: flex;
-            align-items: center;
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background-color: var(--bg-light);
-            border-radius: var(--radius);
-        }
-
-        .status-label {
-            flex: 1;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border);
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--success);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-
-        .status-description {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-gray);
-        }
-
-        .status-active {
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .status-inactive {
-            color: var(--text-gray);
-        }
-
-        .btn-primary {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для выбора валюты */
-        .salary-container {
-            display: flex;
-            gap: 12px;
-            align-items: stretch;
-        }
-
-        .salary-input {
-            flex: 1;
-        }
-
-        .salary-input .form-input {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            border-right: none;
-        }
-
-        .currency-select-wrapper {
-            position: relative;
-            width: 120px;
-        }
-
-        .currency-select {
-            width: 100%;
-            height: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0 8px 8px 0;
-            font-size: 1rem;
-            background: var(--bg-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-
-        .currency-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .currency-select-wrapper::after {
-            content: "▼";
-            font-size: 0.8rem;
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--text-gray);
-        }
-
-        /* Адаптивность */
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            .registration-container {
-                margin: 0 auto;
-            }
-
-            .registration-header {
-                padding: 1.5rem;
-            }
-
-            .back-button {
-                top: 0.8rem;
-                left: 0.8rem;
-                width: 36px;
-                height: 36px;
-            }
-
-            .registration-header h1 {
-                font-size: 1.5rem;
-                padding: 0 2.5rem;
-            }
-
-            .registration-header p {
-                padding: 0 1rem;
-            }
-
-            .registration-body {
-                padding: 1.5rem;
-            }
-
-            .currency-select-wrapper {
-                width: 100px;
-            }
-
-            .currency-select {
-                padding: 1rem 0.8rem;
-                font-size: 0.9rem;
-            }
-
-            .currency-select-wrapper::after {
-                right: 8px;
-            }
-        }
-
-        /* Состояния загрузки */
-        .loading {
-            position: relative;
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--white);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="css/registration-candidate.css">
 </head>
 <body>
 <div class="logo">
@@ -455,29 +23,34 @@
         <form id="regForm">
             <div class="form-group">
                 <label for="firstName">Имя</label>
-                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя" required>
+                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя"
+                       required>
             </div>
 
             <div class="form-group">
                 <label for="lastName">Фамилия</label>
-                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию" required>
+                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию"
+                       required>
             </div>
 
             <div class="form-group">
                 <label for="lastName">Email</label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес"
+                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
             </div>
 
             <div class="form-group">
                 <label for="phoneNumber">Телефон</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
+                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input"
+                       placeholder="+7 (XXX) XXX-XX-XX" required>
                 <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
             </div>
 
             <div class="form-group">
                 <label for="desiredPosition">Должность</label>
                 <div class="autocomplete-container">
-                    <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Начните вводить название желаемой позиции" autocomplete="off" required>
+                    <input type="text" id="desiredPosition" name="desiredPosition" class="form-input"
+                           placeholder="Начните вводить название желаемой позиции" autocomplete="off" required>
                     <div class="autocomplete-dropdown" id="positionDropdown"></div>
                 </div>
             </div>
@@ -486,7 +59,8 @@
                 <label for="desiredSalary">Ожидаемый доход</label>
                 <div class="salary-container">
                     <div class="salary-input">
-                        <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250 000" inputmode="numeric" required>
+                        <input type="text" id="desiredSalary" name="desiredSalary" class="form-input"
+                               placeholder="250 000" inputmode="numeric" required>
                     </div>
                     <div class="currency-select-wrapper">
                         <select id="currency" name="currency" class="currency-select">
@@ -579,7 +153,7 @@
     }
 
     // Обработчик ввода для поля зарплаты
-    salaryInput.addEventListener('input', function(e) {
+    salaryInput.addEventListener('input', function (e) {
         // Сохраняем позицию курсора
         const cursorPosition = e.target.selectionStart;
 
@@ -601,7 +175,7 @@
     });
 
     // Блокировка нецифровых символов с клавиатуры (кроме Backspace, Delete и т.д.)
-    salaryInput.addEventListener('keydown', function(e) {
+    salaryInput.addEventListener('keydown', function (e) {
         const allowedKeys = [
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft',
@@ -614,7 +188,7 @@
     });
 
     // Обработчик вставки из буфера обмена
-    salaryInput.addEventListener('paste', function(e) {
+    salaryInput.addEventListener('paste', function (e) {
         e.preventDefault();
         const text = (e.clipboardData || window.clipboardData).getData('text');
         const numbers = unformatSalary(text);
@@ -625,7 +199,7 @@
     });
 
     // Обработчик перед отправкой формы - убираем форматирование
-    document.getElementById('regForm').addEventListener('submit', function(e) {
+    document.getElementById('regForm').addEventListener('submit', function (e) {
         const salaryField = document.getElementById('desiredSalary');
         salaryField.value = unformatSalary(salaryField.value);
     });
@@ -641,7 +215,7 @@
     }
 
     // Обработчик изменения статуса
-    statusToggle.addEventListener('change', function() {
+    statusToggle.addEventListener('change', function () {
         if (this.checked) {
             statusText.textContent = '✅ В активном поиске';
             statusText.classList.remove('status-inactive');
@@ -689,28 +263,28 @@
     }
 
     // Обработчик ввода в поле должности
-    positionInput.addEventListener('input', function() {
+    positionInput.addEventListener('input', function () {
         const query = this.value;
         const filtered = filterPositions(query);
         showSuggestions(filtered);
     });
 
     // Обработчик фокуса
-    positionInput.addEventListener('focus', function() {
+    positionInput.addEventListener('focus', function () {
         const query = this.value;
         const filtered = filterPositions(query);
         showSuggestions(filtered);
     });
 
     // Обработчик клика вне поля ввода
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!positionInput.contains(e.target) && !dropdown.contains(e.target)) {
             dropdown.style.display = 'none';
         }
     });
 
     // Обработчик клавиш для навигации по предложениям
-    positionInput.addEventListener('keydown', function(e) {
+    positionInput.addEventListener('keydown', function (e) {
         const items = dropdown.querySelectorAll('.autocomplete-item');
 
         if (items.length === 0) return;
@@ -735,7 +309,7 @@
         items.forEach((item, index) => {
             if (index === selectedIndex) {
                 item.classList.add('selected');
-                item.scrollIntoView({ block: 'nearest' });
+                item.scrollIntoView({block: 'nearest'});
             } else {
                 item.classList.remove('selected');
             }
@@ -743,7 +317,7 @@
     }
 
     // Обработка отправки формы
-    document.getElementById('regForm').addEventListener('submit', async function(e) {
+    document.getElementById('regForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         // Показываем состояние загрузки
@@ -852,7 +426,7 @@
             tg.showPopup({
                 // title: '✅ ',
                 message: message,
-                buttons: [{ type: 'default', text: 'Отлично', id: 'ok' }]
+                buttons: [{type: 'default', text: 'Отлично', id: 'ok'}]
             });
         } else {
             alert(message);
@@ -860,7 +434,7 @@
     }
 
     // Автозаполнение из данных Telegram, если есть
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
 
@@ -875,14 +449,14 @@
     });
 
     // Обработка кнопки "Назад" через Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             goBack();
         }
     });
 
     // Дополнительная анимация для кнопки "назад" при клике
-    document.querySelector('.back-button').addEventListener('click', function(e) {
+    document.querySelector('.back-button').addEventListener('click', function (e) {
         e.preventDefault();
         this.style.animation = 'rotateIn 0.6s ease-out';
         setTimeout(() => {

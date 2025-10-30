@@ -1,0 +1,267 @@
+:root {
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --accent: #8B5CF6;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --bg-light: #F8FAFC;
+    --text-dark: #1E293B;
+    --text-gray: #64748B;
+    --white: #FFFFFF;
+    --border: #E2E8F0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+
+    /* Цвета для работодателя */
+    --employer-color: #8B5CF6;
+    --employer-gradient: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    --employer-light: #EDE9FE;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.logo h2 {
+    color: var(--employer-color); /* Изменено на фиолетовый */
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.registration-container {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+}
+
+.registration-header {
+    background: var(--employer-gradient);
+    color: var(--white);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--white);
+    z-index: 10;
+    animation: rotateIn 0.8s ease-out;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-2px);
+    animation: gentlePulse 2s infinite;
+}
+
+/* Анимация вращения при заходе на страницу */
+@keyframes rotateIn {
+    0% {
+        transform: rotate(-180deg) scale(0.5);
+        opacity: 0;
+    }
+    70% {
+        transform: rotate(10deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Дополнительная анимация при наведении */
+@keyframes gentlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.registration-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 5;
+}
+
+.registration-header p {
+    opacity: 0.9;
+    font-size: 1rem;
+    position: relative;
+    z-index: 5;
+}
+
+.registration-body {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--bg-light);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--employer-color);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+    color: var(--text-gray);
+    opacity: 0.7;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--employer-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background: #7C3AED;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .registration-container {
+        margin: 0 auto;
+    }
+
+    .registration-header {
+        padding: 1.5rem;
+    }
+
+    .back-button {
+        top: 0.8rem;
+        left: 0.8rem;
+        width: 36px;
+        height: 36px;
+    }
+
+    .registration-header h1 {
+        font-size: 1.5rem;
+        padding: 0 2.5rem;
+    }
+
+    .registration-header p {
+        padding: 0 1rem;
+    }
+
+    .registration-body {
+        padding: 1.5rem;
+    }
+}
+
+/* Состояния загрузки */
+.loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Стили для валидации */
+.form-input.error {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-message {
+    color: var(--error);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none;
+}
