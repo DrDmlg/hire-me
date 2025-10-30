@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор профиля - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="js/ProfileChoice.js"></script>
     <link rel="stylesheet" href="css/profile-choice.css">
 </head>
 <body>
@@ -12,7 +13,7 @@
     <!-- Header -->
     <header class="app-header">
         <div class="header-content">
-            <button class="back-button" onclick="goBack()">←</button>
+            <button class="back-button">←</button>
             <h1 class="app-title">Выбор профиля</h1>
             <div style="width: 40px"></div>
         </div>
@@ -28,59 +29,18 @@
     <div class="content-section">
         <div class="actions-grid">
             <!-- Candidate Card -->
-            <div class="action-card candidate" onclick="selectProfile('candidate')">
+            <div class="action-card candidate">
                 <span class="action-icon">🚀</span>
                 <div class="action-label">Ищу работу</div>
             </div>
 
             <!-- Employer Card -->
-            <div class="action-card employer" onclick="selectProfile('employer')">
+            <div class="action-card employer">
                 <span class="action-icon">⭐</span>
                 <div class="action-label">Ищу таланты</div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    const tg = window.Telegram?.WebApp;
-
-    if (tg) {
-        tg.expand();
-        tg.enableClosingConfirmation();
-    }
-
-    function goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    function selectProfile(profileType) {
-        const card = event.currentTarget;
-
-        // Анимация нажатия
-        card.style.transform = 'translateY(-2px)';
-        card.style.background = 'var(--primary-soft)';
-
-        // Переход с задержкой для анимации
-        setTimeout(() => {
-            if (profileType === 'candidate') {
-                window.location.href = 'profile.html';
-            } else {
-                window.location.href = 'employer_profile.html';
-            }
-        }, 200);
-    }
-
-    // Обработка Escape для возврата
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            goBack();
-        }
-    });
-</script>
 </body>
 </html>

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор роли - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="js/RegistrationChoice.js"></script>
     <link rel="stylesheet" href="css/registration-choice.css">
 </head>
 <body>
 <div class="container">
     <!-- Кнопка назад -->
-    <button class="back-button" onclick="goBack()">←</button>
+    <button class="back-button">←</button>
 
     <div class="logo">
         <h1>HireMe</h1>
@@ -37,77 +38,5 @@
         </a>
     </div>
 </div>
-
-<script>
-    // Инициализация Telegram WebApp
-    let tg = window.Telegram.WebApp;
-
-    // Раскрываем на весь экран и меняем цвет тему
-    tg.expand();
-    tg.setHeaderColor('#2563EB');
-    tg.setBackgroundColor('#F8FAFC');
-    tg.enableClosingConfirmation();
-
-    // Функция для возврата назад
-    function goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    // Упрощенная навигация для карточек
-    document.querySelectorAll('.action-card').forEach(item => {
-        item.addEventListener('click', function (e) {
-            // Для локальных HTML-страниц разрешаем стандартный переход
-            if (this.href.includes('.html')) {
-                // Минимальная задержка для feedback
-                e.preventDefault();
-                this.style.transform = 'translateY(-2px)';
-                this.style.background = '#EFF6FF';
-
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 200);
-                return;
-            }
-
-            e.preventDefault();
-            this.style.transform = 'translateY(-2px)';
-            this.style.background = '#EFF6FF';
-
-            setTimeout(() => {
-                if (tg.showPopup) {
-                    window.open(this.href, '_blank');
-                } else {
-                    window.location.href = this.href;
-                }
-            }, 200);
-        });
-    });
-
-    document.querySelectorAll('.action-card').forEach(item => {
-        item.addEventListener('transitionend', function () {
-            this.style.transform = '';
-            this.style.background = '';
-        });
-    });
-
-    // Обработка кнопки "Назад" через Escape
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            goBack();
-        }
-    });
-
-    // Анимация для кнопки "назад" при клике
-    document.querySelector('.back-button').addEventListener('click', function () {
-        this.style.transform = 'translateX(-4px)';
-        setTimeout(() => {
-            goBack();
-        }, 150);
-    });
-</script>
 </body>
 </html>
