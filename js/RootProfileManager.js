@@ -1,6 +1,6 @@
-/** Главный файл приложения*/
+/** Корневой файл работы с профайлами*/
 
-class App {
+class RootProfileManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
         this.profileManager = new ProfileManager();
@@ -19,9 +19,9 @@ class App {
             this.initUserData();
 
             window.app = this;
-            console.log('App initialized successfully');
+            console.log('RootProfileManager initialized successfully');
         } catch (error) {
-            console.error('App initialization error:', error);
+            console.error('RootProfileManager initialization error:', error);
         }
     }
 
@@ -141,6 +141,6 @@ class App {
 
 // Запуск приложения при загрузке страницы
 document.addEventListener('DOMContentLoaded', async () => {
-    const app = new App();
+    const app = new RootProfileManager();
     await app.init();
 });
