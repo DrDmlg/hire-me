@@ -1,4 +1,4 @@
-class ProfileManager {
+class AboutMeManager {
     constructor() {
         this.profileData = null;
         this.managers = {
@@ -16,10 +16,10 @@ class ProfileManager {
                 this.managers.skills.init(this.profileData.skills || []);
 
                 this.updateStaticSections();
-                console.log('ProfileManager initialized successfully');
+                console.log('AboutMeManager initialized successfully');
             }
         } catch (error) {
-            console.error('ProfileManager init error:', error);
+            console.error('AboutMeManager init error:', error);
             this.showError('Не удалось загрузить профиль');
         }
     }

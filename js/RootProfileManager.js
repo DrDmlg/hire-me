@@ -3,7 +3,7 @@
 class RootProfileManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
-        this.profileManager = new ProfileManager();
+        this.profileManager = new AboutMeManager();
     }
 
     async init() {
