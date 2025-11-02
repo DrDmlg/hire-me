@@ -1,22 +1,31 @@
 class RegistrationChoice {
     constructor() {
         this.tg = window.Telegram.WebApp;
+        this.navigation = new NavigationService(); // ← Добавляем сервис
         this.init();
     }
 
     init() {
-        // Настройка Telegram
-        this.tg.expand();
-        this.tg.setHeaderColor('#2563EB');
-        this.tg.setBackgroundColor('#F8FAFC');
-        this.tg.enableClosingConfirmation();
-
+        if (this.tg) {
+            this.initTelegram();
+        }
         this.setupEventListeners();
+        this.navigation.init(); // ← Инициализируем навигацию
+    }
+
+    initTelegram() {
+        if (this.tg) {
+            this.tg.expand();
+            this.tg.setHeaderColor('#2563EB');
+            this.tg.setBackgroundColor('#F8FAFC');
+            this.tg.enableClosingConfirmation();
+        }
     }
 
     setupEventListeners() {
         // Обработчики для карточек
         document.querySelectorAll('.action-card').forEach(item => {
+            // Специальная логика для анимации карточек
             item.addEventListener('click', (e) => this.handleCardClick(e, item));
 
             // Сброс анимации
@@ -25,15 +34,6 @@ class RegistrationChoice {
                 item.style.background = '';
             });
         });
-
-        // Кнопка назад
-        const backButton = document.querySelector('.back-button');
-        if (backButton) {
-            backButton.addEventListener('click', (e) => this.handleBackClick(e));
-        }
-
-        // Клавиатура
-        document.addEventListener('keydown', (e) => this.handleKeydown(e));
     }
 
     handleCardClick(e, card) {
@@ -64,29 +64,6 @@ class RegistrationChoice {
     animateCardPress(card) {
         card.style.transform = 'translateY(-2px)';
         card.style.background = '#EFF6FF';
-    }
-
-    goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    handleBackClick(e) {
-        e.preventDefault();
-        const button = e.target;
-        button.style.transform = 'translateX(-4px)';
-        setTimeout(() => {
-            this.goBack();
-        }, 150);
-    }
-
-    handleKeydown(e) {
-        if (e.key === 'Escape') {
-            this.goBack();
-        }
     }
 }
 

@@ -1,6 +1,7 @@
 class CandidateRegistration {
     constructor() {
         this.tg = window.Telegram.WebApp;
+        this.navigation = new NavigationService();
         this.positions = [
             "Frontend Developer",
             "Backend Developer",
@@ -13,16 +14,23 @@ class CandidateRegistration {
     }
 
     init() {
-        // Настройка Telegram
-        this.tg.expand();
-        this.tg.setHeaderColor('#2563EB');
-        this.tg.setBackgroundColor('#F8FAFC');
-
+        if (this.tg) {
+            this.initTelegram();
+        }
         // Инициализация после загрузки DOM
         document.addEventListener('DOMContentLoaded', () => {
             this.setupEventListeners();
             this.autoFillFromTelegram();
+            this.navigation.init();
         });
+    }
+
+    initTelegram() {
+        if (this.tg) {
+            this.tg.expand();
+            this.tg.setHeaderColor('#2563EB');
+            this.tg.setBackgroundColor('#F8FAFC');
+        }
     }
 
     setupEventListeners() {
@@ -53,15 +61,6 @@ class CandidateRegistration {
         if (form) {
             form.addEventListener('submit', (e) => this.handleFormSubmit(e));
         }
-
-        // Кнопка назад
-        const backButton = document.querySelector('.back-button');
-        if (backButton) {
-            backButton.addEventListener('click', (e) => this.handleBackClick(e));
-        }
-
-        // Клавиатура
-        document.addEventListener('keydown', (e) => this.handleKeydown(e));
     }
 
     // ===== МЕТОДЫ ДЛЯ ФОРМАТИРОВАНИЯ ЗАРПЛАТЫ =====
@@ -267,7 +266,7 @@ class CandidateRegistration {
                     if (this.tg.close) {
                         this.tg.close();
                     } else {
-                        this.goBack();
+                        this.navigation.goBack();
                     }
                 }, 2000);
             } else {
@@ -335,14 +334,6 @@ class CandidateRegistration {
     // ===== КОНЕЦ ОБРАБОТКИ ФОРМЫ =====
 
     // ===== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =====
-    goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
     showError(message) {
         if (this.tg.showAlert) {
             this.tg.showAlert(message);
@@ -375,21 +366,6 @@ class CandidateRegistration {
             }
         }
     }
-
-    handleBackClick(e) {
-        e.preventDefault();
-        e.target.style.animation = 'rotateIn 0.6s ease-out';
-        setTimeout(() => {
-            this.goBack();
-        }, 300);
-    }
-
-    handleKeydown(e) {
-        if (e.key === 'Escape') {
-            this.goBack();
-        }
-    }
-    // ===== КОНЕЦ ВСПОМОГАТЕЛЬНЫХ МЕТОДОВ =====
 }
 
 // Запуск приложения

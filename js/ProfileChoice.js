@@ -1,17 +1,24 @@
 class ProfileChoice {
     constructor() {
         this.tg = window.Telegram?.WebApp;
+        this.navigation = new NavigationService(); // ← Добавляем сервис
         this.init();
     }
 
     init() {
-        // Настройка Telegram
+        if (this.tg) {
+            this.initTelegram();
+        }
+
+        this.setupEventListeners();
+        this.navigation.init(); // ← Инициализируем навигацию
+    }
+
+    initTelegram() {
         if (this.tg) {
             this.tg.expand();
             this.tg.enableClosingConfirmation();
         }
-
-        this.setupEventListeners();
     }
 
     setupEventListeners() {
@@ -26,15 +33,6 @@ class ProfileChoice {
         if (employerCard) {
             employerCard.addEventListener('click', () => this.selectProfile('employer'));
         }
-
-        // Кнопка назад
-        const backButton = document.querySelector('.back-button');
-        if (backButton) {
-            backButton.addEventListener('click', (e) => this.handleBackClick(e));
-        }
-
-        // Клавиатура
-        document.addEventListener('keydown', (e) => this.handleKeydown(e));
     }
 
     selectProfile(profileType) {
@@ -42,17 +40,15 @@ class ProfileChoice {
 
         if (!card) return;
 
+        localStorage.setItem('userProfileType', profileType);
+
         // Анимация нажатия
         card.style.transform = 'translateY(-2px)';
         card.style.background = 'var(--primary-soft)';
 
         // Переход с задержкой для анимации
         setTimeout(() => {
-            if (profileType === 'candidate') {
-                window.location.href = 'profile.html';
-            } else {
-                window.location.href = 'employer_profile.html';
-            }
+            window.location.href = 'profile.html';
         }, 200);
 
         // Сброс анимации после перехода
@@ -60,29 +56,6 @@ class ProfileChoice {
             card.style.transform = '';
             card.style.background = '';
         }, 400);
-    }
-
-    goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-
-    handleBackClick(e) {
-        e.preventDefault();
-        const button = e.target;
-        button.style.animation = 'rotateIn 0.6s ease-out';
-        setTimeout(() => {
-            this.goBack();
-        }, 300);
-    }
-
-    handleKeydown(e) {
-        if (e.key === 'Escape') {
-            this.goBack();
-        }
     }
 }
 
