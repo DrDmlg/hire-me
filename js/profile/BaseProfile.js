@@ -31,7 +31,8 @@ class BaseProfile {
     }
 
     async determineProfileType() {
-        this.userType = localStorage.getItem('userProfileType');
+        // this.userType = localStorage.getItem('userProfileType');
+        this.userType = 'candidate';
         console.log('Пользователь захотел зайти в профайл: ' + this.userType);
     }
 
@@ -48,6 +49,36 @@ class BaseProfile {
         // Инициализируем их
         await this.managers.profile.init();
     }
+
+
+    // // Action methods
+    // openAboutMe() {
+    //     const telegramUserId = Helpers.getTelegramUserId();
+    //
+    //     this.checkProfileAccess(telegramUserId)
+    //         .then(hasAccess => {
+    //             if (hasAccess) {
+    //                 window.location.href = 'about-me.html';
+    //             } else {
+    //                 this.showAlert('Для просмотра профиля необходимо зарегистрироваться');
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error checking profile access:', error);
+    //             this.showAlert('Произошла ошибка при проверке профиля');
+    //         });
+    // }
+    //
+    // // Utility methods
+    // async checkProfileAccess(telegramUserId) {
+    //     try {
+    //         const response = await fetch(`https://hireme.serveo.net/profile/check-access/${telegramUserId}`);
+    //         return await response.json();
+    //     } catch (error) {
+    //         console.error('Profile access check failed:', error);
+    //         return false;
+    //     }
+    // }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
