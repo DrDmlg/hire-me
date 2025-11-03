@@ -47,7 +47,7 @@ body {
 }
 
 /* Кнопка назад */
-.back-button-header {
+.back-button {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -67,7 +67,7 @@ body {
     color: var(--text-primary);
 }
 
-.back-button-header:hover {
+.back-button:hover {
     background: var(--primary);
     color: white;
     transform: translateX(-2px);
@@ -544,7 +544,7 @@ body {
         padding: 0.4rem 0.6rem;
     }
 
-    .back-button-header {
+    .back-button {
         top: 5px;
         left: 5px;
         width: 36px;

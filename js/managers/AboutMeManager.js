@@ -1,6 +1,8 @@
 class AboutMeManager {
     constructor() {
         this.profileData = null;
+        this.navigation = new NavigationService();
+
         this.managers = {
             experience: new ExperienceManager(),
             skills: new SkillsManager()
@@ -9,6 +11,7 @@ class AboutMeManager {
 
     async init() {
         try {
+            this.navigation.init();
             await this.loadProfile();
 
             if (this.profileData) {

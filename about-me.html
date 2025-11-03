@@ -14,13 +14,14 @@
 <body>
 <div class="container">
     <!-- Кнопка назад -->
-    <button class="back-button-header">←</button>
+    <button class="back-button">←</button>
 
     <!-- Header -->
     <header class="app-header">
         <div class="header-content">
             <div style="width: 40px"></div>
             <h1 class="app-title">Обо мне</h1>
+<!--            РЕШИТЬ, ЧТО ДЕЛАТЬ С editProfile()-->
             <button class="icon-button" onclick="app.editProfile()">✏️</button>
         </div>
     </header>
@@ -216,11 +217,10 @@
     </nav>
 </div>
 
-<!-- Скрипты -->
-<script src="js/service/NavigationService.js"></script>
-<script src="js/managers/AboutMeManager.js"></script>
 <script src="js/utils/Helpers.js"></script>
+<script src="js/service/NavigationService.js"></script>
 <script src="js/managers/ExperienceManager.js"></script>
 <script src="js/managers/SkillsManager.js"></script>
+<script src="js/managers/AboutMeManager.js"></script>
 </body>
 </html>

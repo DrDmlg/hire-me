@@ -3,20 +3,46 @@ class CandidateProfileManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
         this.navigation = new NavigationService();
+        this.candidateProfile = this.getDefaultCandidateProfile(); // временные тестовые данные
+
+        this.managers = {
+            aboutMe: new AboutMeManager()
+        };
     }
 
     async init() {
         try {
+            await this.managers.aboutMe.init();
+
+            // Инициализация своей логики
             this.initEventListeners();
             this.updateProfileData();
             this.updateStats();
             this.updateStatus();
 
-            window.app = this;
             console.log('CandidateProfileManager initialized successfully');
         } catch (error) {
             console.error('CandidateProfileManager initialization error:', error);
         }
+    }
+
+    openAboutMe() {
+        window.location.href = 'about-me.html';
+    }
+
+    // Временные тестовые данные
+    getDefaultCandidateProfile() {
+        return {
+            headline: "Senior Product Designer · FinTech Expert · UX Strategy",
+            experience: "5+ лет опыта",
+            education: "Высшее образование",
+            isActive: true,
+            stats: {
+                profileViews: 24,
+                responses: 8,
+                matches: 12
+            }
+        };
     }
 
 
@@ -51,11 +77,19 @@ class CandidateProfileManager {
 
     // Status methods
     toggleStatus() {
-        this.userProfile.isActive = !this.userProfile.isActive;
+        this.candidateProfile.isActive = !this.candidateProfile.isActive;
         this.updateStatus();
 
-        const statusText = this.userProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
+        const statusText = this.candidateProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
         this.showAlert(`Статус изменен на: ${statusText}`);
+    }
+
+    showAlert(message) {
+        if (this.tg?.showAlert) {
+            this.tg.showAlert(message);
+        } else {
+            alert(message);
+        }
     }
 
     updateProfileData() {
@@ -69,9 +103,9 @@ class CandidateProfileManager {
         const experienceElement = document.getElementById('userExperience');
         const educationElement = document.getElementById('userEducation');
 
-        if (headlineElement) headlineElement.textContent = this.userProfile.headline;
-        if (experienceElement) experienceElement.textContent = this.userProfile.experience;
-        if (educationElement) educationElement.textContent = this.userProfile.education;
+        if (headlineElement) headlineElement.textContent = this.candidateProfile.headline;
+        if (experienceElement) experienceElement.textContent = this.candidateProfile.experience;
+        if (educationElement) educationElement.textContent = this.candidateProfile.education;
     }
 
     updateTelegramUserData() {
@@ -106,9 +140,9 @@ class CandidateProfileManager {
         const responsesElement = document.getElementById('statResponses');
         const matchesElement = document.getElementById('statMatches');
 
-        if (viewsElement) viewsElement.textContent = this.userProfile.stats.profileViews;
-        if (responsesElement) responsesElement.textContent = this.userProfile.stats.responses;
-        if (matchesElement) matchesElement.textContent = this.userProfile.stats.matches;
+        if (viewsElement) viewsElement.textContent = this.candidateProfile.stats.profileViews;
+        if (responsesElement) responsesElement.textContent = this.candidateProfile.stats.responses;
+        if (matchesElement) matchesElement.textContent = this.candidateProfile.stats.matches;
     }
 
     updateStatus() {
@@ -117,7 +151,7 @@ class CandidateProfileManager {
 
         if (!statusElement || !statusDot) return;
 
-        if (this.userProfile.isActive) {
+        if (this.candidateProfile.isActive) {
             statusElement.textContent = 'Активный поиск';
             statusDot.className = 'status-dot';
             statusDot.style.background = '#10E6A0';
@@ -128,7 +162,3 @@ class CandidateProfileManager {
         }
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    new CandidateProfileManager.init();
-});
