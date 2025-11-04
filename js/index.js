@@ -58,25 +58,28 @@ class HireMeApp {
         document.querySelectorAll('[href="profile.html"]').forEach(link => {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
+                e.stopImmediatePropagation();
 
                 const telegramUserId = Helpers.getTelegramUserId();
                 const profileExists = await this.checkProfileExists(telegramUserId);
 
                 if (profileExists) {
+                    console.log('Redirecting to profile.html');
                     window.location.href = 'profile.html';
                 } else {
-                    this.tg.showAlert('Для просмотра и редактирования профиля необходимо зарегистрироваться');
+                    //tg.showAlert('Для просмотра и редактирования профиля необходимо зарегистрироваться');
+                    alert('Для просмотра и редактирования профиля необходимо зарегистрироваться')
                 }
-            });
+            }, true);
         });
     }
 
     async checkProfileExists(telegramUserId) {
         try {
-            const response = await this.api.get(`/profile/check-access/${telegramUserId}`);
-            return await response.json();
+            return await this.api.get(`/profile/check-access/${telegramUserId}`);
         } catch (error) {
-            this.tg.showAlert('Произошла неизвестная ошибка');
+            // tg.showAlert('Произошла неизвестная ошибка');
+            alert('Произошла неизвестная ошибка')
             return false;
         }
     }

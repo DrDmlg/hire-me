@@ -12,7 +12,17 @@ class NavigationService {
     setupGlobalNavigation() {
         document.querySelectorAll('.nav-item, .action-card').forEach(item => {
             item.addEventListener('click', function (e) {
-                if (this.getAttribute('href') && !this.getAttribute('href').includes('t.me')) {
+
+                const href = this.getAttribute('href');
+
+                // При переходе на станицу profile.html свою проверка
+                const CUSTOM_HANDLED_PAGES = ['profile.html'];
+
+                if (CUSTOM_HANDLED_PAGES.includes(href)) {
+                    return;
+                }
+
+                if (href && !href.includes('t.me')) {
                     e.preventDefault();
 
                     if (this.classList.contains('action-card')) {

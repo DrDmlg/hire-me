@@ -41,6 +41,7 @@ class ProfileChoice {
         if (!card) return;
 
         localStorage.setItem('userProfileType', profileType);
+        console.log('Пользователь захотел зайти в профайл: ' + profileType);
 
         // Анимация нажатия
         card.style.transform = 'translateY(-2px)';

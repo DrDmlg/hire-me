@@ -33,7 +33,7 @@ class BaseProfile {
     async determineProfileType() {
         // this.userType = localStorage.getItem('userProfileType');
         this.userType = 'candidate';
-        console.log('Пользователь захотел зайти в профайл: ' + this.userType);
+        console.log('Пользователь заходит под : ' + this.userType);
     }
 
     async initManagers() {
