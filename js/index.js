@@ -4,6 +4,7 @@ class HireMeApp {
     constructor() {
         this.tg = window.Telegram.WebApp;
         this.navigation = new NavigationService();
+        this.api = apiService;
     }
 
     init() {
@@ -11,20 +12,17 @@ class HireMeApp {
             this.initTelegram();
         }
 
-        // Инициализация после загрузки DOM
-        document.addEventListener('DOMContentLoaded', () => {
             this.initUserProfile();
             this.navigation.init();
             this.setupTelegramButton();
             this.setupProfileNavigation();
-        });
     }
 
     initTelegram() {
         if (this.tg) {
             this.tg.expand();
             this.tg.setHeaderColor('#2563EB');
-            this.tg.setBackgroundColor('#F8FAFC');
+            this.tg.setBackgroundColor('#F8FAFC')
             this.tg.enableClosingConfirmation();
         }
     }
@@ -61,9 +59,8 @@ class HireMeApp {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
 
-                const telegramUserId = this.tg.initDataUnsafe?.user?.id;
-                // const profileExists = await this.checkProfileExists(telegramUserId);
-                const profileExists = true; // TODO: заменить на реальную проверку
+                const telegramUserId = Helpers.getTelegramUserId();
+                const profileExists = await this.checkProfileExists(telegramUserId);
 
                 if (profileExists) {
                     window.location.href = 'profile.html';
@@ -76,7 +73,7 @@ class HireMeApp {
 
     async checkProfileExists(telegramUserId) {
         try {
-            const response = await fetch(`https://hireme.serveo.net/profile/check-access/${telegramUserId}`);
+            const response = await this.api.get(`/profile/check-access/${telegramUserId}`);
             return await response.json();
         } catch (error) {
             this.tg.showAlert('Произошла неизвестная ошибка');
@@ -94,6 +91,7 @@ class HireMeApp {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('Запуск приложения');
     new HireMeApp().init();
 });
 

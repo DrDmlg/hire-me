@@ -56,7 +56,7 @@ class CandidateProfileManager {
         });
 
         // Обработчик для статуса
-        const statusTag = document.querySelector('.status-tag');
+        const statusTag = document.getElementById('statusTag');
         if (statusTag) {
             statusTag.addEventListener('click', () => this.toggleStatus());
         }
@@ -75,20 +75,30 @@ class CandidateProfileManager {
         }
     }
 
-    // Status methods
+    // Смена статуса
     toggleStatus() {
         this.candidateProfile.isActive = !this.candidateProfile.isActive;
         this.updateStatus();
 
         const statusText = this.candidateProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
-        this.showAlert(`Статус изменен на: ${statusText}`);
+        // Helpers.showMessage(`Статус изменен на: ${statusText}`); // Сейчас некорректно отображаются алерты и сообщение
     }
 
-    showAlert(message) {
-        if (this.tg?.showAlert) {
-            this.tg.showAlert(message);
+    // Смена статуса и стиля точки (зеленый/красный)
+    updateStatus() {
+        const statusElement = document.getElementById('userStatus');
+        const statusDot = document.getElementById('statusDot');
+
+        if (!statusElement || !statusDot) return;
+
+        if (this.candidateProfile.isActive) {
+            statusElement.textContent = 'Активный поиск';
+            statusDot.className = 'status-dot';
+            statusDot.style.background = '#10E6A0';
         } else {
-            alert(message);
+            statusElement.textContent = 'Не ищу работу';
+            statusDot.className = 'status-dot inactive';
+            statusDot.style.background = '#e21212';
         }
     }
 
@@ -143,22 +153,5 @@ class CandidateProfileManager {
         if (viewsElement) viewsElement.textContent = this.candidateProfile.stats.profileViews;
         if (responsesElement) responsesElement.textContent = this.candidateProfile.stats.responses;
         if (matchesElement) matchesElement.textContent = this.candidateProfile.stats.matches;
-    }
-
-    updateStatus() {
-        const statusElement = document.getElementById('userStatus');
-        const statusDot = document.getElementById('statusDot');
-
-        if (!statusElement || !statusDot) return;
-
-        if (this.candidateProfile.isActive) {
-            statusElement.textContent = 'Активный поиск';
-            statusDot.className = 'status-dot';
-            statusDot.style.background = '#10E6A0';
-        } else {
-            statusElement.textContent = 'Не ищу работу';
-            statusDot.className = 'status-dot inactive';
-            statusDot.style.background = '#e21212';
-        }
     }
 }
