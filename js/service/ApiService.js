@@ -1,8 +1,8 @@
 class ApiService {
 
     constructor() {
-        // this.BASE_URL = 'https://hireme.serveo.net'; // Serveo
-        this.BASE_URL = 'https://hireme.loca.lt'; // Localtunnel
+        this.BASE_URL = 'https://hireme.serveo.net'; // Serveo
+        // this.BASE_URL = 'https://hireme.loca.lt'; // Localtunnel
     }
 
     // Основной метод - для кастомных запросов

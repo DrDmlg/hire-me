@@ -18,7 +18,6 @@ class AboutMeManager {
             if (this.profileData) {
                 this.managers.experience.init(this.profileData.workExperiences || []);
                 this.managers.skills.init(this.profileData.skills || []);
-
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
             }
@@ -68,3 +67,9 @@ class AboutMeManager {
         Helpers.showMessage(text, 'error');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('AboutMeManager успешно инициализирован');
+    const aboutMeManager = new AboutMeManager();
+    aboutMeManager.init();
+});

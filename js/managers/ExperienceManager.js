@@ -2,18 +2,14 @@ class ExperienceManager {
     constructor() {
         this.experiences = [];
         this.currentEditId = null;
-        this.isInitialized = false;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
     init(experiences = []) {
-        if (this.isInitialized) return;
-
         try {
             this.experiences = experiences;
             this.render();      // ← СНАЧАЛА создаем кнопку
             this.bindEvents();  // ← ПОТОМ навешиваем обработчики
-            this.isInitialized = true;
             console.log('ExperienceManager initialized with data');
         } catch (error) {
             console.error('ExperienceManager init error:', error);

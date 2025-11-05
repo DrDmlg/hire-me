@@ -82,5 +82,7 @@ class BaseProfile {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    new BaseProfile().init();
+    console.log('BaseProfile успешно инициализирован');
+    const baseProfile = new BaseProfile();
+    baseProfile.init();
 });
