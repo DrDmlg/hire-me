@@ -5,7 +5,7 @@ class AboutMeManager {
         this.api = apiService;
 
         this.managers = {
-            experience: null,
+            experience: new ExperienceComponent(),
             skills: new SkillsComponent()
         };
     }
@@ -16,7 +16,7 @@ class AboutMeManager {
             await this.loadProfile();
 
             if (this.profileData) {
-                this.initVueExperience();
+                this.managers.experience.init(this.profileData.workExperiences || []);
                 this.managers.skills.init(this.profileData.skills || []);
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
@@ -24,21 +24,6 @@ class AboutMeManager {
         } catch (error) {
             console.error('AboutMeManager init error:', error);
             this.showError('Не удалось загрузить профиль');
-        }
-    }
-
-    initVueExperience() {
-        // Создаем и монтируем Vue компонент
-        const { createApp } = Vue;
-        const vueApp = createApp(VueExperienceComponent);
-
-        // Монтируем в существующий контейнер
-        const experienceContainer = document.getElementById('experienceList');
-        if (experienceContainer) {
-            // Сохраняем ссылку на Vue инстанс
-            this.managers.experience = vueApp.mount(experienceContainer);
-            // Инициализируем данными
-            this.managers.experience.init(this.profileData.workExperiences || []);
         }
     }
 

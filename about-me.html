@@ -22,7 +22,7 @@
             <div style="width: 40px"></div>
             <h1 class="app-title">Обо мне</h1>
 <!--            РЕШИТЬ, ЧТО ДЕЛАТЬ С editProfile()-->
-            <button class="icon-button">✏️</button>
+            <button class="icon-button" onclick="app.editProfile()">✏️</button>
         </div>
     </header>
 
@@ -102,8 +102,55 @@
         </div>
 
         <!-- Experience Section -->
-        <!-- Под управлением Vue  -->
-        <div id="experienceList"></div>
+        <div class="experience-section">
+            <div class="section-header">
+                <div class="section-title">Опыт работы</div>
+                <button class="add-button" id="addExperienceBtn">+</button>
+            </div>
+
+            <!-- Форма добавления/редактирования -->
+            <div class="experience-form" id="experienceForm" style="display: none;">
+                <div class="form-title" id="formTitle">Добавить опыт работы</div>
+                <form id="experienceFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Компания *</label>
+                        <input type="text" class="form-input" id="companyName" required
+                               placeholder="Например: Яндекс, Google, Сбер">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Должность *</label>
+                        <input type="text" class="form-input" id="position" required
+                               placeholder="Например: Frontend Developer, Product Manager">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Период работы *</label>
+                        <input type="text" class="form-input" id="workPeriod" required
+                               placeholder="Например: 2020 — 2023 или 2022 — настоящее время">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Описание обязанностей и достижений</label>
+                        <textarea class="form-input form-textarea" id="workDescription"
+                                  placeholder="Опишите ваши основные обязанности, проекты и достижения..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="currentJob">
+                            <label class="form-label" for="currentJob">Это моё текущее место работы</label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" id="updateButton" style="display: none;">Обновить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Список опыта работы -->
+            <div class="experience-list" id="experienceList">
+                <!-- Будет заполняться динамически через JavaScript -->
+            </div>
+        </div>
 
         <!-- Education -->
         <div class="section-title">Образование</div>
@@ -173,9 +220,8 @@
 <script src="js/service/ApiService.js"></script>
 <script src="js/service/NavigationService.js"></script>
 <script src="js/util/Helpers.js"></script>
+<script src="js/component/ExperienceComponent.js"></script>
 <script src="js/component/SkillsComponent.js"></script>
 <script src="js/manager/AboutMeManager.js"></script>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="js/component/VueExperienceComponent.js"></script>
 </body>
 </html>
