@@ -1,4 +1,4 @@
-class ExperienceManager {
+class ExperienceComponent {
     constructor() {
         this.experiences = [];
         this.currentEditId = null;
@@ -10,9 +10,9 @@ class ExperienceManager {
             this.experiences = experiences;
             this.render();      // ← СНАЧАЛА создаем кнопку
             this.bindEvents();  // ← ПОТОМ навешиваем обработчики
-            console.log('ExperienceManager initialized with data');
+            console.log('ExperienceComponent initialized with data');
         } catch (error) {
-            console.error('ExperienceManager init error:', error);
+            console.error('ExperienceComponent init error:', error);
             this.showError('Не удалось инициализировать опыт работы');
         }
     }

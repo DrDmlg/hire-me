@@ -5,8 +5,8 @@ class AboutMeManager {
         this.api = apiService;
 
         this.managers = {
-            experience: new ExperienceManager(),
-            skills: new SkillsManager()
+            experience: new ExperienceComponent(),
+            skills: new SkillsComponent()
         };
     }
 

@@ -1,4 +1,4 @@
-class SkillsManager {
+class SkillsComponent {
     constructor() {
         this.skills = [];
         this.availableSkills = []; // Список доступных навыков с бэкенда
@@ -25,9 +25,9 @@ class SkillsManager {
             this.render();
             this.bindEvents();
             this.isInitialized = true;
-            console.log('SkillsManager initialized with data:', this.skills);
+            console.log('SkillsComponent initialized with data:', this.skills);
         } catch (error) {
-            console.error('SkillsManager init error:', error);
+            console.error('SkillsComponent init error:', error);
             this.showError('Не удалось инициализировать навыки');
         }
     }
