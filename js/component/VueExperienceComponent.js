@@ -47,9 +47,9 @@ const VueExperienceComponent = {
       <!-- Список опыта -->
       <div class="experience-list">
         <div v-if="experiences.length === 0" class="empty-state">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">💼</div>
-          <div style="font-weight: 500; margin-bottom: 0.5rem;">Опыт работы пока не добавлен</div>
-          <div style="font-size: 0.9rem;">Нажмите "+" чтобы добавить первое место работы</div>
+          <div class="empty-icon">💼</div>
+          <div class="empty-title">Опыт работы пока не добавлен</div>
+          <div class="empty-subtitle">Нажмите "+" чтобы добавить первое место работы</div>
         </div>
 
         <div v-else v-for="exp in experiences" :key="exp.id" 
