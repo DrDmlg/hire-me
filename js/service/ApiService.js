@@ -1,8 +1,8 @@
 class ApiService {
 
     constructor() {
-        // this.BASE_URL = 'https://hireme.serveo.net'; // Serveo
-        this.BASE_URL = 'https://hireme.loca.lt'; // Localtunnel
+        this.BASE_URL = 'https://hireme.serveo.net'; // Serveo
+        // this.BASE_URL = 'https://hireme.loca.lt'; // Localtunnel
     }
 
     // Основной метод - для кастомных запросов
@@ -10,7 +10,7 @@ class ApiService {
         const url = `${this.BASE_URL}${endpoint}`;
         const config = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             ...options
         };
 
@@ -18,9 +18,46 @@ class ApiService {
             config.body = JSON.stringify(options.body);
         }
 
+        // 🔴 Логируем исходящий запрос
+        console.log('🟡 API Request:', {
+            url,
+            method: config.method,
+            body: options.body ? JSON.parse(config.body) : undefined
+        });
+
         const response = await fetch(url, config);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+
+        const contentType = response.headers.get('content-type');
+
+        let data = null;
+        if (contentType && contentType.includes('application/json')) {
+            data = await response.json();
+
+            // 🟢 Логируем полученные JSON данные
+            console.log('🟢 API Response JSON:', {
+                url,
+                status: response.status,
+                data: data
+            });
+        } else {
+            // 🔵 Логируем не-JSON ответы
+            console.log('🔵 API Response (non-JSON):', {
+                url,
+                status: response.status,
+                contentType: contentType
+            });
+        }
+
+        // Возвращаем объект с данными и статусом (можно будет добавить нужный параметр для возврата если понадобится)
+        return {
+            data: data,
+            status: response.status,
+        };
     }
 
     async get(endpoint) {

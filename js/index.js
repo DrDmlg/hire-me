@@ -76,7 +76,8 @@ class HireMeApp {
 
     async checkProfileExists(telegramUserId) {
         try {
-            return await this.api.get(`/profile/check-access/${telegramUserId}`);
+            const result =  await this.api.get(`/profile/check-access/${telegramUserId}`);
+            return result.data;
         } catch (error) {
             // tg.showAlert('Произошла неизвестная ошибка');
             alert('Произошла неизвестная ошибка')

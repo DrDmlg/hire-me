@@ -34,7 +34,8 @@ class AboutMeManager {
             const telegramUserId = Helpers.getTelegramUserId();
             console.log('Loading profile for user:', telegramUserId);
 
-            this.profileData = await this.api.get(`/profile/${telegramUserId}`);
+            const response = await this.api.get(`/profile/${telegramUserId}`);
+            this.profileData = response.data
 
             console.log('Профиль был загружен:', this.profileData);
             Helpers.hideMessage();

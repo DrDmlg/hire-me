@@ -2,6 +2,7 @@ class ExperienceComponent {
     constructor() {
         this.experiences = [];
         this.currentEditId = null;
+        this.api = apiService;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
@@ -18,6 +19,7 @@ class ExperienceComponent {
     }
 
     bindEvents() {
+        const experienceList = document.getElementById('experienceList');
         const pressedAddButton = document.getElementById('addExperienceBtn');
         const pressedCancelButton = document.getElementById('cancelBtn');
         const form = document.getElementById('experienceFormElement');
@@ -32,6 +34,22 @@ class ExperienceComponent {
 
         if (form) {
             form.addEventListener('submit', (e) => this.onExperienceAction(e));
+        }
+
+        // 💡 Делегирование событий для edit/delete
+        if (experienceList) {
+            experienceList.addEventListener('click', (event) => {
+                const editBtn = event.target.closest('.edit-btn');
+                const deleteBtn = event.target.closest('.delete-btn');
+
+                if (editBtn) {
+                    const id = parseInt(editBtn.closest('.experience-item').dataset.id);
+                    this.editExperienceRecord(id);
+                } else if (deleteBtn) {
+                    const id = parseInt(deleteBtn.closest('.experience-item').dataset.id);
+                    this.deleteExperienceRecord(id);
+                }
+            });
         }
     }
 
@@ -143,22 +161,10 @@ class ExperienceComponent {
 
         try {
             let telegramUserId = Helpers.getTelegramUserId();
-            const response = await fetch(`https://hireme.serveo.net/work-experience/${telegramUserId}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(experienceData),
-                });
+            const response = await this.api.post(`/work-experience/${telegramUserId}`, experienceData)
 
-            if (!response.ok) {
-                throw new Error(response.message);
-            }
-
-            const savedExperience = await response.json();
-
-            this.experiences.unshift(savedExperience);
+            // добавляем новую запись в начало
+            this.experiences.unshift(response.data);
 
             // Обновляем интерфейс
             this.render();
@@ -176,24 +182,16 @@ class ExperienceComponent {
         this.showLoading('Обновляем запись...');
 
         try {
-            const response = await fetch(`https://hireme.serveo.net/work-experience/${this.currentEditId}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(experienceData),
-                });
 
-            if (response.ok) {
+            const response = await this.api.put(`/work-experience/${this.currentEditId}`, experienceData);
+
+            if (response.status === 200) {
                 this.showSuccess('Изменен опыт работы');
             }
 
-            const updatedExperience = await response.json();
-
             // Обновляем существующую запись
             this.experiences = this.experiences.map(exp =>
-                exp.id === this.currentEditId ? updatedExperience : exp
+                exp.id === this.currentEditId ? response.data : exp
             );
 
             // Обновляем интерфейс
@@ -214,15 +212,12 @@ class ExperienceComponent {
         this.showLoading('Удаление...');
 
         try {
-            const response = await fetch(`https://hireme.serveo.net/work-experience/${id}`,
-                {
-                    method: 'DELETE',
-                });
+            const response = await this.api.delete(`/work-experience/${id}`);
 
-            if (response.ok) {
+            if (response.status === 200) {
                 this.showSuccess('Опыт работы удален');
             }
-            this.experiences = this.experiences.filter(exp => exp.id !== id);
+            this.experiences = this.experiences.filter(experience => experience.id !== id);
             this.render();
         } catch (error) {
             this.showError('Ошибка удаления');
@@ -248,14 +243,8 @@ class ExperienceComponent {
             return `
             <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
                 <div class="experience-actions">
-                    <button class="action-btn edit-btn" 
-                            onclick="app.profileManager.managers.experience.editExperienceRecord(${exp.id})">
-                        ✏️
-                    </button>
-                    <button class="action-btn delete-btn" 
-                            onclick="app.profileManager.managers.experience.deleteExperienceRecord(${exp.id})">
-                        🗑️
-                    </button>
+                    <button class="action-btn edit-btn">✏️</button>
+                    <button class="action-btn delete-btn">🗑️</button>
                 </div>
                 <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
                 <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
