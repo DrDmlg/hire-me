@@ -16,8 +16,8 @@ class AboutMeManager {
             await this.loadProfile();
 
             if (this.profileData) {
-                this.managers.experience.init(this.profileData.workExperiences || []);
-                this.managers.skills.init(this.profileData.skills || []);
+                await this.managers.experience.init(this.profileData.workExperiences || []);
+                await this.managers.skills.init(this.profileData.skills || []);
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
             }

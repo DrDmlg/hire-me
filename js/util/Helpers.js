@@ -1,5 +1,6 @@
 /** Вспомогательные функции*/
 class Helpers {
+    // защищает от XSS-атак (межсайтового скриптинга).
     static escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');
@@ -48,22 +49,6 @@ class Helpers {
         if (container) {
             container.innerHTML = '';
         }
-    }
-
-    static debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    static delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     static getTelegramUserId() {

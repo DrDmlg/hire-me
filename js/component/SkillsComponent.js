@@ -1,30 +1,26 @@
 class SkillsComponent {
     constructor() {
-        this.skills = [];
-        this.availableSkills = []; // Список доступных навыков с бэкенда
-        this.maxSkills = 10;
-        this.isInitialized = false;
-        this.isAdding = false;
+        this.skills = []; //Массив добавленных навыков пользователя
+        this.availableSkills = []; //Список доступных для выбора навыков (получаем с бэкенда)
+        this.maxSkills = 10; //Максимальное количество навыков, которое можно добавить
+        this.isAdding = false;// // Режим добавления (true = показываем input)
+        this.api = apiService;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
-    init(skills = [], availableSkills = []) {
-        if (this.isInitialized) return;
-
+    async init(skills = []) {
         try {
             // ТЕСТОВЫЕ ДАННЫЕ - можно удалить когда API будет готово
             if (skills.length === 0) {
                 skills = this.getMockSkills();
             }
-            if (availableSkills.length === 0) {
-                availableSkills = this.getMockAvailableSkills();
-            }
+
+            // Подгружаем все доступные навыки
+            await this.loadAvailableSkills();
 
             this.skills = skills;
-            this.availableSkills = availableSkills;
             this.render();
             this.bindEvents();
-            this.isInitialized = true;
             console.log('SkillsComponent initialized with data:', this.skills);
         } catch (error) {
             console.error('SkillsComponent init error:', error);
@@ -35,31 +31,41 @@ class SkillsComponent {
     // ТЕСТОВЫЕ ДАННЫЕ
     getMockSkills() {
         return [
-            { id: 1, name: 'Figma' },
-            { id: 2, name: 'User Research' },
-            { id: 3, name: 'Prototyping' }
+            {id: 1, name: 'Figma'},
+            {id: 2, name: 'User Research'},
+            {id: 3, name: 'Prototyping'}
         ];
     }
 
-    // ТЕСТОВЫЕ ДАННЫЕ - доступные навыки
-    getMockAvailableSkills() {
-        return [
-            'Figma', 'User Research', 'Prototyping', 'UX Writing',
-            'Design Systems', 'A/B Testing', 'Usability Testing',
-            'HTML/CSS', 'JavaScript', 'React', 'TypeScript', 'Node.js',
-            'Python', 'Vue.js', 'Angular', 'UI Design', 'Wireframing',
-            'Product Management', 'Agile', 'Scrum', 'User Testing',
-            'Information Architecture', 'Interaction Design', 'Visual Design',
-            'Design Thinking', 'Data Analysis', 'UX Metrics', 'Accessibility'
-        ];
-    }
-
+    //  Постоянные обработчики. Вызываются один раз в init()
     bindEvents() {
         const addSkillBtn = document.getElementById('addSkillBtn');
+        const skillsList = document.getElementById('skillsList');
 
         if (addSkillBtn) {
             addSkillBtn.addEventListener('click', () => this.showSkillInput());
         }
+
+        // Удаление навыков
+        if (skillsList) {
+            skillsList.addEventListener('click', (event) => {
+                const removeBtn = event.target.closest('.skill-remove-btn');
+                if (removeBtn) {
+                    const skillItem = removeBtn.closest('.skill-tag');
+                    const skillId = parseInt(skillItem.dataset.id);
+                    this.removeSkill(skillId);
+                }
+            });
+        }
+
+        // Подсказки
+        document.addEventListener('click', (event) => {
+            const suggestion = event.target.closest('.skill-suggestion');
+            if (suggestion && !suggestion.classList.contains('empty')) {
+                const skillName = suggestion.dataset.skill; // Берем из data-attribute
+                this.selectSuggestion(skillName);
+            }
+        });
     }
 
     // ============ ОТОБРАЖЕНИЕ ============
@@ -76,9 +82,7 @@ class SkillsComponent {
         let skillsHTML = this.skills.map(skill => `
             <div class="skill-tag fade-in" data-id="${skill.id}">
                 <span class="skill-name">${Helpers.escapeHtml(skill.name)}</span>
-                <button class="skill-remove-btn" onclick="app.profileManager.managers.skills.removeSkill(${skill.id})">
-                    ×
-                </button>
+                <button class="skill-remove-btn">×</button>
             </div>
         `).join('');
 
@@ -105,6 +109,7 @@ class SkillsComponent {
         this.updateCounter();
     }
 
+    // Временные обработчики. Вызываются каждый раз когда показывается input (в render() когда this.isAdding = true)
     bindInputEvents() {
         const inputField = document.getElementById('skillInputField');
         const confirmBtn = document.getElementById('skillInputConfirm');
@@ -178,9 +183,9 @@ class SkillsComponent {
         }
 
         suggestionsContainer.innerHTML = filteredSkills.map(skill => `
-            <div class="skill-suggestion" onclick="app.profileManager.managers.skills.selectSuggestion('${skill.replace(/'/g, "\\'")}')">
-                ${Helpers.escapeHtml(skill)}
-            </div>
+           <div class="skill-suggestion" data-skill="${Helpers.escapeHtml(skill)}">
+            ${Helpers.escapeHtml(skill)}
+        </div>
         `).join('');
 
         suggestionsContainer.style.display = 'block';
@@ -299,6 +304,19 @@ class SkillsComponent {
     }
 
     // ============ ОПЕРАЦИИ С НАВЫКАМИ ============
+    async loadAvailableSkills() {
+        try {
+            const response = await this.api.get(`/skill/available`);
+            if (response.status !== 200) {
+                this.showError('Произошла ошибка при загрузке навыков с сервера');
+            } else {
+                this.availableSkills = response.data;
+            }
+        } catch (error) {
+
+        }
+    }
+
     async addSkill(skillName) {
         if (!skillName) return;
 

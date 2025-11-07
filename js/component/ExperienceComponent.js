@@ -6,7 +6,7 @@ class ExperienceComponent {
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
-    init(experiences = []) {
+    async init(experiences = []) {
         try {
             this.experiences = experiences;
             this.render();      // ← СНАЧАЛА создаем кнопку
@@ -254,6 +254,7 @@ class ExperienceComponent {
         `;
         }).join('');
     }
+
     // Метод для форматирования периода
     formatPeriod(startDate, endDate, isCurrent) {
         const start = startDate;
