@@ -4,16 +4,10 @@ class CandidateProfileManager {
         this.tg = window.Telegram?.WebApp;
         this.navigation = new NavigationService();
         this.candidateProfile = this.getDefaultCandidateProfile(); // временные тестовые данные
-
-        this.managers = {
-            aboutMe: new AboutMeManager()
-        };
     }
 
     async init() {
         try {
-            await this.managers.aboutMe.init();
-
             // Инициализация своей логики
             this.initEventListeners();
             this.updateProfileData();
