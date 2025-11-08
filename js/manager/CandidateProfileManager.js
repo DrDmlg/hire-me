@@ -1,8 +1,9 @@
 class CandidateProfileManager {
 
-    constructor() {
+    constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
         this.navigation = new NavigationService();
+        this.profileData = profileData;
         this.candidateProfile = this.getDefaultCandidateProfile(); // временные тестовые данные
     }
 
@@ -57,6 +58,10 @@ class CandidateProfileManager {
     }
 
     handleAction(action) {
+        // Так как работа идет с разными HTML страницами, то передавать "profileData" в конструкторы классов AboutMeManager  и т.д.
+        // мы не можем, для этого перед переходом сохраняем данные в localstorage
+        localStorage.setItem('profileData', JSON.stringify(this.profileData));
+
         const actionHandlers = {
             'about-me': () => this.openAboutMe(),
         };

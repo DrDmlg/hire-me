@@ -2,7 +2,9 @@ class BaseProfile {
 
     constructor() {
         this.tg = window.Telegram?.WebApp;
+        this.profileData = null;
         this.navigation = new NavigationService();
+        this.api = apiService;
         this.userType = null; // 'candidate' или 'employer'
         this.managers = {};   // Пока пустой
     }
@@ -13,9 +15,8 @@ class BaseProfile {
         }
 
         this.navigation.init();
-
+        await this.loadProfile();
         await this.determineProfileType();
-
         await this.initManagers();
 
         console.log(`Профиль инициализирован для: ${this.userType}`);
@@ -37,9 +38,8 @@ class BaseProfile {
     }
 
     async initManagers() {
-        // Создаем только нужные менеджеры!
         if (this.userType === 'candidate') {
-            this.managers.profile = new CandidateProfileManager(this);
+            this.managers.profile = new CandidateProfileManager(this.profileData);
             console.log('Создан CandidateProfileManager');
         } else if (this.userType === 'employer') {
             this.managers.profile = new EmployerProfileManager(this);
@@ -50,6 +50,34 @@ class BaseProfile {
         await this.managers.profile.init();
     }
 
+    async loadProfile() {
+        this.showLoading('Загрузка профиля...');
+
+        try {
+            const telegramUserId = Helpers.getTelegramUserId();
+            console.log('Loading profile for user:', telegramUserId);
+
+            const response = await this.api.get(`/profile/${telegramUserId}`);
+            this.profileData = response.data
+
+            console.log('Профиль был загружен:', this.profileData);
+            Helpers.hideMessage();
+
+        } catch (error) {
+            console.error('Ошибка загрузки профайла:', error);
+            Helpers.hideMessage();
+            this.showError('Ошибка загрузки профиля');
+            throw error;
+        }
+    }
+
+    showLoading(text) {
+        Helpers.showMessage(text, 'loading');
+    }
+
+    showError(text) {
+        Helpers.showMessage(text, 'error');
+    }
 
     // // Action methods
     // openAboutMe() {

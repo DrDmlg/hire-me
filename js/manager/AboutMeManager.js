@@ -1,8 +1,9 @@
 class AboutMeManager {
     constructor() {
-        this.profileData = null;
+        // Получаем данные из localStorage
+        const savedData = localStorage.getItem('profileData');
+        this.profileData = savedData ? JSON.parse(savedData) : null;
         this.navigation = new NavigationService();
-        this.api = apiService;
 
         this.managers = {
             experience: new ExperienceComponent(),
@@ -13,38 +14,16 @@ class AboutMeManager {
     async init() {
         try {
             this.navigation.init();
-            await this.loadProfile();
 
             if (this.profileData) {
                 await this.managers.experience.init(this.profileData.workExperiences || []);
-                await this.managers.skills.init(this.profileData.skills || []);
+                await this.managers.skills.init(this.profileData.skills || [] );
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
             }
         } catch (error) {
             console.error('AboutMeManager init error:', error);
             this.showError('Не удалось загрузить профиль');
-        }
-    }
-
-    async loadProfile() {
-        this.showLoading('Загрузка профиля...');
-
-        try {
-            const telegramUserId = Helpers.getTelegramUserId();
-            console.log('Loading profile for user:', telegramUserId);
-
-            const response = await this.api.get(`/profile/${telegramUserId}`);
-            this.profileData = response.data
-
-            console.log('Профиль был загружен:', this.profileData);
-            Helpers.hideMessage();
-
-        } catch (error) {
-            console.error('Ошибка загрузки профайла:', error);
-            Helpers.hideMessage();
-            this.showError('Ошибка загрузки профиля');
-            throw error;
         }
     }
 

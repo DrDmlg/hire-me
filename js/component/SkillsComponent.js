@@ -327,26 +327,15 @@ class SkillsComponent {
                 name: skillName,
             };
 
-            // ЗАКОММЕНТИРОВАННЫЙ API CALL - раскомментируйте когда будет готово
-            /*
             let telegramUserId = Helpers.getTelegramUserId();
-            const response = await fetch(`https://hireme.serveo.net/skills/${telegramUserId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newSkill),
-            });
 
-            if (!response.ok) {
-                throw new Error('Ошибка сохранения');
+            // Нужно использовать profileId вместо telegramUserId
+            const response = await this.api.post(`/skills/${telegramUserId}`);
+
+            if (response.status !== 200) {
+                this.showError('Ошибка добавления навыка');
             }
 
-            const savedSkill = await response.json();
-            */
-
-            // ТЕСТОВЫЕ ДАННЫЕ - удалите когда API будет готово
-            await new Promise(resolve => setTimeout(resolve, 300));
             const savedSkill = {
                 id: Date.now(),
                 name: skillName
