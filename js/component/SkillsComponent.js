@@ -1,10 +1,12 @@
 class SkillsComponent {
-    constructor() {
+
+    constructor(profileData) {
         this.skills = []; //Массив добавленных навыков пользователя
         this.availableSkills = []; //Список доступных для выбора навыков (получаем с бэкенда)
         this.maxSkills = 10; //Максимальное количество навыков, которое можно добавить
         this.isAdding = false;// // Режим добавления (true = показываем input)
         this.api = apiService;
+        this.profileData = profileData;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
@@ -327,10 +329,9 @@ class SkillsComponent {
                 name: skillName,
             };
 
-            let telegramUserId = Helpers.getTelegramUserId();
+            let candidateId = this.profileData.candidate.id;
 
-            // Нужно использовать profileId вместо telegramUserId
-            const response = await this.api.post(`/skills/${telegramUserId}`);
+            const response = await this.api.post(`/candidate/${candidateId}/skill`, newSkill);
 
             if (response.status !== 200) {
                 this.showError('Ошибка добавления навыка');

@@ -7,7 +7,7 @@ class AboutMeManager {
 
         this.managers = {
             experience: new ExperienceComponent(),
-            skills: new SkillsComponent()
+            skills: new SkillsComponent(this.profileData),
         };
     }
 
