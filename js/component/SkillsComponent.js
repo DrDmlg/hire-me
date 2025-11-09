@@ -1,25 +1,19 @@
 class SkillsComponent {
 
-    constructor(profileData) {
+    constructor() {
         this.skills = []; //Массив добавленных навыков пользователя
         this.availableSkills = []; //Список доступных для выбора навыков (получаем с бэкенда)
         this.maxSkills = 10; //Максимальное количество навыков, которое можно добавить
         this.isAdding = false;// // Режим добавления (true = показываем input)
         this.api = apiService;
-        this.profileData = profileData;
+        this.profileData = null;
     }
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
-    async init(skills = []) {
+    async init(skills = [], profileData = null) {
         try {
-            // ТЕСТОВЫЕ ДАННЫЕ - можно удалить когда API будет готово
-            if (skills.length === 0) {
-                skills = this.getMockSkills();
-            }
-
-            // Подгружаем все доступные навыки
+            this.profileData = profileData;
             await this.loadAvailableSkills();
-
             this.skills = skills;
             this.render();
             this.bindEvents();
@@ -28,15 +22,6 @@ class SkillsComponent {
             console.error('SkillsComponent init error:', error);
             this.showError('Не удалось инициализировать навыки');
         }
-    }
-
-    // ТЕСТОВЫЕ ДАННЫЕ
-    getMockSkills() {
-        return [
-            {id: 1, name: 'Figma'},
-            {id: 2, name: 'User Research'},
-            {id: 3, name: 'Prototyping'}
-        ];
     }
 
     //  Постоянные обработчики. Вызываются один раз в init()
@@ -55,7 +40,7 @@ class SkillsComponent {
                 if (removeBtn) {
                     const skillItem = removeBtn.closest('.skill-tag');
                     const skillId = parseInt(skillItem.dataset.id);
-                    this.removeSkill(skillId);
+                    this.deleteSkillRecord(skillId);
                 }
             });
         }
@@ -83,7 +68,7 @@ class SkillsComponent {
 
         let skillsHTML = this.skills.map(skill => `
             <div class="skill-tag fade-in" data-id="${skill.id}">
-                <span class="skill-name">${Helpers.escapeHtml(skill.name)}</span>
+                <span class="skill-name">${Helpers.escapeHtml(skill.displayName)}</span>
                 <button class="skill-remove-btn">×</button>
             </div>
         `).join('');
@@ -166,7 +151,7 @@ class SkillsComponent {
         // Фильтруем доступные навыки по введенному тексту и убираем уже добавленные
         const filteredSkills = this.availableSkills.filter(skill =>
             skill.toLowerCase().includes(filter.toLowerCase()) &&
-            !this.skills.some(existingSkill => existingSkill.name.toLowerCase() === skill.toLowerCase())
+            !this.skills.some(existingSkill => existingSkill.displayName.toLowerCase() === skill.toLowerCase())
         ).slice(0, 8); // Ограничиваем количество подсказок
 
         if (filteredSkills.length === 0) {
@@ -231,7 +216,7 @@ class SkillsComponent {
                     skill.toLowerCase() === trimmedValue.toLowerCase()
                 ) &&
                 !this.skills.some(skill =>
-                    skill.name.toLowerCase() === trimmedValue.toLowerCase()
+                    skill.displayName.toLowerCase() === trimmedValue.toLowerCase()
                 );
             confirmBtn.disabled = !isValid;
             confirmBtn.style.opacity = isValid ? '1' : '0.5';
@@ -266,7 +251,7 @@ class SkillsComponent {
         }
 
         if (this.validateSkill(skillName)) {
-            this.addSkill(skillName);
+            this.createSkill(skillName);
             this.isAdding = false;
         }
     }
@@ -305,55 +290,6 @@ class SkillsComponent {
         `;
     }
 
-    // ============ ОПЕРАЦИИ С НАВЫКАМИ ============
-    async loadAvailableSkills() {
-        try {
-            const response = await this.api.get(`/skill/available`);
-            if (response.status !== 200) {
-                this.showError('Произошла ошибка при загрузке навыков с сервера');
-            } else {
-                this.availableSkills = response.data;
-            }
-        } catch (error) {
-
-        }
-    }
-
-    async addSkill(skillName) {
-        if (!skillName) return;
-
-        this.showLoading('Добавляем навык...');
-
-        try {
-            const newSkill = {
-                name: skillName,
-            };
-
-            let candidateId = this.profileData.candidate.id;
-
-            const response = await this.api.post(`/candidate/${candidateId}/skill`, newSkill);
-
-            if (response.status !== 200) {
-                this.showError('Ошибка добавления навыка');
-            }
-
-            const savedSkill = {
-                id: Date.now(),
-                name: skillName
-            };
-
-            this.skills.unshift(savedSkill);
-            this.render();
-            this.showSuccess('Навык добавлен');
-
-        } catch (error) {
-            this.showError('Ошибка добавления навыка');
-            console.error('Add skill error:', error);
-        } finally {
-            Helpers.hideMessage();
-        }
-    }
-
     validateSkill(skillName) {
         if (!skillName) {
             this.showError('Введите название навыка');
@@ -377,7 +313,7 @@ class SkillsComponent {
 
         // Проверка на дубликаты
         const isDuplicate = this.skills.some(skill =>
-            skill.name.toLowerCase() === skillName.toLowerCase()
+            skill.displayName.toLowerCase() === skillName.toLowerCase()
         );
 
         if (isDuplicate) {
@@ -394,25 +330,66 @@ class SkillsComponent {
         return true;
     }
 
-    async removeSkill(skillId) {
-        // if (!confirm('Удалить этот навык?')) return;
+    // ============ API ОПЕРАЦИИ ============
+    /** Подгрузка всех существующих навыков в системе*/
+    async loadAvailableSkills() {
+        try {
+            const response = await this.api.get(`/skill/available`);
+            if (response.status !== 200) {
+                this.showError('Произошла ошибка при загрузке навыков с сервера');
+            } else {
+                this.availableSkills = response.data;
+            }
+        } catch (error) {
 
-        this.showLoading('Удаляем...');
+        }
+    }
+
+    /** Добавление нового навыка*/
+    async createSkill(skillName) {
+        if (!skillName) return;
+
+        this.showLoading('Добавляем навык...');
 
         try {
-            // ЗАКОММЕНТИРОВАННЫЙ API CALL - раскомментируйте когда будет готово
-            /*
-            const response = await fetch(`https://hireme.serveo.net/skills/${skillId}`, {
-                method: 'DELETE',
-            });
+            const newSkill = {
+                displayName: skillName,
+            };
 
-            if (!response.ok) {
-                throw new Error('Ошибка удаления');
+            let candidateId = this.profileData.candidate.id;
+            const response = await this.api.post(`/candidate/${candidateId}/skill`, newSkill);
+
+            if (response.status !== 200) {
+                this.showError('Ошибка добавления навыка');
             }
-            */
 
-            // ТЕСТОВЫЕ ДАННЫЕ - удалите когда API будет готово
-            await new Promise(resolve => setTimeout(resolve, 300));
+            const savedSkill = {
+                id: response.data.id,
+                displayName: response.data.displayName,
+            };
+
+            this.skills.unshift(savedSkill);
+            this.render();
+            this.showSuccess('Навык добавлен');
+
+        } catch (error) {
+            this.showError('Ошибка добавления навыка');
+            console.error('Add skill error:', error);
+        } finally {
+            Helpers.hideMessage();
+        }
+    }
+
+    /** Удаление навыка*/
+    async deleteSkillRecord(skillId) {
+        this.showLoading('Удаляем навык');
+
+        try {
+            const response = await this.api.delete(`/skill/${skillId}`);
+
+            if (response.status !== 200) {
+                this.showError("Не удалось удалить навык")
+            }
 
             this.skills = this.skills.filter(skill => skill.id !== skillId);
             this.render();

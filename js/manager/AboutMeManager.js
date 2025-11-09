@@ -1,23 +1,21 @@
 class AboutMeManager {
     constructor() {
-        // Получаем данные из localStorage
-        const savedData = localStorage.getItem('profileData');
-        this.profileData = savedData ? JSON.parse(savedData) : null;
+        this.profileData = null;
         this.navigation = new NavigationService();
 
         this.managers = {
             experience: new ExperienceComponent(),
-            skills: new SkillsComponent(this.profileData),
+            skills: new SkillsComponent(),
         };
     }
 
     async init() {
         try {
             this.navigation.init();
-
+            this.profileData = await ProfileService.loadProfile();
             if (this.profileData) {
                 await this.managers.experience.init(this.profileData.workExperiences || []);
-                await this.managers.skills.init(this.profileData.skills || [] );
+                await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
             }

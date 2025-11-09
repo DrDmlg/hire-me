@@ -4,7 +4,6 @@ class BaseProfile {
         this.tg = window.Telegram?.WebApp;
         this.profileData = null;
         this.navigation = new NavigationService();
-        this.api = apiService;
         this.userType = null; // 'candidate' или 'employer'
         this.managers = {};   // Пока пустой
     }
@@ -15,7 +14,7 @@ class BaseProfile {
         }
 
         this.navigation.init();
-        await this.loadProfile();
+        this.profileData = await ProfileService.loadProfile();
         await this.determineProfileType();
         await this.initManagers();
 
@@ -48,35 +47,6 @@ class BaseProfile {
 
         // Инициализируем их
         await this.managers.profile.init();
-    }
-
-    async loadProfile() {
-        this.showLoading('Загрузка профиля...');
-
-        try {
-            const telegramUserId = Helpers.getTelegramUserId();
-            console.log('Loading profile for user:', telegramUserId);
-
-            const response = await this.api.get(`/profile/${telegramUserId}`);
-            this.profileData = response.data
-
-            console.log('Профиль был загружен:', this.profileData);
-            Helpers.hideMessage();
-
-        } catch (error) {
-            console.error('Ошибка загрузки профайла:', error);
-            Helpers.hideMessage();
-            this.showError('Ошибка загрузки профиля');
-            throw error;
-        }
-    }
-
-    showLoading(text) {
-        Helpers.showMessage(text, 'loading');
-    }
-
-    showError(text) {
-        Helpers.showMessage(text, 'error');
     }
 
     // // Action methods
