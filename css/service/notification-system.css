@@ -1,0 +1,127 @@
+/* Стили для системы уведомлений */
+
+#notificationContainer {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    max-width: 400px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.notification {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid transparent;
+    pointer-events: auto;
+    animation: slideIn 0.3s ease-out;
+    transition: opacity 0.3s ease;
+}
+
+.notification.info {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-color: #bbdefb;
+}
+
+.notification.success {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+
+.notification.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border-color: #ffcdd2;
+}
+
+.notification.warning {
+    background-color: #fff8e1;
+    color: #f57c00;
+    border-color: #ffecb3;
+}
+
+.notification.loading {
+    background-color: #f5f5f5;
+    color: #666;
+    border-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification.process {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-color: #bbdefb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Анимация появления */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация исчезновения */
+.notification.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* Индикатор загрузки - общий для loading и process */
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid #1565c0; /* Синий цвет для process */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Для loading серый цвет */
+.notification.loading .loading-spinner {
+    border-top-color: #666;
+}
+
+/* Для process - синий цвет */
+.notification.process .loading-spinner {
+    border-top-color: #1565c0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    #notificationContainer {
+        top: 60px;
+        max-width: 90%;
+        width: 95%;
+    }
+
+    .notification {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}

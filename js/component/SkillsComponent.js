@@ -20,7 +20,7 @@ class SkillsComponent {
             console.log('SkillsComponent initialized with data:', this.skills);
         } catch (error) {
             console.error('SkillsComponent init error:', error);
-            this.showError('Не удалось инициализировать навыки');
+            notification.error('Не удалось инициализировать навыки');
         }
     }
 
@@ -226,7 +226,7 @@ class SkillsComponent {
     // ============ ИНТЕРАКТИВ ============
     showSkillInput() {
         if (this.skills.length >= this.maxSkills) {
-            this.showError(`Максимум ${this.maxSkills} навыков`);
+            notification.error(`Максимум ${this.maxSkills} навыков`);
             return;
         }
 
@@ -246,7 +246,7 @@ class SkillsComponent {
         );
 
         if (!isAvailable) {
-            this.showError('Выберите навык из списка');
+            notification.error('Выберите навык из списка');
             return;
         }
 
@@ -292,12 +292,12 @@ class SkillsComponent {
 
     validateSkill(skillName) {
         if (!skillName) {
-            this.showError('Введите название навыка');
+            notification.error('Введите название навыка');
             return false;
         }
 
         if (skillName.length < 2) {
-            this.showError('Название навыка слишком короткое');
+            notification.error('Название навыка слишком короткое');
             return false;
         }
 
@@ -307,7 +307,7 @@ class SkillsComponent {
         );
 
         if (!isAvailable) {
-            this.showError('Выберите навык из списка предложенных');
+            notification.error('Выберите навык из списка предложенных');
             return false;
         }
 
@@ -317,13 +317,13 @@ class SkillsComponent {
         );
 
         if (isDuplicate) {
-            this.showError('Этот навык уже добавлен');
+            notification.error('Этот навык уже добавлен');
             return false;
         }
 
         // Проверка лимита
         if (this.skills.length >= this.maxSkills) {
-            this.showError(`Максимум ${this.maxSkills} навыков`);
+            notification.error(`Максимум ${this.maxSkills} навыков`);
             return false;
         }
 
@@ -336,7 +336,7 @@ class SkillsComponent {
         try {
             const response = await this.api.get(`/skill/available`);
             if (response.status !== 200) {
-                this.showError('Произошла ошибка при загрузке навыков с сервера');
+                notification.error('Произошла ошибка при загрузке навыков с сервера');
             } else {
                 this.availableSkills = response.data;
             }
@@ -349,7 +349,7 @@ class SkillsComponent {
     async createSkill(skillName) {
         if (!skillName) return;
 
-        this.showLoading('Добавляем навык...');
+        notification.process('Добавляем навык...');
 
         try {
             const newSkill = {
@@ -360,7 +360,7 @@ class SkillsComponent {
             const response = await this.api.post(`/candidate/${candidateId}/skill`, newSkill);
 
             if (response.status !== 200) {
-                this.showError('Ошибка добавления навыка');
+                notification.error('Ошибка добавления навыка');
             }
 
             const savedSkill = {
@@ -370,49 +370,35 @@ class SkillsComponent {
 
             this.skills.unshift(savedSkill);
             this.render();
-            this.showSuccess('Навык добавлен');
+            notification.success('Навык добавлен');
 
         } catch (error) {
-            this.showError('Ошибка добавления навыка');
+            notification.error('Ошибка добавления навыка');
             console.error('Add skill error:', error);
         } finally {
-            Helpers.hideMessage();
+            notification.hideAll();
         }
     }
 
     /** Удаление навыка*/
     async deleteSkillRecord(skillId) {
-        this.showLoading('Удаляем навык');
+        notification.process('Удаляем навык');
 
         try {
             const response = await this.api.delete(`/skill/${skillId}`);
 
             if (response.status !== 200) {
-                this.showError("Не удалось удалить навык")
+                notification.error('Не удалось удалить навык');
             }
 
             this.skills = this.skills.filter(skill => skill.id !== skillId);
             this.render();
-            this.showSuccess('Навык удален');
-
+            notification.success("Навык удален")
         } catch (error) {
-            this.showError('Ошибка удаления навыка');
+            notification.error('Ошибка удаления навыка');
             console.error('Remove skill error:', error);
         } finally {
-            Helpers.hideMessage();
+            notification.hideAll();
         }
-    }
-
-    // ============ ВСПОМОГАТЕЛЬНЫЕ ============
-    showLoading(text) {
-        Helpers.showMessage(text, 'loading');
-    }
-
-    showSuccess(text) {
-        Helpers.showMessage(text, 'success');
-    }
-
-    showError(text) {
-        Helpers.showMessage(text, 'error');
     }
 }

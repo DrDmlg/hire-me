@@ -234,30 +234,6 @@
     background: var(--border);
 }
 
-/* Message Styles */
-.message {
-    padding: 0.75rem 1rem;
-    border-radius: var(--radius-sm);
-    margin-bottom: 1rem;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.message.success {
-    background: var(--success);
-    color: white;
-}
-
-.message.error {
-    background: var(--error);
-    color: white;
-}
-
-.message.loading {
-    background: var(--warning);
-    color: white;
-}
-
 /* Animations */
 @keyframes fadeIn {
     from {
