@@ -14,7 +14,7 @@ class ExperienceComponent {
             console.log('ExperienceComponent initialized with data');
         } catch (error) {
             console.error('ExperienceComponent init error:', error);
-            this.showError('Не удалось инициализировать опыт работы');
+            notification.error('Не удалось инициализировать опыт работы');
         }
     }
 
@@ -138,7 +138,7 @@ class ExperienceComponent {
     /** Валидация данных с формы*/
     validateFormData(formData) {
         if (!formData.company || !formData.position || !formData.period) {
-            this.showError('Заполните обязательные поля');
+            notification.error('Заполните обязательные поля');
             return false; // возвращаем false при ошибке
         }
         return true; // возвращаем true если все ок
@@ -157,7 +157,7 @@ class ExperienceComponent {
     // ============ API ОПЕРАЦИИ ============
     /** Создание новой записи об опыте работы*/
     async createExperience(experienceData) {
-        this.showLoading('Сохранение...');
+        notification.process('Сохранение...');
 
         try {
             let telegramUserId = Helpers.getTelegramUserId();
@@ -169,24 +169,24 @@ class ExperienceComponent {
             // Обновляем интерфейс
             this.render();
             this.hideForm();
-            this.showSuccess('Опыт работы добавлен');
+            notification.success('Опыт работы добавлен')
         } catch (error) {
-            this.showError('Ошибка сохранения');
+            notification.error('Ошибка сохранения');
         } finally {
-            Helpers.hideMessage()
+            notification.hideAll();
         }
     }
 
     /** Обновление редактируемой записи опыта работы*/
     async updateExperience(experienceData) {
-        this.showLoading('Обновляем запись...');
+        notification.process('Обновляем запись...');
 
         try {
 
             const response = await this.api.put(`/work-experience/${this.currentEditId}`, experienceData);
 
             if (response.status === 200) {
-                this.showSuccess('Изменен опыт работы');
+                notification.success('Изменен опыт работы');
             }
 
             // Обновляем существующую запись
@@ -197,11 +197,11 @@ class ExperienceComponent {
             // Обновляем интерфейс
             this.render();
             this.hideForm();
-            this.showSuccess('Данные обновлены');
+            notification.success('Данные обновлены');
         } catch (error) {
-            this.showError('Ошибка обновления');
+            notification.error('Ошибка обновления')
         } finally {
-            Helpers.hideMessage()
+            notification.hideAll();
         }
     }
 
@@ -209,20 +209,20 @@ class ExperienceComponent {
     async deleteExperienceRecord(id) {
         if (!confirm('Вы уверены, что хотите удалить этот опыт работы?')) return;
 
-        this.showLoading('Удаление...');
+        notification.process('Удаление...')
 
         try {
             const response = await this.api.delete(`/work-experience/${id}`);
 
             if (response.status === 200) {
-                this.showSuccess('Опыт работы удален');
+                notification.success('Опыт работы удален');
             }
             this.experiences = this.experiences.filter(experience => experience.id !== id);
             this.render();
         } catch (error) {
-            this.showError('Ошибка удаления');
+            notification.error('Ошибка удаления');
         } finally {
-            Helpers.hideMessage()
+            notification.hideAll();
         }
     }
 
@@ -276,20 +276,6 @@ class ExperienceComponent {
             </div>
         `;
     }
-
-    // ============ ВСПОМОГАТЕЛЬНЫЕ ============
-    showLoading(text) {
-        Helpers.showMessage(text, 'loading');
-    }
-
-    showSuccess(text) {
-        Helpers.showMessage(text, 'success');
-    }
-
-    showError(text) {
-        Helpers.showMessage(text, 'error');
-    }
-
     // ============ ОСТАЛЬНЫЕ ============
     editExperienceRecord(id) {
         const experience = this.experiences.find(exp => exp.id === id);
