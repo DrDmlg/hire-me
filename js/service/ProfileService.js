@@ -2,7 +2,7 @@ class ProfileService {
 
     /** Загрузка данных профиля с сервера */
     static async loadProfile() {
-        Helpers.showMessage('Загрузка профиля...');
+        notification.process('Загрузка профиля...');
 
         try {
             const telegramUserId = Helpers.getTelegramUserId();
@@ -12,13 +12,13 @@ class ProfileService {
             const profileData = response.data
 
             console.log('Профиль был загружен:', profileData);
-            Helpers.hideMessage();
+            notification.hideAll()
             return profileData;
 
         } catch (error) {
             console.error('Ошибка загрузки профайла:', error);
-            Helpers.hideMessage();
-            Helpers.showMessage('Ошибка загрузки профиля');
+            notification.hideAll();
+            notification.error('Ошибка загрузки профиля');
             throw error;
         }
     }

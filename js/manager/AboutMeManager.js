@@ -20,8 +20,8 @@ class AboutMeManager {
                 console.log('AboutMeManager initialized successfully');
             }
         } catch (error) {
-            console.error('AboutMeManager init error:', error);
-            this.showError('Не удалось загрузить профиль');
+            console.error('Не удалось загрузить профиль:', error);
+            notification.error('Не удалось загрузить профиль');
         }
     }
 
@@ -35,14 +35,6 @@ class AboutMeManager {
         } else {
             console.warn('No profile data to update static sections');
         }
-    }
-
-    showLoading(text) {
-        Helpers.showMessage(text, 'loading');
-    }
-
-    showError(text) {
-        Helpers.showMessage(text, 'error');
     }
 }
 
