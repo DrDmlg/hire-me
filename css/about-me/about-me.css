@@ -351,50 +351,6 @@ body {
     text-align: right;
 }
 
-/* Skills */
-.skills-grid {
-    display: grid;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.skill-category {
-    background: var(--bg-card);
-    padding: 1.25rem;
-    border-radius: var(--radius-sm);
-    border-left: 3px solid var(--primary);
-    border: 1px solid var(--border);
-}
-
-.skill-category-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-}
-
-.skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.skill-tag {
-    background: var(--bg-soft);
-    padding: 0.5rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
-
-.skill-tag:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-1px);
-}
-
 /* Education */
 .education-item {
     background: var(--bg-card);
@@ -533,15 +489,6 @@ body {
 
     .completion-section {
         margin: -1rem 1rem 1rem;
-    }
-
-    .skill-tags {
-        gap: 0.4rem;
-    }
-
-    .skill-tag {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.6rem;
     }
 
     .back-button {
