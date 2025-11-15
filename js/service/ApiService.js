@@ -28,9 +28,9 @@ class ApiService {
         const response = await fetch(url, config);
 
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP ${response.status}`);
         }
-
 
         const contentType = response.headers.get('content-type');
 

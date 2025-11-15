@@ -2,6 +2,7 @@ class CandidateRegistration {
     constructor() {
         this.tg = window.Telegram.WebApp;
         this.navigation = new NavigationService();
+        this.api = apiService;
         this.positions = [
             "Frontend Developer",
             "Backend Developer",
@@ -103,6 +104,7 @@ class CandidateRegistration {
         const formatted = this.formatSalary(numbers);
         document.execCommand('insertText', false, formatted);
     }
+
     // ===== КОНЕЦ МЕТОДОВ ДЛЯ ЗАРПЛАТЫ =====
 
     // ===== МЕТОДЫ ДЛЯ АВТОДОПОЛНЕНИЯ =====
@@ -184,6 +186,7 @@ class CandidateRegistration {
             }
         });
     }
+
     // ===== КОНЕЦ МЕТОДОВ ДЛЯ АВТОДОПОЛНЕНИЯ =====
 
     // ===== ОБРАБОТЧИКИ СТАТУСА =====
@@ -204,6 +207,7 @@ class CandidateRegistration {
             statusHelp.textContent = 'Ваш профиль будет скрыт от работодателей';
         }
     }
+
     // ===== КОНЕЦ ОБРАБОТЧИКОВ СТАТУСА =====
 
     // ===== ОБРАБОТКА ФОРМЫ =====
@@ -240,7 +244,7 @@ class CandidateRegistration {
         // Валидация телефона
         if (!this.validatePhone()) {
             submitBtn.classList.remove('loading');
-            submitBtn.textContent = '✅ Сохранить профиль';
+            submitBtn.textContent = 'Сохранить профиль';
             salaryField.value = this.formatSalary(salaryField.value); // Возвращаем форматирование
             return;
         }
@@ -248,41 +252,32 @@ class CandidateRegistration {
         // Общая валидация
         if (!this.validateForm(data)) {
             submitBtn.classList.remove('loading');
-            submitBtn.textContent = '✅ Сохранить профиль';
+            submitBtn.textContent = 'Сохранить профиль';
             salaryField.value = this.formatSalary(salaryField.value); // Возвращаем форматирование
             return;
         }
 
         try {
-            const response = await this.sendFormData(data);
+            const response = await this.api.post('/registration/candidate', data);
 
-            submitBtn.classList.remove('loading');
-            submitBtn.textContent = '✅ Сохранить профиль';
-            salaryField.value = this.formatSalary(salaryField.value); // Возвращаем форматирование
-
-            if (response.ok) {
-                this.showSuccess('✅ Профиль успешно сохранен!');
+            if (response.status === 200) {
+                notification.success('Профиль успешно сохранен')
+                // Переходим на главную страницу в случае успешного сохранения профиля
                 setTimeout(() => {
-                    if (this.tg.close) {
-                        this.tg.close();
-                    } else {
-                        this.navigation.goBack();
-                    }
-                }, 2000);
+                    window.location.href = 'index.html';
+                }, 1500);
             } else {
-                const errorMessage = await response.json();
-                this.showError('❌ ' + errorMessage.message);
+                notification.error('Не удалось отправить данные');
             }
-
         } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
+            console.error('Ошибка сохранения профиля:', error);
+            notification.error(error.message);
+        } finally {
             submitBtn.classList.remove('loading');
-            submitBtn.textContent = '✅ Сохранить профиль';
+            submitBtn.textContent = 'Сохранить профиль';
             salaryField.value = this.formatSalary(salaryField.value); // Возвращаем форматирование
-            this.showError('❌ Ошибка соединения. Попробуйте еще раз');
         }
     }
-
     validatePhone() {
         const phoneNumber = document.getElementById('phoneNumber').value.trim();
         const phoneNumberPattern = /^\+?[\d\s\-\(\)]+$/;
@@ -310,47 +305,11 @@ class CandidateRegistration {
             candidateRegData.desiredSalary > 0;
 
         if (!isValid) {
-            this.showError('Пожалуйста, заполните все поля');
+            notification.error('Пожалуйста, заполните все поля');
             return false;
         }
 
         return true;
-    }
-
-    async sendFormData(data) {
-        return await fetch('https://hireme.serveo.net/registration/candidate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Telegram-Init-Data': this.tg.initData || ''
-            },
-            body: JSON.stringify({
-                ...data,
-                telegramUser: this.tg.initDataUnsafe?.user,
-                chatId: this.tg.initDataUnsafe?.user?.id
-            })
-        });
-    }
-    // ===== КОНЕЦ ОБРАБОТКИ ФОРМЫ =====
-
-    // ===== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =====
-    showError(message) {
-        if (this.tg.showAlert) {
-            this.tg.showAlert(message);
-        } else {
-            alert(message);
-        }
-    }
-
-    showSuccess(message) {
-        if (this.tg.showPopup) {
-            this.tg.showPopup({
-                message: message,
-                buttons: [{type: 'default', text: 'Отлично', id: 'ok'}]
-            });
-        } else {
-            alert(message);
-        }
     }
 
     autoFillFromTelegram() {

@@ -31,8 +31,7 @@ class BaseProfile {
     }
 
     async determineProfileType() {
-        // this.userType = localStorage.getItem('userProfileType');
-        this.userType = 'candidate';
+        this.userType = localStorage.getItem('userProfileType');
         console.log('Пользователь заходит под : ' + this.userType);
     }
 

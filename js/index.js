@@ -61,27 +61,31 @@ class HireMeApp {
                 e.stopImmediatePropagation();
 
                 const telegramUserId = Helpers.getTelegramUserId();
-                const profileExists = await this.checkProfileExists(telegramUserId);
+                 const response = await this.getProfileRoles(telegramUserId);
 
-                if (profileExists) {
-                    console.log('Redirecting to profile.html');
+                if (response == null) {
+                    notification.error('Для просмотра и редактирования профиля необходимо зарегистрироваться');
+                } else if (true) {
+                    console.log('User has two roles. Redirecting to profile-choice.html');
+                    window.location.href = 'profile-choice.html';
+                } else if (response.isCandidate && !response.isEmployer) {
+                    console.log('User is Candidate. Redirecting to profile.html');
                     window.location.href = 'profile.html';
-                } else {
-                    //tg.showAlert('Для просмотра и редактирования профиля необходимо зарегистрироваться');
-                    alert('Для просмотра и редактирования профиля необходимо зарегистрироваться')
+                } else if (response.isEmployer && !response.isCandidate) {
+                    console.log('User is employer. Redirecting to profile.html');
+                    window.location.href = 'profile.html';
                 }
             }, true);
         });
     }
 
-    async checkProfileExists(telegramUserId) {
+    async getProfileRoles(telegramUserId) {
         try {
-            const result =  await this.api.get(`/profile/check-access/${telegramUserId}`);
-            return result.data;
+            const response =  await this.api.get(`/profile/roles/${telegramUserId}`);
+            return response.data;
         } catch (error) {
-            // tg.showAlert('Произошла неизвестная ошибка');
-            alert('Произошла неизвестная ошибка')
-            return false;
+            notification.error(error.message);
+            return null;
         }
     }
 
