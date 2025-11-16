@@ -97,9 +97,7 @@ class HireMeApp {
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Запуск приложения');
     new HireMeApp().init();
 });
-
