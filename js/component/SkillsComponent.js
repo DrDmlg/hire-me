@@ -125,19 +125,6 @@ class SkillsComponent {
         if (cancelBtn) {
             cancelBtn.addEventListener('click', () => this.cancelAddSkill());
         }
-
-        // Закрываем по клику вне input
-        setTimeout(() => {
-            document.addEventListener('click', this.handleClickOutside.bind(this));
-        }, 100);
-    }
-
-    handleClickOutside(e) {
-        const inputContainer = document.querySelector('.skill-input-tag');
-        if (inputContainer && !inputContainer.contains(e.target) &&
-            e.target.id !== 'addSkillBtn') {
-            this.cancelAddSkill();
-        }
     }
 
     handleInputChange(value) {
@@ -259,7 +246,6 @@ class SkillsComponent {
     cancelAddSkill() {
         this.isAdding = false;
         this.render();
-        document.removeEventListener('click', this.handleClickOutside);
         this.hideSuggestions();
     }
 
