@@ -65,7 +65,7 @@ class HireMeApp {
 
                 if (response == null) {
                     notification.error('Для просмотра и редактирования профиля необходимо зарегистрироваться');
-                } else if (true) {
+                } else if (response.isCandidate && response.isEmployer) {
                     console.log('User has two roles. Redirecting to profile-choice.html');
                     window.location.href = 'profile-choice.html';
                 } else if (response.isCandidate && !response.isEmployer) {

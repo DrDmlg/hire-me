@@ -36,6 +36,9 @@ class BaseProfile {
     }
 
     async initManagers() {
+        //TODO: Так как пока не реализован профиль работодателя, то по умолчанию выставляем кандидата
+        this.userType = 'candidate';
+
         if (this.userType === 'candidate') {
             this.managers.profile = new CandidateProfileManager(this.profileData);
             console.log('Создан CandidateProfileManager');

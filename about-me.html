@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/about-me/about-me.css">
     <link rel="stylesheet" href="css/about-me/component/experience.css">
     <link rel="stylesheet" href="css/about-me/component/skills.css">
+    <link rel="stylesheet" href="css/about-me/component/languages.css">
     <link rel="stylesheet" href="css/service/notification-system.css">
     <link rel="stylesheet" href="css/service/icon-action.css">
 </head>
@@ -181,20 +182,43 @@
             </div>
         </div>
 
-        <!-- Languages -->
-        <div class="section-title">Языки</div>
-        <div class="info-grid-compact animate-slide-up">
-            <div class="language-item">
-                <span class="language-name">Русский</span>
-                <span class="language-level">Родной</span>
+        <!-- Languages Section -->
+        <div class="languages-section">
+            <div class="section-header">
+                <div class="section-title">Языки</div>
+                <button class="icon-action" id="addLanguageBtn">
+                    <img src="images/icons/add.png" alt="Добавить">
+                </button>
             </div>
-            <div class="language-item">
-                <span class="language-name">Английский</span>
-                <span class="language-level">C1 — Продвинутый</span>
+
+            <!-- Форма добавления/редактирования -->
+            <div class="language-form" id="languageForm" style="display: none;">
+                <div class="language-form-title" id="languageFormTitle">Добавить язык</div>
+                <form id="languageFormElement">
+                    <div class="language-form-group">
+                        <label class="language-form-label">Язык *</label>
+                        <select class="language-form-select" id="languageName" required>
+                        <option value="">Выберите язык</option>
+                        </select>
+                    </div>
+
+                    <div class="language-form-group">
+                        <label class="language-form-label">Уровень владения *</label>
+                        <select class="language-form-select" id="languageLevel" required>
+                            <option value="">Выберите уровень</option>
+                        </select>
+                    </div>
+                    <div class="language-form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelLanguageBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary" id="saveLanguageButton">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" id="updateLanguageButton" style="display: none;">Обновить</button>
+                    </div>
+                </form>
             </div>
-            <div class="language-item">
-                <span class="language-name">Немецкий</span>
-                <span class="language-level">A2 — Базовый</span>
+
+            <!-- Список языков -->
+            <div class="languages-list" id="languagesList">
+                <!-- Будет заполняться динамически -->
             </div>
         </div>
     </div>
@@ -229,6 +253,7 @@
 <script src="js/util/Helpers.js"></script>
 <script src="js/component/ExperienceComponent.js"></script>
 <script src="js/component/SkillsComponent.js"></script>
+<script src="js/component/LanguagesComponent.js"></script>
 <script src="js/manager/AboutMeManager.js"></script>
 </body>
 </html>

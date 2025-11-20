@@ -6,6 +6,7 @@ class AboutMeManager {
         this.managers = {
             experience: new ExperienceComponent(),
             skills: new SkillsComponent(),
+            languages: new LanguagesComponent(),
         };
     }
 
@@ -16,6 +17,7 @@ class AboutMeManager {
             if (this.profileData) {
                 await this.managers.experience.init(this.profileData.workExperiences || []);
                 await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);
+                await this.managers.languages.init(this.profileData.candidate.languages || [], this.profileData);
                 this.updateStaticSections();
                 console.log('AboutMeManager initialized successfully');
             }
