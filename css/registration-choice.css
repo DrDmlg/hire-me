@@ -37,28 +37,6 @@ body {
     padding: 20px;
 }
 
-/* Кнопка назад */
-.back-button {
-    background: var(--white);
-    border: 1px solid var(--border);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-    margin-bottom: 1rem;
-}
-
-.back-button:hover {
-    background: var(--primary);
-    color: var(--white);
-    transform: translateX(-2px);
-}
-
 .logo {
     text-align: center;
     margin-bottom: 2rem;

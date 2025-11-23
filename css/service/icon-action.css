@@ -15,3 +15,23 @@
 .icon-action:hover {
     transform: scale(1.1);
 }
+
+/* Кнопка назад */
+.back-button {
+    background: var(--white);
+    border: 1px solid var(--border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    transform: translateX(-2px) scale(1.05);
+}
