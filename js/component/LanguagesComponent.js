@@ -84,8 +84,8 @@ class LanguagesComponent {
                     const id = parseInt(editBtn.closest('.language-item').dataset.id);
                     this.editLanguageRecord(id);
                 } else if (deleteBtn) {
-                    const id = parseInt(deleteBtn.closest('.language-item').dataset.id);
-                    this.deleteLanguageRecord(id);
+                    const languageId = parseInt(deleteBtn.closest('.language-item').dataset.id);
+                    this.deleteLanguageRecord(languageId);
                 }
             });
         }
@@ -191,105 +191,6 @@ class LanguagesComponent {
         };
     }
 
-    // ============ API ОПЕРАЦИИ ============
-    /** Подгрузка всех существующих названий языков в системе*/
-    async loadAvailableLanguagesNames() {
-        try {
-            const response = await this.api.get(`/language/available/name`);
-            if (response.status !== 200) {
-                notification.error('Произошла ошибка при загрузке данных о языках с сервера');
-            } else {
-                this.availableLanguagesNames = response.data;
-            }
-        } catch (error) {
-
-        }
-    }
-
-    /** Подгрузка всех существующих уровней владения языков в системе*/
-    async loadAvailableLanguagesLevels() {
-        try {
-            const response = await this.api.get(`/language/available/level`);
-            if (response.status !== 200) {
-                notification.error('Произошла ошибка при загрузке данных уровней владения языков с сервера');
-            } else {
-                this.availableLanguagesLevels = response.data;
-            }
-        } catch (error) {
-
-        }
-    }
-
-    async createLanguage(languageData) {
-        notification.process('Добавляем язык...');
-
-        try {
-            // Создаем объект языка с моковым ID
-            const newLanguage = {
-                id: Date.now(), // Простой ID на основе времени
-                name: languageData.name,
-                level: languageData.level
-            };
-
-            this.languages.unshift(newLanguage);
-            this.render();
-            this.hideForm();
-            notification.success('Язык добавлен');
-        } catch (error) {
-            notification.error('Ошибка сохранения языка');
-            console.error('Create language error:', error);
-        } finally {
-            notification.hideAll();
-        }
-    }
-
-    async updateLanguage(languageData) {
-        notification.process('Обновляем язык...');
-
-        try {
-            // Обновляем язык в массиве
-            this.languages = this.languages.map(lang => {
-                if (lang.id === this.currentEditId) {
-                    return {
-                        ...lang,
-                        name: languageData.name,
-                        level: languageData.level
-                    };
-                }
-                return lang;
-            });
-
-            this.render();
-            this.hideForm();
-            notification.success('Данные языка обновлены');
-
-        } catch (error) {
-            notification.error('Ошибка обновления языка');
-            console.error('Update language error:', error);
-        } finally {
-            notification.hideAll();
-        }
-    }
-
-    async deleteLanguageRecord(id) {
-        if (!confirm('Вы уверены, что хотите удалить этот язык?')) return;
-
-        notification.process('Удаляем язык...');
-
-        try {
-            // Удаляем из массива
-            this.languages = this.languages.filter(lang => lang.id !== id);
-            this.render();
-            notification.success('Язык удален');
-
-        } catch (error) {
-            notification.error('Ошибка удаления языка');
-            console.error('Delete language error:', error);
-        } finally {
-            notification.hideAll();
-        }
-    }
-
     // ============ ОТОБРАЖЕНИЕ ============
     render() {
         const container = document.getElementById('languagesList');
@@ -335,6 +236,121 @@ class LanguagesComponent {
         const language = this.languages.find(lang => lang.id === id);
         if (language) {
             this.showForm(language);
+        }
+    }
+
+    // ============ API ОПЕРАЦИИ ============
+    /** Подгрузка всех существующих названий языков в системе*/
+    async loadAvailableLanguagesNames() {
+        try {
+            const response = await this.api.get(`/language/available/name`);
+            if (response.status !== 200) {
+                notification.error('Произошла ошибка при загрузке данных о языках с сервера');
+            } else {
+                this.availableLanguagesNames = response.data;
+            }
+        } catch (error) {
+
+        }
+    }
+
+    /** Подгрузка всех существующих уровней владения языков в системе*/
+    async loadAvailableLanguagesLevels() {
+        try {
+            const response = await this.api.get(`/language/available/level`);
+            if (response.status !== 200) {
+                notification.error('Произошла ошибка при загрузке данных уровней владения языков с сервера');
+            } else {
+                this.availableLanguagesLevels = response.data;
+            }
+        } catch (error) {
+
+        }
+    }
+
+    /** Добавление нового языка*/
+    async createLanguage(languageData) {
+        notification.process('Добавляем новый язык');
+
+        try {
+            const newLanguage = {
+                name: languageData.name,
+                level: languageData.level
+            };
+
+            let candidateId = this.profileData.candidate.id;
+            const response = await this.api.post(`/candidate/${candidateId}/language`, newLanguage);
+
+            if (response.status !== 200) {
+                notification.error('Ошибка добавления языка');
+            }
+
+            const savedLanguage = {
+                id: response.data.id,
+                name: response.data.name,
+                level: response.data.level
+            };
+
+            this.languages.unshift(savedLanguage);
+            this.render();
+            this.hideForm();
+            notification.success('Язык добавлен');
+        } catch (error) {
+            notification.error('Ошибка сохранения языка');
+            console.error('Create language error:', error);
+        } finally {
+            notification.hideAll();
+        }
+    }
+
+    /** Обновление редактируемой записи о владении языка*/
+    async updateLanguage(languageData) {
+        notification.process('Обновляем язык...');
+
+        try {
+            const response = await this.api.put(`/language/${this.currentEditId}`, languageData);
+
+            if (response.status === 200) {
+                this.languages = this.languages.map(lang => {
+                    if (lang.id === this.currentEditId) {
+                        return response.data;
+                    }
+                    return lang;
+                });
+
+                this.render();
+                this.hideForm();
+                notification.success('Данные языка обновлены');
+            } else {
+                notification.error('Ошибка обновления языка');
+            }
+        } catch (error) {
+            notification.error('Ошибка обновления языка');
+            console.error('Update language error:', error);
+        } finally {
+            notification.hideAll();
+        }
+    }
+
+    /** Удаление языка*/
+    async deleteLanguageRecord(languageId) {
+        notification.process('Удаляем язык...');
+
+        try {
+            const response = await this.api.delete(`/language/${languageId}`);
+
+            if (response.status !== 200) {
+                notification.error('Не удалось удалить язык');
+            }
+
+            this.languages = this.languages.filter(lang => lang.id !== languageId);
+            this.render();
+            notification.success('Язык удален');
+        } catch (error) {
+            notification.error('Ошибка удаления языка');
+            console.error('Delete language error:', error);
+        } finally {
+            notification.hideAll();
         }
     }
 }
