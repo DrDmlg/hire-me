@@ -1,4 +1,4 @@
-/* Класс для иконок действий */
+/* Класс для основных кнопок */
 
 /* Кнопка назад */
 .back-button {
@@ -13,7 +13,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: var(--shadow);
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .back-button:hover {
@@ -21,7 +21,7 @@
 }
 
 /* Кнопка добавить */
-.icon-action {
+.add-button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -33,6 +33,6 @@
     justify-content: center;
 }
 
-.icon-action:hover {
+.add-button:hover {
     transform: scale(1.1);
 }

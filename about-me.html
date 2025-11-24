@@ -12,19 +12,19 @@
     <link rel="stylesheet" href="css/about-me/component/languages.css">
     <link rel="stylesheet" href="css/service/notification-system.css">
     <link rel="stylesheet" href="css/service/icon-action.css">
+    <link rel="stylesheet" href="css/about-me/layout/header.css">
 </head>
 <body>
 <div class="container">
-    <!-- Кнопка назад -->
-    <button class="back-button">←</button>
-
     <!-- Header -->
     <header class="app-header">
         <div class="header-content">
-            <div style="width: 40px"></div>
+
+            <button class="back-button">
+                <img src="images/icons/arrow-back.png" alt="Назад">
+            </button>
+
             <h1 class="app-title">Обо мне</h1>
-<!--            РЕШИТЬ, ЧТО ДЕЛАТЬ С editProfile()-->
-            <button class="icon-button" onclick="app.editProfile()">✏️</button>
         </div>
     </header>
 
@@ -107,7 +107,7 @@
         <div class="experience-section">
             <div class="section-header">
                 <div class="section-title">Опыт работы</div>
-                <button class="icon-action" id="addExperienceBtn">
+                <button class="add-button" id="addExperienceBtn">
                     <img src="images/icons/add.png" alt="Добавить">
                 </button>
             </div>
@@ -171,7 +171,7 @@
                     Навыки
                     <span class="skills-counter" id="skillsCounter">(0/10)</span>
                 </div>
-                <button class="icon-action" id="addSkillBtn">
+                <button class="add-button" id="addSkillBtn">
                     <img src="images/icons/add.png" alt="Добавить">
                 </button>
             </div>
@@ -186,7 +186,7 @@
         <div class="languages-section">
             <div class="section-header">
                 <div class="section-title">Языки</div>
-                <button class="icon-action" id="addLanguageBtn">
+                <button class="add-button" id="addLanguageBtn">
                     <img src="images/icons/add.png" alt="Добавить">
                 </button>
             </div>
@@ -198,7 +198,7 @@
                     <div class="language-form-group">
                         <label class="language-form-label">Язык *</label>
                         <select class="language-form-select" id="languageName" required>
-                        <option value="">Выберите язык</option>
+                            <option value="">Выберите язык</option>
                         </select>
                     </div>
 

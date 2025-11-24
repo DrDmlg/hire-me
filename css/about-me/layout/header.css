@@ -1,0 +1,30 @@
+/* Шапка */
+
+.app-header {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    height: 48px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    height: 100%;
+}
+
+.app-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
