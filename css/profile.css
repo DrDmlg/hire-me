@@ -440,7 +440,11 @@ body {
 .action-icon {
     font-size: 1.75rem;
     margin-bottom: 0.75rem;
-    display: block;
+    transition: all 0.3s ease;
+}
+
+.action-card:hover .action-icon {
+    transform: scale(1.1);
 }
 
 .action-label {
