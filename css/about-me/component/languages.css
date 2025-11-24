@@ -88,31 +88,6 @@
     opacity: 1;
 }
 
-.action-btn {
-    background: var(--bg-soft);
-    border: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-    color: var(--text-muted);
-}
-
-.action-btn:hover {
-    background: var(--primary);
-    color: white;
-    transform: scale(1.1);
-}
-
-.delete-language-btn:hover {
-    background: var(--error);
-}
-
 /* Language Form */
 .language-form {
     background: var(--bg-card);

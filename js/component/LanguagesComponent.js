@@ -208,8 +208,13 @@ class LanguagesComponent {
                     <span class="language-name">${Helpers.escapeHtml(lang.name)}</span>
                     <span class="language-level">${Helpers.escapeHtml(levelLabel)}</span>
                     <div class="language-actions">
-                        <button class="action-btn edit-language-btn">✏️</button>
-                        <button class="action-btn delete-language-btn">🗑️</button>
+                      <button class="edit-button edit-btn">
+                         <img src="images/icons/edit.png" alt="Редактировать">
+                      </button>
+                      
+                      <button class="delete-button delete-language-btn">
+                         <img src="images/icons/trash.png" alt="Удалить">
+                      </button>
                     </div>
                 </div>
             `;

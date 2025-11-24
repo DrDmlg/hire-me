@@ -243,8 +243,13 @@ class ExperienceComponent {
             return `
             <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
                 <div class="experience-actions">
-                    <button class="action-btn edit-btn">✏️</button>
-                    <button class="action-btn delete-btn">🗑️</button>
+                 <button class="edit-button edit-btn">
+                    <img src="images/icons/edit.png" alt="Редактировать">
+                </button>
+
+                <button class="delete-button delete-btn">
+                    <img src="images/icons/trash.png" alt="Удалить">
+                </button>
                 </div>
                 <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>
                 <div class="experience-position">${Helpers.escapeHtml(exp.position)}</div>
@@ -276,6 +281,7 @@ class ExperienceComponent {
             </div>
         `;
     }
+
     // ============ ОСТАЛЬНЫЕ ============
     editExperienceRecord(id) {
         const experience = this.experiences.find(exp => exp.id === id);
