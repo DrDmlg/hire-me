@@ -19,3 +19,20 @@
 .back-button:hover {
     transform: translateX(-2px) scale(1.05);
 }
+
+/* Кнопка добавить */
+.icon-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-action:hover {
+    transform: scale(1.1);
+}
