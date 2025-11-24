@@ -45,33 +45,6 @@ body {
     padding: 0;
 }
 
-/* Header */
-.app-header {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1rem 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-}
-
-.app-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 /* Hero Section */
 .profile-hero {
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
