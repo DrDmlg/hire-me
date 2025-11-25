@@ -24,7 +24,7 @@ class BaseProfile {
     initTelegram() {
         if (this.tg) {
             this.tg.expand();
-            this.tg.setHeaderColor('#FFFFFF');
+            this.tg.setHeaderColor('#2563EB');
             this.tg.setBackgroundColor('#F8FAFC');
             this.tg.enableClosingConfirmation();
         }
