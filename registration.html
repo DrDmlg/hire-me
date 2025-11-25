@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="css/registration.css">
+    <link rel="stylesheet" href="css/service/icon-action.css">
+    <link rel="stylesheet" href="css/service/notification-system.css">
+    <link rel="stylesheet" href="css/about-me/layout/header.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <button class="back-button">
+                <img src="images/icons/arrow-back.png" alt="Назад">
+            </button>
+            <h1 class="app-title">Регистрация</h1>
+        </div>
+    </header>
+
+    <div class="registration-container">
+        <div class="registration-header"></div>
+
+        <div class="registration-body">
+            <form id="regForm">
+                <!-- Общие поля -->
+                <div class="form-group">
+                    <label for="firstName">Имя</label>
+                    <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Фамилия</label>
+                    <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Телефон</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
+                    <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
+                </div>
+
+                <!-- Поля для кандидата -->
+                <div id="candidateFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="desiredPosition">Должность</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="desiredPosition" name="desiredPosition" class="form-input" placeholder="Начните вводить название желаемой позиции" autocomplete="off">
+                            <div class="autocomplete-dropdown" id="positionDropdown"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desiredSalary">Ожидаемый доход</label>
+                        <div class="salary-container">
+                            <div class="salary-input">
+                                <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="250 000" inputmode="numeric">
+                            </div>
+                            <div class="currency-select-wrapper">
+                                <select id="currency" name="currency" class="currency-select">
+                                    <option value="RUB">₽ RUB</option>
+                                    <option value="USD">$ USD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Статус поиска работы -->
+                    <div class="status-toggle">
+                        <span class="status-label">Статус поиска работы</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="candidateJobStatus" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Поля для работодателя -->
+                <div id="employerFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="position">Должность</label>
+                        <input type="text" id="position" name="position" class="form-input" placeholder="Ваша должность в компании">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submitBtn">
+                    Сохранить профиль
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/service/NavigationService.js"></script>
+<script src="js/service/NotificationService.js"></script>
+<script src="js/service/ApiService.js"></script>
+<script src="js/Registration.js"></script>
+</body>
+</html>

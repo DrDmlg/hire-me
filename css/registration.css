@@ -1,0 +1,375 @@
+/* Стили для страницы регистрации (registration.html) */
+
+:root {
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --accent: #8B5CF6;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --bg-light: #F8FAFC;
+    --text-dark: #1E293B;
+    --text-gray: #64748B;
+    --white: #FFFFFF;
+    --border: #E2E8F0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.container {
+    max-width: 428px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+/* Registration Container */
+.registration-container {
+    background: var(--white);
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    margin: 0 0 2rem 0;
+}
+
+.registration-header {
+    background: var(--primary);
+    color: var(--white);
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.registration-body {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: var(--bg-light);
+    height: 44px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+    color: var(--text-gray);
+    opacity: 0.7;
+    font-size: 0.85rem;
+}
+
+.form-input.error {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-message {
+    color: var(--error);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* Autocomplete Styles */
+.autocomplete-container {
+    position: relative;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--white);
+    border: 1px solid var(--primary);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+}
+
+.autocomplete-item:hover, .autocomplete-item.selected {
+    background-color: var(--bg-light);
+}
+
+/* Salary Container */
+.salary-container {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.salary-input {
+    flex: 1;
+}
+
+.salary-input .form-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.currency-select-wrapper {
+    position: relative;
+    width: 100px;
+}
+
+.currency-select {
+    width: 100%;
+    height: 44px;
+    padding: 0.75rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    background: var(--bg-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.currency-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.currency-select-wrapper::after {
+    content: "▼";
+    font-size: 0.7rem;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-gray);
+}
+
+/* Status Toggle - ИСПРАВЛЕННЫЙ */
+.status-toggle {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: var(--bg-light);
+    border-radius: var(--radius);
+}
+
+.status-label {
+    flex: 1;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--error);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--success);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    height: 48px;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary.loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.btn-primary.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .registration-header {
+        padding: 1.25rem;
+    }
+
+    .registration-body {
+        padding: 1.25rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.875rem;
+    }
+
+    .form-input {
+        padding: 0.675rem;
+        height: 42px;
+        font-size: 0.875rem;
+    }
+
+    .currency-select-wrapper {
+        width: 90px;
+    }
+
+    .currency-select {
+        height: 42px;
+        padding: 0.675rem 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .currency-select-wrapper::after {
+        right: 6px;
+    }
+
+    .status-toggle {
+        margin: 0.875rem 0;
+        padding: 0.675rem;
+    }
+
+    .btn-primary {
+        padding: 0.8rem 1.5rem;
+        height: 46px;
+    }
+}
+
+@media (max-width: 380px) {
+    .registration-body {
+        padding: 1rem;
+    }
+
+    .form-input {
+        padding: 0.625rem;
+        height: 40px;
+    }
+
+    .currency-select {
+        height: 40px;
+        padding: 0.625rem 0.35rem;
+    }
+}
