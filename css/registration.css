@@ -31,34 +31,31 @@ body {
     padding: 0;
 }
 
+/* Убираем ограничение по ширине для container */
 .container {
-    max-width: 428px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
     width: 100%;
+    max-width: none; /* Убираем ограничение по ширине */
+    margin: 0;
+    padding: 0;
 }
 
-/* Registration Container */
+/* Registration Container - растягиваем на всю ширину */
 .registration-container {
     background: var(--white);
     border-radius: 0;
     box-shadow: none;
     overflow: hidden;
-    margin: 0 0 2rem 0;
+    margin: 0;
+    width: 100%; /* Занимает всю ширину */
 }
 
-.registration-header {
-    background: var(--primary);
-    color: var(--white);
-    padding: 1.5rem;
-    text-align: center;
-    position: relative;
-}
-
+/* Registration Body - растягиваем на всю ширину */
 .registration-body {
     padding: 1.5rem;
+    width: 100%; /* Занимает всю ширину */
 }
 
+/* Остальные стили остаются без изменений */
 .form-group {
     margin-bottom: 1rem;
     position: relative;
@@ -107,38 +104,6 @@ body {
     font-size: 0.75rem;
     margin-top: 0.25rem;
     display: none;
-}
-
-/* Autocomplete Styles */
-.autocomplete-container {
-    position: relative;
-}
-
-.autocomplete-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    max-height: 200px;
-    overflow-y: auto;
-    background: var(--white);
-    border: 1px solid var(--primary);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    display: none;
-}
-
-.autocomplete-item {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-size: 0.9rem;
-}
-
-.autocomplete-item:hover, .autocomplete-item.selected {
-    background-color: var(--bg-light);
 }
 
 /* Salary Container */
@@ -196,7 +161,7 @@ body {
     color: var(--text-gray);
 }
 
-/* Status Toggle - ИСПРАВЛЕННЫЙ */
+/* Status Toggle */
 .status-toggle {
     display: flex;
     align-items: center;
@@ -311,14 +276,6 @@ input:checked + .toggle-slider:before {
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
-    }
-
-    .registration-header {
-        padding: 1.25rem;
-    }
-
     .registration-body {
         padding: 1.25rem;
     }

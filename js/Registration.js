@@ -4,20 +4,6 @@ class Registration {
         this.navigation = new NavigationService();
         this.api = apiService;
         this.userType = null;
-        this.positions = [
-            "Frontend Developer",
-            "Backend Developer",
-            "Fullstack Developer",
-            "Mobile Developer",
-            "DevOps Engineer",
-            "Data Scientist",
-            "UI/UX Designer",
-            "Product Manager",
-            "QA Engineer",
-            "System Administrator"
-        ];
-        this.selectedIndex = -1;
-
         this.init();
     }
 
@@ -98,14 +84,6 @@ class Registration {
             salaryInput.addEventListener('keydown', (e) => this.handleSalaryKeydown(e));
             salaryInput.addEventListener('paste', (e) => this.handleSalaryPaste(e));
         }
-
-        // Автодополнение
-        const positionInput = document.getElementById('desiredPosition');
-        if (positionInput) {
-            positionInput.addEventListener('input', () => this.handlePositionInput());
-            positionInput.addEventListener('focus', () => this.handlePositionFocus());
-            positionInput.addEventListener('keydown', (e) => this.handlePositionKeydown(e));
-        }
     }
 
     // ===== МЕТОДЫ ДЛЯ ФОРМАТИРОВАНИЯ ЗАРПЛАТЫ =====
@@ -148,86 +126,6 @@ class Registration {
         const numbers = this.unformatSalary(text);
         const formatted = this.formatSalary(numbers);
         document.execCommand('insertText', false, formatted);
-    }
-
-    // ===== МЕТОДЫ ДЛЯ АВТОДОПОЛНЕНИЯ =====
-    filterPositions(query) {
-        if (!query) return this.positions;
-        return this.positions.filter(position =>
-            position.toLowerCase().includes(query.toLowerCase())
-        );
-    }
-
-    showSuggestions(suggestions) {
-        const dropdown = document.getElementById('positionDropdown');
-        if (!dropdown) return;
-
-        dropdown.innerHTML = '';
-
-        if (suggestions.length === 0) {
-            dropdown.style.display = 'none';
-            return;
-        }
-
-        suggestions.forEach((suggestion, index) => {
-            const item = document.createElement('div');
-            item.className = 'autocomplete-item';
-            item.textContent = suggestion;
-            item.addEventListener('click', () => {
-                document.getElementById('desiredPosition').value = suggestion;
-                dropdown.style.display = 'none';
-            });
-            dropdown.appendChild(item);
-        });
-
-        dropdown.style.display = 'block';
-        this.selectedIndex = -1;
-    }
-
-    handlePositionInput() {
-        const input = document.getElementById('desiredPosition');
-        const query = input.value;
-        const filtered = this.filterPositions(query);
-        this.showSuggestions(filtered);
-    }
-
-    handlePositionFocus() {
-        const input = document.getElementById('desiredPosition');
-        const query = input.value;
-        const filtered = this.filterPositions(query);
-        this.showSuggestions(filtered);
-    }
-
-    handlePositionKeydown(e) {
-        const dropdown = document.getElementById('positionDropdown');
-        const items = dropdown ? dropdown.querySelectorAll('.autocomplete-item') : [];
-
-        if (items.length === 0) return;
-
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            this.selectedIndex = (this.selectedIndex + 1) % items.length;
-            this.updateSelection(items);
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            this.selectedIndex = (this.selectedIndex - 1 + items.length) % items.length;
-            this.updateSelection(items);
-        } else if (e.key === 'Enter' && this.selectedIndex >= 0) {
-            e.preventDefault();
-            document.getElementById('desiredPosition').value = items[this.selectedIndex].textContent;
-            dropdown.style.display = 'none';
-        }
-    }
-
-    updateSelection(items) {
-        items.forEach((item, index) => {
-            if (index === this.selectedIndex) {
-                item.classList.add('selected');
-                item.scrollIntoView({block: 'nearest'});
-            } else {
-                item.classList.remove('selected');
-            }
-        });
     }
 
     // ===== ВАЛИДАЦИЯ =====
