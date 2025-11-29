@@ -275,34 +275,6 @@ body {
     text-align: right;
 }
 
-/* Education */
-.education-item {
-    background: var(--bg-card);
-    padding: 1.25rem;
-    border-radius: var(--radius-sm);
-    border-left: 3px solid var(--accent);
-    border: 1px solid var(--border);
-    margin-bottom: 1rem;
-}
-
-.education-institution {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.education-specialty {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-}
-
-.education-period {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
 /* Bottom Navigation */
 .bottom-nav {
     position: fixed;

@@ -5,6 +5,7 @@ class AboutMeManager {
 
         this.managers = {
             experience: new ExperienceComponent(),
+            educations: new EducationComponent(),
             skills: new SkillsComponent(),
             languages: new LanguagesComponent(),
         };
@@ -16,6 +17,7 @@ class AboutMeManager {
             this.profileData = await ProfileService.loadProfile();
             if (this.profileData) {
                 await this.managers.experience.init(this.profileData.workExperiences || []);
+                await this.managers.educations.init(this.profileData.candidate.educations || [], this.profileData);
                 await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);
                 await this.managers.languages.init(this.profileData.candidate.languages || [], this.profileData);
                 this.updateStaticSections();

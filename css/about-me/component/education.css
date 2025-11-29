@@ -1,0 +1,115 @@
+/* Education Section */
+.education-section {
+    margin-bottom: 1.5rem;
+}
+
+.education-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.education-item {
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent);
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.education-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.education-actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.education-item:hover .education-actions {
+    opacity: 1;
+}
+
+.institution-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.faculty {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.specialization {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.graduation-year {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Education Form */
+.education-form {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--primary-light);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Empty State */
+.education-empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+}
+
+.education-empty-state .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.education-empty-state .empty-text {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.education-empty-state .empty-hint {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .education-item {
+        padding: 1rem;
+    }
+
+    .education-actions {
+        opacity: 1; /* Всегда показываем на мобильных */
+    }
+
+    .education-form {
+        padding: 1.25rem;
+    }
+
+    .education-empty-state {
+        padding: 2rem;
+    }
+}

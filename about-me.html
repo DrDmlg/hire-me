@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/about-me/about-me.css">
     <link rel="stylesheet" href="css/about-me/component/experience.css">
+    <link rel="stylesheet" href="css/about-me/component/education.css">
     <link rel="stylesheet" href="css/about-me/component/skills.css">
     <link rel="stylesheet" href="css/about-me/component/languages.css">
     <link rel="stylesheet" href="css/service/notification-system.css">
@@ -156,13 +157,57 @@
             </div>
         </div>
 
-        <!-- Education -->
-        <div class="section-title">Образование</div>
-        <div class="education-item animate-slide-up">
-            <div class="education-institution">НИУ ВШЭ</div>
-            <div class="education-specialty">Факультет дизайна, Бакалавр</div>
-            <div class="education-period">2014 — 2018</div>
-        </div>
+        <!-- Education Section -->
+        <section class="education-section">
+            <div class="section-header">
+                <div class="section-title">Образование</div>
+                <button class="add-button" id="addEducationBtn" title="Добавить образование">
+                    <img src="images/icons/add.png" alt="Добавить">
+                </button>
+            </div>
+
+            <!-- Education List -->
+            <div class="education-list" id="educationList">
+                <!-- Динамически заполняется через EducationComponent -->
+            </div>
+
+            <!-- Education Form (изначально скрыт) -->
+            <div class="education-form" id="educationForm" style="display: none;">
+                <div class="form-title" id="educationFormTitle">Добавить образование</div>
+                <form id="educationFormElement">
+                    <div class="form-group">
+                        <label class="form-label" for="institutionName">Учебное заведение *</label>
+                        <input type="text" class="form-input" id="institutionName"
+                               placeholder="Например: МГУ им. Ломоносова" maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="faculty">Факультет</label>
+                        <input type="text" class="form-input" id="faculty"
+                               placeholder="Например: Экономический факультет" maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="specialization">Специальность</label>
+                        <input type="text" class="form-input" id="specialization"
+                               placeholder="Например: Финансы и кредит" maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="graduationYear">Год окончания *</label>
+                        <input type="number" class="form-input" id="graduationYear"
+                               min="1950" max="2030"
+                               placeholder="Например: 2020" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelEducationBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary" id="saveEducationButton">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" id="updateEducationButton" style="display: none;">Обновить</button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
         <!-- Skills Section -->
         <div class="skills-section">
@@ -252,6 +297,7 @@
 <script src="js/service/NavigationService.js"></script>
 <script src="js/util/Helpers.js"></script>
 <script src="js/component/ExperienceComponent.js"></script>
+<script src="js/component/EducationComponent.js"></script>
 <script src="js/component/SkillsComponent.js"></script>
 <script src="js/component/LanguagesComponent.js"></script>
 <script src="js/manager/AboutMeManager.js"></script>
