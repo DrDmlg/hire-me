@@ -141,31 +141,6 @@ body {
     max-width: 120px;
 }
 
-/* Цвета для разных ролей */
-.job-seeker {
-    --card-color: #3B82F6;
-}
-
-.employer {
-    --card-color: #8B5CF6;
-}
-
-.job-seeker::before {
-    background: var(--card-color);
-}
-
-.employer::before {
-    background: var(--card-color);
-}
-
-.job-seeker:hover {
-    border-color: var(--card-color);
-}
-
-.employer:hover {
-    border-color: var(--card-color);
-}
-
 /* Адаптивность */
 @media (max-width: 480px) {
     .container {
