@@ -249,13 +249,13 @@ class Registration {
             lastName: formData.lastName,
             email: formData.email,
             phoneNumber: formData.phoneNumber,
-            candidateRegistrationRequest: {
+            candidateRegistration: {
                 desiredPosition: formData.desiredPosition,
                 desiredSalary: formData.desiredSalary,
                 currency: formData.currency,
                 candidateJobStatus: formData.candidateJobStatus
             },
-            webAppTelegramRequest: {
+            webAppTelegram: {
                 initData: this.tg.initData,
                 initDataUnsafe: this.tg.initDataUnsafe
             }
@@ -279,10 +279,10 @@ class Registration {
             lastName: formData.lastName,
             email: formData.email,
             phoneNumber: formData.phoneNumber,
-            employerRegistrationRequest: {
+            employerRegistration: {
                 currentPosition: formData.currentPosition
             },
-            webAppTelegramRequest: {
+            webAppTelegram: {
                 initData: this.tg.initData,
                 initDataUnsafe: this.tg.initDataUnsafe
             }
