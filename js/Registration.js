@@ -238,25 +238,27 @@ class Registration {
         } else {
             return {
                 ...commonData,
-                position: document.getElementById('position').value.trim()
+                currentPosition: document.getElementById('position').value.trim()
             };
         }
     }
 
     async sendCandidateData(formData) {
         const data = {
-            formType: 'registration_candidate',
-            generalProfileRegistrationData: {
-                ...formData,
-                candidateRegistrationData: {
-                    desiredPosition: formData.desiredPosition,
-                    desiredSalary: formData.desiredSalary,
-                    currency: formData.currency,
-                    candidateJobStatus: formData.candidateJobStatus
-                }
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            candidateRegistrationRequest: {
+                desiredPosition: formData.desiredPosition,
+                desiredSalary: formData.desiredSalary,
+                currency: formData.currency,
+                candidateJobStatus: formData.candidateJobStatus
             },
-            initData: this.tg.initData,
-            initDataUnsafe: this.tg.initDataUnsafe
+            webAppTelegramRequest: {
+                initData: this.tg.initData,
+                initDataUnsafe: this.tg.initDataUnsafe
+            }
         };
 
         const response = await this.api.post('/registration/candidate', data);
@@ -273,15 +275,17 @@ class Registration {
 
     async sendEmployerData(formData) {
         const data = {
-            formType: 'registration_employer',
-            generalProfileRegistrationData: {
-                ...formData,
-                employerRegistrationData: {
-                    position: formData.position
-                }
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            employerRegistrationRequest: {
+                currentPosition: formData.currentPosition
             },
-            initData: this.tg.initData,
-            initDataUnsafe: this.tg.initDataUnsafe
+            webAppTelegramRequest: {
+                initData: this.tg.initData,
+                initDataUnsafe: this.tg.initDataUnsafe
+            }
         };
 
         const response = await this.api.post('/registration/employer', data);
