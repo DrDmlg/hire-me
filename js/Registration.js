@@ -48,12 +48,21 @@ class Registration {
         const candidateFields = document.getElementById('candidateFields');
         const employerFields = document.getElementById('employerFields');
 
+        const desiredPositionInput = document.getElementById('desiredPosition');
+        const currentPositionInput = document.getElementById('currentPosition');
+
         if (this.userType === 'candidate') {
             if (candidateFields) candidateFields.style.display = 'block';
             if (employerFields) employerFields.style.display = 'none';
+
+            if (desiredPositionInput) desiredPositionInput.required = true;
+            if (currentPositionInput) currentPositionInput.required = false;
         } else {
             if (candidateFields) candidateFields.style.display = 'none';
             if (employerFields) employerFields.style.display = 'block';
+
+            if (desiredPositionInput) desiredPositionInput.required = false;
+            if (currentPositionInput) currentPositionInput.required = true;
         }
     }
 
@@ -172,7 +181,7 @@ class Registration {
                 return false;
             }
         } else {
-            if (!data.position) {
+            if (!data.currentPosition) {
                 notification.error('Пожалуйста, укажите вашу должность в компании');
                 return false;
             }
@@ -238,7 +247,7 @@ class Registration {
         } else {
             return {
                 ...commonData,
-                currentPosition: document.getElementById('position').value.trim()
+                currentPosition: document.getElementById('currentPosition').value.trim()
             };
         }
     }
