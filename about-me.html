@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/about-me/component/education.css">
     <link rel="stylesheet" href="css/about-me/component/skills.css">
     <link rel="stylesheet" href="css/about-me/component/languages.css">
+    <link rel="stylesheet" href="css/about-me/component/contacts.css">
     <link rel="stylesheet" href="css/service/notification-system.css">
     <link rel="stylesheet" href="css/service/icon-action.css">
     <link rel="stylesheet" href="css/about-me/layout/header.css">
@@ -83,24 +84,65 @@
                 <span class="info-value-compact">Product Designer</span>
             </div>
             <div class="info-row">
-                <span class="info-label-compact">Уровень</span>
-                <span class="info-value-compact">Senior</span>
-            </div>
-            <div class="info-row">
                 <span class="info-label-compact">Опыт работы</span>
                 <span class="info-value-compact">5 лет 8 мес</span>
             </div>
             <div class="info-row">
-                <span class="info-label-compact">Занятость</span>
-                <span class="info-value-compact">Полная, Удалённая</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label-compact">График</span>
-                <span class="info-value-compact">Гибкий</span>
-            </div>
-            <div class="info-row">
                 <span class="info-label-compact">Желаемая зарплата</span>
                 <span class="info-value-compact">350 000 ₽</span>
+            </div>
+        </div>
+
+        <!-- Contacts Section -->
+        <div class="contacts-section">
+            <div class="section-header">
+                <div class="section-title">Контакты</div>
+                <button class="add-button" id="addContactBtn" title="Редактировать контакты">
+                    <img src="images/icons/edit.png" alt="Редактировать">
+                </button>
+            </div>
+
+            <!-- Форма редактирования -->
+            <div class="contacts-form" id="contactsForm" style="display: none;">
+                <div class="form-title">Редактировать контакты</div>
+                <form id="contactsFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="contactEmail"
+                               placeholder="example@mail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Телефон</label>
+                        <input type="tel" class="form-input" id="contactPhone"
+                               placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Telegram</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">@</span>
+                            <input type="text" class="form-input" id="contactTelegram"
+                                   placeholder="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp</label>
+                        <input type="tel" class="form-input" id="contactWhatsApp"
+                               placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelContactBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Список контактов -->
+            <div class="contacts-list" id="contactsList">
+                <!-- Динамически заполнится через JavaScript -->
             </div>
         </div>
 
@@ -267,28 +309,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <div class="nav-grid">
-            <a href="index.html" class="nav-item">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Главная</span>
-            </a>
-            <a href="vacancies.html" class="nav-item">
-                <span class="nav-icon">💼</span>
-                <span class="nav-label">Вакансии</span>
-            </a>
-            <a href="profile.html" class="nav-item active">
-                <span class="nav-icon">👤</span>
-                <span class="nav-label">Профиль</span>
-            </a>
-            <a href="chat.html" class="nav-item">
-                <span class="nav-icon">💬</span>
-                <span class="nav-label">Чат</span>
-            </a>
-        </div>
-    </nav>
 </div>
 
 <script src="js/service/ApiService.js"></script>
@@ -300,6 +320,7 @@
 <script src="js/component/EducationComponent.js"></script>
 <script src="js/component/SkillsComponent.js"></script>
 <script src="js/component/LanguagesComponent.js"></script>
+<script src="js/component/ContactsComponent.js"></script>
 <script src="js/manager/AboutMeManager.js"></script>
 </body>
 </html>
