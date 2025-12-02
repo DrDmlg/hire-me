@@ -165,11 +165,9 @@ class ContactsComponent {
     }
 
     getEmptyState() {
-        return `
-            <div class="contacts-empty-state">
-                <div class="empty-icon">📞</div>
-                <div class="empty-text">Контакты пока не указаны</div>
-                <div class="empty-hint">Нажмите "+" чтобы добавить контакты</div>
+        return `            
+            <div class="empty-state">
+                <div class="empty-text">Здесь пока ничего нет</div>
             </div>
         `;
     }

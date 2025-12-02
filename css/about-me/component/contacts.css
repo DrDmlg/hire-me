@@ -109,31 +109,6 @@
     opacity: 1;
 }
 
-/* Empty State */
-.contacts-empty-state {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
-    width: 100%;
-}
-
-.contacts-empty-state .empty-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
-}
-
-.contacts-empty-state .empty-text {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: var(--text-secondary);
-}
-
-.contacts-empty-state .empty-hint {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
 /* Адаптивность */
 @media (max-width: 480px) {
     .contact-item {
@@ -167,13 +142,5 @@
         position: static;
         align-self: flex-end;
         margin-top: 0.5rem;
-    }
-
-    .contacts-empty-state {
-        padding: 1.5rem;
-    }
-
-    .contacts-empty-state .empty-icon {
-        font-size: 1.5rem;
     }
 }

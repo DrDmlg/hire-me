@@ -268,10 +268,8 @@ class SkillsComponent {
 
     getEmptyState() {
         return `
-            <div class="skills-empty-state">
-                <div class="empty-icon">💡</div>
-                <div class="empty-text">Навыки пока не добавлены</div>
-                <div class="empty-hint">Нажмите "+" чтобы добавить навык</div>
+            <div class="empty-state">
+                <div class="empty-text">Здесь пока ничего нет</div>
             </div>
         `;
     }

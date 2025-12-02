@@ -171,29 +171,12 @@
     background: var(--border);
 }
 
-/* Empty State */
-.languages-empty-state {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
-    width: 100%;
-}
-
-.languages-empty-state .empty-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
-}
-
-.languages-empty-state .empty-text {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: var(--text-secondary);
-}
-
-.languages-empty-state .empty-hint {
-    font-size: 0.9rem;
-    color: var(--text-muted);
+/* Empty State  для блока "навыки". Для навыков требуется небольшой костыль,
+хотя и сделан универсальный empty-state.css для всех компонентов */
+.skills-list:has(.empty-state) {
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
 }
 
 /* Адаптивность */
@@ -233,13 +216,5 @@
     .language-actions {
         align-self: flex-end;
         margin-top: 0.5rem;
-    }
-
-    .languages-empty-state {
-        padding: 1.5rem;
-    }
-
-    .languages-empty-state .empty-icon {
-        font-size: 1.5rem;
     }
 }

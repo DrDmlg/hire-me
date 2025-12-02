@@ -207,8 +207,6 @@ class ExperienceComponent {
 
     /** Удаление записи об опыте*/
     async deleteExperienceRecord(id) {
-        if (!confirm('Вы уверены, что хотите удалить этот опыт работы?')) return;
-
         notification.process('Удаление...')
 
         try {
@@ -274,10 +272,8 @@ class ExperienceComponent {
 
     getEmptyState() {
         return `
-            <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">💼</div>
-                <div style="font-weight: 500; margin-bottom: 0.5rem;">Опыт работы пока не добавлен</div>
-                <div style="font-size: 0.9rem;">Нажмите "+" чтобы добавить первое место работы</div>
+            <div class="empty-state">
+                <div class="empty-text">Здесь пока ничего нет</div>
             </div>
         `;
     }

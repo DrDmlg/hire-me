@@ -196,31 +196,6 @@
     transform: scale(1.1);
 }
 
-/* Empty State */
-.skills-empty-state {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
-    width: 100%;
-}
-
-.skills-empty-state .empty-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
-}
-
-.skills-empty-state .empty-text {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    color: var(--text-secondary);
-}
-
-.skills-empty-state .empty-hint {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
 /* Limit Warning States */
 .skills-counter.warning {
     color: var(--warning);
@@ -327,14 +302,6 @@
 
     .skill-name {
         max-width: 100px;
-    }
-
-    .skills-empty-state {
-        padding: 1.5rem;
-    }
-
-    .skills-empty-state .empty-icon {
-        font-size: 1.5rem;
     }
 
     .skill-input-field {
