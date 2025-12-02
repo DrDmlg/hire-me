@@ -27,14 +27,14 @@ class CandidateProfileManager {
     // Временные тестовые данные
     getDefaultCandidateProfile() {
         return {
-            headline: "Senior Product Designer · FinTech Expert · UX Strategy",
-            experience: "5+ лет опыта",
-            education: "Высшее образование",
-            isActive: true,
+            headline: this.profileData.candidate.desiredPosition,
+            experience: "5+ лет опыта", // TODO: пока мок значение. Продумать как будем рассчитывать. Может вообще убрать
+            education: "Высшее образование", // TODO: пока мок значение. Продумать, что будем сюда подставлять. Может вообще убрать
+            isActive: true, // TODO: пока мок значение. Исправить реализацю как дойдут руки
             stats: {
-                profileViews: 24,
-                responses: 8,
-                matches: 12
+                profileViews: 0,
+                responses: 0,
+                matches: 0
             }
         };
     }

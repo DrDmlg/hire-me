@@ -22,7 +22,7 @@ class AboutMeManager {
                 await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);
                 await this.managers.languages.init(this.profileData.candidate.languages || [], this.profileData);
                 await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
-                this.updateStaticSections();
+                this.loadBasicCandidateInfo();
                 console.log('AboutMeManager initialized successfully');
             }
         } catch (error) {
@@ -31,13 +31,10 @@ class AboutMeManager {
         }
     }
 
-    updateStaticSections() {
+    loadBasicCandidateInfo() {
         if (this.profileData) {
-            document.getElementById('userName').textContent =
-                `${this.profileData.firstName} ${this.profileData.lastName}`;
-            // document.getElementById('userPosition').textContent =
-            //     this.profileData.position || 'Не указано';
-            // Пока не понятно какую позицию устанавливать в профиле (то ли от кандидата то ли от сотрудника, а может совсем иную)
+            document.getElementById('userName').textContent = `${this.profileData.firstName} ${this.profileData.lastName}`;
+            document.getElementById('userPosition').textContent = this.profileData.candidate.desiredPosition || 'Не указано';
         } else {
             console.warn('No profile data to update static sections');
         }
