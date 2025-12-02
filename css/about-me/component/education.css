@@ -71,30 +71,6 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Empty State */
-.education-empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-muted);
-}
-
-.education-empty-state .empty-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-}
-
-.education-empty-state .empty-text {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-}
-
-.education-empty-state .empty-hint {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
 /* Адаптивность */
 @media (max-width: 480px) {
     .education-item {
@@ -107,9 +83,5 @@
 
     .education-form {
         padding: 1.25rem;
-    }
-
-    .education-empty-state {
-        padding: 2rem;
     }
 }

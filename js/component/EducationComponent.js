@@ -202,10 +202,8 @@ class EducationComponent {
 
     getEmptyState() {
         return `
-            <div class="education-empty-state">
-                <div class="empty-icon">🎓</div>
-                <div class="empty-text">Образование пока не добавлено</div>
-                <div class="empty-hint">Нажмите "+" чтобы добавить первое образование</div>
+            <div class="empty-state">
+                <div class="empty-text">Здесь пока ничего нет</div>
             </div>
         `;
     }
