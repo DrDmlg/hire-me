@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Подключаем стили в том же порядке, что и в других страницах -->
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/service/notification-system.css">
+    <link rel="stylesheet" href="css/service/icon-action.css">
+    <link rel="stylesheet" href="css/about-me/layout/header.css">
+    <!-- Новый файл стилей для страницы резюме -->
+    <link rel="stylesheet" href="css/resume/resume.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header (используем существующую шапку как в profile.html) -->
+    <header class="app-header">
+        <div class="header-content">
+            <button class="back-button">
+                <img src="images/icons/arrow-back.png" alt="Назад">
+            </button>
+            <h1 class="app-title">Моё резюме</h1>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <div class="content-section">
+        <!-- Upload Area - ОДНА ФОРМА на все состояния -->
+        <div class="resume-upload-area" id="uploadArea">
+            <!-- Заголовок (будем менять текст) -->
+            <h3 class="upload-title" id="uploadTitle">Добавьте ваше резюме</h3>
+
+            <!-- Описание (будем прятать/показывать) -->
+            <p class="upload-description" id="uploadDescription">
+                Просто перетащите файл в область ниже
+            </p>
+
+            <!-- Центральная область (крестик/иконка PDF/прогресс) -->
+            <div class="upload-drop-zone" id="dropZone">
+                <div class="drop-zone-text" id="dropZoneText">Перетащите сюда</div>
+            </div>
+
+            <!-- Здесь будет появляться информация о файле -->
+            <div id="fileInfoContainer"></div>
+
+            <!-- Разделитель "или" (прячем когда есть файл) -->
+            <div class="upload-or" id="uploadOr">или</div>
+
+            <!-- Основная кнопка (меняем текст и действие) -->
+            <button class="upload-btn" id="mainActionBtn">Выбрать файл</button>
+
+            <!-- Вторая кнопка (показываем только когда есть файл) -->
+            <button class="upload-btn secondary" id="secondaryActionBtn" style="display: none;">
+                Заменить
+            </button>
+
+            <!-- Футер (требования/подсказка) -->
+            <div class="upload-requirements" id="uploadFooter">
+                <div class="requirement-item">
+                    <span>• Только PDF формат</span>
+                </div>
+                <div class="requirement-item">
+                    <span>• Максимальный размер: 5 MB</span>
+                </div>
+            </div>
+
+            <!-- Скрытый input -->
+            <input type="file" id="fileInput" accept=".pdf,application/pdf" style="display: none;">
+        </div>
+    </div>
+</div>
+
+<script src="js/service/ApiService.js"></script>
+<script src="js/service/ProfileService.js"></script>
+<script src="js/service/NotificationService.js"></script>
+<script src="js/service/NavigationService.js"></script>
+<script src="js/util/Helpers.js"></script>
+<script src="js/component/ResumeComponent.js"></script>
+<script src="js/manager/ResumeManager.js"></script>
+</body>
+</html>

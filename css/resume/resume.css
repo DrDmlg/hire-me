@@ -1,0 +1,442 @@
+/* ========== CSS ПЕРЕМЕННЫЕ ========== */
+:root {
+    --primary: #2563EB;
+    --primary-light: #3B82F6;
+    --primary-dark: #1D4ED8;
+    --accent: #8B5CF6;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --bg-main: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-hover: #F8FAFC;
+    --bg-soft: #F1F5F9;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 16px;
+    --radius-sm: 12px;
+}
+
+/* ========== ОБЛАСТЬ ЗАГРУЗКИ ========== */
+.resume-upload-area {
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Контур при наведении */
+.resume-upload-area:hover {
+    border-color: var(--primary-light);
+    background: rgba(37, 99, 235, 0.02);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+}
+
+/* Активное состояние при drag over */
+.resume-upload-area.drag-over {
+    border-color: var(--primary);
+    border-style: solid;
+    background: linear-gradient(135deg,
+    rgba(37, 99, 235, 0.05) 0%,
+    rgba(139, 92, 246, 0.05) 100%);
+    animation: pulseArea 1.5s infinite;
+}
+
+@keyframes pulseArea {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    }
+}
+
+/* Заголовок */
+.upload-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* Описание */
+.upload-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.5;
+}
+
+/* Область с крестиком для drag & drop */
+.upload-drop-zone {
+    width: 100%;
+    max-width: 300px;
+    height: 160px;
+    border: 2px dashed var(--primary-light);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    background: rgba(37, 99, 235, 0.02);
+}
+
+/* Горизонтальная линия крестика */
+.upload-drop-zone::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+/* Вертикальная линия крестика */
+.upload-drop-zone::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 80px;
+    background: var(--primary);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.resume-upload-area:hover .upload-drop-zone {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.05);
+    transform: scale(1.02);
+}
+
+.resume-upload-area.drag-over .upload-drop-zone {
+    border-color: var(--primary);
+    border-style: solid;
+    background: rgba(37, 99, 235, 0.1);
+    animation: pulseCross 1s infinite;
+}
+
+@keyframes pulseCross {
+    0%, 100% {
+        transform: scale(1.02);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Текст под крестиком */
+.drop-zone-text {
+    position: absolute;
+    bottom: -25px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Разделитель "или" */
+.upload-or {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.upload-or::before,
+.upload-or::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* Кнопка выбора файла */
+.upload-btn {
+    width: 100%;
+    max-width: 260px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.upload-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+.upload-btn:active {
+    transform: translateY(0);
+}
+
+/* Требования к файлу */
+.upload-requirements {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* ========== СОСТОЯНИЯ ФОРМЫ ========== */
+
+/* Состояние: Есть файл */
+.resume-upload-area.has-file {
+    border-color: var(--primary);
+    border-style: solid;
+    background: rgba(16, 185, 129, 0.02);
+}
+
+/* Прячем крестик когда есть файл */
+.resume-upload-area.has-file .upload-drop-zone::before,
+.resume-upload-area.has-file .upload-drop-zone::after {
+    display: none;
+}
+
+/* Показываем иконку PDF когда есть файл */
+.resume-upload-area.has-file .upload-drop-zone::before {
+    content: '📄';
+    display: block !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.5rem;
+    z-index: 1;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Информация о файле */
+.file-info {
+    text-align: center;
+    margin: 1rem 0 1.5rem;
+    animation: fadeIn 0.4s ease;
+}
+
+.file-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+    padding: 0 1rem;
+}
+
+/* Дата файла */
+.file-date {
+    font-size: 0.9rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-top: 0.25rem;
+    opacity: 0.9;
+}
+
+/* Вторая кнопка */
+.upload-btn.secondary {
+    background: var(--bg-soft);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    margin-top: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.upload-btn.secondary:hover {
+    background: var(--border);
+    transform: translateY(-2px);
+}
+
+.upload-btn.secondary:active {
+    transform: translateY(0);
+}
+
+/* Прогресс загрузки */
+.upload-progress-container {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.progress-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.progress-percent {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.progress-bar {
+    height: 6px;
+    background: var(--bg-soft);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.cancel-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg-soft);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: var(--border);
+}
+
+/* Состояние загрузки */
+.resume-upload-area.uploading .upload-drop-zone,
+.resume-upload-area.uploading .upload-or,
+.resume-upload-area.uploading .upload-btn,
+.resume-upload-area.uploading .upload-requirements {
+    display: none;
+}
+
+/* ========== АНИМАЦИИ ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 480px) {
+    .resume-upload-area {
+        padding: 2.5rem 1rem;
+        min-height: 340px;
+    }
+
+    .upload-drop-zone {
+        height: 140px;
+        max-width: 260px;
+        margin-bottom: 1.5rem;
+    }
+
+    .upload-drop-zone::before {
+        width: 70px;
+    }
+
+    .upload-drop-zone::after {
+        height: 70px;
+    }
+
+    .upload-btn {
+        max-width: 220px;
+        padding: 0.875rem 1.25rem;
+    }
+
+    .file-info {
+        margin: 0.75rem 0 1.25rem;
+    }
+
+    .file-name {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    .upload-progress-container {
+        max-width: 260px;
+    }
+}
+
+@media (max-width: 380px) {
+    .resume-upload-area {
+        min-height: 320px;
+        padding: 2rem 1rem;
+    }
+
+    .upload-drop-zone {
+        height: 120px;
+        max-width: 240px;
+    }
+
+    .upload-drop-zone::before {
+        width: 60px;
+    }
+
+    .upload-drop-zone::after {
+        height: 60px;
+    }
+
+    .upload-title {
+        font-size: 1.2rem;
+    }
+
+    .file-name {
+        font-size: 0.95rem;
+    }
+}

@@ -24,6 +24,10 @@ class CandidateProfileManager {
         window.location.href = 'about-me.html';
     }
 
+    openResumePage() {
+        window.location.href = 'resume.html';
+    }
+
     // Временные тестовые данные
     getDefaultCandidateProfile() {
         return {
@@ -59,6 +63,7 @@ class CandidateProfileManager {
     handleAction(action) {
         const actionHandlers = {
             'about-me': () => this.openAboutMe(),
+            'resume': () => this.openResumePage(),
         };
 
         const handler = actionHandlers[action];
