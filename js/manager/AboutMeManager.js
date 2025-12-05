@@ -4,6 +4,7 @@ class AboutMeManager {
         this.navigation = new NavigationService();
 
         this.managers = {
+            basicInfo: new BasicInfoComponent(),
             experience: new ExperienceComponent(),
             educations: new EducationComponent(),
             skills: new SkillsComponent(),
@@ -17,6 +18,7 @@ class AboutMeManager {
             this.navigation.init();
             this.profileData = await ProfileService.loadProfile();
             if (this.profileData) {
+                await this.managers.basicInfo.init(this.profileData);
                 await this.managers.experience.init(this.profileData.workExperiences || []);
                 await this.managers.educations.init(this.profileData.candidate.educations || [], this.profileData);
                 await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);

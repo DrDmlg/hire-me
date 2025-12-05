@@ -1,0 +1,139 @@
+/* Basic Info Section */
+.basic-info-section {
+    margin-bottom: 1.5rem;
+}
+
+.info-grid-compact {
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label-compact {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.info-value-compact {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: right;
+    flex: 1;
+    padding: 0 8px;
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.section-header .edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.section-header .edit-button:hover {
+    background-color: var(--bg-soft);
+}
+
+.section-header .edit-button img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+}
+
+/* Basic Info Form */
+.basic-info-form {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--primary-light);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Контейнер для зарплаты и валюты */
+.salary-edit-container {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.currency-select {
+    width: 100px;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background: var(--bg-light);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.currency-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .info-row {
+        padding: 0.875rem 1rem;
+    }
+
+    .info-label-compact {
+        font-size: 0.8rem;
+    }
+
+    .info-value-compact {
+        font-size: 0.85rem;
+    }
+
+    .basic-info-form {
+        padding: 1.25rem;
+    }
+
+    .currency-select {
+        width: 90px;
+    }
+}
+
+@media (max-width: 380px) {
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        padding: 0.75rem;
+    }
+
+    .info-value-compact {
+        text-align: left;
+        padding: 0;
+        width: 100%;
+    }
+}

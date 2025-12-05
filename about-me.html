@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/about-me/component/skills.css">
     <link rel="stylesheet" href="css/about-me/component/languages.css">
     <link rel="stylesheet" href="css/about-me/component/contacts.css">
+    <link rel="stylesheet" href="css/about-me/component/basic-info.css">
     <link rel="stylesheet" href="css/service/notification-system.css">
     <link rel="stylesheet" href="css/service/icon-action.css">
     <link rel="stylesheet" href="css/about-me/layout/header.css">
@@ -77,20 +78,60 @@
             </div>
         </div>
 
-        <!-- Basic Info -->
-        <div class="section-title">Основная информация</div>
-        <div class="info-grid-compact animate-slide-up">
-            <div class="info-row">
-                <span class="info-label-compact">Специализация</span>
-                <span class="info-value-compact">Product Designer</span>
+        <!-- Basic Info Section -->
+        <div class="basic-info-section">
+            <div class="section-header">
+                <div class="section-title">Основная информация</div>
+                <button class="add-button" id="editBasicInfoBtn" title="Редактировать">
+                    <img src="images/icons/edit.png" alt="Редактировать">
+                </button>
             </div>
-            <div class="info-row">
-                <span class="info-label-compact">Опыт работы</span>
-                <span class="info-value-compact">5 лет 8 мес</span>
+
+            <!-- Форма редактирования (изначально скрыта) -->
+            <div class="basic-info-form" id="basicInfoForm" style="display: none;">
+                <div class="form-title">Предпочтения в работе</div>
+                <form id="basicInfoFormElement">
+                    <!-- Поле для специализации -->
+                    <div class="form-group">
+                        <label class="form-label">Специализация *</label>
+                        <input type="text" class="form-input" id="editPositionInput"
+                               placeholder="Например: Product Designer" required>
+                    </div>
+
+                    <!-- Поле для зарплаты -->
+                    <div class="form-group">
+                        <label class="form-label">Желаемая зарплата</label>
+                        <div class="salary-edit-container">
+                            <input type="text" class="form-input" id="editSalaryInput"
+                                   placeholder="Например: 350000">
+                            <select id="editCurrencySelect" class="currency-select">
+                                <option value="RUB">₽ RUB</option>
+                                <option value="USD">$ USD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBasicInfoBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
             </div>
-            <div class="info-row">
-                <span class="info-label-compact">Желаемая зарплата</span>
-                <span class="info-value-compact">350 000 ₽</span>
+
+            <!-- Список информации (отображение) -->
+            <div class="info-grid-compact animate-slide-up" id="basicInfoList">
+                <div class="info-row">
+                    <span class="info-label-compact">Специализация</span>
+                    <span class="info-value-compact" id="desiredPositionValue">Product Designer</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label-compact">Опыт работы</span>
+                    <span class="info-value-compact" id="experienceValue">5 лет 8 мес</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label-compact">Желаемая зарплата</span>
+                    <span class="info-value-compact" id="desiredSalaryValue">350 000 ₽</span>
+                </div>
             </div>
         </div>
 
@@ -322,6 +363,7 @@
 <script src="js/component/SkillsComponent.js"></script>
 <script src="js/component/LanguagesComponent.js"></script>
 <script src="js/component/ContactsComponent.js"></script>
+<script src="js/component/BasicInfoComponent.js"></script>
 <script src="js/manager/AboutMeManager.js"></script>
 </body>
 </html>

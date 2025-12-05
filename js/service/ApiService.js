@@ -84,6 +84,13 @@ class ApiService {
             method: 'DELETE'
         });
     }
+
+    async patch(endpoint, data) {
+        return this.request(endpoint, {
+            method: 'PATCH',
+            body: data
+        });
+    }
 }
 
 // глобальный экземпляр
