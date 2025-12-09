@@ -19,8 +19,8 @@ class ResumeManager {
             this.profileData = await ProfileService.loadProfile();
 
             if (this.profileData) {
-                // Загружаем информацию о резюме
-                await this.loadResumeInfo();
+                // Ищем резюме в данных профиля
+                this.extractResumeFromProfile();
 
                 // Инициализируем компонент
                 await this.component.init(this.resumeData, this.profileData);
@@ -37,45 +37,44 @@ class ResumeManager {
     }
 
     /**
-     * Загружает информацию о резюме с сервера
+     * Извлекает информацию о резюме из данных профиля
      */
-    async loadResumeInfo() {
+    extractResumeFromProfile() {
         try {
-            const candidateId = this.profileData?.candidate?.id;
-
-            if (!candidateId) {
-                console.warn('Candidate ID not found');
+            if (!this.profileData?.filesMeta || !Array.isArray(this.profileData.filesMeta)) {
                 this.resumeData = null;
                 return;
             }
 
-            // TODO: Заменить на реальный эндпоинт API
-            // const response = await apiService.get(`/candidate/${candidateId}/resume`);
-            // this.resumeData = response.data;
+            // Ищем файл с типом RESUME (или первый PDF файл)
+            const resumeFile = this.profileData.filesMeta.find(file =>
+                file.type === 'RESUME' ||
+                file.mimeType === 'application/pdf' ||
+                file.originalName?.toLowerCase().endsWith('.pdf')
+            );
 
-            // Временные мок данные для тестирования
-            this.resumeData = await this.getMockResumeData(candidateId);
+            if (resumeFile) {
+                this.resumeData = {
+                    id: resumeFile.id,
+                    fileName: resumeFile.originalName,
+                    uploadDate: resumeFile.createdDate,
+                    storageKey: resumeFile.storageKey,
+                    fileSize: resumeFile.size,
+                    mimeType: resumeFile.mimeType
+                };
+                console.log('Найдено резюме в профиле:', this.resumeData);
+            } else {
+                this.resumeData = null;
+                console.log('Резюме не найдено в профиле');
+            }
 
         } catch (error) {
-            console.error('Error loading resume info:', error);
+            console.error('Error extracting resume from profile:', error);
             this.resumeData = null;
         }
     }
-
-    /**
-     * Временные мок данные (удалить при подключении реального API)
-     */
-    async getMockResumeData(candidateId) {
-        // Проверяем есть ли резюме в localStorage (для демо)
-        const mockResume = localStorage.getItem(`resume_${candidateId}`);
-
-        if (mockResume) {
-            return JSON.parse(mockResume);
-        }
-
-        return null;
-    }
 }
+
 
 // Автоматическая инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {

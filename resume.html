@@ -30,34 +30,31 @@
     <div class="content-section">
         <!-- Upload Area - ОДНА ФОРМА на все состояния -->
         <div class="resume-upload-area" id="uploadArea">
-            <!-- Заголовок (будем менять текст) -->
+            <!-- Заголовок -->
             <h3 class="upload-title" id="uploadTitle">Добавьте ваше резюме</h3>
 
-            <!-- Описание (будем прятать/показывать) -->
+            <!-- Описание -->
             <p class="upload-description" id="uploadDescription">
-                Просто перетащите файл в область ниже
+                Нажмите кнопку ниже для выбора файла
             </p>
 
-            <!-- Центральная область (крестик/иконка PDF/прогресс) -->
+            <!-- Центральная область для статуса -->
             <div class="upload-drop-zone" id="dropZone">
-                <div class="drop-zone-text" id="dropZoneText">Перетащите сюда</div>
+                <div class="drop-zone-text" id="dropZoneText">Область для отображения статуса</div>
             </div>
 
-            <!-- Здесь будет появляться информация о файле -->
+            <!-- Информация о файле -->
             <div id="fileInfoContainer"></div>
 
-            <!-- Разделитель "или" (прячем когда есть файл) -->
-            <div class="upload-or" id="uploadOr">или</div>
-
-            <!-- Основная кнопка (меняем текст и действие) -->
+            <!-- Основная кнопка -->
             <button class="upload-btn" id="mainActionBtn">Выбрать файл</button>
 
-            <!-- Вторая кнопка (показываем только когда есть файл) -->
+            <!-- Вторая кнопка -->
             <button class="upload-btn secondary" id="secondaryActionBtn" style="display: none;">
-                Заменить
+                Удалить
             </button>
 
-            <!-- Футер (требования/подсказка) -->
+            <!-- Футер -->
             <div class="upload-requirements" id="uploadFooter">
                 <div class="requirement-item">
                     <span>• Только PDF формат</span>

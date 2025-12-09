@@ -1,509 +1,483 @@
-/**
- * ResumeComponent - компонент для работы с резюме
- * Управляет UI и обработкой файлов
- */
 class ResumeComponent {
     constructor() {
         this.api = apiService;
-        this.resumeData = null;
         this.profileData = null;
+        this.resumeData = null;
         this.currentFile = null;
         this.isUploading = false;
-        this.uploadController = null;
-        this.elements = {};
-    }
+        this.progress = 0;
+        this.progressInterval = null;
 
-    /**
-     * Инициализация компонента
-     */
-    async init(resumeData = null, profileData = null) {
-        this.resumeData = resumeData;
-        this.profileData = profileData;
-
-        this.initElements();
-        this.bindEvents();
-        this.updateUI();
-
-        console.log('ResumeComponent initialized');
-    }
-
-    /**
-     * Инициализация DOM элементов
-     */
-    initElements() {
+        // DOM элементы
         this.elements = {
-            // Основные контейнеры
-            uploadArea: document.getElementById('uploadArea'),
-            fileInput: document.getElementById('fileInput'),
-
-            // Элементы формы
-            uploadTitle: document.getElementById('uploadTitle'),
-            uploadDescription: document.getElementById('uploadDescription'),
-            uploadDropZone: document.querySelector('.upload-drop-zone'),
-            dropZoneText: document.getElementById('dropZoneText'),
-            uploadOr: document.getElementById('uploadOr'),
-            mainActionBtn: document.getElementById('mainActionBtn'),
-            secondaryActionBtn: document.getElementById('secondaryActionBtn'),
-            uploadFooter: document.getElementById('uploadFooter'),
-
-            // Контейнер для динамического контента
-            fileInfoContainer: document.getElementById('fileInfoContainer')
+            uploadArea: null,
+            uploadTitle: null,
+            uploadDescription: null,
+            dropZone: null,
+            dropZoneText: null,
+            fileInfoContainer: null,
+            mainActionBtn: null,
+            secondaryActionBtn: null,
+            uploadFooter: null,
+            fileInput: null
         };
     }
 
-    /**
-     * Привязка событий
-     */
-    bindEvents() {
-        // Кнопка выбора файла
-        if (this.elements.mainActionBtn) {
-            this.elements.mainActionBtn.addEventListener('click', () => {
-                this.elements.fileInput.click();
-            });
-        }
-
-        // Input файла
-        if (this.elements.fileInput) {
-            this.elements.fileInput.addEventListener('change', (e) => {
-                this.handleFileSelect(e.target.files[0]);
-            });
-        }
-
-        // Drag & Drop события
-        this.bindDragDropEvents();
-    }
-
-    /**
-     * Привязка Drag & Drop событий
-     */
-    bindDragDropEvents() {
-        const uploadArea = this.elements.uploadArea;
-        if (!uploadArea) return;
-
-        // Предотвращаем стандартное поведение
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        });
-
-        // Визуальная обратная связь
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.add('drag-over');
-            });
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.remove('drag-over');
-            });
-        });
-
-        // Обработка сброса файла
-        uploadArea.addEventListener('drop', (e) => {
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                this.handleFileSelect(file);
-            }
-        });
-    }
-
-    /**
-     * Обработка выбранного файла
-     */
-    handleFileSelect(file) {
-        if (!file) return;
-
-        // Если уже есть файл - это замена
-        if (this.resumeData) {
-            this.resumeData = null;
-        }
-
-        // Валидация
-        if (!this.validateFile(file)) {
-            return;
-        }
-
-        this.currentFile = file;
-        this.startUpload();
-    }
-
-    /**
-     * Валидация файла
-     */
-    validateFile(file) {
-        // Проверка типа
-        const validTypes = ['application/pdf'];
-        const validExtensions = ['.pdf'];
-
-        const isTypeValid = validTypes.includes(file.type);
-        const isExtensionValid = validExtensions.some(ext =>
-            file.name.toLowerCase().endsWith(ext)
-        );
-
-        if (!isTypeValid && !isExtensionValid) {
-            notification.error('Пожалуйста, выберите PDF файл');
-            return false;
-        }
-
-        // Проверка размера (5 MB)
-        const maxSize = 5 * 1024 * 1024;
-        if (file.size > maxSize) {
-            notification.error('Файл слишком большой. Максимальный размер: 5 MB');
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Начало загрузки файла
-     */
-    async startUpload() {
-        if (!this.currentFile || this.isUploading) return;
-
-        this.isUploading = true;
-        this.showUploadProgress();
-        this.updateProgress(0);
-
+    // ============ ИНИЦИАЛИЗАЦИЯ ============
+    async init(resumeData = null, profileData = null) {
         try {
-            const formData = new FormData();
-            formData.append('resume', this.currentFile);
+            this.profileData = profileData;
+            this.resumeData = resumeData;
 
-            // Создаем AbortController для отмены
-            this.uploadController = new AbortController();
+            this.cacheElements();
+            this.bindEvents();
+            this.updateUIState();
 
-            // Имитация загрузки для демо
-            await this.mockUpload(formData);
-
-            // Сохраняем данные
-            this.resumeData = {
-                id: Date.now(),
-                fileName: this.currentFile.name,
-                uploadDate: new Date().toISOString(),
-                downloadUrl: URL.createObjectURL(this.currentFile)
-            };
-
-            // Сохраняем в localStorage для демо
-            const candidateId = this.profileData?.candidate?.id;
-            if (candidateId) {
-                localStorage.setItem(`resume_${candidateId}`, JSON.stringify(this.resumeData));
-            }
-
-            // Обновляем UI
-            this.updateUI();
-            notification.success('Резюме успешно загружено!');
-
+            console.log('ResumeComponent initialized with data:', this.resumeData);
         } catch (error) {
-            if (error.name === 'AbortError') {
-                notification.info('Загрузка отменена');
-            } else {
-                console.error('Upload error:', error);
-                notification.error('Ошибка загрузки резюме');
-            }
-        } finally {
-            this.isUploading = false;
-            this.currentFile = null;
-            this.uploadController = null;
-            this.updateUI();
+            console.error('ResumeComponent init error:', error);
+            notification.error('Не удалось инициализировать компонент резюме');
         }
     }
 
-    /**
-     * Имитация загрузки (для демо)
-     */
-    async mockUpload(formData) {
-        return new Promise((resolve, reject) => {
-            let progress = 0;
-
-            const interval = setInterval(() => {
-                progress += 10;
-                this.updateProgress(progress);
-
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(resolve, 300);
-                }
-            }, 100);
-        });
+    cacheElements() {
+        this.elements.uploadArea = document.getElementById('uploadArea');
+        this.elements.uploadTitle = document.getElementById('uploadTitle');
+        this.elements.uploadDescription = document.getElementById('uploadDescription');
+        this.elements.dropZone = document.getElementById('dropZone');
+        this.elements.dropZoneText = document.getElementById('dropZoneText');
+        this.elements.fileInfoContainer = document.getElementById('fileInfoContainer');
+        this.elements.mainActionBtn = document.getElementById('mainActionBtn');
+        this.elements.secondaryActionBtn = document.getElementById('secondaryActionBtn');
+        this.elements.uploadFooter = document.getElementById('uploadFooter');
+        this.elements.fileInput = document.getElementById('fileInput');
     }
 
-    /**
-     * Обновление прогресса загрузки
-     */
-    updateProgress(percent) {
+    bindEvents() {
+        // Основная кнопка действия
+        if (this.elements.mainActionBtn) {
+            this.elements.mainActionBtn.addEventListener('click', () => this.handleMainAction());
+        }
+
+        // Вторая кнопка (удаление)
+        if (this.elements.secondaryActionBtn) {
+            this.elements.secondaryActionBtn.addEventListener('click', () => this.deleteResume());
+        }
+
+        // Скрытый input
+        if (this.elements.fileInput) {
+            this.elements.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+        }
+
+        // Drag & Drop
+        if (this.elements.uploadArea) {
+            this.elements.uploadArea.addEventListener('dragover', (e) => this.handleDragOver(e));
+            this.elements.uploadArea.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+            this.elements.uploadArea.addEventListener('drop', (e) => this.handleDrop(e));
+        }
+    }
+
+    // ============ ОБНОВЛЕНИЕ СОСТОЯНИЯ ИНТЕРФЕЙСА ============
+    updateUIState() {
+        if (!this.resumeData) {
+            this.setStateEmpty();
+        } else {
+            this.setStateHasFile();
+        }
+    }
+
+    setStateEmpty() {
+        const { uploadArea, uploadTitle, uploadDescription, dropZoneText, mainActionBtn, secondaryActionBtn, uploadFooter } = this.elements;
+
+        // Обновляем классы
+        uploadArea.classList.remove('has-file', 'uploading');
+        uploadArea.classList.add('empty');
+
+        // Обновляем текст
+        uploadTitle.textContent = 'Добавьте ваше резюме';
+        uploadDescription.textContent = 'Нажмите кнопку ниже для выбора файла';
+        dropZoneText.textContent = 'Область для отображения статуса';
+
+        // Обновляем кнопки
+        mainActionBtn.textContent = 'Выбрать файл';
+        mainActionBtn.style.display = 'block';
+        secondaryActionBtn.style.display = 'none';
+
+        // Показываем footer
+        uploadFooter.style.display = 'flex';
+
+        // Очищаем информацию о файле
+        this.elements.fileInfoContainer.innerHTML = '';
+    }
+
+    setStateHasFile() {
+        const { uploadArea, uploadTitle, uploadDescription, dropZoneText, mainActionBtn, secondaryActionBtn } = this.elements;
+
+        // Обновляем классы
+        uploadArea.classList.remove('empty', 'uploading');
+        uploadArea.classList.add('has-file');
+
+        // Обновляем текст
+        uploadTitle.textContent = 'Ваше резюме загружено';
+        uploadDescription.textContent = 'Резюме готово к отправке работодателям';
+        dropZoneText.style.display = 'none';
+
+        // Обновляем кнопки
+        mainActionBtn.textContent = 'Скачать резюме';
+        mainActionBtn.style.display = 'block';
+        secondaryActionBtn.style.display = 'block';
+
+        // Скрываем footer
+        this.elements.uploadFooter.style.display = 'none';
+
+        // Показываем информацию о файле
+        this.renderFileInfo();
+    }
+
+    setStateUploading() {
+        const { uploadArea, uploadTitle, uploadDescription, mainActionBtn, secondaryActionBtn, uploadFooter } = this.elements;
+
+        // Обновляем классы
+        uploadArea.classList.remove('empty', 'has-file');
+        uploadArea.classList.add('uploading');
+
+        // Обновляем текст
+        uploadTitle.textContent = 'Загрузка резюме...';
+        uploadDescription.textContent = 'Пожалуйста, подождите';
+
+        // Скрываем кнопки и footer
+        mainActionBtn.style.display = 'none';
+        secondaryActionBtn.style.display = 'none';
+        uploadFooter.style.display = 'none';
+
+        // Показываем прогресс бар
+        this.showProgressBar();
+    }
+
+    // ============ ОТОБРАЖЕНИЕ ИНФОРМАЦИИ О ФАЙЛЕ ============
+    renderFileInfo() {
+        if (!this.resumeData) return;
+
+        const { fileName, uploadDate } = this.resumeData;
+        const formattedDate = this.formatDate(uploadDate);
+
+        this.elements.fileInfoContainer.innerHTML = `
+            <div class="file-info">
+                <div class="file-name">${Helpers.escapeHtml(fileName)}</div>
+                <div class="file-date">Загружено: ${formattedDate}</div>
+            </div>
+        `;
+    }
+
+    // ============ ПРОГРЕСС БАР ============
+    showProgressBar() {
+        this.elements.fileInfoContainer.innerHTML = `
+            <div class="upload-progress-container fade-in">
+                <div class="progress-header">
+                    <div class="progress-text">Загрузка...</div>
+                    <div class="progress-percent" id="progressPercent">0%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <button class="cancel-btn" id="cancelUploadBtn">Отменить</button>
+            </div>
+        `;
+
+        // Навешиваем обработчик отмены
+        const cancelBtn = document.getElementById('cancelUploadBtn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => this.cancelUpload());
+        }
+
+        // Запускаем симуляцию прогресса
+        this.simulateProgress();
+    }
+
+    simulateProgress() {
+        this.progress = 0;
+
+        this.progressInterval = setInterval(() => {
+            if (this.progress >= 95) {
+                clearInterval(this.progressInterval);
+                return;
+            }
+
+            this.progress += Math.random() * 15 + 5;
+            if (this.progress > 95) this.progress = 95;
+
+            this.updateProgressBar();
+        }, 300);
+    }
+
+    updateProgressBar() {
         const progressPercent = document.getElementById('progressPercent');
         const progressFill = document.getElementById('progressFill');
 
         if (progressPercent) {
-            progressPercent.textContent = `${percent}%`;
+            progressPercent.textContent = `${Math.round(this.progress)}%`;
         }
 
         if (progressFill) {
-            progressFill.style.width = `${percent}%`;
+            progressFill.style.width = `${this.progress}%`;
         }
     }
 
-    /**
-     * Отмена загрузки
-     */
+    completeProgress() {
+        clearInterval(this.progressInterval);
+
+        const progressPercent = document.getElementById('progressPercent');
+        const progressFill = document.getElementById('progressFill');
+
+        if (progressPercent) {
+            progressPercent.textContent = '100%';
+        }
+
+        if (progressFill) {
+            progressFill.style.width = '100%';
+        }
+
+        // Через секунду скрываем прогресс бар
+        setTimeout(() => {
+            this.isUploading = false;
+            this.updateUIState();
+        }, 1000);
+    }
+
     cancelUpload() {
-        if (this.uploadController) {
-            this.uploadController.abort();
-        }
+        clearInterval(this.progressInterval);
         this.isUploading = false;
-        this.currentFile = null;
-        this.updateUI();
+        this.updateUIState();
+        notification.info('Загрузка отменена');
     }
 
-    /**
-     * Скачивание резюме
-     */
-    async downloadResume() {
-        if (!this.resumeData) return;
-
-        try {
-            // Для демо создаем временную ссылку
-            if (this.resumeData.downloadUrl) {
-                const link = document.createElement('a');
-                link.href = this.resumeData.downloadUrl;
-                link.download = this.resumeData.fileName || 'resume.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                notification.success('Начинается скачивание...');
-            } else {
-                notification.error('Файл не найден');
-            }
-
-        } catch (error) {
-            console.error('Download error:', error);
-            notification.error('Ошибка скачивания');
+    // ============ ОБРАБОТЧИКИ ДЕЙСТВИЙ ============
+    handleMainAction() {
+        if (!this.resumeData) {
+            // Если нет резюме - открываем выбор файла
+            this.elements.fileInput.click();
+        } else {
+            // Если есть резюме - скачиваем
+            this.downloadResume();
         }
     }
 
-    /**
-     * Удаление резюме
-     */
-    async deleteResume() {
-        if (!this.resumeData) return;
+    handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        notification.process('Удаление...');
+        this.validateAndUploadFile(file);
+        event.target.value = ''; // Сбрасываем input
+    }
+
+    // ============ DRAG & DROP ============
+    handleDragOver(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.elements.uploadArea.style.borderColor = 'var(--primary)';
+        this.elements.uploadArea.style.backgroundColor = 'rgba(37, 99, 235, 0.05)';
+    }
+
+    handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.elements.uploadArea.style.borderColor = '';
+        this.elements.uploadArea.style.backgroundColor = '';
+    }
+
+    handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.elements.uploadArea.style.borderColor = '';
+        this.elements.uploadArea.style.backgroundColor = '';
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            this.validateAndUploadFile(files[0]);
+        }
+    }
+
+    // ============ ВАЛИДАЦИЯ И ЗАГРУЗКА ============
+    validateAndUploadFile(file) {
+        // Проверка типа файла
+        if (file.type !== 'application/pdf') {
+            notification.error('Пожалуйста, загрузите файл в формате PDF');
+            return;
+        }
+
+        // Проверка размера файла (5 MB)
+        const maxSize = 5 * 1024 * 1024; // 5 MB в байтах
+        if (file.size > maxSize) {
+            notification.error('Размер файла не должен превышать 5 MB');
+            return;
+        }
+
+        // Сохраняем файл и начинаем загрузку
+        this.currentFile = file;
+        this.uploadResume(file);
+    }
+
+    async uploadResume(file) {
+        this.isUploading = true;
+        this.setStateUploading();
 
         try {
-            // Удаляем из localStorage для демо
-            const candidateId = this.profileData?.candidate?.id;
-            if (candidateId) {
-                localStorage.removeItem(`resume_${candidateId}`);
+            // Получаем profileId
+            const profileId = this.profileData?.id;
+            if (!profileId) {
+                throw new Error('Profile ID not found');
             }
 
-            // Очищаем данные
-            this.resumeData = null;
+            // Используем fetch напрямую для загрузки файла
+            const formData = new FormData();
+            formData.append('file', file);
 
-            // Обновляем UI
-            this.updateUI();
-            notification.success('Резюме удалено');
+            const response = await fetch(`${this.api.BASE_URL}/resume/upload/${profileId}`, {
+                method: 'POST',
+                body: formData
+                // Не устанавливаем Content-Type - браузер сделает это сам с правильным boundary
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Upload failed:', response.status, errorText);
+                throw new Error(`Upload failed: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+
+            // Обновляем данные резюме
+            this.resumeData = {
+                id: responseData.id,
+                fileName: responseData.originalName,
+                uploadDate: responseData.createdDate,
+                storageKey: responseData.storageKey,
+                fileSize: responseData.size,
+                mimeType: responseData.mimeType
+            };
+
+            // Завершаем прогресс
+            this.completeProgress();
+
+            notification.success('Резюме успешно загружено!');
 
         } catch (error) {
-            console.error('Delete error:', error);
-            notification.error('Ошибка удаления');
+            console.error('Upload resume error:', error);
+            notification.error('Ошибка загрузки резюме');
+            this.isUploading = false;
+            this.updateUIState();
+        }
+    }
+
+    async downloadResume() {
+        if (!this.resumeData || !this.resumeData.storageKey) {
+            notification.error('Файл резюме не найден');
+            return;
+        }
+
+        try {
+            notification.process('Подготовка скачивания...');
+
+            const profileId = this.profileData?.id;
+            const key = this.resumeData.storageKey;
+
+            // Загружаем файл
+            const response = await this.api.get(`/resume/download/${profileId}?key=${encodeURIComponent(key)}`, {
+                responseType: 'blob'
+            });
+
+            if (!response.data) {
+                throw new Error('No file data received');
+            }
+
+            // Создаем ссылку для скачивания
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = this.resumeData.fileName || 'resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+            notification.success('Резюме скачивается...');
+
+        } catch (error) {
+            console.error('Download resume error:', error);
+            notification.error('Ошибка скачивания резюме');
         } finally {
             notification.hideAll();
         }
     }
 
-    /**
-     * Обновление UI в зависимости от состояния
-     */
-    updateUI() {
-        if (!this.elements.uploadArea) return;
-
-        // Очищаем динамический контент
-        if (this.elements.fileInfoContainer) {
-            this.elements.fileInfoContainer.innerHTML = '';
+    async deleteResume() {
+        if (!this.resumeData || !this.resumeData.id) {
+            notification.error('Нет резюме для удаления');
+            return;
         }
 
-        // Удаляем прогресс-бар если есть
-        const progressContainer = document.querySelector('.upload-progress-container');
-        if (progressContainer) {
-            progressContainer.remove();
-        }
+        try {
+            const confirmed = confirm('Вы уверены, что хотите удалить резюме?');
+            if (!confirmed) return;
 
-        // Показываем все скрытые элементы
-        if (this.elements.uploadDropZone) {
-            this.elements.uploadDropZone.style.display = 'flex';
-        }
-        if (this.elements.uploadOr) {
-            this.elements.uploadOr.style.display = 'flex';
-        }
-        if (this.elements.uploadFooter) {
-            this.elements.uploadFooter.style.display = 'block';
-        }
+            notification.process('Удаление резюме...');
 
-        if (this.isUploading) {
-            this.showUploadProgress();
-        } else if (this.resumeData) {
-            this.showFileState();
-        } else {
-            this.showEmptyState();
+            // Отправляем запрос на удаление
+            await this.api.delete(`/resume/${this.resumeData.id}`);
+
+            // Очищаем данные
+            this.resumeData = null;
+            this.currentFile = null;
+
+            // Обновляем UI
+            this.updateUIState();
+
+            notification.success('Резюме удалено');
+
+        } catch (error) {
+            console.error('Delete resume error:', error);
+            notification.error('Ошибка удаления резюме');
+        } finally {
+            notification.hideAll();
         }
     }
 
-    /**
-     * Показывает состояние "Нет файла"
-     */
-    showEmptyState() {
-        const elements = this.elements;
+    // ============ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ============
+    formatDate(dateString) {
+        if (!dateString) return 'Неизвестно';
 
-        // Классы
-        elements.uploadArea.classList.remove('has-file', 'uploading');
-        elements.uploadArea.classList.add('empty');
-
-        // Тексты
-        elements.uploadTitle.textContent = 'Добавьте ваше резюме';
-        elements.uploadDescription.style.display = 'block';
-        elements.dropZoneText.textContent = 'Перетащите сюда';
-
-        // Элементы
-        if (elements.uploadOr) elements.uploadOr.style.display = 'flex';
-
-        // Кнопки
-        elements.mainActionBtn.textContent = 'Выбрать файл';
-        elements.mainActionBtn.onclick = () => elements.fileInput.click();
-        elements.mainActionBtn.style.display = 'block';
-
-        if (elements.secondaryActionBtn) {
-            elements.secondaryActionBtn.style.display = 'none';
-        }
-
-        // Футер
-        if (elements.uploadFooter) {
-            elements.uploadFooter.innerHTML = `
-                <div class="requirement-item">
-                    <span>• Только PDF формат</span>
-                </div>
-                <div class="requirement-item">
-                    <span>• Максимальный размер: 5 MB</span>
-                </div>
-            `;
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        } catch (error) {
+            return dateString;
         }
     }
 
-    /**
-     * Показывает состояние "Есть файл"
-     */
-    showFileState() {
-        if (!this.resumeData) return;
-
-        const elements = this.elements;
-
-        // Классы
-        elements.uploadArea.classList.remove('empty', 'uploading');
-        elements.uploadArea.classList.add('has-file');
-
-        // Тексты
-        elements.uploadTitle.textContent = 'Ваше резюме';
-        elements.uploadDescription.style.display = 'none';
-        elements.dropZoneText.textContent = '';
-
-        // Прячем элементы
-        if (elements.uploadOr) elements.uploadOr.style.display = 'none';
-
-        // Информация о файле
-        if (elements.fileInfoContainer) {
-            elements.fileInfoContainer.innerHTML = `
-            <div class="file-info">
-                <div class="file-name">${this.resumeData.fileName || 'Не указано'}</div>
-                <div class="file-date">${this.formatDateForDisplay(this.resumeData.uploadDate)}</div>
-            </div>
-        `;
-        }
-
-        // Кнопки
-        elements.mainActionBtn.textContent = '📥 Скачать резюме';
-        elements.mainActionBtn.onclick = () => this.downloadResume();
-        elements.mainActionBtn.style.display = 'block';
-
-        if (elements.secondaryActionBtn) {
-            elements.secondaryActionBtn.style.display = 'block';
-            elements.secondaryActionBtn.textContent = '🗑️ Заменить';
-            elements.secondaryActionBtn.onclick = () => this.deleteResume();
-        }
-
-        // Футер
-        if (elements.uploadFooter) {
-            elements.uploadFooter.innerHTML = `
-            <div class="requirement-item">
-                <span>💡 Перетащите новый файл для замены</span>
-            </div>
-        `;
-        }
+    // ============ ОБНОВЛЕНИЕ ДАННЫХ ============
+    updateResumeData(newResumeData) {
+        this.resumeData = newResumeData;
+        this.updateUIState();
     }
 
-    /**
-     * Форматирование даты для отображения
-     */
-    formatDateForDisplay(dateString) {
-        if (!dateString) return 'Дата не указана';
+    // ============ СБРОС ============
+    reset() {
+        this.resumeData = null;
+        this.currentFile = null;
+        this.isUploading = false;
+        this.progress = 0;
 
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffTime = now - date;
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 0) return "Обновлено сегодня";
-        if (diffDays === 1) return "Обновлено вчера";
-        if (diffDays < 7) return "Обновлено на этой неделе";
-        if (diffDays < 30) return "Обновлено в этом месяце";
-        return "Обновлено давно";
-    }
-
-    /**
-     * Показывает состояние "Загрузка"
-     */
-    showUploadProgress() {
-        const elements = this.elements;
-
-        // Классы
-        elements.uploadArea.classList.remove('empty', 'has-file');
-        elements.uploadArea.classList.add('uploading');
-
-        // Тексты
-        elements.uploadTitle.textContent = 'Загрузка резюме';
-        elements.uploadDescription.style.display = 'none';
-
-        // Прячем элементы
-        if (elements.uploadDropZone) elements.uploadDropZone.style.display = 'none';
-        if (elements.uploadOr) elements.uploadOr.style.display = 'none';
-        if (elements.mainActionBtn) elements.mainActionBtn.style.display = 'none';
-        if (elements.secondaryActionBtn) elements.secondaryActionBtn.style.display = 'none';
-        if (elements.uploadFooter) elements.uploadFooter.style.display = 'none';
-
-        // Добавляем прогресс
-        const progressHTML = `
-            <div class="upload-progress-container">
-                <div class="progress-header">
-                    <span class="progress-text">Загружается...</span>
-                    <span class="progress-percent" id="progressPercent">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <button class="cancel-btn" id="cancelUploadBtn">Отменить загрузку</button>
-            </div>
-        `;
-
-        if (elements.fileInfoContainer) {
-            elements.fileInfoContainer.innerHTML = progressHTML;
-
-            // Привязываем кнопку отмены
-            const cancelBtn = document.getElementById('cancelUploadBtn');
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', () => this.cancelUpload());
-            }
+        if (this.progressInterval) {
+            clearInterval(this.progressInterval);
+            this.progressInterval = null;
         }
+
+        this.updateUIState();
     }
 }
