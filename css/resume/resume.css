@@ -87,7 +87,7 @@
     display: block;
     width: 64px;
     height: 64px;
-    background-image: url('/images/icons/upload.png');
+    background-image: url('../../images/icons/upload.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -100,7 +100,7 @@
     display: block;
     width: 64px;
     height: 64px;
-    background-image: url('/images/icons/cv-uploaded.png');
+    background-image: url('../../images/icons/cv-uploaded.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
