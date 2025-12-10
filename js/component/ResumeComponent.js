@@ -119,7 +119,7 @@ class ResumeComponent {
 
         // Обновляем текст
         uploadTitle.textContent = 'Ваше резюме загружено';
-        uploadDescription.textContent = 'Резюме готово к отправке работодателям';
+        uploadDescription.textContent = 'Резюме доступно работодателям';
         dropZoneText.style.display = 'none';
 
         // Обновляем кнопки
@@ -382,17 +382,24 @@ class ResumeComponent {
             const profileId = this.profileData?.id;
             const key = this.resumeData.storageKey;
 
-            // Загружаем файл
-            const response = await this.api.get(`/resume/download/${profileId}?key=${encodeURIComponent(key)}`, {
-                responseType: 'blob'
-            });
+            // Используем fetch напрямую, так как ApiService не поддерживает бинарные данные
+            const response = await fetch(
+                `${this.api.BASE_URL}/resume/download/${profileId}?key=${encodeURIComponent(key)}`
+            );
 
-            if (!response.data) {
-                throw new Error('No file data received');
+            if (!response.ok) {
+                throw new Error(`Download failed: ${response.status}`);
+            }
+
+            // Получаем бинарные данные
+            const blob = await response.blob();
+
+            // Проверяем, что это PDF
+            if (blob.type !== 'application/pdf') {
+                console.warn('Expected PDF, got:', blob.type);
             }
 
             // Создаем ссылку для скачивания
-            const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
@@ -400,7 +407,11 @@ class ResumeComponent {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
+
+            // Освобождаем ресурсы
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+            }, 100);
 
             notification.success('Резюме скачивается...');
 
@@ -419,12 +430,8 @@ class ResumeComponent {
         }
 
         try {
-            const confirmed = confirm('Вы уверены, что хотите удалить резюме?');
-            if (!confirmed) return;
-
             notification.process('Удаление резюме...');
 
-            // Отправляем запрос на удаление
             await this.api.delete(`/resume/${this.resumeData.id}`);
 
             // Очищаем данные

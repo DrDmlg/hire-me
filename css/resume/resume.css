@@ -83,15 +83,27 @@
 
 /* Иконка загрузки в пустом состоянии */
 .resume-upload-area.empty .upload-drop-zone::before {
-    content: '📤';
-    font-size: 3.5rem;
+    content: '';
+    display: block;
+    width: 64px;
+    height: 64px;
+    background-image: url('/images/icons/upload.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     opacity: 0.8;
 }
 
 /* Иконка PDF когда есть файл */
 .resume-upload-area.has-file .upload-drop-zone::before {
-    content: '📄';
-    font-size: 4rem;
+    content: ''; /* Убираем эмодзи */
+    display: block;
+    width: 64px;
+    height: 64px;
+    background-image: url('/images/icons/cv-uploaded.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     opacity: 0.9;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
