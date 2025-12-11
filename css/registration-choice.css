@@ -28,7 +28,6 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
-    padding: 20px;
 }
 
 .container {
@@ -37,39 +36,13 @@ body {
     padding: 20px;
 }
 
-.logo {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.logo h1 {
-    color: var(--primary);
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-}
-
-.logo p {
-    color: var(--text-gray);
-    font-size: 1.1rem;
-}
-
-.page-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.page-header p {
-    color: var(--text-gray);
-    font-size: 1rem;
-}
-
 /* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin-bottom: 2rem;
+    margin-top: 115px;
 }
 
 .action-card {
@@ -145,10 +118,6 @@ body {
 @media (max-width: 480px) {
     .container {
         padding: 10px;
-    }
-
-    .logo h1 {
-        font-size: 2rem;
     }
 
     /* Сохраняем 2 колонки на телефонах, но уменьшаем отступы */
