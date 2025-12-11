@@ -1,14 +1,15 @@
 /* Шапка */
 
 .app-header {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     padding: 1rem 1.5rem;
     position: sticky;
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
     height: 48px;
+    border-bottom: 1px solid;
+    border-image: linear-gradient(to right, transparent, rgba(219, 219, 219, 0.2), transparent) 1;
 }
 
 .header-content {
