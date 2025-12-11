@@ -5,11 +5,11 @@ class AboutMeManager {
 
         this.managers = {
             basicInfo: new BasicInfoComponent(),
+            contact: new ContactsComponent(),
             experience: new ExperienceComponent(),
             educations: new EducationComponent(),
             skills: new SkillsComponent(),
             languages: new LanguagesComponent(),
-            contact: new ContactsComponent(),
         };
     }
 
@@ -19,11 +19,11 @@ class AboutMeManager {
             this.profileData = await ProfileService.loadProfile();
             if (this.profileData) {
                 await this.managers.basicInfo.init(this.profileData);
+                await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
                 await this.managers.experience.init(this.profileData.workExperiences || []);
                 await this.managers.educations.init(this.profileData.candidate.educations || [], this.profileData);
                 await this.managers.skills.init(this.profileData.candidate.skills || [], this.profileData);
                 await this.managers.languages.init(this.profileData.candidate.languages || [], this.profileData);
-                await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
                 this.loadBasicCandidateInfo();
                 console.log('AboutMeManager initialized successfully');
             }
