@@ -180,7 +180,7 @@ body {
     50% { opacity: 0.7; transform: scale(1.1); }
 }
 
-/* Quick Stats - ОБНОВЛЕННАЯ СЕКЦИЯ */
+/* Quick Stats */
 .quick-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -191,7 +191,6 @@ body {
     overflow: hidden;
     position: relative;
     box-shadow: var(--shadow-lg);
-    animation: smoothSlideUp 0.8s ease-out;
 }
 
 .stat-item {
@@ -237,13 +236,12 @@ body {
     line-height: 1.2;
 }
 
-/* Content Sections - ОБНОВЛЕННАЯ СЕКЦИЯ */
+/* Content Sections  */
 .content-section {
     padding: 0 1.5rem 1.5rem;
     position: relative;
     z-index: 1;
-    animation: slideUp 0.6s ease-out;
-    margin-top: -0.5rem; /* Добавил отрицательный margin для согласованного движения */
+    margin-top: -0.5rem;
 }
 
 .section-title {
@@ -418,80 +416,6 @@ body {
 
 .action-card.primary .action-description {
     color: rgba(255, 255, 255, 0.8);
-}
-
-/* Bottom Navigation */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    border-top: 1px solid var(--border);
-    padding: 0.75rem 1.5rem;
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-}
-
-.nav-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-}
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.75rem 0.5rem;
-    border-radius: var(--radius-sm);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--text-muted);
-}
-
-.nav-item.active {
-    color: var(--primary);
-    background: var(--primary-soft);
-}
-
-.nav-item:hover {
-    color: var(--primary);
-    background: var(--bg-hover);
-}
-
-.nav-icon {
-    font-size: 1.25rem;
-}
-
-.nav-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-/* Animations */
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes smoothSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Responsive */
