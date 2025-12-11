@@ -75,6 +75,7 @@ body {
     padding: 2rem 1.5rem 1.5rem;
     position: relative;
     overflow: hidden;
+    height: 230px;
 }
 
 .profile-hero::before {
