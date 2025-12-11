@@ -2,7 +2,7 @@ class ProfileService {
 
     /** Загрузка данных профиля с сервера */
     static async loadProfile() {
-        notification.process('Загрузка профиля...');
+        console.log('Загрузка профиля');
 
         try {
             const telegramUserId = Helpers.getTelegramUserId();
