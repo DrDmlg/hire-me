@@ -1,7 +1,7 @@
 class Login {
     constructor() {
         this.tg = window.Telegram?.WebApp;
-        this.navigation = new NavigationService(); // ← Добавляем сервис
+        this.navigation = new NavigationService();
         this.init();
     }
 
@@ -11,7 +11,7 @@ class Login {
         }
 
         this.setupEventListeners();
-        this.navigation.init(); // ← Инициализируем навигацию
+        this.navigation.init();
     }
 
     initTelegram() {
@@ -22,43 +22,24 @@ class Login {
     }
 
     setupEventListeners() {
-        // Обработчики для карточек
-        const candidateCard = document.querySelector('.action-card.candidate');
-        const employerCard = document.querySelector('.action-card.employer');
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
 
-        if (candidateCard) {
-            candidateCard.addEventListener('click', () => this.selectProfile('candidate'));
-        }
+                const href = card.getAttribute('href');
+                const url = new URL(href, window.location.origin);
+                const profileType = url.searchParams.get('type');
 
-        if (employerCard) {
-            employerCard.addEventListener('click', () => this.selectProfile('employer'));
-        }
-    }
+                if (profileType) {
+                    localStorage.setItem('userProfileType', profileType);
+                    console.log('Пользователь захотел зайти в профайл: ' + profileType);
 
-    selectProfile(profileType) {
-        const card = event?.currentTarget || document.querySelector(`.action-card.${profileType}`);
+                }
 
-        if (!card) return;
-
-        localStorage.setItem('userProfileType', profileType);
-        console.log('Пользователь захотел зайти в профайл: ' + profileType);
-
-        // Анимация нажатия
-        card.style.transform = 'translateY(-2px)';
-        card.style.background = 'var(--primary-soft)';
-
-        // Переход с задержкой для анимации
-        setTimeout(() => {
-            window.location.href = 'profile.html';
-        }, 200);
-
-        // Сброс анимации после перехода
-        setTimeout(() => {
-            card.style.transform = '';
-            card.style.background = '';
-        }, 400);
+                window.location.href = 'profile.html';
+            });
+        });
     }
 }
 
-// Запуск приложения
 new Login();
