@@ -24,7 +24,6 @@ class Login {
     setupEventListeners() {
         document.querySelectorAll('.action-card').forEach(card => {
             card.addEventListener('click', (e) => {
-                e.preventDefault();
 
                 const href = card.getAttribute('href');
                 const url = new URL(href, window.location.origin);
@@ -35,8 +34,6 @@ class Login {
                     console.log('Пользователь захотел зайти в профайл: ' + profileType);
 
                 }
-
-                window.location.href = 'profile.html';
             });
         });
     }
