@@ -1,4 +1,4 @@
-class ProfileChoice {
+class Login {
     constructor() {
         this.tg = window.Telegram?.WebApp;
         this.navigation = new NavigationService(); // ← Добавляем сервис
@@ -61,4 +61,4 @@ class ProfileChoice {
 }
 
 // Запуск приложения
-new ProfileChoice();
+new Login();
