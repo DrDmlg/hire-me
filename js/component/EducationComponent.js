@@ -186,10 +186,10 @@ class EducationComponent {
             <div class="education-item fade-in" data-id="${edu.id}">
                 <div class="education-actions">
                     <button class="edit-button edit-education-btn">
-                        <img src="/images/icons/edit.png" alt="Редактировать">
+                        <img src="images/icons/edit.png" alt="Редактировать">
                     </button>
                     <button class="delete-button delete-education-btn">
-                        <img src="/images/icons/trash.png" alt="Удалить">
+                        <img src="images/icons/trash.png" alt="Удалить">
                     </button>
                 </div>
                 <div class="institution-name">${Helpers.escapeHtml(edu.institutionName)}</div>
