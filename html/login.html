@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор профиля - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="css/service/icon-action.css">
-    <link rel="stylesheet" href="css/about-me/layout/header.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/service/icon-action.css">
+    <link rel="stylesheet" href="/css/about-me/layout/header.css">
 </head>
 <body>
 
 <header class="app-header">
     <div class="header-content">
         <button class="back-button">
-            <img src="images/icons/arrow-back.png" alt="Назад">
+            <img src="/images/icons/arrow-back.png" alt="Назад">
         </button>
         <h1 class="app-title">Выбор роли</h1>
     </div>
@@ -22,21 +22,20 @@
 
 <div class="container">
     <div class="actions-grid">
-        <a href="profile.html?type=candidate" class="action-card">
-            <img src="images/icons/candidate.png" alt="Профиль" class="action-icon">
+        <a href="candidate/profile.html?type=candidate" class="action-card">
+            <img src="/images/icons/candidate.png" alt="Профиль" class="action-icon">
             <div class="action-label">Ищу работу</div>
             <!--                    <div class="action-description">Ищете новую работу или возможности для развития карьеры</div>-->
         </a>
 
-        <a href="profile.html?type=employer" class="action-card">
-            <img src="images/icons/hr.png" alt="Профиль" class="action-icon">
+        <a href="employer/profile.html?type=employer" class="action-card">
+            <img src="/images/icons/hr.png" alt="Профиль" class="action-icon">
             <div class="action-label">Ищу таланты</div>
             <!--                    <div class="action-description">Ищете сотрудников для компании или работаете в HR-сфере</div>-->
         </a>
     </div>
 </div>
-</div>
-<script src="js/service/NavigationService.js"></script>
-<script src="js/Login.js"></script>
+<script src="/js/service/NavigationService.js"></script>
+<script src="/js/Login.js"></script>
 </body>
 </html>

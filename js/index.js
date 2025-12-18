@@ -55,7 +55,7 @@ class HireMeApp {
     }
 
     setupProfileNavigation() {
-        document.querySelectorAll('[href="profile.html"]').forEach(link => {
+        document.querySelectorAll('.profile-link').forEach(link => {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -67,13 +67,13 @@ class HireMeApp {
                     notification.error('Для просмотра и редактирования профиля необходимо зарегистрироваться');
                 } else if (response.isCandidate && response.isEmployer) {
                     console.log('User has two roles. Redirecting to login.html');
-                    window.location.href = 'login.html';
+                    window.location.href = 'html/login.html';
                 } else if (response.isCandidate && !response.isEmployer) {
-                    console.log('User is Candidate. Redirecting to profile.html');
-                    window.location.href = 'profile.html?type=candidate';
+                    console.log('User is Candidate. Redirecting to profile.html?type=candidate');
+                    window.location.href = 'html/candidate/profile.html?type=candidate';
                 } else if (response.isEmployer && !response.isCandidate) {
-                    console.log('User is employer. Redirecting to profile.html');
-                    window.location.href = 'profile.html?type=employer';
+                    console.log('User is employer. Redirecting to profile.html?type=employer');
+                    window.location.href = 'html/employer/profile.html?type=employer';
                 }
             }, true);
         });

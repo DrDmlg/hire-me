@@ -242,11 +242,11 @@ class ExperienceComponent {
             <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
                 <div class="experience-actions">
                  <button class="edit-button edit-btn">
-                    <img src="images/icons/edit.png" alt="Редактировать">
+                    <img src="/images/icons/edit.png" alt="Редактировать">
                 </button>
 
                 <button class="delete-button delete-btn">
-                    <img src="images/icons/trash.png" alt="Удалить">
+                    <img src="/images/icons/trash.png" alt="Удалить">
                 </button>
                 </div>
                 <div class="experience-company">${Helpers.escapeHtml(exp.company)}</div>

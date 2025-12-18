@@ -25,15 +25,12 @@ class Login {
         document.querySelectorAll('.action-card').forEach(card => {
             card.addEventListener('click', (e) => {
 
-                const href = card.getAttribute('href');
-                const url = new URL(href, window.location.origin);
-                const profileType = url.searchParams.get('type');
+                const profileType = card.dataset.type;
 
                 if (profileType) {
                     localStorage.setItem('userProfileType', profileType);
-                    console.log('Пользователь захотел зайти в профайл: ' + profileType);
 
-                    window.location.href = `profile.html?type=${profileType}`;
+                    window.location.href = `html/${profileType}/profile.html?type=${profileType}`;
                 }
             });
         });
