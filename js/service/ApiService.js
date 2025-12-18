@@ -1,9 +1,7 @@
 class ApiService {
 
     constructor() {
-        // this.BASE_URL = 'https://hireme.serveo.net'; // Serveo
-        // this.BASE_URL = 'https://hireme.loca.lt'; // Localtunnel
-        this.BASE_URL = 'https://insipidly-airy-spadefish.cloudpub.ru'; // CloudPub
+        this.BASE_URL = 'https://outspokenly-tonic-hake.cloudpub.ru';
     }
 
     // Основной метод - для кастомных запросов

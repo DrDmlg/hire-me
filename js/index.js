@@ -70,10 +70,10 @@ class HireMeApp {
                     window.location.href = 'login.html';
                 } else if (response.isCandidate && !response.isEmployer) {
                     console.log('User is Candidate. Redirecting to profile.html');
-                    window.location.href = 'profile.html';
+                    window.location.href = 'profile.html?type=candidate';
                 } else if (response.isEmployer && !response.isCandidate) {
                     console.log('User is employer. Redirecting to profile.html');
-                    window.location.href = 'profile.html';
+                    window.location.href = 'profile.html?type=employer';
                 }
             }, true);
         });

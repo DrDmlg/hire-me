@@ -33,6 +33,7 @@ class Login {
                     localStorage.setItem('userProfileType', profileType);
                     console.log('Пользователь захотел зайти в профайл: ' + profileType);
 
+                    window.location.href = `profile.html?type=${profileType}`;
                 }
             });
         });
