@@ -5,24 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!--    <link rel="stylesheet" href="css/profile.css">-->
-<!--    <link rel="stylesheet" href="css/service/notification-system.css">-->
-<!--    <link rel="stylesheet" href="css/service/icon-action.css">-->
-<!--    <link rel="stylesheet" href="css/about-me/layout/header.css">-->
+    <link rel="stylesheet" href="../../css/profile.css">
+    <link rel="stylesheet" href="../../css/service/notification-system.css">
+    <link rel="stylesheet" href="../../css/service/icon-action.css">
+    <link rel="stylesheet" href="../../css/about-me/layout/header.css">
 </head>
 <body>
 <div class="container">
-    <p1>Пока просто страница нанимателя </p1>
+    <header class="app-header">
+        <div class="header-content">
+
+            <button class="back-button">
+                <img src="../../images/icons/arrow-back.png" alt="Назад">
+            </button>
+
+            <h1 class="app-title">Профиль</h1>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="profile-hero">
+        <div class="hero-content">
+            <div class="avatar-container" id="userAvatar">
+
+            </div>
+            <h1 class="user-name" id="userName">Екатерина Смирнова</h1>
+
+            <!-- Headline -->
+            <div class="user-headline" id="userHeadline">
+
+            </div>
+
+            <!-- Теги опыта и образования -->
+            <div class="user-tags">
+                <div class="user-tag">
+                    <span class="tag-icon">💼</span>
+                    <span id="userExperience">5+ лет опыта</span>
+                </div>
+                <div class="user-tag">
+                    <span class="tag-icon">🎓</span>
+                    <span id="userEducation">Высшее образование</span>
+                </div>
+            </div>
+
+            <!-- Статус -->
+            <div class="status-tag" id="statusTag">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="userStatus">Активный поиск</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+        <div class="stat-item">
+            <div class="stat-value" id="statProfileViews"></div>
+            <div class="stat-label">Просмотры</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="statResponses"></div>
+            <div class="stat-label">Отклики</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="statMatches"></div>
+            <div class="stat-label">Совпадения</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <!-- Quick Actions -->
+        <div class="actions-grid">
+            <div class="action-card" data-action="about-me">
+                <img src="../../images/icons/about-me.png" alt="Обо мне" class="action-icon">
+                <div class="action-label">Обо мне</div>
+                <div class="action-description">Заполнено на 85%</div>
+            </div>
+
+            <div class="action-card" data-action="vacancies">
+                <img src="../../images/icons/vacancy.png" alt="Вакансии" class="action-icon">
+                <div class="action-label">Вакансии</div>
+                <div class="action-description">125 подходящих</div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!--<script src="js/util/Helpers.js"></script>-->
-<!--<script src="js/service/NotificationService.js"></script>-->
-<!--<script src="js/service/NavigationService.js"></script>-->
-<!--<script src="js/service/ApiService.js"></script>-->
-<!--<script src="js/service/ProfileService.js"></script>-->
-<!--<script src="js/component/ExperienceComponent.js"></script>-->
-<!--<script src="js/component/SkillsComponent.js"></script>-->
-<!--<script src="js/manager/CandidateProfileManager.js"></script>-->
-<!--<script src="js/manager/BaseProfile.js"></script>-->
+<script src="../../js/util/Helpers.js"></script>
+<script src="../../js/service/NotificationService.js"></script>
+<script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/service/ApiService.js"></script>
+<script src="../../js/service/ProfileService.js"></script>
+<script src="../../js/manager/CandidateProfileManager.js"></script>
+<script src="../../js/manager/BaseProfile.js"></script>
 </body>
 </html>

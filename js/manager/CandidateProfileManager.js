@@ -2,7 +2,6 @@ class CandidateProfileManager {
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
-        this.navigation = new NavigationService();
         this.profileData = profileData; // Пока данными мы никак не оперируем, но они в дальнейшем понадобятся
         this.candidateProfile = this.getDefaultCandidateProfile(); // временные тестовые данные
     }
@@ -11,8 +10,6 @@ class CandidateProfileManager {
         try {
             this.initEventListeners();
             this.updateProfileData();
-            this.updateStats();
-            this.updateStatus();
 
             console.log('CandidateProfileManager initialized successfully');
         } catch (error) {
@@ -42,7 +39,6 @@ class CandidateProfileManager {
             }
         };
     }
-
 
     initEventListeners() {
         // Обработчики для action cards через data-attributes
@@ -77,14 +73,49 @@ class CandidateProfileManager {
     // Смена статуса
     toggleStatus() {
         this.candidateProfile.isActive = !this.candidateProfile.isActive;
-        this.updateStatus();
+        this.setUserStatus();
 
         const statusText = this.candidateProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
-        // Helpers.showMessage(`Статус изменен на: ${statusText}`); // Сейчас некорректно отображаются алерты и сообщение
     }
 
-    // Смена статуса и стиля точки (зеленый/красный)
-    updateStatus() {
+    updateProfileData() {
+        this.setAvatar();
+        this.setUserName();
+        this.setUserStatus();
+        this.setUserPosition()
+        this.setUserExperience();
+        this.setUserEducation();
+        this.setUserStatistics();
+    }
+
+    //TODO: Аватар пока берется из данных телеграма. В системе аватар пользователя не сохраняется. Функционала смены аватара не существует
+    setAvatar() {
+        if (!this.tg?.initDataUnsafe?.user) return;
+
+        const user = this.tg.initDataUnsafe.user;
+        const avatar = document.getElementById('userAvatar');
+
+        if (user.photo_url) {
+            avatar.innerHTML = `<img src="${user.photo_url}" alt="Avatar" class="avatar-image">`;
+        } else if (user.first_name) {
+            avatar.textContent = user.first_name[0].toUpperCase();
+            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
+            const colorIndex = user.id % colors.length;
+            avatar.style.background = colors[colorIndex];
+            avatar.style.color = 'white';
+        }
+    }
+
+    setUserName() {
+        const userNameElement = document.getElementById('userName');
+
+        let firstName = this.profileData.firstName;
+        let lastName = this.profileData.lastName;
+
+        userNameElement.textContent = firstName + ' ' + lastName;
+    }
+
+    setUserStatus() {
         const statusElement = document.getElementById('userStatus');
         const statusDot = document.getElementById('statusDot');
 
@@ -101,50 +132,23 @@ class CandidateProfileManager {
         }
     }
 
-    updateProfileData() {
-        // Обновляем данные профиля из Telegram (если есть)
-        if (this.tg?.initDataUnsafe?.user) {
-            this.updateTelegramUserData();
-        }
+    setUserPosition() {
+        const userPositionElement = document.getElementById('userPosition');
+        if (userPositionElement) userPositionElement.textContent = this.candidateProfile.headline;
+    }
 
-        // Обновляем статические данные
-        const headlineElement = document.getElementById('userHeadline');
+    setUserExperience() {
         const experienceElement = document.getElementById('userExperience');
+        if (experienceElement) experienceElement.textContent = this.candidateProfile.experience;
+    }
+
+    setUserEducation() {
         const educationElement = document.getElementById('userEducation');
 
-        if (headlineElement) headlineElement.textContent = this.candidateProfile.headline;
-        if (experienceElement) experienceElement.textContent = this.candidateProfile.experience;
         if (educationElement) educationElement.textContent = this.candidateProfile.education;
     }
 
-    updateTelegramUserData() {
-        const user = this.tg.initDataUnsafe.user;
-        const avatar = document.getElementById('userAvatar');
-        const userNameElement = document.getElementById('userName');
-
-        if (!avatar || !userNameElement) return;
-
-        // Устанавливаем аватар
-        if (user.photo_url) {
-            avatar.innerHTML = `<img src="${user.photo_url}" alt="Avatar" class="avatar-image">`;
-        } else if (user.first_name) {
-            avatar.textContent = user.first_name[0].toUpperCase();
-            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
-            const colorIndex = user.id % colors.length;
-            avatar.style.background = colors[colorIndex];
-            avatar.style.color = 'white';
-        }
-
-        // Устанавливаем имя
-        let userName = '';
-        if (user.first_name) userName += user.first_name;
-        if (user.last_name) userName += ' ' + user.last_name;
-        if (userName.trim() === '') userName = 'Пользователь';
-
-        userNameElement.textContent = userName;
-    }
-
-    updateStats() {
+    setUserStatistics() {
         const viewsElement = document.getElementById('statProfileViews');
         const responsesElement = document.getElementById('statResponses');
         const matchesElement = document.getElementById('statMatches');
