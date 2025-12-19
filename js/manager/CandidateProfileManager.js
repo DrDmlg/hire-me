@@ -28,7 +28,7 @@ class CandidateProfileManager {
     // Временные тестовые данные
     getDefaultCandidateProfile() {
         return {
-            headline: this.profileData.candidate.desiredPosition,
+            position: this.profileData.candidate.desiredPosition,
             experience: "5+ лет опыта", // TODO: пока мок значение. Продумать как будем рассчитывать. Может вообще убрать
             education: "Высшее образование", // TODO: пока мок значение. Продумать, что будем сюда подставлять. Может вообще убрать
             isActive: true, // TODO: пока мок значение. Исправить реализацю как дойдут руки
@@ -70,52 +70,32 @@ class CandidateProfileManager {
         }
     }
 
-    // Смена статуса
     toggleStatus() {
         this.candidateProfile.isActive = !this.candidateProfile.isActive;
-        this.setUserStatus();
+        this.setCandidateJobStatus();
 
         const statusText = this.candidateProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
     }
 
     updateProfileData() {
-        this.setAvatar();
+        this.setUserAvatar();
         this.setUserName();
-        this.setUserStatus();
-        this.setUserPosition()
-        this.setUserExperience();
-        this.setUserEducation();
-        this.setUserStatistics();
+        this.setCandidateDesiredPosition()
+        this.setCandidateJobStatus();
+        this.setCandidateJobExperience();
+        this.setCandidateEducation();
+        this.setCandidateStatistics();
     }
 
-    //TODO: Аватар пока берется из данных телеграма. В системе аватар пользователя не сохраняется. Функционала смены аватара не существует
-    setAvatar() {
-        if (!this.tg?.initDataUnsafe?.user) return;
-
-        const user = this.tg.initDataUnsafe.user;
-        const avatar = document.getElementById('userAvatar');
-
-        if (user.photo_url) {
-            avatar.innerHTML = `<img src="${user.photo_url}" alt="Avatar" class="avatar-image">`;
-        } else if (user.first_name) {
-            avatar.textContent = user.first_name[0].toUpperCase();
-            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
-            const colorIndex = user.id % colors.length;
-            avatar.style.background = colors[colorIndex];
-            avatar.style.color = 'white';
-        }
+    setUserAvatar() {
+        UserProfileFiller.setUserAvatar(this.tg);
     }
 
     setUserName() {
-        const userNameElement = document.getElementById('userName');
-
-        let firstName = this.profileData.firstName;
-        let lastName = this.profileData.lastName;
-
-        userNameElement.textContent = firstName + ' ' + lastName;
+        UserProfileFiller.setUserName(this.profileData);
     }
 
-    setUserStatus() {
+    setCandidateJobStatus() {
         const statusElement = document.getElementById('userStatus');
         const statusDot = document.getElementById('statusDot');
 
@@ -132,23 +112,23 @@ class CandidateProfileManager {
         }
     }
 
-    setUserPosition() {
+    setCandidateDesiredPosition() {
         const userPositionElement = document.getElementById('userPosition');
-        if (userPositionElement) userPositionElement.textContent = this.candidateProfile.headline;
+        if (userPositionElement) userPositionElement.textContent = this.candidateProfile.position;
     }
 
-    setUserExperience() {
+    setCandidateJobExperience() {
         const experienceElement = document.getElementById('userExperience');
         if (experienceElement) experienceElement.textContent = this.candidateProfile.experience;
     }
 
-    setUserEducation() {
+    setCandidateEducation() {
         const educationElement = document.getElementById('userEducation');
 
         if (educationElement) educationElement.textContent = this.candidateProfile.education;
     }
 
-    setUserStatistics() {
+    setCandidateStatistics() {
         const viewsElement = document.getElementById('statProfileViews');
         const responsesElement = document.getElementById('statResponses');
         const matchesElement = document.getElementById('statMatches');
