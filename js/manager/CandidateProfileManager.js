@@ -3,13 +3,13 @@ class CandidateProfileManager {
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
         this.profileData = profileData; // Пока данными мы никак не оперируем, но они в дальнейшем понадобятся
-        this.candidateProfile = this.getDefaultCandidateProfile(); // временные тестовые данные
+        this.candidateProfile = this.getTemporaryCandidateProfileData(); // временные тестовые данные
     }
 
     async init() {
         try {
             this.initEventListeners();
-            this.updateProfileData();
+            this.updateCandidateProfileData();
 
             console.log('CandidateProfileManager initialized successfully');
         } catch (error) {
@@ -26,7 +26,7 @@ class CandidateProfileManager {
     }
 
     // Временные тестовые данные
-    getDefaultCandidateProfile() {
+    getTemporaryCandidateProfileData() {
         return {
             position: this.profileData.candidate.desiredPosition,
             experience: "5+ лет опыта", // TODO: пока мок значение. Продумать как будем рассчитывать. Может вообще убрать
@@ -77,7 +77,7 @@ class CandidateProfileManager {
         const statusText = this.candidateProfile.isActive ? 'Активный поиск' : 'Не ищу работу';
     }
 
-    updateProfileData() {
+    updateCandidateProfileData() {
         this.setUserAvatar();
         this.setUserName();
         this.setCandidateDesiredPosition()

@@ -31,19 +31,17 @@ class BaseProfile {
     }
 
     async determineProfileType() {
-        this.userType = localStorage.getItem('userProfileType');
+        const urlParams = new URLSearchParams(window.location.search);
+        this.userType = urlParams.get('type');
         console.log('Пользователь заходит под : ' + this.userType);
     }
 
     async initManagers() {
-        //TODO: Так как пока не реализован профиль работодателя, то по умолчанию выставляем кандидата
-        this.userType = 'candidate';
-
         if (this.userType === 'candidate') {
             this.managers.profile = new CandidateProfileManager(this.profileData);
             console.log('Создан CandidateProfileManager');
         } else if (this.userType === 'employer') {
-            this.managers.profile = new EmployerProfileManager(this);
+            this.managers.profile = new EmployerProfileManager(this.profileData);
             console.log('Создан EmployerProfileManager');
         }
 

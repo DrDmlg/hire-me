@@ -9,8 +9,6 @@ class Login {
         if (this.tg) {
             this.initTelegram();
         }
-
-        this.setupEventListeners();
         this.navigation.init();
     }
 
@@ -19,21 +17,6 @@ class Login {
             this.tg.expand();
             this.tg.enableClosingConfirmation();
         }
-    }
-
-    setupEventListeners() {
-        document.querySelectorAll('.action-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-
-                const profileType = card.dataset.type;
-
-                if (profileType) {
-                    localStorage.setItem('userProfileType', profileType);
-
-                    window.location.href = `html/${profileType}/profile.html?type=${profileType}`;
-                }
-            });
-        });
     }
 }
 
