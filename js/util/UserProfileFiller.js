@@ -13,7 +13,7 @@ class UserProfileFiller {
     static setUserAvatar(tg) {
         if (!tg?.initDataUnsafe?.user) return;
 
-        const user = this.tg.initDataUnsafe.user;
+        const user = tg.initDataUnsafe.user;
         const avatar = document.getElementById('userAvatar');
 
         if (user.photo_url) {
