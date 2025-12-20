@@ -48,9 +48,10 @@ body {
 /* Hero Section */
 .profile-hero {
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    padding: 2.5rem 1.5rem 1.5rem; /* Уменьшил нижний отступ */
+    padding: 2.5rem 1.5rem 1.5rem;
     position: relative;
     overflow: hidden;
+    height: 400px;
 }
 
 .profile-hero::before {
