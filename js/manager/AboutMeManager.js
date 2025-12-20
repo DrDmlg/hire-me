@@ -68,16 +68,20 @@ class AboutMeManager {
 
     loadBasicCandidateInfo() {
         if (this.profileData) {
-            document.getElementById('userName').textContent = `${this.profileData.firstName} ${this.profileData.lastName}`;
+            this.setUserName();
             document.getElementById('userPosition').textContent = this.profileData.candidate.desiredPosition || 'Не указано';
         }
     }
 
     loadBasicEmployerInfo() {
         if (this.profileData) {
-            document.getElementById('userName').textContent = `${this.profileData.firstName} ${this.profileData.lastName}`;
+            this.setUserName();
             document.getElementById('userPosition').textContent = this.profileData.employer.position || 'Не указано';
         }
+    }
+
+    setUserName() {
+        UserProfileFiller.setUserName(this.profileData);
     }
 
     determineProfileType() {
