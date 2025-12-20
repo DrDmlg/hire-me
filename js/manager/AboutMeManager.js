@@ -1,5 +1,6 @@
 class AboutMeManager {
     constructor() {
+        this.tg = window.Telegram?.WebApp;
         this.userType = this.determineProfileType();
         this.profileData = null;
         this.navigation = new NavigationService();
@@ -37,10 +38,11 @@ class AboutMeManager {
             if (this.profileData) {
                 if (this.userType === 'candidate') {
                     await this.initManagersForCandidate();
-                    this.loadBasicCandidateInfo();
+                    this.setBasicUserInfo();
+                    this.setBasicCandidateInfo();
                 } else if (this.userType === 'employer') {
-                    this.initManagersForEmployer();
-                    this.loadBasicEmployerInfo();
+                    await this.initManagersForEmployer();
+                    this.setBasicEmployerInfo();
                 }
 
                 console.log('AboutMeManager initialized successfully');
@@ -66,22 +68,27 @@ class AboutMeManager {
         await this.managers.experience.init(this.profileData.workExperiences || []);
     }
 
-    loadBasicCandidateInfo() {
+    setBasicUserInfo() {
         if (this.profileData) {
             this.setUserName();
-            document.getElementById('userPosition').textContent = this.profileData.candidate.desiredPosition || 'Не указано';
+            this.setUserAvatar();
         }
     }
 
-    loadBasicEmployerInfo() {
-        if (this.profileData) {
-            this.setUserName();
-            document.getElementById('userPosition').textContent = this.profileData.employer.position || 'Не указано';
-        }
+    setBasicCandidateInfo() {
+        document.getElementById('userPosition').textContent = this.profileData.candidate.desiredPosition || 'Не указано';
+    }
+
+    setBasicEmployerInfo() {
+        document.getElementById('userPosition').textContent = this.profileData.employer.position || 'Не указано';
     }
 
     setUserName() {
         UserProfileFiller.setUserName(this.profileData);
+    }
+
+    setUserAvatar() {
+        UserProfileFiller.setUserAvatar(this.tg);
     }
 
     determineProfileType() {
