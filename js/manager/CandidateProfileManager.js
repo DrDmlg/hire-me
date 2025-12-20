@@ -18,7 +18,7 @@ class CandidateProfileManager {
     }
 
     openAboutMe() {
-        window.location.href = 'about-me.html';
+        window.location.href = 'about-me.html?type=candidate';
     }
 
     openResumePage() {

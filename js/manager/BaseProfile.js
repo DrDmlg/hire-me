@@ -30,7 +30,7 @@ class BaseProfile {
         }
     }
 
-    async determineProfileType() {
+   async determineProfileType() {
         const urlParams = new URLSearchParams(window.location.search);
         this.userType = urlParams.get('type');
         console.log('Пользователь заходит под : ' + this.userType);

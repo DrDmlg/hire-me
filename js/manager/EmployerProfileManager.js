@@ -18,7 +18,7 @@ class EmployerProfileManager {
     }
 
     openAboutMe() {
-        window.location.href = 'about-me.html';
+        window.location.href = 'about-me.html?type=employer';
     }
 
     // Временные тестовые данные

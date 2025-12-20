@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обо мне - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="../../css/about-me/about-me.css">
+    <link rel="stylesheet" href="../../css/about-me/component/experience.css">
+    <link rel="stylesheet" href="../../css/about-me/component/contacts.css">
+    <link rel="stylesheet" href="../../css/about-me/component/basic-info.css">
+    <link rel="stylesheet" href="../../css/service/notification-system.css">
+    <link rel="stylesheet" href="../../css/service/icon-action.css">
+    <link rel="stylesheet" href="../../css/about-me/layout/header.css">
+    <link rel="stylesheet" href="../../css/about-me/layout/empty-state.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+
+            <button class="back-button">
+                <img src="../../images/icons/arrow-back.png" alt="Назад">
+            </button>
+
+            <h1 class="app-title">Обо мне</h1>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="profile-hero">
+        <div class="hero-content">
+            <div class="avatar-container" id="userAvatar">
+                <!-- Avatar will be set dynamically -->
+            </div>
+            <h1 class="user-name" id="userName"></h1>
+            <div class="user-position" id="userPosition"></div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <div class="completion-section">
+        <div class="completion-header">
+            <span class="completion-label">Заполнение профиля</span>
+            <span class="completion-percent">85%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <!-- Personal Description -->
+        <div class="personal-description">
+            <div class="description-text">
+                Создаю цифровые продукты, которые решают реальные проблемы пользователей и приносят бизнесу прибыль.
+                Специализируюсь на FinTech и B2B-сегменте.
+            </div>
+            <div class="description-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">5+ лет в продуктовом дизайне</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">Expert в Figma и Design Systems</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">✓</div>
+                    <div class="highlight-text">Руковожу командой из 3 дизайнеров</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Info Section -->
+        <div class="basic-info-section">
+            <div class="section-header">
+                <div class="section-title">Основная информация</div>
+                <button class="add-button" id="editBasicInfoBtn" title="Редактировать">
+                    <img src="../../images/icons/edit.png" alt="Редактировать">
+                </button>
+            </div>
+
+            <!-- Форма редактирования (изначально скрыта) -->
+            <div class="basic-info-form" id="basicInfoForm" style="display: none;">
+                <div class="form-title">Предпочтения в работе</div>
+                <form id="basicInfoFormElement">
+                    <!-- Поле для специализации -->
+                    <div class="form-group">
+                        <label class="form-label">Специализация *</label>
+                        <input type="text" class="form-input" id="editPositionInput"
+                               placeholder="Например: Product Designer" required>
+                    </div>
+
+                    <!-- Поле для зарплаты -->
+                    <div class="form-group">
+                        <label class="form-label">Желаемая зарплата</label>
+                        <div class="salary-edit-container">
+                            <input type="text" class="form-input" id="editSalaryInput"
+                                   placeholder="Например: 350000">
+                            <select id="editCurrencySelect" class="currency-select">
+                                <option value="RUB">₽ RUB</option>
+                                <option value="USD">$ USD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBasicInfoBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Список информации (отображение) -->
+            <div class="info-grid-compact" id="basicInfoList">
+                <div class="info-row">
+                    <span class="info-label-compact">Специализация</span>
+                    <span class="info-value-compact" id="desiredPositionValue"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label-compact">Опыт работы</span>
+                    <span class="info-value-compact" id="experienceValue">5 лет 8 мес</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label-compact">Желаемая зарплата</span>
+                    <span class="info-value-compact" id="desiredSalaryValue"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contacts Section -->
+        <div class="contacts-section">
+            <div class="section-header">
+                <div class="section-title">Контакты</div>
+                <button class="add-button" id="addContactBtn" title="Редактировать контакты">
+                    <img src="../../images/icons/edit.png" alt="Редактировать">
+                </button>
+            </div>
+
+            <!-- Форма редактирования -->
+            <div class="contacts-form" id="contactsForm" style="display: none;">
+                <div class="form-title">Редактировать контакты</div>
+                <form id="contactsFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="contactEmail"
+                               placeholder="example@mail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Телефон</label>
+                        <input type="tel" class="form-input" id="contactPhone"
+                               placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Telegram</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">@</span>
+                            <input type="text" class="form-input" id="contactTelegram"
+                                   placeholder="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp</label>
+                        <input type="tel" class="form-input" id="contactWhatsApp"
+                               placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelContactBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Список контактов -->
+            <div class="contacts-list" id="contactsList">
+                <!-- Динамически заполнится через JavaScript -->
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="experience-section">
+            <div class="section-header">
+                <div class="section-title">Опыт работы</div>
+                <button class="add-button" id="addExperienceBtn">
+                    <img src="../../images/icons/add.png" alt="Добавить">
+                </button>
+            </div>
+
+            <!-- Форма добавления/редактирования -->
+            <div class="experience-form" id="experienceForm" style="display: none;">
+                <div class="form-title" id="formTitle">Добавить опыт работы</div>
+                <form id="experienceFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Компания *</label>
+                        <input type="text" class="form-input" id="companyName" required
+                               placeholder="Например: Яндекс, Google, Сбер">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Должность *</label>
+                        <input type="text" class="form-input" id="position" required
+                               placeholder="Например: Frontend Developer, Product Manager">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Период работы *</label>
+                        <input type="text" class="form-input" id="workPeriod" required
+                               placeholder="Например: 2020 — 2023 или 2022 — настоящее время">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Описание обязанностей и достижений</label>
+                        <textarea class="form-input form-textarea" id="workDescription"
+                                  placeholder="Опишите ваши основные обязанности, проекты и достижения..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="currentJob">
+                            <label class="form-label" for="currentJob">Это моё текущее место работы</label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" id="updateButton" style="display: none;">Обновить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Список опыта работы -->
+            <div class="experience-list" id="experienceList">
+                <!-- Будет заполняться динамически через JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/service/ApiService.js"></script>
+<script src="../../js/service/ProfileService.js"></script>
+<script src="../../js/service/NotificationService.js"></script>
+<script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/util/Helpers.js"></script>
+<script src="../../js/component/ExperienceComponent.js"></script>
+<script src="../../js/component/ContactsComponent.js"></script>
+<script src="../../js/component/BasicInfoComponent.js"></script>
+<script src="../../js/manager/AboutMeManager.js"></script>
+</body>
+</html>
