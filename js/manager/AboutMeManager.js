@@ -42,6 +42,7 @@ class AboutMeManager {
                     this.setBasicCandidateInfo();
                 } else if (this.userType === 'employer') {
                     await this.initManagersForEmployer();
+                    this.setBasicUserInfo();
                     this.setBasicEmployerInfo();
                 }
 
