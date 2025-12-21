@@ -251,6 +251,15 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* Отступ от шапки при добавлении новой информации в формы опыта, работы и т.д.*/
+.basic-info-form,
+.contacts-form,
+.experience-form,
+.education-form,
+.language-form {
+    scroll-margin-top: 60px;
+}
+
 /* Responsive */
 @media (max-width: 380px) {
     .container {
