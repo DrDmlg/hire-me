@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание вакансии  - HireMe</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="../../css/publication.css">
+    <link rel="stylesheet" href="../../css/service/notification-system.css">
+    <link rel="stylesheet" href="../../css/service/icon-action.css">
+    <link rel="stylesheet" href="../../css/about-me/layout/header.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header с прогрессом -->
+    <header class="app-header">
+        <div class="header-content">
+            <button class="back-button" id="backButton">
+                <img src="../../images/icons/arrow-back.png" alt="Назад">
+            </button>
+
+            <div class="header-progress">
+                <h1 class="app-title">Создание вакансии</h1>
+                <div class="progress-steps">
+                    <div class="step-indicator active" data-step="1"></div>
+                    <div class="step-indicator" data-step="2"></div>
+                    <div class="step-indicator" data-step="3"></div>
+                    <div class="step-indicator" data-step="4"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="vacancy-create-container">
+        <!-- Шаг 1: Основная информация -->
+        <form id="vacancyForm" class="vacancy-form step active" data-step="1">
+            <h2 class="step-title">Основная информация</h2>
+            <p class="step-description">Заполните основные детали вакансии</p>
+
+            <div class="form-group">
+                <label for="title" class="form-label">Должность</label>
+                <input type="text" id="title" name="title" class="form-input"
+                       placeholder="Например: Senior Java Developer">
+            </div>
+
+            <div class="form-group">
+                <label for="companyName" class="form-label">Название компании</label>
+                <input type="text" id="companyName" name="companyName" class="form-input"
+                       placeholder="Например: Яндекс, Сбер">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label for="workFormat" class="form-label">Формат работы</label>
+                    <select id="workFormat" name="workFormat" class="form-select">
+                        <option value="">Выберите формат</option>
+                        <option value="Удаленно">Удаленно</option>
+                        <option value="Офис">Офис</option>
+                        <option value="Гибрид">Гибрид</option>
+                        <option value="Любой">Любой</option>
+                    </select>
+                </div>
+
+                <div class="form-group half">
+                    <label for="workDays" class="form-label">График работы</label>
+                    <select id="workDays" name="workDays" class="form-select">
+                        <option value="">Выберите график</option>
+                        <option value="5/2">5/2 (полный день)</option>
+                        <option value="Гибкий">Гибкий график</option>
+                        <option value="Сменный">Сменный график</option>
+                        <option value="Частичная">Частичная занятость</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="workPlace" class="form-label">Место работы</label>
+                <input type="text" id="workPlace" name="workPlace" class="form-input"
+                       placeholder="Например: Москва, офис на Тверской">
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                <button type="button" class="btn btn-primary" id="nextStep1">Далее</button>
+            </div>
+        </form>
+
+        <!-- Шаг 2: Зарплата и опыт -->
+        <form class="vacancy-form step" data-step="2">
+            <h2 class="step-title">Зарплата и опыт</h2>
+            <p class="step-description">Укажите условия работы</p>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label for="salaryFrom" class="form-label">Зарплата от</label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="salaryFrom" name="salaryFrom" class="form-input"
+                               placeholder="100000" min="0">
+                        <span class="input-suffix">₽</span>
+                    </div>
+                </div>
+
+                <div class="form-group half">
+                    <label for="salaryTo" class="form-label">Зарплата до</label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="salaryTo" name="salaryTo" class="form-input"
+                               placeholder="250000" min="0">
+                        <span class="input-suffix">₽</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="experience" class="form-label">Требуемый опыт</label>
+                <select id="experience" name="experience" class="form-select">
+                    <option value="">Не имеет значения</option>
+                    <option value="Без опыта">Без опыта</option>
+                    <option value="1-3 года">1-3 года</option>
+                    <option value="3-6 лет">3-6 лет</option>
+                    <option value="Более 6 лет">Более 6 лет</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address" class="form-label">Адрес</label>
+                <input type="text" id="address" name="address" class="form-input"
+                       placeholder="Например: Москва, ул. Тверская, 10">
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="btn btn-secondary" id="prevStep2">Назад</button>
+                <button type="button" class="btn btn-primary" id="nextStep2">Далее</button>
+            </div>
+        </form>
+
+        <!-- Шаг 3: Описание -->
+        <form class="vacancy-form step" data-step="3">
+            <h2 class="step-title">Описание вакансии</h2>
+            <p class="step-description">Расскажите о компании и задачах</p>
+
+            <div class="form-group">
+                <label for="aboutCompany" class="form-label">О компании</label>
+                <textarea id="aboutCompany" name="aboutCompany" class="form-textarea"
+                          rows="3" placeholder="Расскажите о вашей компании..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="responsibilities" class="form-label">Обязанности</label>
+                <textarea id="responsibilities" name="responsibilities" class="form-textarea"
+                          rows="4" placeholder="Что предстоит делать сотруднику..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="skills" class="form-label">Требования и навыки</label>
+                <textarea id="skills" name="skills" class="form-textarea"
+                          rows="4" placeholder="Какие навыки нужны..."></textarea>
+                <div class="form-hint">Указывайте навыки через запятую или список</div>
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="btn btn-secondary" id="prevStep3">Назад</button>
+                <button type="button" class="btn btn-primary" id="nextStep3">Далее</button>
+            </div>
+        </form>
+
+        <!-- Шаг 4: Условия и публикация -->
+        <form class="vacancy-form step" data-step="4">
+            <h2 class="step-title">Условия работы</h2>
+            <p class="step-description">Что вы предлагаете кандидатам</p>
+
+            <div class="form-group">
+                <label for="suggestion" class="form-label">Что мы предлагаем</label>
+                <textarea id="suggestion" name="suggestion" class="form-textarea"
+                          rows="4" placeholder="Опишите преимущества работы в вашей компании..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="additionalInformation" class="form-label">Дополнительная информация</label>
+                <textarea id="additionalInformation" name="additionalInformation" class="form-textarea"
+                          rows="3" placeholder="Любая дополнительная информация..."></textarea>
+                <div class="form-hint">Необязательное поле</div>
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="btn btn-secondary" id="prevStep4">Назад</button>
+                <button type="submit" class="btn btn-primary" id="publishBtn">
+                    <span class="btn-text">Опубликовать вакансию</span>
+                    <span class="btn-spinner" style="display: none;">⏳</span>
+                </button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script src="../../js/util/Helpers.js"></script>
+<script src="../../js/service/ApiService.js"></script>
+<script src="../../js/service/NotificationService.js"></script>
+<script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/service/ProfileService.js"></script>
+<script src="../../js/manager/VacancyManager.js"></script>
+<script src="../../js/component/VacancyCreateComponent.js"></script>
+</body>
+</html>

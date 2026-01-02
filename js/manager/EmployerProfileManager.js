@@ -21,6 +21,14 @@ class EmployerProfileManager {
         window.location.href = 'about-me.html?type=employer';
     }
 
+    publicationVacancy() {
+        window.location.href = 'publication.html?type=employer';
+    }
+
+    openVacancies() {
+        window.location.href = '../vacancies.html?type=employer';
+    }
+
     // Временные тестовые данные
     getTemporaryEmployerProfileData() {
         return {
@@ -48,6 +56,8 @@ class EmployerProfileManager {
     handleAction(action) {
         const actionHandlers = {
             'about-me': () => this.openAboutMe(),
+            'publication': () => this.publicationVacancy(),
+            'vacancies': () => this.openVacancies(),
         };
 
         const handler = actionHandlers[action];
