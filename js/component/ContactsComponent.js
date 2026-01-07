@@ -138,23 +138,25 @@ class ContactsComponent {
         }
 
         const contactsConfig = [
-            { key: 'email', label: 'Email', icon: '✉️' },
-            { key: 'phoneNumber', label: 'Телефон', icon: '📱' },
-            { key: 'telegram', label: 'Telegram', icon: '✈️' },
-            { key: 'whatsapp', label: 'WhatsApp', icon: '💬' }
+            { key: 'email', label: 'Email', icon: '../../images/icons/email-contact.png' },
+            { key: 'phoneNumber', label: 'Телефон', icon: '../../images/icons/phone.png' },
+            { key: 'telegram', label: 'Telegram', icon: '../../images/icons/telegram-contact.png' },
+            { key: 'whatsapp', label: 'WhatsApp', icon: '../../images/icons/whatsapp-contact.png' }
         ];
 
         const html = contactsConfig
             .filter(({ key }) => this.contacts[key])
-            .map(({ key, label, icon }) => `
-                <div class="contact-item fade-in">
-                    <div class="contact-icon">${icon}</div>
-                    <div class="contact-info">
-                        <div class="contact-label">${label}</div>
-                        <div class="contact-value">${Helpers.escapeHtml(this.contacts[key])}</div>
-                    </div>
+            .map(({ key, label, icon, fallback }) => `
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <img src="${icon}" alt="${label}" style="width: 28px; height: 28px;">
                 </div>
-            `).join('');
+                <div class="contact-info">
+                    <div class="contact-label">${label}</div>
+                    <div class="contact-value">${Helpers.escapeHtml(this.contacts[key])}</div>
+                </div>
+            </div>
+        `).join('');
 
         container.innerHTML = html || this.getEmptyState();
     }
