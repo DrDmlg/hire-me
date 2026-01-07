@@ -33,8 +33,6 @@ class EmployerProfileManager {
     getTemporaryEmployerProfileData() {
         return {
             position: this.profileData.employer.position,
-            experience: "7+ лет опыта", // TODO: пока мок значение. Продумать как будем рассчитывать. Может вообще убрать
-            education: "Высшее образование", // TODO: пока мок значение. Продумать, что будем сюда подставлять. Может вообще убрать
             stats: {
                 profileViews: 0,
                 responses: 0,
@@ -72,7 +70,6 @@ class EmployerProfileManager {
         this.setUserAvatar();
         this.setUserName();
         this.setEmployerCurrentPosition()
-
     }
 
     setUserAvatar() {

@@ -33,8 +33,6 @@ class CandidateProfileManager {
     getTemporaryCandidateProfileData() {
         return {
             position: this.profileData.candidate.desiredPosition,
-            experience: "5+ лет опыта", // TODO: пока мок значение. Продумать как будем рассчитывать. Может вообще убрать
-            education: "Высшее образование", // TODO: пока мок значение. Продумать, что будем сюда подставлять. Может вообще убрать
             isActive: true, // TODO: пока мок значение. Исправить реализацю как дойдут руки
             stats: {
                 profileViews: 0,
@@ -87,8 +85,6 @@ class CandidateProfileManager {
         this.setUserName();
         this.setCandidateDesiredPosition()
         this.setCandidateJobStatus();
-        this.setCandidateJobExperience();
-        this.setCandidateEducation();
         this.setCandidateStatistics();
     }
 
@@ -120,17 +116,6 @@ class CandidateProfileManager {
     setCandidateDesiredPosition() {
         const userPositionElement = document.getElementById('userPosition');
         if (userPositionElement) userPositionElement.textContent = this.candidateProfile.position;
-    }
-
-    setCandidateJobExperience() {
-        const experienceElement = document.getElementById('userExperience');
-        if (experienceElement) experienceElement.textContent = this.candidateProfile.experience;
-    }
-
-    setCandidateEducation() {
-        const educationElement = document.getElementById('userEducation');
-
-        if (educationElement) educationElement.textContent = this.candidateProfile.education;
     }
 
     setCandidateStatistics() {
