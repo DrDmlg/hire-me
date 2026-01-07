@@ -40,10 +40,12 @@ class AboutMeManager {
                     await this.initManagersForCandidate();
                     this.setBasicUserInfo();
                     this.setBasicCandidateInfo();
+                    UserProfileFiller.updateProgressBar(this.userType, this.profileData);
                 } else if (this.userType === 'employer') {
                     await this.initManagersForEmployer();
                     this.setBasicUserInfo();
                     this.setBasicEmployerInfo();
+                    UserProfileFiller.updateProgressBar(this.userType, this.profileData);
                 }
 
                 console.log('AboutMeManager initialized successfully');

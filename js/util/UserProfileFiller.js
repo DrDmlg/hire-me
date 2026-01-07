@@ -26,4 +26,37 @@ class UserProfileFiller {
             avatar.style.color = 'white';
         }
     }
+
+    static updateProgressBar(userType, profileData) {
+        let filled = 0;
+        let total = 0;
+
+        if (profileData?.contact) {
+         if (profileData.contact?.email) filled++;
+         if (profileData.contact?.phoneNumber) filled++;
+         if (profileData.contact?.telegram) filled++;
+        }
+
+        if (profileData?.workExperiences.length > 0) filled++;
+
+
+        if (userType === 'candidate') {
+            total = 7;
+
+            if (profileData.candidate.educations.length > 0) filled++;
+            if (profileData.candidate.skills.length > 0) filled++;
+            if (profileData.candidate.languages.length > 0) filled++;
+        } else if (userType === 'employer') {
+            total = 4;
+        }
+
+        const percent = Math.round((filled / total) * 100);
+
+        // Обновляем UI
+        const percentEl = document.querySelector('.completion-percent');
+        const progressEl = document.querySelector('.progress-fill');
+
+        if (percentEl) percentEl.textContent = `${percent}%`;
+        if (progressEl) progressEl.style.width = `${percent}%`;
+    }
 }
