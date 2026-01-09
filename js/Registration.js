@@ -242,7 +242,7 @@ class Registration {
                 desiredPosition: document.getElementById('desiredPosition').value.trim(),
                 desiredSalary: parseFloat(this.unformatSalary(document.getElementById('desiredSalary').value)),
                 currency: document.getElementById('currency').value,
-                candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'active' : 'inactive'
+                candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'Активный поиск' : 'Не ищу работу'
             };
         } else {
             return {
