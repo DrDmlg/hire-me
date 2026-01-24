@@ -275,7 +275,7 @@ class Registration {
         if (response.status === 200) {
             notification.success('Профиль успешно сохранен');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }, 1500);
         } else {
             throw new Error('Не удалось отправить данные');
@@ -302,7 +302,7 @@ class Registration {
         if (response.status === 200) {
             notification.success('Регистрация успешно завершена!');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }, 1500);
         } else {
             throw new Error('Не удалось отправить данные');
