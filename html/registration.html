@@ -28,31 +28,31 @@
                 <!-- Общие поля -->
                 <div class="form-group">
                     <label for="firstName">Имя</label>
-                    <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Введите ваше имя" required>
+                    <input type="text" id="firstName" name="firstName" class="form-input" placeholder="София" required>
                 </div>
 
                 <div class="form-group">
                     <label for="lastName">Фамилия</label>
-                    <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Введите вашу фамилию" required>
+                    <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Сергеева" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="Почтовый адрес" required>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="example@google.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber">Телефон</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (XXX) XXX-XX-XX" required>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (915) 776-76-67" required>
                     <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
                 </div>
 
                 <!-- Поля для кандидата -->
                 <div id="candidateFields" style="display: none;">
                     <div class="form-group">
-                        <label for="desiredPosition">Должность</label>
+                        <label for="desiredPosition">Желаемая позиция</label>
                         <input type="text" id="desiredPosition" name="desiredPosition" class="form-input"
-                               placeholder="Например: Frontend Developer">
+                               placeholder="Например: Брокер по продаже недвижимости">
                     </div>
 
                     <div class="form-group">
@@ -63,8 +63,8 @@
                             </div>
                             <div class="currency-select-wrapper">
                                 <select id="currency" name="currency" class="currency-select">
-                                    <option value="RUB">₽ RUB</option>
-                                    <option value="USD">$ USD</option>
+                                    <option value="RUB">₽ / мес.</option>
+                                    <option value="USD">$ / мес.</option>
                                 </select>
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                 <!-- Поля для работодателя -->
                 <div id="employerFields" style="display: none;">
                     <div class="form-group">
-                        <label for="currentPosition">Должность</label>
-                        <input type="text" id="currentPosition" name="currentPosition" class="form-input" placeholder="Ваша должность в компании">
+                        <label for="currentPosition">Текущая должность</label>
+                        <input type="text" id="currentPosition" name="currentPosition" class="form-input" placeholder="HR-менеджер / Руководитель отдела">
                     </div>
                 </div>
 
