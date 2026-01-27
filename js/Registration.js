@@ -300,7 +300,7 @@ class Registration {
         const response = await this.api.post('/registration/employer', data);
 
         if (response.status === 200) {
-            notification.success('Регистрация успешно завершена!');
+            notification.success('Профиль успешно сохранен');
             setTimeout(() => {
                 window.location.href = '../index.html';
             }, 1500);
