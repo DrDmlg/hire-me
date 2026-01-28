@@ -205,12 +205,9 @@ class ContactsComponent {
         notification.process('Обновление контактов...');
 
         try {
-            if (!this.contacts.id) {
-                notification.error('Не найден ID контактов');
-                return;
-            }
 
-            const response = await this.api.put(`/contact/${this.contacts.id}`, contactData);
+            const telegramUserId = this.profileData?.telegramUserId;
+            const response = await this.api.put(`/contact/${telegramUserId}`, contactData);
 
             if (response.status === 200) {
                 this.contacts = response.data;
