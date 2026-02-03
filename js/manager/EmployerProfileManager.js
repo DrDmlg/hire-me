@@ -17,7 +17,7 @@ class EmployerProfileManager {
         }
     }
 
-    openAboutMe() {
+     openAboutMe() {
         window.location.href = 'about-me.html?type=employer';
     }
 
@@ -27,6 +27,10 @@ class EmployerProfileManager {
 
     openVacancies() {
         window.location.href = '../vacancies.html?type=employer';
+    }
+
+    openResponses() {
+        window.location.href = 'responses.html?type=employer';
     }
 
     // Временные тестовые данные
@@ -56,6 +60,7 @@ class EmployerProfileManager {
             'about-me': () => this.openAboutMe(),
             'publication': () => this.publicationVacancy(),
             'vacancies': () => this.openVacancies(),
+            'responses': () => this.openResponses(),
         };
 
         const handler = actionHandlers[action];

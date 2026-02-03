@@ -1,0 +1,888 @@
+/* Стили для страницы откликов работодателя */
+
+/* Header с бейджем */
+.header-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-badge {
+    background: var(--error);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+    animation: pulse 2s infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Фильтры */
+.responses-filters {
+    background: var(--bg-card);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.filter-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.filter-tabs::-webkit-scrollbar-track {
+    background: var(--bg-soft);
+}
+
+.filter-tabs::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+.filter-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.filter-tab:hover {
+    background: var(--border);
+}
+
+.filter-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.filter-tab.active .filter-count {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.filter-name {
+    font-weight: 600;
+}
+
+.filter-count {
+    background: var(--border);
+    color: var(--text-secondary);
+    padding: 0.125rem 0.375rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 20px;
+    text-align: center;
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.filter-dropdown::after {
+    content: "▼";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* Контейнер откликов */
+.responses-container {
+    padding: 1rem;
+}
+
+/* Группировка по вакансиям */
+.vacancy-group {
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.vacancy-group:hover {
+    box-shadow: var(--shadow);
+}
+
+.vacancy-group-header {
+    background: var(--primary-soft);
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.vacancy-group-header:hover {
+    background: var(--bg-hover);
+}
+
+.vacancy-group-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.vacancy-group-count {
+    background: var(--primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.125rem 0.375rem;
+    border-radius: 10px;
+}
+
+.vacancy-group-arrow {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+}
+
+.vacancy-group.expanded .vacancy-group-arrow {
+    transform: rotate(180deg);
+}
+
+.vacancy-group-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.vacancy-group.expanded .vacancy-group-content {
+    max-height: 2000px; /* Большое значение для анимации */
+}
+
+/* Карточка отклика */
+.response-card {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.response-card:last-child {
+    border-bottom: none;
+}
+
+.response-card:hover {
+    background: var(--bg-hover);
+}
+
+.response-card.new {
+    border-left: 3px solid var(--primary);
+}
+
+.response-card.viewed {
+    border-left: 3px solid var(--warning);
+}
+
+.response-card.invited {
+    border-left: 3px solid var(--success);
+}
+
+.response-card.rejected {
+    border-left: 3px solid var(--error);
+}
+
+.response-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.candidate-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.candidate-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.candidate-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.candidate-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.candidate-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.candidate-tag {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-soft);
+    border-radius: 12px;
+}
+
+.salary-tag {
+    background: #FFFBEB;
+    color: #B45309;
+    border: 1px solid #FDE68A;
+    font-weight: 600;
+}
+
+.response-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.response-status {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-new {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+}
+
+.status-viewed {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-invited {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-rejected {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Действия с откликом */
+.response-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.response-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+}
+
+.btn-invite {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-reject {
+    background: var(--bg-soft);
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.btn-invite:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-reject:hover {
+    background: var(--error);
+    color: white;
+    border-color: var(--error);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.empty-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.empty-description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+/* ================= МОДАЛЬНОЕ ОКНО ================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-out;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Хедер модального окна */
+.modal-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: var(--bg-soft);
+    color: var(--text-primary);
+}
+
+/* Тело модального окна */
+.modal-body {
+    padding: 0 1.5rem;
+}
+
+/* Детали кандидата */
+.candidate-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.candidate-avatar.large {
+    width: 80px;
+    height: 80px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    border: 3px solid var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.candidate-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.candidate-position {
+    font-size: 1rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.candidate-location {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Секции в модалке */
+.detail-section {
+    margin: 1.5rem 0;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.detail-section:last-child {
+    border-bottom: none;
+}
+
+.detail-section h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Контактная информация */
+.contact-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    background: var(--bg-hover);
+    transform: translateX(5px);
+}
+
+.contact-icon {
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.contact-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--primary);
+}
+
+/* Ожидания кандидата */
+.expectations-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.expectation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius-sm);
+}
+
+.expectation-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.expectation-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Информация о статусе */
+.status-info {
+    background: var(--bg-soft);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+}
+
+.status-current {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.status-current span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.status-current strong {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.status-history {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.status-history p {
+    margin: 0.25rem 0;
+}
+
+/* Управление статусом в модалке */
+.modal-actions {
+    padding: 1.5rem;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+}
+
+#saveStatus {
+    min-width: 140px;
+}
+
+/* Кнопки действий в модалке */
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    min-width: 140px;
+}
+
+.btn-view-resume {
+    background: var(--bg-soft);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+/* Заметки работодателя */
+.employer-notes {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.employer-notes h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.notes-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s ease;
+    background: var(--bg-main);
+}
+
+.notes-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+#saveNotes {
+    margin-top: 0.75rem;
+    width: 100%;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .responses-filters {
+        padding: 0.875rem 1rem;
+    }
+
+    .filter-tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .vacancy-group-header {
+        padding: 0.875rem 1rem;
+    }
+
+    .response-card {
+        padding: 1rem;
+    }
+
+    .candidate-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .response-actions .btn {
+        min-width: 100px;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    /* Адаптивность для модального окна */
+    .modal-content {
+        max-height: 95vh;
+        border-radius: var(--radius-sm);
+    }
+
+    .modal-header {
+        padding: 1.25rem 1.25rem 0.875rem;
+    }
+
+    .modal-body {
+        padding: 0 1.25rem;
+    }
+
+    .candidate-detail-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .candidate-info h3 {
+        font-size: 1.25rem;
+    }
+
+    #saveStatus {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .action-buttons .btn {
+        min-width: unset;
+    }
+
+    .modal-actions {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .filter-tabs {
+        gap: 0.25rem;
+    }
+
+    .response-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .response-status {
+        align-self: flex-start;
+    }
+
+    .response-actions {
+        flex-direction: column;
+    }
+
+    .response-actions .btn {
+        width: 100%;
+        min-width: unset;
+    }
+
+    /* Адаптивность для модального окна */
+    .modal-overlay {
+        padding: 0.5rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .candidate-avatar.large {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отклики - HireMe Real Estate</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="../../css/profile.css">
+    <link rel="stylesheet" href="../../css/responses.css">
+    <link rel="stylesheet" href="../../css/service/notification-system.css">
+    <link rel="stylesheet" href="../../css/service/icon-action.css">
+    <link rel="stylesheet" href="../../css/about-me/layout/header.css">
+</head>
+<body>
+<div class="container">
+    <header class="app-header">
+        <div class="header-content">
+
+            <button class="back-button">
+                <img src="../../images/icons/arrow-back.png" alt="Назад">
+            </button>
+
+            <div class="header-title-group">
+                <h1 class="app-title">Отклики</h1>
+                <div class="header-badge" id="newResponsesCount">0</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters -->
+    <div class="responses-filters">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">
+                <span class="filter-name">Все</span>
+                <span class="filter-count" id="countAll">0</span>
+            </button>
+            <button class="filter-tab" data-filter="new">
+                <span class="filter-name">Новые</span>
+                <span class="filter-count" id="countNew">0</span>
+            </button>
+        </div>
+
+        <div class="filter-dropdown" id="vacancyFilter">
+            <select class="filter-select">
+                <option value="all">Все вакансии</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Responses Container -->
+    <main class="responses-container">
+        <!-- Группировка по вакансиям -->
+        <div class="responses-grouped" id="responsesGrouped">
+        </div>
+
+        <!-- Или плоский список -->
+        <div class="responses-flat" id="responsesFlat" style="display: none;">
+            <!-- Альтернативный вид -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <img src="../../images/icons/sad.png">
+            <div class="empty-title">Пока нет новых откликов</div>
+            <div class="empty-description">Как только кандидаты начнут откликаться на ваши вакансии, они появятся здесь</div>
+        </div>
+    </main>
+</div>
+
+<!-- Response Detail Modal -->
+<div class="modal-overlay" id="responseModal" style="display: none;">
+    <div class="modal-content">
+        <!-- Будет заполняться динамически -->
+    </div>
+</div>
+
+<script src="../../js/util/Helpers.js"></script>
+<script src="../../js/util/UserProfileFiller.js"></script>
+<script src="../../js/service/ApiService.js"></script>
+<script src="../../js/service/ProfileService.js"></script>
+<script src="../../js/service/NotificationService.js"></script>
+<script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/component/ResponseCardComponent.js"></script>
+<script src="../../js/manager/ResponsesManager.js"></script>
+</body>
+</html>
