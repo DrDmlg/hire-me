@@ -1,4 +1,4 @@
-class ResponseCardComponent {
+class ApplicationCardComponent {
     constructor() {
         this.api = apiService;
     }
@@ -333,4 +333,4 @@ class ResponseCardComponent {
 }
 
 // Экспортируем компонент
-const responseCardComponent = new ResponseCardComponent();
+const applicationCardComponent = new ApplicationCardComponent();

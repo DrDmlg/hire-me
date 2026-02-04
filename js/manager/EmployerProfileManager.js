@@ -30,7 +30,7 @@ class EmployerProfileManager {
     }
 
     openResponses() {
-        window.location.href = 'responses.html?type=employer';
+        window.location.href = 'application.html?type=employer';
     }
 
     // Временные тестовые данные

@@ -1,4 +1,4 @@
-class ResponsesManager {
+class ApplicationManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
         this.api = apiService;
@@ -8,7 +8,7 @@ class ResponsesManager {
         this.vacancies = this.generateTestVacancies(); // Тестовые вакансии
         this.currentFilter = 'all';
         this.selectedVacancy = 'all';
-        this.responseCard = responseCardComponent;
+        this.responseCard = applicationCardComponent;
     }
 
     async init() {
@@ -31,10 +31,10 @@ class ResponsesManager {
             this.bindEvents();
             this.updateCounters();
 
-            console.log('ResponsesManager initialized with test data');
+            console.log('ApplicationManager initialized with test data');
 
         } catch (error) {
-            console.error('ResponsesManager init error:', error);
+            console.error('ApplicationManager init error:', error);
         }
     }
 
@@ -437,7 +437,7 @@ class ResponsesManager {
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('ResponsesManager starting with test data...');
-    const responsesManager = new ResponsesManager();
-    responsesManager.init();
+    console.log('ApplicationManager starting with test data...');
+    const applicationManager = new ApplicationManager();
+    applicationManager.init();
 });
