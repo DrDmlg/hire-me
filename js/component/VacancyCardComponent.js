@@ -224,7 +224,7 @@ class VacancyCardComponent {
         try {
             let telegramUserId = Helpers.getTelegramUserId();
 
-            const response = await this.api.post(`application/apply`, {
+            const response = await this.api.post(`/application/apply`, {
                 vacancyId: vacancyId,
                 telegramUserId: telegramUserId
             });
