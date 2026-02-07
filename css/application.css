@@ -230,19 +230,15 @@
     background: var(--bg-hover);
 }
 
-.response-card.new {
+.response-card.NEW {
     border-left: 3px solid var(--primary);
 }
 
-.response-card.viewed {
-    border-left: 3px solid var(--warning);
-}
-
-.response-card.invited {
+.response-card.INVITED {
     border-left: 3px solid var(--success);
 }
 
-.response-card.rejected {
+.response-card.REJECTED {
     border-left: 3px solid var(--error);
 }
 
@@ -329,22 +325,17 @@
     letter-spacing: 0.5px;
 }
 
-.status-new {
+.status-NEW {
     background: var(--primary-soft);
     color: var(--primary-dark);
 }
 
-.status-viewed {
-    background: #FEF3C7;
-    color: #92400E;
-}
-
-.status-invited {
+.status-INVITED {
     background: #D1FAE5;
     color: #065F46;
 }
 
-.status-rejected {
+.status-REJECTED {
     background: #FEE2E2;
     color: #991B1B;
 }

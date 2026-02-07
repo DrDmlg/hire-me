@@ -75,10 +75,8 @@ class ResumeManager {
     }
 }
 
-
 // Автоматическая инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('ResumeManager запускается...');
     const resumeManager = new ResumeManager();
     resumeManager.init();
 });

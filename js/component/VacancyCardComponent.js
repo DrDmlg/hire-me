@@ -205,7 +205,7 @@ class VacancyCardComponent {
         if (applyBtn) {
             applyBtn.addEventListener('click', () => {
                 const vacancyId = cardElement.dataset.id;
-                this.handleApply(vacancyId);
+                this.submitApplication(vacancyId);
             });
         }
 
@@ -213,18 +213,29 @@ class VacancyCardComponent {
         if (applyFullBtn) {
             applyFullBtn.addEventListener('click', () => {
                 const vacancyId = cardElement.dataset.id;
-                this.handleApply(vacancyId);
+                this.submitApplication(vacancyId);
             });
         }
     }
 
     // Обработчик отклика на вакансию
-    handleApply(vacancyId) {
+    async submitApplication(vacancyId) {
         console.log('Отклик на вакансию:', vacancyId);
-        notification.success('Ваш отклик отправлен!');
+        try {
+            let telegramUserId = Helpers.getTelegramUserId();
 
-        // TODO: Реализовать API запрос для отклика
-        // this.api.post(`/vacancy/${vacancyId}/apply`, {});
+            const response = await this.api.post(`application/apply`, {
+                vacancyId: vacancyId,
+                telegramUserId: telegramUserId
+            });
+
+            if (response.status === 200) {
+                notification.success('Ваш отклик отправлен!');
+            }
+
+        } catch (error) {
+            console.error('error:', error);
+        }
     }
 }
 

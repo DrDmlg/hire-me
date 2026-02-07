@@ -2,10 +2,12 @@ class ApplicationManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
         this.api = apiService;
-        this.profileData = null;
         this.navigation = new NavigationService();
-        this.responses = this.generateTestResponses(); // Тестовые данные
-        this.vacancies = this.generateTestVacancies(); // Тестовые вакансии
+
+        this.profileData = null;
+        this.vacancies = [];
+        this.responses = [];
+
         this.currentFilter = 'all';
         this.selectedVacancy = 'all';
         this.responseCard = applicationCardComponent;
@@ -14,127 +16,26 @@ class ApplicationManager {
     async init() {
         try {
             this.navigation.init();
-
-            // Для тестов - создаем фейковый профиль работодателя
-            this.profileData = {
-                employer: {
-                    id: 1,
-                    name: 'Алексей Петров',
-                    position: 'HR-менеджер в Real Estate Agency'
-                }
-            };
-
-            // Или загружаем реальный профиль, если есть
-            // this.profileData = await ProfileService.loadProfile();
+            this.profileData = await ProfileService.loadProfile();
+            await this.loadEmployerVacancies();
 
             this.renderResponses();
             this.bindEvents();
             this.updateCounters();
-
-            console.log('ApplicationManager initialized with test data');
-
         } catch (error) {
             console.error('ApplicationManager init error:', error);
         }
     }
 
-    // Генерация тестовых вакансий
-    generateTestVacancies() {
-        return [
-            {
-                id: 101,
-                title: 'Агент по продаже элитной недвижимости',
-                companyName: 'Elite Properties',
-                salary: {from: 250000, to: 500000},
-                workFormat: 'Гибрид'
-            },
-            {
-                id: 102,
-                title: 'Менеджер по аренде коммерческой недвижимости',
-                companyName: 'Real Estate Agency',
-                salary: {from: 150000, to: 300000},
-                workFormat: 'Офис'
-            },
-            {
-                id: 103,
-                title: 'Брокер по жилой недвижимости',
-                companyName: 'Домовёнок',
-                salary: {from: 120000, to: 250000},
-                workFormat: 'Удаленно'
-            }
-        ];
-    }
+    async loadEmployerVacancies() {
+        const employerId = this.profileData?.employer?.id;
 
-    // Генерация тестовых откликов
-    generateTestResponses() {
-        return [
-            {
-                id: 1,
-                vacancyId: 101,
-                vacancyTitle: 'Агент по продаже элитной недвижимости',
-                status: 'new',
-                appliedAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 минут назад
-                viewedAt: null,
-                employerNotes: '',
-                candidate: {
-                    id: 201,
-                    name: 'Анна Смирнова',
-                    desiredPosition: 'Senior Real Estate Agent',
-                    experience: '7 лет 3 мес',
-                    desiredSalary: 450000,
-                    location: 'Москва',
-                    contacts: {
-                        email: 'anna.smirnova@example.com',
-                        phone: '+7 (915) 123-45-67',
-                        telegram: 'anna_smirnova'
-                    }
-                },
-            },
-            {
-                id: 3,
-                vacancyId: 102,
-                vacancyTitle: 'Менеджер по аренде коммерческой недвижимости',
-                status: 'new',
-                appliedAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 день назад
-                viewedAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), // 12 часов назад
-                employerNotes: 'Интересный кандидат, назначить собеседование на следующей неделе',
-                candidate: {
-                    id: 203,
-                    name: 'Сергей Иванов',
-                    desiredPosition: 'Коммерческий брокер',
-                    experience: '5 лет 8 мес',
-                    desiredSalary: 280000,
-                    location: 'Москва',
-                    contacts: {
-                        email: 's.ivanov@example.com',
-                        phone: '+7 (903) 555-44-33',
-                        telegram: 's_ivanov_commercial'
-                    }
-                },
-            },
-            {
-                id: 5,
-                vacancyId: 103,
-                vacancyTitle: 'Брокер по жилой недвижимости',
-                status: 'rejected',
-                appliedAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), // 3 дня назад
-                viewedAt: new Date(Date.now() - 1000 * 60 * 60 * 60).toISOString(), // 60 часов назад
-                employerNotes: 'Не подходит - нужен офисный сотрудник',
-                candidate: {
-                    id: 205,
-                    name: 'Михаил Козлов',
-                    desiredPosition: 'Удаленный брокер',
-                    experience: '3 года',
-                    desiredSalary: 180000,
-                    location: 'Санкт-Петербург',
-                    contacts: {
-                        email: 'kozlov@example.com',
-                        phone: '+7 (812) 333-22-11',
-                        telegram: 'kozlov_remote'
-                    }
-                },
-            },
-        ];
+        try {
+            const response = await this.api.get(`/application/employer/${employerId}`);
+            this.responses = response.data;
+        } catch (error) {
+            console.error('Не удалось загрузить отклики. Произошла какая-то ошибка: ', error);
+        }
     }
 
     async loadData() {
@@ -193,7 +94,7 @@ class ApplicationManager {
         groupElement.className = 'vacancy-group';
         groupElement.dataset.vacancyId = vacancy.id;
 
-        const newCount = responses.filter(r => r.status === 'new').length;
+        const newCount = responses.filter(r => r.status === 'NEW').length;
         const totalCount = responses.length;
 
         groupElement.innerHTML = `
@@ -268,7 +169,7 @@ class ApplicationManager {
 
     updateCounters() {
         const allCount = this.responses.length;
-        const newCount = this.responses.filter(r => r.status === 'new').length;
+        const newCount = this.responses.filter(r => r.status === 'NEW').length;
 
         // Обновляем счетчики в табах
         const countAll = document.getElementById('countAll');
@@ -319,40 +220,40 @@ class ApplicationManager {
         }
     }
 
-    // Методы для действий с откликами (имитация)
-    async updateResponseStatus(responseId, newStatus) {
-        console.log(`Changing response ${responseId} status to ${newStatus}`);
+    async updateResponseStatus(applicationId, newStatus) {
+        try {
+            const statusData = {
+                status: newStatus
+            };
+            const response = await this.api.put(`/application/${applicationId}/status`, statusData);
 
-        // Имитация запроса
-        return new Promise((resolve) => {
-            setTimeout(() => {
+            if (response.status === 200) {
+                this.status = response.data;
+
                 // Обновляем локальные данные
-                const index = this.responses.findIndex(r => r.id == responseId);
+                const index = this.responses.findIndex(r => r.id == applicationId);
                 if (index !== -1) {
-                    this.responses[index].status = newStatus;
-                    this.responses[index].viewedAt = new Date().toISOString();
+                    this.responses[index].status = response.data.status;
+                    // this.responses[index].viewedAt = new Date().toISOString(); //:TODO
                 }
-
-                // Показываем уведомление
                 const statusText = this.responseCard.getStatusText(newStatus);
                 notification.success(`Статус изменен на "${statusText}"`);
 
-                // Перерендериваем
                 this.renderResponses();
                 this.updateCounters();
                 this.closeResponseDetail();
-
-                resolve();
-            }, 500);
-        });
+            }
+        } catch (error) {
+            notification.error('Возникла ошибка при обновлении статуса');
+        }
     }
 
-    async inviteCandidate(responseId) {
-        await this.updateResponseStatus(responseId, 'invited');
+    async inviteCandidate(applicationId) {
+        await this.updateResponseStatus(applicationId, 'INVITED');
     }
 
-    async rejectResponse(responseId) {
-        await this.updateResponseStatus(responseId, 'rejected');
+    async rejectResponse(applicationId) {
+        await this.updateResponseStatus(applicationId, 'REJECTED');
     }
 
     async saveResponseNotes(responseId, notes) {
@@ -437,7 +338,6 @@ class ApplicationManager {
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('ApplicationManager starting with test data...');
     const applicationManager = new ApplicationManager();
     applicationManager.init();
 });

@@ -1,13 +1,14 @@
 class ApplicationCardComponent {
     constructor() {
         this.api = apiService;
+        this.tg = window.Telegram?.WebApp;
     }
 
     // Создает карточку отклика для группированного вида
     createGroupedCard(response) {
         const statusClass = `status-${response.status}`;
         const statusText = this.getStatusText(response.status);
-        const candidateName = response.candidate?.name || 'Кандидат';
+        const candidateName = response.candidate?.lastName+ " " + response.candidate?.firstName;
         const initials = this.getInitials(candidateName);
         const timeAgo = this.formatTimeAgo(response.appliedAt);
 
@@ -20,16 +21,16 @@ class ApplicationCardComponent {
                     
                     <div class="candidate-main">
                         <div class="candidate-name">
-                            ${Helpers.escapeHtml(candidateName)}
+                            ${(candidateName)}
                             <span class="response-status ${statusClass}">${statusText}</span>
                         </div>
                         
                         <div class="candidate-meta">
                             <span class="candidate-tag">
-                                <span>${Helpers.escapeHtml(response.candidate?.desiredPosition || 'Специалист по недвижимости')}</span>
+                                <span>${response.candidate?.desiredPosition}</span>
                             </span>
                             
-                            ${response.candidate?.experience ? `
+                             ${response.candidate?.experience ? `
                             <span class="candidate-tag">
                                 <span>${response.candidate.experience}</span>
                             </span>
@@ -47,7 +48,7 @@ class ApplicationCardComponent {
                 </div>
                 
                 <div class="response-actions">
-                    ${response.status === 'new' ? `
+                    ${response.status === 'NEW' ? `
                     <button class="btn btn-invite" data-action="invite" data-response-id="${response.id}">
                         Пригласить
                     </button>
@@ -76,15 +77,15 @@ class ApplicationCardComponent {
                         ${this.getInitials(candidate.name)}
                     </div>
                     <div class="candidate-info">
-                        <h3>${Helpers.escapeHtml(candidate.name)}</h3>
-                        <p class="candidate-position">${Helpers.escapeHtml(candidate.desiredPosition || 'Специалист по недвижимости')}</p>
-                        <p class="candidate-location">${Helpers.escapeHtml(candidate.location || 'Не указано')}</p>
+                        <h3>${(response.candidate?.lastName+ " " + response.candidate?.firstName)}</h3>
+                        <p class="candidate-position">${(candidate.desiredPosition)}</p>
+                        <p class="candidate-location">${(candidate.location || 'Город (не указан)')}</p>
                     </div>
                 </div>
                 
                 <div class="detail-section">
                     <h4>Контактная информация</h4>
-                    ${candidate.contacts ? this.createContactInfo(candidate.contacts) : '<p>Контакты не указаны</p>'}
+                    ${this.createContactInfo(candidate.contact)}
                 </div>
                 
                 <div class="detail-section">
@@ -115,6 +116,7 @@ class ApplicationCardComponent {
                         <div class="status-history">
                             <p>Отправлен: ${this.formatDate(response.appliedAt)}</p>
                             ${response.viewedAt ? `<p>Просмотрен: ${this.formatDate(response.viewedAt)}</p>` : ''}
+                            ${response.respondedAt ? `<p>Принятие решения: ${this.formatDate(response.respondedAt)}</p>` : ''}
                         </div>
                     </div>
                 </div>
@@ -139,9 +141,9 @@ class ApplicationCardComponent {
     // Вспомогательные методы
     getStatusText(status) {
         const statusMap = {
-            'new': 'Новый',
-            'invited': 'Приглашен',
-            'rejected': 'Отклонен'
+            'NEW': 'Новый',
+            'INVITED': 'Приглашен',
+            'REJECTED': 'Отклонен'
         };
         return statusMap[status] || status;
     }
@@ -204,11 +206,11 @@ class ApplicationCardComponent {
             `;
         }
 
-        if (contacts.phone) {
+        if (contacts.phoneNumber) {
             html += `
                 <div class="contact-item">
                     <span class="contact-icon"><img src="../../images/icons/phone.png" alt="Телефон" style="width: 28px; height: 28px;"></span>
-                    <a href="tel:${contacts.phone}" class="contact-link">${contacts.phone}</a>
+                    <a href="tel:${contacts.phoneNumber}" class="contact-link">${contacts.phoneNumber}</a>
                 </div>
             `;
         }
@@ -217,7 +219,7 @@ class ApplicationCardComponent {
             html += `
                 <div class="contact-item">
                     <span class="contact-icon"><img src="../../images/icons/telegram-contact.png" alt="Telegram" style="width: 28px; height: 28px;"></span>
-                    <a href="https://t.me/${contacts.telegram}" target="_blank" class="contact-link">@${contacts.telegram}</a>
+                    <a href="https://t.me/${contacts.telegram}" target="_blank" class="contact-link">${contacts.telegram}</a>
                 </div>
             `;
         }
@@ -332,5 +334,4 @@ class ApplicationCardComponent {
     }
 }
 
-// Экспортируем компонент
 const applicationCardComponent = new ApplicationCardComponent();
