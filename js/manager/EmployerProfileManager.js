@@ -2,18 +2,16 @@ class EmployerProfileManager {
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
-        this.profileData = profileData; // Пока данными мы никак не оперируем, но они в дальнейшем понадобятся
-        this.employerProfile = this.getTemporaryEmployerProfileData(); // временные тестовые данные
+        this.profileData = profileData;
     }
 
     async init() {
         try {
             this.initEventListeners();
             this.updateEmployerProfileData();
-
-            console.log('EmployerProfileManager initialized successfully');
+            console.log('EmployerProfileManager успешно инициализирован');
         } catch (error) {
-            console.error('EmployerProfileManager initialization error:', error);
+            console.error('EmployerProfileManager ошибка инициализации:', error);
         }
     }
 
@@ -29,21 +27,10 @@ class EmployerProfileManager {
         window.location.href = '../vacancies.html?type=employer';
     }
 
-    openResponses() {
+    openApplications() {
         window.location.href = 'application.html?type=employer';
     }
 
-    // Временные тестовые данные
-    getTemporaryEmployerProfileData() {
-        return {
-            position: this.profileData.employer.position,
-            stats: {
-                profileViews: 0,
-                responses: 0,
-                matches: 0
-            }
-        };
-    }
 
     initEventListeners() {
         // Обработчики для action cards через data-attributes
@@ -60,7 +47,7 @@ class EmployerProfileManager {
             'about-me': () => this.openAboutMe(),
             'publication': () => this.publicationVacancy(),
             'vacancies': () => this.openVacancies(),
-            'responses': () => this.openResponses(),
+            'responses': () => this.openApplications(),
         };
 
         const handler = actionHandlers[action];
@@ -75,6 +62,7 @@ class EmployerProfileManager {
         this.setUserAvatar();
         this.setUserName();
         this.setEmployerCurrentPosition()
+        this.setEmployerStatistics();
     }
 
     setUserAvatar() {
@@ -87,6 +75,16 @@ class EmployerProfileManager {
 
     setEmployerCurrentPosition() {
         const userPositionElement = document.getElementById('userPosition');
-        if (userPositionElement) userPositionElement.textContent = this.employerProfile.position;
+        if (userPositionElement) userPositionElement.textContent = this.profileData.employer.position;
+    }
+
+    setEmployerStatistics() {
+        const applicationElement = document.getElementById('statApplications');
+        const invitationElement = document.getElementById('statInvitations');
+        const rejectionElement = document.getElementById('statRejections');
+
+        if (applicationElement) applicationElement.textContent = this.profileData.employer.stats.applications;
+        if (invitationElement) invitationElement.textContent = this.profileData.employer.stats.invitations;
+        if (rejectionElement) rejectionElement.textContent = this.profileData.employer.stats.rejections;
     }
 }
