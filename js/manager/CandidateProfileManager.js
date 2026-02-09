@@ -3,8 +3,7 @@ class CandidateProfileManager {
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
         this.api = apiService;
-        this.profileData = profileData; // Пока данными мы никак не оперируем, но они в дальнейшем понадобятся
-        this.candidateProfile = this.getTemporaryCandidateProfileData(); // временные тестовые данные
+        this.profileData = profileData;
     }
 
     async init() {
@@ -12,9 +11,9 @@ class CandidateProfileManager {
             this.initEventListeners();
             this.updateCandidateProfileData();
 
-            console.log('CandidateProfileManager initialized successfully');
+            console.log('CandidateProfileManager успешно инициализирован');
         } catch (error) {
-            console.error('CandidateProfileManager initialization error:', error);
+            console.error('CandidateProfileManager ошибка инициализации:', error);
         }
     }
 
@@ -28,19 +27,6 @@ class CandidateProfileManager {
 
     openVacancies() {
         window.location.href = '../vacancies.html?type=candidate';
-    }
-
-    // Временные тестовые данные
-    getTemporaryCandidateProfileData() {
-        return {
-            position: this.profileData.candidate.desiredPosition,
-            jobStatus: this.profileData.candidate.candidateJobStatus,
-            stats: {
-                profileViews: 0,
-                responses: 0,
-                matches: 0
-            }
-        };
     }
 
     initEventListeners() {
@@ -93,22 +79,22 @@ class CandidateProfileManager {
     async changeCandidateJobStatus() {
         const candidateId = this.profileData?.candidate?.id;
 
-            const currentStatus = this.candidateProfile.jobStatus;
-            const newStatus = currentStatus === 'Активный поиск' ? 'Не ищу работу' : 'Активный поиск';
+        const currentStatus = this.profileData.candidate.candidateJobStatus;
+        const newStatus = currentStatus === 'Активный поиск' ? 'Не ищу работу' : 'Активный поиск';
 
-            try {
-                const response = await this.api.put(`/candidate/status/${candidateId}`, {
-                    jobStatus: newStatus
-                });
+        try {
+            const response = await this.api.put(`/candidate/status/${candidateId}`, {
+                jobStatus: newStatus
+            });
 
-                if (response.status >= 200 && response.status < 300) {
-                    this.candidateProfile.jobStatus = newStatus;
-                    this.setCandidateJobStatus();
-                }
-            } catch (error) {
-                notification.error('Ошибка смены статуса');
+            if (response.status >= 200 && response.status < 300) {
+                this.profileData.candidate.candidateJobStatus = newStatus;
+                this.setCandidateJobStatus();
             }
+        } catch (error) {
+            notification.error('Ошибка смены статуса');
         }
+    }
 
     setCandidateJobStatus() {
         const statusElement = document.getElementById('userStatus');
@@ -116,7 +102,7 @@ class CandidateProfileManager {
 
         if (!statusElement || !statusDot) return;
 
-        const isActive = this.candidateProfile.jobStatus === 'Активный поиск';
+        const isActive = this.profileData.candidate.candidateJobStatus === 'Активный поиск';
 
         if (isActive) {
             statusElement.textContent = 'Активный поиск';
@@ -129,16 +115,16 @@ class CandidateProfileManager {
 
     setCandidateDesiredPosition() {
         const userPositionElement = document.getElementById('userPosition');
-        if (userPositionElement) userPositionElement.textContent = this.candidateProfile.position;
+        if (userPositionElement) userPositionElement.textContent = this.profileData.candidate.desiredPosition;
     }
 
     setCandidateStatistics() {
-        const viewsElement = document.getElementById('statProfileViews');
-        const responsesElement = document.getElementById('statResponses');
-        const matchesElement = document.getElementById('statMatches');
+        const applicationElement = document.getElementById('statApplications');
+        const invitationElement = document.getElementById('statInvitations');
+        const rejectionElement = document.getElementById('statRejections');
 
-        if (viewsElement) viewsElement.textContent = this.candidateProfile.stats.profileViews;
-        if (responsesElement) responsesElement.textContent = this.candidateProfile.stats.responses;
-        if (matchesElement) matchesElement.textContent = this.candidateProfile.stats.matches;
+        if (applicationElement) applicationElement.textContent = this.profileData.candidate.stats.applications;
+        if (invitationElement) invitationElement.textContent = this.profileData.candidate.stats.invitations;
+        if (rejectionElement) rejectionElement.textContent = this.profileData.candidate.stats.rejections;
     }
 }
