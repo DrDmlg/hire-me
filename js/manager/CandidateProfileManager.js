@@ -1,130 +1,128 @@
 class CandidateProfileManager {
+    // Конфигурация путей
+    static ROUTES = {
+        ABOUT_ME: 'about-me.html?type=candidate',
+        RESUME: 'resume.html',
+        VACANCIES: '../vacancies.html?type=candidate'
+    };
+
+    // Конфигурация визуальных состояний статуса
+    static STATUS_THEMES = {
+        'Активный поиск': { text: 'Активный поиск', color: '#10E6A0' },
+        'Не ищу работу': { text: 'Не ищу работу', color: '#e21212' }
+    };
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
         this.api = apiService;
-        this.profileData = profileData;
+        this.profileData = profileData || {};
+        this.isUpdatingStatus = false; // Флаг для предотвращения спам-кликов
     }
 
     async init() {
         try {
             this.initEventListeners();
             this.updateCandidateProfileData();
-
-            console.log('CandidateProfileManager успешно инициализирован');
+            console.log('CandidateProfileManager инициализирован');
         } catch (error) {
-            console.error('CandidateProfileManager ошибка инициализации:', error);
+            console.error('Ошибка инициализации:', error);
         }
     }
 
-    openAboutMe() {
-        window.location.href = 'about-me.html?type=candidate';
+    // --- Навигация ---
+    navigateTo(path) {
+        if (path) window.location.href = path;
     }
 
-    openResumePage() {
-        window.location.href = 'resume.html';
-    }
-
-    openVacancies() {
-        window.location.href = '../vacancies.html?type=candidate';
-    }
-
+    // --- Инициализация ---
     initEventListeners() {
-        // Обработчики для action cards через data-attributes
-        document.querySelectorAll('.action-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const action = card.getAttribute('data-action');
-                this.handleAction(action);
-            });
+        // Делегирование для карточек
+        document.querySelector('.actions-grid')?.addEventListener('click', (e) => {
+            const card = e.target.closest('.action-card');
+            if (card) this.handleAction(card.dataset.action);
         });
 
-        // Обработчик для статуса
-        const statusTag = document.getElementById('statusTag');
-        if (statusTag) {
-            statusTag.addEventListener('click', () => this.changeCandidateJobStatus());
-        }
+        // Слушатель статуса
+        document.getElementById('statusTag')?.addEventListener('click', () => {
+            this.toggleJobStatus();
+        });
     }
 
     handleAction(action) {
-        const actionHandlers = {
-            'about-me': () => this.openAboutMe(),
-            'resume': () => this.openResumePage(),
-            'vacancies': () => this.openVacancies(),
+        const routes = {
+            'about-me': CandidateProfileManager.ROUTES.ABOUT_ME,
+            'resume': CandidateProfileManager.ROUTES.RESUME,
+            'vacancies': CandidateProfileManager.ROUTES.VACANCIES,
         };
-
-        const handler = actionHandlers[action];
-        if (handler) {
-            handler();
-        } else {
-            console.warn(`No handler for action: ${action}`);
-        }
+        this.navigateTo(routes[action]);
     }
 
+    // --- Работа с данными ---
     updateCandidateProfileData() {
-        this.setUserAvatar();
-        this.setUserName();
-        this.setCandidateDesiredPosition()
-        this.setCandidateJobStatus();
-        this.setCandidateStatistics();
-    }
+        const candidate = this.profileData?.candidate || {};
 
-    setUserAvatar() {
         UserProfileFiller.setUserAvatar(this.tg);
-    }
-
-    setUserName() {
         UserProfileFiller.setUserName(this.profileData);
+
+        this._setElementText('userPosition', candidate.desiredPosition, 'Должность не указана');
+        this.renderStatus();
+        this.renderStatistics(candidate.stats);
     }
 
-    async changeCandidateJobStatus() {
-        const candidateId = this.profileData?.candidate?.id;
+    // Изменение статуса (Логика + API)
+    async toggleJobStatus() {
+        if (this.isUpdatingStatus) return;
 
-        const currentStatus = this.profileData.candidate.candidateJobStatus;
-        const newStatus = currentStatus === 'Активный поиск' ? 'Не ищу работу' : 'Активный поиск';
+        const candidate = this.profileData?.candidate;
+        if (!candidate?.id) return;
+
+        const oldStatus = candidate.candidateJobStatus;
+        const newStatus = oldStatus === 'Активный поиск' ? 'Не ищу работу' : 'Активный поиск';
 
         try {
-            const response = await this.api.put(`/candidate/status/${candidateId}`, {
+            this.isUpdatingStatus = true;
+            // Можно добавить класс лоадера на элемент
+            document.getElementById('statusTag')?.classList.add('loading');
+
+            const response = await this.api.put(`/candidate/status/${candidate.id}`, {
                 jobStatus: newStatus
             });
 
             if (response.status >= 200 && response.status < 300) {
-                this.profileData.candidate.candidateJobStatus = newStatus;
-                this.setCandidateJobStatus();
+                candidate.candidateJobStatus = newStatus;
+                this.renderStatus();
             }
         } catch (error) {
             notification.error('Ошибка смены статуса');
+            console.error(error);
+        } finally {
+            this.isUpdatingStatus = false;
+            document.getElementById('statusTag')?.classList.remove('loading');
         }
     }
 
-    setCandidateJobStatus() {
-        const statusElement = document.getElementById('userStatus');
-        const statusDot = document.getElementById('statusDot');
+    // Отрисовка статуса (UI)
+    renderStatus() {
+        const status = this.profileData?.candidate?.candidateJobStatus;
+        const theme = CandidateProfileManager.STATUS_THEMES[status] || CandidateProfileManager.STATUS_THEMES['Не ищу работу'];
 
-        if (!statusElement || !statusDot) return;
+        const elements = {
+            text: document.getElementById('userStatus'),
+            dot: document.getElementById('statusDot')
+        };
 
-        const isActive = this.profileData.candidate.candidateJobStatus === 'Активный поиск';
-
-        if (isActive) {
-            statusElement.textContent = 'Активный поиск';
-            statusDot.style.background = '#10E6A0';
-        } else {
-            statusElement.textContent = 'Не ищу работу';
-            statusDot.style.background = '#e21212';
-        }
+        if (elements.text) elements.text.textContent = theme.text;
+        if (elements.dot) elements.dot.style.background = theme.color;
     }
 
-    setCandidateDesiredPosition() {
-        const userPositionElement = document.getElementById('userPosition');
-        if (userPositionElement) userPositionElement.textContent = this.profileData.candidate.desiredPosition;
+    renderStatistics(stats = {}) {
+        this._setElementText('statApplications', stats.applications, 0);
+        this._setElementText('statInvitations', stats.invitations, 0);
+        this._setElementText('statRejections', stats.rejections, 0);
     }
 
-    setCandidateStatistics() {
-        const applicationElement = document.getElementById('statApplications');
-        const invitationElement = document.getElementById('statInvitations');
-        const rejectionElement = document.getElementById('statRejections');
-
-        if (applicationElement) applicationElement.textContent = this.profileData.candidate.stats.applications;
-        if (invitationElement) invitationElement.textContent = this.profileData.candidate.stats.invitations;
-        if (rejectionElement) rejectionElement.textContent = this.profileData.candidate.stats.rejections;
+    _setElementText(id, value, fallback) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value ?? fallback;
     }
 }
