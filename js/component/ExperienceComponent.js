@@ -24,6 +24,10 @@ class ExperienceComponent {
         const pressedCancelButton = document.getElementById('cancelBtn');
         const form = document.getElementById('experienceFormElement');
 
+        // Находим элементы счетчика
+        const workDescription = document.getElementById('workDescription');
+        const charCount = document.getElementById('charCount');
+
         if (pressedAddButton) {
             pressedAddButton.addEventListener('click', () => this.showForm());
         }
@@ -36,11 +40,27 @@ class ExperienceComponent {
             form.addEventListener('submit', (e) => this.onExperienceAction(e));
         }
 
+        // Логика счетчика символов
+        if (workDescription && charCount) {
+            workDescription.addEventListener('input', () => {
+                const length = workDescription.value.length;
+                charCount.textContent = length;
+
+                // Подсвечиваем красным, если лимит почти исчерпан (например, 950+)
+                if (length >= 950) {
+                    charCount.parentElement.classList.add('limit-reached');
+                } else {
+                    charCount.parentElement.classList.remove('limit-reached');
+                }
+            });
+        }
+
         // 💡 Делегирование событий для edit/delete
         if (experienceList) {
             experienceList.addEventListener('click', (event) => {
                 const editBtn = event.target.closest('.edit-btn');
                 const deleteBtn = event.target.closest('.delete-btn');
+                const description = event.target.closest('.experience-description');
 
                 if (editBtn) {
                     const id = parseInt(editBtn.closest('.experience-item').dataset.id);
@@ -48,6 +68,8 @@ class ExperienceComponent {
                 } else if (deleteBtn) {
                     const id = parseInt(deleteBtn.closest('.experience-item').dataset.id);
                     this.deleteExperienceRecord(id);
+                } else if (description) {
+                    description.classList.toggle('expanded');
                 }
             });
         }
