@@ -9,8 +9,8 @@ class ExperienceComponent {
     async init(experiences = []) {
         try {
             this.experiences = experiences;
-            this.render();      // ← СНАЧАЛА создаем кнопку
-            this.bindEvents();  // ← ПОТОМ навешиваем обработчики
+            this.render();
+            this.bindEvents();
             console.log('ExperienceComponent initialized with data');
         } catch (error) {
             console.error('ExperienceComponent init error:', error);
@@ -28,6 +28,9 @@ class ExperienceComponent {
         const workDescription = document.getElementById('workDescription');
         const charCount = document.getElementById('charCount');
 
+        const currentJobCheckbox = document.getElementById('currentJob');
+        const endDateGroup = document.getElementById('endDateGroup');
+
         if (pressedAddButton) {
             pressedAddButton.addEventListener('click', () => this.showForm());
         }
@@ -39,6 +42,14 @@ class ExperienceComponent {
         if (form) {
             form.addEventListener('submit', (e) => this.onExperienceAction(e));
         }
+
+        currentJobCheckbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                endDateGroup.classList.add('hidden-period');
+            } else {
+                endDateGroup.classList.remove('hidden-period');
+            }
+        });
 
         // Логика счетчика символов
         if (workDescription && charCount) {
@@ -125,9 +136,24 @@ class ExperienceComponent {
     fillForm(experience) {
         document.getElementById('companyName').value = experience.company;
         document.getElementById('position').value = experience.position;
-        document.getElementById('workPeriod').value = experience.period;
         document.getElementById('workDescription').value = experience.description || '';
         document.getElementById('currentJob').checked = experience.isCurrent;
+
+        if (experience.startDate) {
+            const start = new Date(experience.startDate);
+            document.getElementById('startMonth').value = start.getMonth();
+            document.getElementById('startYear').value = start.getFullYear();
+        }
+
+        const endDateGroup = document.getElementById('endDateGroup');
+        if (experience.isCurrent) {
+            endDateGroup.classList.add('hidden-period');
+        } else if (experience.endDate) {
+            const end = new Date(experience.endDate);
+            document.getElementById('endMonth').value = end.getMonth();
+            document.getElementById('endYear').value = end.getFullYear();
+            endDateGroup.classList.remove('hidden-period');
+        }
     }
 
     clearForm() {
@@ -159,20 +185,48 @@ class ExperienceComponent {
 
     /** Валидация данных с формы*/
     validateFormData(formData) {
-        if (!formData.company || !formData.position || !formData.period) {
-            notification.error('Заполните обязательные поля');
-            return false; // возвращаем false при ошибке
+        // Проверяем обязательные текстовые поля и дату начала
+        if (!formData.company || !formData.position || !formData.startDate) {
+            notification.error('Заполните обязательные поля и дату начала');
+            return false;
         }
-        return true; // возвращаем true если все ок
+
+        // Если это не текущая работа, проверяем дату окончания
+        if (!formData.isCurrent) {
+            if (!formData.endDate) {
+                notification.error('Укажите дату окончания или "Текущее место"');
+                return false;
+            }
+            // Проверка: начало не может быть позже конца
+            if (new Date(formData.startDate) > new Date(formData.endDate)) {
+                notification.error('Дата начала не может быть позже окончания');
+                return false;
+            }
+        }
+        return true;
     }
 
     collectFormData() {
+        const isCurrent = document.getElementById('currentJob').checked;
+
+        // Вспомогательная функция для сборки даты в формат YYYY-MM-DD
+        const formatDate = (monthId, yearId) => {
+            const monthVal = document.getElementById(monthId).value;
+            const yearVal = document.getElementById(yearId).value;
+
+            if (monthVal === "" || !yearVal) return null;
+
+            const month = parseInt(monthVal) + 1;
+            return `${yearVal}-${String(month).padStart(2, '0')}-01`;
+        };
+
         return {
             company: document.getElementById('companyName').value.trim(),
             position: document.getElementById('position').value.trim(),
-            period: document.getElementById('workPeriod').value.trim(),
             description: document.getElementById('workDescription').value.trim(),
-            isCurrent: document.getElementById('currentJob').checked
+            isCurrent: isCurrent,
+            startDate: formatDate('startMonth', 'startYear'),
+            endDate: isCurrent ? null : formatDate('endMonth', 'endYear')
         };
     }
 
@@ -280,16 +334,18 @@ class ExperienceComponent {
         }).join('');
     }
 
-    // Метод для форматирования периода
     formatPeriod(startDate, endDate, isCurrent) {
-        const start = startDate;
-        let end = endDate;
+        if (!startDate) return 'Дата не указана';
+
+        const options = { month: 'long', year: 'numeric' };
+        const start = new Date(startDate).toLocaleDateString('ru-RU', options);
 
         if (isCurrent) {
-            end = 'По настоящее время'; // Если текущая работа
+            return `${start} — по наст. время`;
         }
 
-        return `${start} - ${end}`;
+        const end = new Date(endDate).toLocaleDateString('ru-RU', options);
+        return `${start} — ${end}`;
     }
 
     getEmptyState() {

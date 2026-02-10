@@ -201,22 +201,66 @@
                     <div class="form-group">
                         <label class="form-label">Компания *</label>
                         <input type="text" class="form-input" id="companyName" required
-                               placeholder="Например: Яндекс, Google, Сбер">
+                               placeholder="Penny Lane Realty, METRIUM, ЦИАН">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Должность *</label>
                         <input type="text" class="form-input" id="position" required
-                               placeholder="Например: Frontend Developer, Product Manager">
+                               placeholder="HR-менеджер, Специалист по подбору">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Период работы *</label>
-                        <input type="text" class="form-input" id="workPeriod" required
-                               placeholder="Например: 2020 — 2023 или 2022 — настоящее время">
+                        <label class="form-label">Начало работы *</label>
+                        <div class="period-inputs">
+                            <select class="form-input" id="startMonth" required>
+                                <option value="" disabled selected>Месяц</option>
+                                <option value="0">Январь</option>
+                                <option value="1">Февраль</option>
+                                <option value="2">Март</option>
+                                <option value="3">Апрель</option>
+                                <option value="4">Май</option>
+                                <option value="5">Июнь</option>
+                                <option value="6">Июль</option>
+                                <option value="7">Август</option>
+                                <option value="8">Сентябрь</option>
+                                <option value="9">Октябрь</option>
+                                <option value="10">Ноябрь</option>
+                                <option value="11">Декабрь</option>
+                            </select>
+                            <input type="number" class="form-input" id="startYear" placeholder="Год" min="1950"
+                                   max="2026" required>
+                        </div>
                     </div>
+
+                    <div class="form-group" id="endDateGroup">
+                        <label class="form-label">Окончание *</label>
+                        <div class="period-inputs">
+                            <select class="form-input" id="endMonth">
+                                <option value="" disabled selected>Месяц</option>
+                                <option value="0">Январь</option>
+                                <option value="1">Февраль</option>
+                                <option value="2">Март</option>
+                                <option value="3">Апрель</option>
+                                <option value="4">Май</option>
+                                <option value="5">Июнь</option>
+                                <option value="6">Июль</option>
+                                <option value="7">Август</option>
+                                <option value="8">Сентябрь</option>
+                                <option value="9">Октябрь</option>
+                                <option value="10">Ноябрь</option>
+                                <option value="11">Декабрь</option>
+                            </select>
+                            <input type="number" class="form-input" id="endYear" placeholder="Год" min="1950"
+                                   max="2026">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="form-label">Описание обязанностей и достижений</label>
-                        <textarea class="form-input form-textarea" id="workDescription"
-                                  placeholder="Опишите ваши основные обязанности, проекты и достижения..."></textarea>
+                        <textarea class="form-input form-textarea"
+                                  id="workDescription"
+                                  maxlength="1000"
+                                  placeholder="Полный цикл подбора: риелторы (элитная/коммерческая недвижимость), менеджеры по продажам новостроек, руководители отделов"></textarea>
+                        <div class="char-counter"><span id="charCount">0</span>/1000</div>
                     </div>
                     <div class="form-group">
                         <div class="checkbox-group">
@@ -227,7 +271,9 @@
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="cancelBtn">Отмена</button>
                         <button type="submit" class="btn btn-primary" id="saveButton">Сохранить</button>
-                        <button type="submit" class="btn btn-primary" id="updateButton" style="display: none;">Обновить</button>
+                        <button type="submit" class="btn btn-primary" id="updateButton" style="display: none;">
+                            Обновить
+                        </button>
                     </div>
                 </form>
             </div>

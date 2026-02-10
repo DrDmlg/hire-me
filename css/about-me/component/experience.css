@@ -174,17 +174,48 @@
     resize: vertical;
 }
 
+.period-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.period-inputs select {
+    flex: 2;
+}
+
+.period-inputs input {
+    flex: 1;
+}
+
+.hidden-period {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(1);
+    transition: all 0.3s ease;
+}
+
 .checkbox-group {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .checkbox-group input[type="checkbox"] {
     width: 18px;
     height: 18px;
+    margin: 0;
+    cursor: pointer;
+    flex-shrink: 0;
     accent-color: var(--primary);
 }
+
+.checkbox-group .form-label {
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
 
 .form-actions {
     display: flex;
