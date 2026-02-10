@@ -1,8 +1,16 @@
 class EmployerProfileManager {
+    static ROUTES = {
+        ABOUT_ME: 'about-me.html?type=employer',
+        PUBLICATION: 'publication.html?type=employer',
+        VACANCIES: '../vacancies.html?type=employer',
+        APPLICATIONS: 'application.html?type=employer',
+    };
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
-        this.profileData = profileData;
+        this.profileData = profileData || {};
+        // Контейнер для делегирования событий
+        this.actionsContainer = document.querySelector('.actions-grid');
     }
 
     async init() {
@@ -15,76 +23,57 @@ class EmployerProfileManager {
         }
     }
 
-     openAboutMe() {
-        window.location.href = 'about-me.html?type=employer';
+    // Универсальный метод навигации
+    navigateTo(path) {
+        if (path) window.location.href = path;
     }
-
-    publicationVacancy() {
-        window.location.href = 'publication.html?type=employer';
-    }
-
-    openVacancies() {
-        window.location.href = '../vacancies.html?type=employer';
-    }
-
-    openApplications() {
-        window.location.href = 'application.html?type=employer';
-    }
-
 
     initEventListeners() {
-        // Обработчики для action cards через data-attributes
-        document.querySelectorAll('.action-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const action = card.getAttribute('data-action');
-                this.handleAction(action);
-            });
+        // Делегирование событий: слушаем клик на родителе
+        this.actionsContainer?.addEventListener('click', (e) => {
+            const card = e.target.closest('.action-card');
+            if (!card) return;
+
+            const action = card.dataset.action;
+            this.handleAction(action);
         });
     }
 
     handleAction(action) {
-        const actionHandlers = {
-            'about-me': () => this.openAboutMe(),
-            'publication': () => this.publicationVacancy(),
-            'vacancies': () => this.openVacancies(),
-            'responses': () => this.openApplications(),
+        const handlers = {
+            'about-me': () => this.navigateTo(EmployerProfileManager.ROUTES.ABOUT_ME),
+            'publication': () => this.navigateTo(EmployerProfileManager.ROUTES.PUBLICATION),
+            'vacancies': () => this.navigateTo(EmployerProfileManager.ROUTES.VACANCIES),
+            'responses': () => this.navigateTo(EmployerProfileManager.ROUTES.APPLICATIONS),
         };
 
-        const handler = actionHandlers[action];
-        if (handler) {
-            handler();
+        if (handlers[action]) {
+            handlers[action]();
         } else {
             console.warn(`No handler for action: ${action}`);
         }
     }
 
     updateEmployerProfileData() {
-        this.setUserAvatar();
-        this.setUserName();
-        this.setEmployerCurrentPosition()
-        this.setEmployerStatistics();
-    }
+        const { employer = {} } = this.profileData;
+        const stats = employer.stats || {};
 
-    setUserAvatar() {
+        // Общие данные через вспомогательный класс
         UserProfileFiller.setUserAvatar(this.tg);
-    }
-
-    setUserName() {
         UserProfileFiller.setUserName(this.profileData);
+
+        // Локальные данные профиля
+        this._updateTextContent('userPosition', employer.position, 'Не указано');
+        this._updateTextContent('statApplications', stats.applications, 0);
+        this._updateTextContent('statInvitations', stats.invitations, 0);
+        this._updateTextContent('statRejections', stats.rejections, 0);
     }
 
-    setEmployerCurrentPosition() {
-        const userPositionElement = document.getElementById('userPosition');
-        if (userPositionElement) userPositionElement.textContent = this.profileData.employer.position;
-    }
-
-    setEmployerStatistics() {
-        const applicationElement = document.getElementById('statApplications');
-        const invitationElement = document.getElementById('statInvitations');
-        const rejectionElement = document.getElementById('statRejections');
-
-        if (applicationElement) applicationElement.textContent = this.profileData.employer.stats.applications;
-        if (invitationElement) invitationElement.textContent = this.profileData.employer.stats.invitations;
-        if (rejectionElement) rejectionElement.textContent = this.profileData.employer.stats.rejections;
+    // Вспомогательный метод для безопасного обновления текста
+    _updateTextContent(id, value, fallback) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value ?? fallback;
+        }
     }
 }
