@@ -12,8 +12,12 @@ class LanguagesComponent {
     async init(languages = [], profileData = null) {
         try {
             this.profileData = profileData;
-            await this.loadAvailableLanguagesNames();
-            await this.loadAvailableLanguagesLevels();
+            await Promise.all([
+                // Загружаем параллельно
+                this.loadAvailableLanguagesNames(),
+                this.loadAvailableLanguagesLevels()
+            ]);
+
             this.languages = languages;
             this.renderLanguagesSelect();
             this.renderLevelsSelect();
@@ -156,10 +160,23 @@ class LanguagesComponent {
             return;
         }
 
-        if (clickedButton.id === 'saveLanguageButton') {
-            await this.createLanguage(formData);
-        } else if (clickedButton.id === 'updateLanguageButton') {
-            await this.updateLanguage(formData);
+        // Блокируем кнопку сохранения от повторного нажатия
+        const originalText = clickedButton.textContent;
+        clickedButton.disabled = true;
+        clickedButton.textContent = 'Сохранение...';
+
+        try {
+            if (clickedButton.id === 'saveLanguageButton') {
+                await this.createLanguage(formData);
+            } else if (clickedButton.id === 'updateLanguageButton') {
+                await this.updateLanguage(formData);
+            }
+        } catch (error) {
+            console.error("Action failed:", error);
+        } finally {
+            // Разблокировка кнопки сохранения
+            clickedButton.disabled = false;
+            clickedButton.textContent = originalText;
         }
     }
 
