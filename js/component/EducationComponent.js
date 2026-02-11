@@ -11,6 +11,7 @@ class EducationComponent {
         try {
             this.profileData = profileData;
             this.educations = educations;
+            this.renderYearOptions();
             this.render();
             this.bindEvents();
             console.log('EducationComponent initialized with data:', this.educations);
@@ -18,6 +19,21 @@ class EducationComponent {
             console.error('EducationComponent init error:', error);
             notification.error('Не удалось инициализировать образование');
         }
+    }
+
+    renderYearOptions() {
+        const yearSelect = document.getElementById('graduationYear');
+        if (!yearSelect) return;
+
+        const currentYear = new Date().getFullYear();
+        const startYear = 1960;
+        const endYear = currentYear + 7;
+
+        let options = '<option value="" disabled selected>Выберите год</option>';
+        for (let year = endYear; year >= startYear; year--) {
+            options += `<option value="${year}">${year}</option>`;
+        }
+        yearSelect.innerHTML = options;
     }
 
     bindEvents() {
@@ -137,24 +153,15 @@ class EducationComponent {
     }
 
     validateFormData(formData) {
-        if (!formData.institutionName) {
-            notification.error('Укажите учебное заведение');
+        if (!formData.institutionName || formData.institutionName.length < 2) {
+            notification.error('Укажите корректное учебное заведение');
             return false;
         }
 
-        if (!formData.graduationYear) {
-            notification.error('Укажите год окончания');
+        if (!formData.graduationYear || isNaN(formData.graduationYear)) {
+            notification.error('Выберите год окончания');
             return false;
         }
-
-        // Проверка года (от 1950 до текущего года + 5 лет)
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(formData.graduationYear);
-        if (year < 1950 || year > currentYear + 5) {
-            notification.error('Укажите корректный год окончания');
-            return false;
-        }
-
         return true;
     }
 
@@ -163,7 +170,7 @@ class EducationComponent {
             institutionName: document.getElementById('institutionName').value.trim(),
             faculty: document.getElementById('faculty').value.trim(),
             specialization: document.getElementById('specialization').value.trim(),
-            graduationYear: parseInt(document.getElementById('graduationYear').value)
+            graduationYear: parseInt(document.getElementById('graduationYear').value) || null
         };
     }
 

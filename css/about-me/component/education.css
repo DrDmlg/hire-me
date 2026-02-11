@@ -16,6 +16,8 @@
     border: 1px solid var(--border);
     position: relative;
     transition: all 0.3s ease;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .education-item:hover {
@@ -42,18 +44,19 @@
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    padding-right: 60px;
 }
 
-.faculty {
+.faculty, .specialization{
     font-size: 0.9rem;
     color: var(--text-secondary);
     margin-bottom: 0.5rem;
-}
-
-.specialization {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    padding-right: 60px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .graduation-year {
