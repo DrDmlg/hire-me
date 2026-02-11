@@ -26,7 +26,7 @@ class EducationComponent {
         if (!yearSelect) return;
 
         const currentYear = new Date().getFullYear();
-        const startYear = 1960;
+        const startYear = 1975;
         const endYear = currentYear + 7;
 
         let options = '<option value="" disabled selected>Выберите год</option>';
