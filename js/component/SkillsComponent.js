@@ -44,15 +44,6 @@ class SkillsComponent {
                 }
             });
         }
-
-        // Подсказки
-        document.addEventListener('click', (event) => {
-            const suggestion = event.target.closest('.skill-suggestion');
-            if (suggestion && !suggestion.classList.contains('empty')) {
-                const skillName = suggestion.dataset.skill; // Берем из data-attribute
-                this.selectSuggestion(skillName);
-            }
-        });
     }
 
     // ============ ОТОБРАЖЕНИЕ ============
@@ -66,25 +57,32 @@ class SkillsComponent {
             return;
         }
 
+        // Рендерим теги. Добавили title, чтобы при долгом наведении всплывала подсказка ОС
         let skillsHTML = this.skills.map(skill => `
-            <div class="skill-tag fade-in" data-id="${skill.id}">
-                <span class="skill-name">${Helpers.escapeHtml(skill.displayName)}</span>
-                <button class="skill-remove-btn">×</button>
-            </div>
-        `).join('');
+        <div class="skill-tag fade-in" data-id="${skill.id}" title="${Helpers.escapeHtml(skill.displayName)}">
+            <span class="skill-name">${Helpers.escapeHtml(skill.displayName)}</span>
+            <button type="button" class="skill-remove-btn">×</button>
+        </div>
+    `).join('');
 
-        // Добавляем input для ввода, если в режиме добавления
         if (this.isAdding) {
             skillsHTML += `
-                <div class="skill-input-tag">
-                    <input type="text" class="skill-input-field" id="skillInputField" 
-                           placeholder="Введите навык..." maxlength="50">
-                    <div class="skill-input-actions">
-                        <button class="skill-input-btn skill-input-confirm" id="skillInputConfirm">✓</button>
-                        <button class="skill-input-btn skill-input-cancel" id="skillInputCancel">×</button>
-                    </div>
-                </div>
-            `;
+        <div class="skill-input-tag">
+            <input type="text" 
+                   list="skillsData" 
+                   class="skill-input-field" 
+                   id="skillInputField" 
+                   placeholder="Поиск..." 
+                   maxlength="50"
+                   autocomplete="off">
+            <datalist id="skillsData">
+                ${this.availableSkills.map(s => `<option value="${Helpers.escapeHtml(s)}">`).join('')}
+            </datalist>
+            <div class="skill-input-actions">
+                <button type="button" class="skill-input-btn skill-input-cancel" id="skillInputCancel" title="Отмена">×</button>
+            </div>
+        </div>
+    `;
         }
 
         container.innerHTML = skillsHTML;
@@ -99,114 +97,31 @@ class SkillsComponent {
     // Временные обработчики. Вызываются каждый раз когда показывается input (в render() когда this.isAdding = true)
     bindInputEvents() {
         const inputField = document.getElementById('skillInputField');
-        const confirmBtn = document.getElementById('skillInputConfirm');
         const cancelBtn = document.getElementById('skillInputCancel');
 
         if (inputField) {
             inputField.focus();
 
+            // Автодобавление при выборе из списка
+            inputField.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (this.availableSkills.includes(val)) {
+                    this.confirmAddSkill();
+                }
+            });
+
+            // Горячие клавиши
             inputField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    this.confirmAddSkill();
+                    this.confirmAddSkill(); // Если нажал Enter на существующем тексте
                 } else if (e.key === 'Escape') {
                     this.cancelAddSkill();
                 }
             });
-
-            inputField.addEventListener('input', (e) => {
-                this.handleInputChange(e.target.value);
-            });
-        }
-
-        if (confirmBtn) {
-            confirmBtn.addEventListener('click', () => this.confirmAddSkill());
         }
 
         if (cancelBtn) {
             cancelBtn.addEventListener('click', () => this.cancelAddSkill());
-        }
-    }
-
-    handleInputChange(value) {
-        this.showSuggestions(value);
-        this.updateInputState(value);
-    }
-
-    showSuggestions(filter = '') {
-        const suggestionsContainer = document.getElementById('skillSuggestions') || this.createSuggestionsContainer();
-
-        // Фильтруем доступные навыки по введенному тексту и убираем уже добавленные
-        const filteredSkills = this.availableSkills.filter(skill =>
-            skill.toLowerCase().includes(filter.toLowerCase()) &&
-            !this.skills.some(existingSkill => existingSkill.displayName.toLowerCase() === skill.toLowerCase())
-        ).slice(0, 8); // Ограничиваем количество подсказок
-
-        if (filteredSkills.length === 0) {
-            suggestionsContainer.style.display = 'none';
-
-            // Показываем сообщение, если ничего не найдено
-            if (filter.length >= 2) {
-                suggestionsContainer.innerHTML = `
-                    <div class="skill-suggestion empty">
-                        Навык не найден. Выберите из списка.
-                    </div>
-                `;
-                suggestionsContainer.style.display = 'block';
-            }
-            return;
-        }
-
-        suggestionsContainer.innerHTML = filteredSkills.map(skill => `
-           <div class="skill-suggestion" data-skill="${Helpers.escapeHtml(skill)}">
-            ${Helpers.escapeHtml(skill)}
-        </div>
-        `).join('');
-
-        suggestionsContainer.style.display = 'block';
-    }
-
-    createSuggestionsContainer() {
-        const container = document.createElement('div');
-        container.id = 'skillSuggestions';
-        container.className = 'skill-suggestions';
-
-        const inputRow = document.querySelector('.skill-input-tag');
-        if (inputRow) {
-            inputRow.appendChild(container);
-        }
-
-        return container;
-    }
-
-    selectSuggestion(skillName) {
-        const skillInput = document.getElementById('skillInputField');
-        skillInput.value = skillName;
-        this.hideSuggestions();
-        this.updateInputState(skillName);
-        skillInput.focus();
-    }
-
-    hideSuggestions() {
-        const suggestionsContainer = document.getElementById('skillSuggestions');
-        if (suggestionsContainer) {
-            suggestionsContainer.style.display = 'none';
-        }
-    }
-
-    updateInputState(value) {
-        const confirmBtn = document.getElementById('skillInputConfirm');
-        if (confirmBtn) {
-            const trimmedValue = value.trim();
-            // Проверяем, что значение есть в списке доступных навыков
-            const isValid = trimmedValue.length >= 2 &&
-                this.availableSkills.some(skill =>
-                    skill.toLowerCase() === trimmedValue.toLowerCase()
-                ) &&
-                !this.skills.some(skill =>
-                    skill.displayName.toLowerCase() === trimmedValue.toLowerCase()
-                );
-            confirmBtn.disabled = !isValid;
-            confirmBtn.style.opacity = isValid ? '1' : '0.5';
         }
     }
 
@@ -246,7 +161,6 @@ class SkillsComponent {
     cancelAddSkill() {
         this.isAdding = false;
         this.render();
-        this.hideSuggestions();
     }
 
     updateCounter() {
