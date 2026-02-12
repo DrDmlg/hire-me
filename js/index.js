@@ -12,10 +12,11 @@ class HireMeApp {
             this.initTelegram();
         }
 
-            this.initUserProfile();
-            this.navigation.init();
-            this.setupTelegramButton();
-            this.setupProfileNavigation();
+        this.initUserProfile();
+        this.navigation.init();
+        this.preloadUserRoles();
+        this.setupTelegramButton();
+        this.setupProfileNavigation();
     }
 
     initTelegram() {
@@ -54,6 +55,13 @@ class HireMeApp {
         }
     }
 
+    async preloadUserRoles() {
+        const telegramUserId = Helpers.getTelegramUserId();
+        if (!telegramUserId) return;
+        await this.getProfileRoles(telegramUserId);
+    }
+
+
     setupProfileNavigation() {
         document.querySelectorAll('.profile-link').forEach(link => {
             link.addEventListener('click', async (e) => {
@@ -61,7 +69,7 @@ class HireMeApp {
                 e.stopImmediatePropagation();
 
                 const telegramUserId = Helpers.getTelegramUserId();
-                 const response = await this.getProfileRoles(telegramUserId);
+                const response = await this.getProfileRoles(telegramUserId);
 
                 if (response == null) {
                     notification.error('Для просмотра и редактирования профиля необходимо зарегистрироваться');
@@ -81,7 +89,11 @@ class HireMeApp {
 
     async getProfileRoles(telegramUserId) {
         try {
-            const response =  await this.api.get(`/profile/roles/${telegramUserId}`);
+            const response = await this.api.get(`/profile/roles/${telegramUserId}`);
+            // Кэшируем результат
+            if (response.data) {
+                sessionStorage.setItem('user_roles', JSON.stringify(response.data));
+            }
             return response.data;
         } catch (error) {
             notification.error(error.message);

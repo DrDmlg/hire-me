@@ -273,6 +273,8 @@ class Registration {
         const response = await this.api.post('/registration/candidate', data);
 
         if (response.status === 200) {
+            // Удаляем старый кэш, чтобы при возврате на главную сделал новый запрос и узнал о новой роли
+            sessionStorage.removeItem('user_roles');
             notification.success('Профиль успешно сохранен');
             setTimeout(() => {
                 window.location.href = '../index.html';
@@ -300,6 +302,8 @@ class Registration {
         const response = await this.api.post('/registration/employer', data);
 
         if (response.status === 200) {
+            // Удаляем старый кэш, чтобы при возврате на главную сделал новый запрос и узнал о новой роли
+            sessionStorage.removeItem('user_roles');
             notification.success('Профиль успешно сохранен');
             setTimeout(() => {
                 window.location.href = '../index.html';

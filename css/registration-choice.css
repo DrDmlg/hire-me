@@ -50,7 +50,7 @@ body {
     padding: 1.5rem 1rem;
     border-radius: 12px;
     text-align: center;
-    transition: all 0.3s ease;
+    /*transition: all 0.3s ease;*/
     cursor: pointer;
     border: 1px solid var(--border);
     position: relative;
@@ -64,6 +64,7 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .action-card::before {
@@ -114,13 +115,20 @@ body {
     max-width: 120px;
 }
 
+.action-card.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(1) blur(0.5px);
+    border-color: var(--border);
+    transform: scale(0.98);
+}
+
 /* Адаптивность */
 @media (max-width: 480px) {
     .container {
         padding: 10px;
     }
 
-    /* Сохраняем 2 колонки на телефонах, но уменьшаем отступы */
     .actions-grid {
         gap: 0.75rem;
     }
