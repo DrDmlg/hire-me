@@ -96,7 +96,7 @@ class HireMeApp {
             }
             return response.data;
         } catch (error) {
-            notification.error(error.message);
+            console.error(error.message)
             return null;
         }
     }
