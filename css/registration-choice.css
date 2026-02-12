@@ -50,7 +50,6 @@ body {
     padding: 1.5rem 1rem;
     border-radius: 12px;
     text-align: center;
-    /*transition: all 0.3s ease;*/
     cursor: pointer;
     border: 1px solid var(--border);
     position: relative;
@@ -118,7 +117,7 @@ body {
 .action-card.disabled {
     pointer-events: none;
     opacity: 0.5;
-    filter: grayscale(1) blur(0.5px);
+    filter: grayscale(1);
     border-color: var(--border);
     transform: scale(0.98);
 }
