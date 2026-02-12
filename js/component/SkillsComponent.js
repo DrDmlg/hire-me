@@ -51,44 +51,38 @@ class SkillsComponent {
         const container = document.getElementById('skillsList');
         if (!container) return;
 
-        if (this.skills.length === 0 && !this.isAdding) {
-            container.innerHTML = this.getEmptyState();
-            this.updateCounter();
-            return;
-        }
-
-        // Рендерим теги. Добавили title, чтобы при долгом наведении всплывала подсказка ОС
-        let skillsHTML = this.skills.map(skill => `
-        <div class="skill-tag fade-in" data-id="${skill.id}" title="${Helpers.escapeHtml(skill.displayName)}">
+        // 1. Сначала рендерим уже существующие навыки
+        let html = this.skills.map(skill => `
+        <div class="skill-tag fade-in" data-id="${skill.id}">
             <span class="skill-name">${Helpers.escapeHtml(skill.displayName)}</span>
-            <button type="button" class="skill-remove-btn">×</button>
+            <button type="button" class="skill-remove-btn" aria-label="Удалить">×</button>
         </div>
     `).join('');
 
+        // 2. Если режим добавления — приклеиваем форму В КОНЕЦ (чтобы не сдвигать список)
         if (this.isAdding) {
-            skillsHTML += `
-        <div class="skill-input-tag">
-            <input type="text" 
-                   list="skillsData" 
-                   class="skill-input-field" 
-                   id="skillInputField" 
-                   placeholder="Поиск..." 
-                   maxlength="50"
-                   autocomplete="off">
-            <datalist id="skillsData">
-                ${this.availableSkills.map(s => `<option value="${Helpers.escapeHtml(s)}">`).join('')}
-            </datalist>
-            <div class="skill-input-actions">
-                <button type="button" class="skill-input-btn skill-input-cancel" id="skillInputCancel" title="Отмена">×</button>
+            html += `
+            <div class="skill-input-container" id="skillInputContainer">
+                <div class="skill-input-tag">
+                    <input type="text" 
+                           class="skill-input-field" 
+                           id="skillInputField" 
+                           placeholder="Навык..." 
+                           maxlength="100"
+                           autocomplete="off">
+                    <button type="button" class="skill-input-cancel" id="skillInputCancel">×</button>
+                </div>
+                <div class="skills-dropdown" id="skillsDropdown"></div>
             </div>
-        </div>
-    `;
+        `;
         }
 
-        container.innerHTML = skillsHTML;
+        container.innerHTML = html || this.getEmptyState();
 
         if (this.isAdding) {
             this.bindInputEvents();
+            // Плавный скролл к инпуту, чтобы он не улетел за край экрана на мобилке
+            document.getElementById('skillInputContainer')?.scrollIntoView({behavior: 'smooth', block: 'nearest'});
         }
 
         this.updateCounter();
@@ -96,33 +90,56 @@ class SkillsComponent {
 
     // Временные обработчики. Вызываются каждый раз когда показывается input (в render() когда this.isAdding = true)
     bindInputEvents() {
-        const inputField = document.getElementById('skillInputField');
+        const input = document.getElementById('skillInputField');
+        const dropdown = document.getElementById('skillsDropdown');
         const cancelBtn = document.getElementById('skillInputCancel');
 
-        if (inputField) {
-            inputField.focus();
+        if (!input) return;
+        input.focus();
 
-            // Автодобавление при выборе из списка
-            inputField.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (this.availableSkills.includes(val)) {
-                    this.confirmAddSkill();
-                }
-            });
+        input.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query.length > 0) {
+                // Фильтруем список доступных навыков
+                const matches = this.availableSkills
+                    .filter(s => s.toLowerCase().includes(query))
+                    .filter(s => !this.skills.some(existing => existing.displayName === s)) // Убираем уже добавленные
+                    .slice(0, 5); // Показываем топ-5
 
-            // Горячие клавиши
-            inputField.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.confirmAddSkill(); // Если нажал Enter на существующем тексте
-                } else if (e.key === 'Escape') {
-                    this.cancelAddSkill();
-                }
-            });
+                this.renderDropdown(matches);
+            } else {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') this.confirmAddSkill();
+            if (e.key === 'Escape') this.cancelAddSkill();
+        });
+
+        cancelBtn?.addEventListener('click', () => this.cancelAddSkill());
+    }
+
+    renderDropdown(matches) {
+        const dropdown = document.getElementById('skillsDropdown');
+        if (!matches.length) {
+            dropdown.style.display = 'none';
+            return;
         }
 
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => this.cancelAddSkill());
-        }
+        dropdown.innerHTML = matches.map(m => `
+        <div class="dropdown-item">${Helpers.escapeHtml(m)}</div>
+    `).join('');
+
+        dropdown.style.display = 'block';
+
+        // Клик по элементу списка
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('skillInputField').value = item.textContent;
+                this.confirmAddSkill();
+            });
+        });
     }
 
     // ============ ИНТЕРАКТИВ ============

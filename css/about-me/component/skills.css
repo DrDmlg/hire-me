@@ -1,4 +1,4 @@
-/* Стили для блока "навыки"" */
+/* Стили для блока "навыки" */
 
 /* Skills Section */
 .skills-section {
@@ -38,12 +38,12 @@
     margin-right: 1rem;
 }
 
-/* Остальные стили без изменений */
+/* Список навыков */
 .skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    min-height: 60px;
+    min-height: 44px; /* Чтобы пустой блок не схлопывался */
     align-items: flex-start;
 }
 
@@ -99,7 +99,15 @@
     transform: scale(1.1);
 }
 
-/* Skill Input Tag */
+/* --- НОВАЯ СТРУКТУРА ИНПУТА --- */
+
+.skill-input-container {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: top;
+}
+
 .skill-input-tag {
     background: white;
     padding: 0.5rem 0.5rem 0.5rem 0.75rem;
@@ -111,18 +119,35 @@
     border: 2px solid var(--primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     animation: inputAppear 0.3s ease-out;
-    position: relative; /* Для позиционирования подсказок */
 }
 
-@keyframes inputAppear {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* Кастомный дропдаун */
+.skills-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 240px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    border: 1px solid var(--border);
+}
+
+.dropdown-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
 }
 
 .skill-input-field {
@@ -140,10 +165,11 @@
     color: var(--text-muted);
 }
 
-/* Skill Input Actions */
+/* Кнопки управления инпутом */
 .skill-input-actions {
     display: flex;
-    gap: 0.25rem;
+    align-items: center;
+    padding-right: 4px;
 }
 
 .skill-input-btn {
@@ -159,61 +185,45 @@
     font-size: 0.8rem;
     transition: all 0.3s ease;
     color: var(--text-muted);
-    font-family: inherit;
-}
-
-.skill-input-confirm {
-    color: var(--success);
-    border: 1px solid var(--success);
-}
-
-.skill-input-confirm:hover:not(:disabled) {
-    background: var(--success);
-    color: white;
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.skill-input-confirm:disabled {
-    background: var(--border);
-    color: var(--text-muted);
-    border-color: var(--border);
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
 }
 
 .skill-input-cancel {
-    color: var(--error);
+    background: transparent;
     border: 1px solid var(--error);
+    color: var(--error);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
 }
 
 .skill-input-cancel:hover {
     background: var(--error);
     color: white;
-    opacity: 1;
-    transform: scale(1.1);
+    transform: rotate(90deg)
 }
 
-/* Limit Warning States */
-.skills-counter.warning {
-    color: var(--warning);
-}
-
-.skills-counter.error {
-    color: var(--error);
-}
+/* Состояния счетчика */
+.skills-counter.warning { color: var(--warning); }
+.skills-counter.error { color: var(--error); }
 
 /* Анимации */
+@keyframes inputAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
@@ -222,42 +232,50 @@
 
 /* Адаптивность */
 @media (max-width: 480px) {
+
+    .skills-list {
+        gap: 0.4rem;
+    }
+    /* Фикс зума в iOS */
+    .skill-input-field {
+        font-size: 16px;
+        width: 130px;
+    }
+
+    /* Дропдаун на весь экран почти */
+    .skills-dropdown {
+        position: fixed;
+        left: 5%;
+        right: 5%;
+        width: 90%;
+        top: auto;
+        bottom: 70px;
+    }
+
     .skill-tag {
         font-size: 0.8rem;
-        padding: 0.4rem 0.6rem;
+        padding: 0.35rem 0.5rem;
+        max-width: calc(50% - 0.4rem);
+        flex: 0 1 auto;
     }
 
     .skill-name {
-        max-width: 120px;
+        max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .skills-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.5rem;
+        align-items: center;
+        flex-direction: row;
+        margin-bottom: 1.5rem;
     }
 
-    .skills-title {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .skill-input-field {
-        width: 100px;
-    }
-}
-
-@media (max-width: 380px) {
-    .skill-tag {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.5rem;
-    }
-
-    .skill-name {
-        max-width: 100px;
-    }
-
-    .skill-input-field {
-        width: 80px;
+    .skill-remove-btn {
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
     }
 }
