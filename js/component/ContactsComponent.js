@@ -78,13 +78,8 @@ class ContactsComponent {
     }
 
     validateFormData(formData) {
-        // Email валидация
-        if (formData.email && !this.isValidEmail(formData.email)) {
-            notification.error('Введите корректный email');
-            return false;
-        }
+        if (!this.validateEmail(formData)) return false;
 
-        // Телефон валидация
         const validatePhone = (phone, field) => {
             if (phone && !this.isValidPhone(phone)) {
                 notification.error(`Введите корректный номер ${field}`);
@@ -96,17 +91,27 @@ class ContactsComponent {
         if (!validatePhone(formData.phone, 'телефона')) return false;
         if (!validatePhone(formData.whatsapp, 'WhatsApp')) return false;
 
-        // Автодобавление @ для Telegram
-        if (formData.telegram && !formData.telegram.startsWith('@')) {
-            formData.telegram = '@' + formData.telegram;
-        }
-
         // Проверка наличия хотя бы одного контакта
         if (!formData.email && !formData.phone && !formData.telegram && !formData.whatsapp) {
             notification.error('Заполните хотя бы одно поле контактов');
             return false;
         }
 
+        return true;
+    }
+
+    validateEmail(formData) {
+        if (formData.email) {
+            if (!this.isValidEmail(formData.email)) {
+                notification.error('Введите корректный email');
+                return false;
+            }
+
+            if (formData.email.length > 254) {
+                notification.error('Email слишком длинный');
+                return false;
+            }
+        }
         return true;
     }
 
@@ -120,9 +125,9 @@ class ContactsComponent {
 
     collectFormData() {
         return {
-            email: document.getElementById('contactEmail').value.trim(),
+            email: document.getElementById('contactEmail').value.trim().toLocaleLowerCase(),
             phone: document.getElementById('contactPhone').value.trim(),
-            telegram: document.getElementById('contactTelegram').value.trim(),
+            telegram: document.getElementById('contactTelegram').value.trim().replace(/@/g, ''),
             whatsapp: document.getElementById('contactWhatsApp').value.trim()
         };
     }
@@ -138,15 +143,15 @@ class ContactsComponent {
         }
 
         const contactsConfig = [
-            { key: 'email', label: 'Email', icon: '../../images/icons/email-contact.png' },
-            { key: 'phoneNumber', label: 'Телефон', icon: '../../images/icons/phone.png' },
-            { key: 'telegram', label: 'Telegram', icon: '../../images/icons/telegram-contact.png' },
-            { key: 'whatsapp', label: 'WhatsApp', icon: '../../images/icons/whatsapp-contact.png' }
+            {key: 'email', label: 'Email', icon: '../../images/icons/email-contact.png'},
+            {key: 'phoneNumber', label: 'Телефон', icon: '../../images/icons/phone.png'},
+            {key: 'telegram', label: 'Telegram', icon: '../../images/icons/telegram-contact.png'},
+            {key: 'whatsapp', label: 'WhatsApp', icon: '../../images/icons/whatsapp-contact.png'}
         ];
 
         const html = contactsConfig
-            .filter(({ key }) => this.contacts[key])
-            .map(({ key, label, icon, fallback }) => `
+            .filter(({key}) => this.contacts[key])
+            .map(({key, label, icon, fallback}) => `
             <div class="contact-item">
                 <div class="contact-icon">
                     <img src="${icon}" alt="${label}" style="width: 28px; height: 28px;">
