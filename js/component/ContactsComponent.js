@@ -79,24 +79,16 @@ class ContactsComponent {
 
     validateFormData(formData) {
         if (!this.validateEmail(formData)) return false;
-
-        const validatePhone = (phone, field) => {
-            if (phone && !this.isValidPhone(phone)) {
-                notification.error(`Введите корректный номер ${field}`);
-                return false;
-            }
-            return true;
-        };
-
-        if (!validatePhone(formData.phone, 'телефона')) return false;
-        if (!validatePhone(formData.whatsapp, 'WhatsApp')) return false;
+        if (!this.validatePhoneNumber(formData.phone, 'телефона')) return false;
+        if (!this.validatePhoneNumber(formData.whatsapp, 'WhatsApp')) return false;
 
         // Проверка наличия хотя бы одного контакта
-        if (!formData.email && !formData.phone && !formData.telegram && !formData.whatsapp) {
+        const hasAnyContact = formData.email || formData.phone || formData.telegram || formData.whatsapp;
+
+        if (!hasAnyContact) {
             notification.error('Заполните хотя бы одно поле контактов');
             return false;
         }
-
         return true;
     }
 
@@ -119,16 +111,38 @@ class ContactsComponent {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
+    validatePhoneNumber(value, label) {
+        if (!value) return true;
+
+        if (!this.isValidPhone(value)) {
+            notification.error(`Введите корректный номер ${label} (от 10 до 15 цифр)`);
+            return false;
+        }
+        return true;
+    }
+
     isValidPhone(phone) {
-        return phone.replace(/\D/g, '').length >= 10;
+        return phone.length >= 10 && phone.length <= 15;
+    }
+
+    formatPhoneNumber(phone) {
+        if (!phone) return '';
+
+        // Если это 11-значный номер (РФ/СНГ)
+        if (phone.length === 11) {
+            return `+7 (${phone.slice(1, 4)}) ${phone.slice(4, 7)} ${phone.slice(7, 9)} ${phone.slice(9, 11)}`;
+        }
+
+        // Если номер другой длины, просто добавляем + в начало
+        return `+${phone}`;
     }
 
     collectFormData() {
         return {
             email: document.getElementById('contactEmail').value.trim().toLocaleLowerCase(),
-            phone: document.getElementById('contactPhone').value.trim(),
+            phone: document.getElementById('contactPhone').value.trim().replace(/\D/g, ''),
             telegram: document.getElementById('contactTelegram').value.trim().replace(/@/g, ''),
-            whatsapp: document.getElementById('contactWhatsApp').value.trim()
+            whatsapp: document.getElementById('contactWhatsApp').value.trim().replace(/\D/g, ''),
         };
     }
 
@@ -151,17 +165,29 @@ class ContactsComponent {
 
         const html = contactsConfig
             .filter(({key}) => this.contacts[key])
-            .map(({key, label, icon, fallback}) => `
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <img src="${icon}" alt="${label}" style="width: 28px; height: 28px;">
+            .map(({key, label, icon}) => {
+                const rawValue = this.contacts[key];
+                let displayValue = Helpers.escapeHtml(rawValue);
+
+                // ФОРМАТИРОВАНИЕ ДЛЯ ОТОБРАЖЕНИЯ
+                if (key === 'phoneNumber' || key === 'whatsapp') {
+                    displayValue = this.formatPhoneNumber(rawValue);
+                } else if (key === 'telegram') {
+                    displayValue = `@${rawValue}`;
+                }
+
+                return `
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <img src="${icon}" alt="${label}" style="width: 28px; height: 28px;">
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-label">${label}</div>
+                        <div class="contact-value">${displayValue}</div>
+                    </div>
                 </div>
-                <div class="contact-info">
-                    <div class="contact-label">${label}</div>
-                    <div class="contact-value">${Helpers.escapeHtml(this.contacts[key])}</div>
-                </div>
-            </div>
-        `).join('');
+            `;
+            }).join('');
 
         container.innerHTML = html || this.getEmptyState();
     }
