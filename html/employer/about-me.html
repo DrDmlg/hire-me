@@ -75,59 +75,60 @@
             </div>
         </div>
 
-        <!-- Basic Info Section -->
         <div class="basic-info-section">
             <div class="section-header">
-                <div class="section-title">Основная информация</div>
-                <button class="add-button" id="editBasicInfoBtn" title="Редактировать">
+                <div class="section-title">Детали работодателя</div>
+                <button class="add-button" id="editEmployerBtn" title="Редактировать">
                     <img src="../../images/icons/edit.png" alt="Редактировать">
                 </button>
             </div>
 
-            <!-- Форма редактирования (изначально скрыта) -->
-            <div class="basic-info-form" id="basicInfoForm" style="display: none;">
-                <div class="form-title">Предпочтения в работе</div>
-                <form id="basicInfoFormElement">
-                    <!-- Поле для специализации -->
+            <div class="basic-info-form" id="employerForm" style="display: none;">
+                <div class="form-title">Данные компании</div>
+                <form id="employerFormElement">
                     <div class="form-group">
-                        <label class="form-label">Специализация *</label>
-                        <input type="text" class="form-input" id="editPositionInput"
-                               placeholder="Например: Product Designer" required>
+                        <label class="form-label">Агентство</label>
+                        <input type="text"
+                               class="form-input"
+                               id="editCompanyNameInput"
+                               placeholder="Capital Group" required>
                     </div>
 
-                    <!-- Поле для зарплаты -->
                     <div class="form-group">
-                        <label class="form-label">Желаемая зарплата</label>
-                        <div class="salary-edit-container">
-                            <input type="text" class="form-input" id="editSalaryInput"
-                                   placeholder="Например: 350000">
-                            <select id="editCurrencySelect" class="currency-select">
-                                <option value="RUB">₽ RUB</option>
-                                <option value="USD">$ USD</option>
-                            </select>
-                        </div>
+                        <label class="form-label">Локация</label>
+                        <input type="text"
+                               class="form-input"
+                               id="editEmployerLocationInput"
+                               placeholder="Москва, Пресненский район">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Должность *</label>
+                        <input type="text"
+                               class="form-input"
+                               id="editEmployerPositionInput"
+                               placeholder="HR-директор">
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="cancelBasicInfoBtn">Отмена</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEmployerBtn">Отмена</button>
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
                 </form>
             </div>
 
-            <!-- Список информации (отображение) -->
-            <div class="info-grid-compact" id="basicInfoList">
+            <div class="info-grid-compact" id="employerInfoList">
                 <div class="info-row">
-                    <span class="info-label-compact">Специализация</span>
-                    <span class="info-value-compact" id="desiredPositionValue"></span>
+                    <span class="info-label-compact">Агентство</span>
+                    <span class="info-value-compact" id="companyNameValue">Не указано</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label-compact">Опыт работы</span>
-                    <span class="info-value-compact" id="experienceValue">5 лет 8 мес</span>
+                    <span class="info-label-compact">Локация</span>
+                    <span class="info-value-compact" id="employerLocationValue">Не указано</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label-compact">Желаемая зарплата</span>
-                    <span class="info-value-compact" id="desiredSalaryValue"></span>
+                    <span class="info-label-compact">Должность</span>
+                    <span class="info-value-compact" id="employerPositionValue">Не указано</span>
                 </div>
             </div>
         </div>
@@ -306,7 +307,8 @@
 <script src="../../js/service/NavigationService.js"></script>
 <script src="../../js/component/ExperienceComponent.js"></script>
 <script src="../../js/component/ContactsComponent.js"></script>
-<script src="../../js/component/BasicInfoComponent.js"></script>
+<script src="../../js/component/BaseInfoComponent.js"></script>
+<script src="../../js/component/EmployerDetailComponent.js"></script>
 <script src="../../js/manager/AboutMeManager.js"></script>
 </body>
 </html>

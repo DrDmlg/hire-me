@@ -81,7 +81,7 @@
         <!-- Basic Info Section -->
         <div class="basic-info-section">
             <div class="section-header">
-                <div class="section-title">Основная информация</div>
+                <div class="section-title">Опыт и ожидания</div>
                 <button class="add-button" id="editBasicInfoBtn" title="Редактировать">
                     <img src="../../images/icons/edit.png" alt="Редактировать">
                 </button>
@@ -94,19 +94,24 @@
                     <!-- Поле для специализации -->
                     <div class="form-group">
                         <label class="form-label">Специализация *</label>
-                        <input type="text" class="form-input" id="editPositionInput"
-                               placeholder="Например: Product Designer" required>
+                        <input type="text"
+                               class="form-input"
+                               id="editPositionInput"
+                               placeholder="Агент по аренде" required>
                     </div>
 
-                    <!-- Поле для зарплаты -->
                     <div class="form-group">
                         <label class="form-label">Желаемая зарплата</label>
                         <div class="salary-edit-container">
-                            <input type="text" class="form-input" id="editSalaryInput"
-                                   placeholder="Например: 350000">
-                            <select id="editCurrencySelect" class="currency-select">
-                                <option value="RUB">₽ RUB</option>
-                                <option value="USD">$ USD</option>
+                            <input type="text"
+                                   class="form-input"
+                                   id="editSalaryInput"
+                                   placeholder="480 000">
+
+                            <select id="editCurrencySelect"
+                                    class="currency-select">
+                                <option value="RUB">₽ / мес.</option>
+                                <option value="USD">$ / мес.</option>
                             </select>
                         </div>
                     </div>
@@ -425,7 +430,8 @@
 <script src="../../js/component/SkillsComponent.js"></script>
 <script src="../../js/component/LanguagesComponent.js"></script>
 <script src="../../js/component/ContactsComponent.js"></script>
-<script src="../../js/component/BasicInfoComponent.js"></script>
+<script src="../../js/component/BaseInfoComponent.js"></script>
+<script src="../../js/component/CandidateExpectationComponent.js"></script>
 <script src="../../js/manager/AboutMeManager.js"></script>
 </body>
 </html>
