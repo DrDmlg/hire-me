@@ -242,7 +242,7 @@ class Registration {
     async handleSuccess() {
         // Удаляем старый кэш, чтобы при возврате на главную сделать новый запрос и обновить роли
         sessionStorage.removeItem('user_roles');
-        this.tg?.HapticFeedback.notificationOccurred('light');
+        this.tg?.HapticFeedback.notificationOccurred('success');
         notification.success('Профиль успешно создан');
 
         // Уходим на главную через паузу
