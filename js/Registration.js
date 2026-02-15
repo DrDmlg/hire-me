@@ -88,55 +88,20 @@ class Registration {
     }
 
     setupCandidateEventListeners() {
-        // Зарплата
         const salaryInput = document.getElementById('desiredSalary');
         if (salaryInput) {
-            salaryInput.addEventListener('input', (e) => this.handleSalaryInput(e));
-            salaryInput.addEventListener('keydown', (e) => this.handleSalaryKeydown(e));
-            salaryInput.addEventListener('paste', (e) => this.handleSalaryPaste(e));
+            // Создаем маску для числа
+            this.salaryMask = IMask(salaryInput, {
+                mask: Number,
+                thousandsSeparator: ' ',
+                min: 0,
+                max: 100000000,
+            });
+
+            salaryInput.addEventListener('input', () => {
+                this.tg?.HapticFeedback.impactOccurred('light');
+            });
         }
-    }
-
-    // ===== МЕТОДЫ ДЛЯ ФОРМАТИРОВАНИЯ ЗАРПЛАТЫ =====
-    formatSalary(number) {
-        if (!number) return '';
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-
-    unformatSalary(formattedNumber) {
-        return formattedNumber.replace(/\D/g, '');
-    }
-
-    handleSalaryInput(e) {
-        const cursorPosition = e.target.selectionStart;
-        const unformattedValue = this.unformatSalary(e.target.value);
-        const formattedValue = this.formatSalary(unformattedValue);
-
-        e.target.value = formattedValue;
-
-        const addedSpaces = formattedValue.length - unformattedValue.length;
-        const newCursorPosition = cursorPosition + addedSpaces;
-        e.target.setSelectionRange(newCursorPosition, newCursorPosition);
-    }
-
-    handleSalaryKeydown(e) {
-        const allowedKeys = [
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            'Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft',
-            'ArrowRight', 'ArrowUp', 'ArrowDown'
-        ];
-
-        if (!allowedKeys.includes(e.key)) {
-            e.preventDefault();
-        }
-    }
-
-    handleSalaryPaste(e) {
-        e.preventDefault();
-        const text = (e.clipboardData || window.clipboardData).getData('text');
-        const numbers = this.unformatSalary(text);
-        const formatted = this.formatSalary(numbers);
-        document.execCommand('insertText', false, formatted);
     }
 
     validateForm(data) {
@@ -193,17 +158,8 @@ class Registration {
             }
         } catch (error) {
             console.error('Ошибка сохранения профиля:', error);
-            notification.error(error.message || 'Ошибка соединения');
         } finally {
             submitBtn.classList.remove('loading');
-
-            // Возвращаем форматирование зарплаты если нужно
-            if (this.userType === 'candidate') {
-                const salaryField = document.getElementById('desiredSalary');
-                if (salaryField) {
-                    salaryField.value = this.formatSalary(salaryField.value);
-                }
-            }
         }
     }
 
@@ -219,7 +175,7 @@ class Registration {
             return {
                 ...commonData,
                 desiredPosition: document.getElementById('desiredPosition').value.trim(),
-                desiredSalary: parseFloat(this.unformatSalary(document.getElementById('desiredSalary').value)),
+                desiredSalary: this.salaryMask ? Number(this.salaryMask.unmaskedValue) : 0,
                 currency: document.getElementById('currency').value,
                 candidateJobStatus: document.getElementById('candidateJobStatus').checked ? 'Активный поиск' : 'Не ищу работу'
             };
