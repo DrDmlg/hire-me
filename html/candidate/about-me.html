@@ -91,19 +91,19 @@
             <div class="basic-info-form" id="basicInfoForm" style="display: none;">
                 <div class="form-title">Предпочтения в работе</div>
                 <form id="basicInfoFormElement">
-                    <!-- Поле для специализации -->
                     <div class="form-group">
                         <label class="form-label">Специализация *</label>
                         <input type="text"
                                class="form-input"
                                id="editPositionInput"
+                               maxlength="100"
                                placeholder="Агент по аренде" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Желаемая зарплата</label>
                         <div class="salary-edit-container">
-                            <input type="text"
+                            <input type="number"
                                    class="form-input"
                                    id="editSalaryInput"
                                    placeholder="480 000">
