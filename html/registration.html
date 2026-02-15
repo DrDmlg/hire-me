@@ -12,7 +12,6 @@
 </head>
 <body>
 <div class="container">
-    <!-- Header -->
     <header class="app-header">
         <div class="header-content">
             <button class="back-button">
@@ -28,22 +27,42 @@
                 <!-- Общие поля -->
                 <div class="form-group">
                     <label for="firstName">Имя</label>
-                    <input type="text" id="firstName" name="firstName" class="form-input" placeholder="София" required>
+                    <input type="text"
+                           id="firstName"
+                           name="firstName"
+                           class="form-input"
+                           maxlength="64"
+                           placeholder="София" required>
                 </div>
 
                 <div class="form-group">
                     <label for="lastName">Фамилия</label>
-                    <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Сергеева" required>
+                    <input type="text"
+                           id="lastName"
+                           name="lastName"
+                           class="form-input"
+                           maxlength="64"
+                           placeholder="Сергеева" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="example@google.com" required>
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           class="form-input"
+                           maxlength="254"
+                           placeholder="example@google.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber">Телефон</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+7 (915) 776-76-67" required>
+                    <input type="tel"
+                           id="phoneNumber"
+                           name="phoneNumber"
+                           class="form-input"
+                           maxlength="20"
+                           placeholder="+7 (___) ___-__-__" required>
                     <div class="error-message" id="phoneNumberError">Пожалуйста, введите корректный номер телефона</div>
                 </div>
 
@@ -51,15 +70,24 @@
                 <div id="candidateFields" style="display: none;">
                     <div class="form-group">
                         <label for="desiredPosition">Желаемая позиция</label>
-                        <input type="text" id="desiredPosition" name="desiredPosition" class="form-input"
-                               placeholder="Брокер по продаже недвижимости">
+                        <input type="text"
+                               id="desiredPosition"
+                               name="desiredPosition"
+                               class="form-input"
+                               maxlength="100"
+                               placeholder="Брокер по продаже недвижимости" required>
                     </div>
 
                     <div class="form-group">
                         <label for="desiredSalary">Ожидаемый доход</label>
                         <div class="salary-container">
                             <div class="salary-input">
-                                <input type="text" id="desiredSalary" name="desiredSalary" class="form-input" placeholder="360 000" inputmode="numeric">
+                                <input type="text"
+                                       id="desiredSalary"
+                                       name="desiredSalary"
+                                       class="form-input"
+                                       placeholder="360 000"
+                                       inputmode="numeric" pattern="[0-9 ]*" required>
                             </div>
                             <div class="currency-select-wrapper">
                                 <select id="currency" name="currency" class="currency-select">
@@ -84,7 +112,11 @@
                 <div id="employerFields" style="display: none;">
                     <div class="form-group">
                         <label for="currentPosition">Текущая должность</label>
-                        <input type="text" id="currentPosition" name="currentPosition" class="form-input" placeholder="HR-менеджер / Руководитель отдела">
+                        <input type="text"
+                               id="currentPosition"
+                               name="currentPosition"
+                               class="form-input"
+                               placeholder="HR-менеджер / Руководитель отдела" required>
                     </div>
                 </div>
 
@@ -100,5 +132,6 @@
 <script src="../js/service/NotificationService.js"></script>
 <script src="../js/service/ApiService.js"></script>
 <script src="../js/Registration.js"></script>
+<script src="https://unpkg.com/imask"></script>
 </body>
 </html>

@@ -9,13 +9,6 @@ class Registration {
 
     init() {
         this.userType = this.getUserTypeFromURL();
-
-        if (!this.userType) {
-            console.error('Тип пользователя не указан в URL');
-            this.navigation.goBack();
-            return;
-        }
-
         if (this.tg) {
             this.initTelegram();
         }
@@ -73,15 +66,16 @@ class Registration {
             form.addEventListener('submit', (e) => this.handleFormSubmit(e));
         }
 
-        // Обработчики для кандидата
-        if (this.userType === 'candidate') {
-            this.setupCandidateEventListeners();
-        }
-
-        // Обработчики телефона (общие)
         const phoneInput = document.getElementById('phoneNumber');
         if (phoneInput) {
-            phoneInput.addEventListener('blur', () => this.validatePhone());
+            this.phoneMask = IMask(phoneInput, {
+                mask: '+{7} (000) 000-00-00',
+            });
+        }
+
+        // Обработчики специфичные для кандидата
+        if (this.userType === 'candidate') {
+            this.setupCandidateEventListeners();
         }
     }
 
@@ -137,29 +131,6 @@ class Registration {
         document.execCommand('insertText', false, formatted);
     }
 
-    // ===== ВАЛИДАЦИЯ =====
-    validatePhone() {
-        const phoneInput = document.getElementById('phoneNumber');
-        const phoneError = document.getElementById('phoneNumberError');
-
-        if (!phoneInput || !phoneError) return true;
-
-        const phoneNumber = phoneInput.value.trim();
-        const phoneNumberPattern = /^\+?[\d\s\-\(\)]+$/;
-        const isValid = phoneNumber && phoneNumberPattern.test(phoneNumber) &&
-            phoneNumber.replace(/\D/g, '').length >= 10;
-
-        if (!isValid) {
-            phoneInput.classList.add('error');
-            phoneError.style.display = 'block';
-            return false;
-        }
-
-        phoneInput.classList.remove('error');
-        phoneError.style.display = 'none';
-        return true;
-    }
-
     validateForm(data) {
         // Общая валидация
         if (!data.firstName || !data.lastName || !data.email) {
@@ -201,7 +172,7 @@ class Registration {
         const formData = this.collectFormData();
 
         // Валидация
-        if (!this.validatePhone() || !this.validateForm(formData)) {
+        if (!this.validateForm(formData)) {
             submitBtn.classList.remove('loading');
             return;
         }
@@ -233,7 +204,7 @@ class Registration {
             firstName: document.getElementById('firstName').value.trim(),
             lastName: document.getElementById('lastName').value.trim(),
             email: document.getElementById('email').value.trim(),
-            phoneNumber: document.getElementById('phoneNumber').value.trim()
+            phoneNumber: this.phoneMask ? this.phoneMask.unmaskedValue : ''
         };
 
         if (this.userType === 'candidate') {
@@ -252,8 +223,19 @@ class Registration {
         }
     }
 
+    // Вспомогательный метод для сборки общих данных (InitData)
+    preparePayload(formData) {
+        return {
+            ...formData,
+            webAppTelegram: {
+                initData: this.tg?.initData || '',
+                initDataUnsafe: this.tg?.initDataUnsafe || {}
+            }
+        };
+    }
+
     async sendCandidateData(formData) {
-        const data = {
+        const payload = this.preparePayload({
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
@@ -263,54 +245,46 @@ class Registration {
                 desiredSalary: formData.desiredSalary,
                 currency: formData.currency,
                 candidateJobStatus: formData.candidateJobStatus
-            },
-            webAppTelegram: {
-                initData: this.tg.initData,
-                initDataUnsafe: this.tg.initDataUnsafe
             }
-        };
+        });
 
-        const response = await this.api.post('/registration/candidate', data);
-
+        const response = await this.api.post('/registration/candidate', payload);
         if (response.status === 200) {
-            // Удаляем старый кэш, чтобы при возврате на главную сделал новый запрос и узнал о новой роли
-            sessionStorage.removeItem('user_roles');
-            notification.success('Профиль успешно сохранен');
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 1500);
+            await this.handleSuccess();
         } else {
-            throw new Error('Не удалось отправить данные');
+            throw new Error('Не удалось отправить данные кандидата');
         }
     }
 
     async sendEmployerData(formData) {
-        const data = {
+        const payload = this.preparePayload({
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
             phoneNumber: formData.phoneNumber,
             employerRegistration: {
                 currentPosition: formData.currentPosition
-            },
-            webAppTelegram: {
-                initData: this.tg.initData,
-                initDataUnsafe: this.tg.initDataUnsafe
             }
-        };
+        });
 
-        const response = await this.api.post('/registration/employer', data);
-
+        const response = await this.api.post('/registration/employer', payload);
         if (response.status === 200) {
-            // Удаляем старый кэш, чтобы при возврате на главную сделал новый запрос и узнал о новой роли
-            sessionStorage.removeItem('user_roles');
-            notification.success('Профиль успешно сохранен');
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 1500);
+            await this.handleSuccess();
         } else {
-            throw new Error('Не удалось отправить данные');
+            throw new Error('Не удалось отправить данные работодателя');
         }
+    }
+
+    async handleSuccess() {
+        // Удаляем старый кэш, чтобы при возврате на главную сделать новый запрос и обновить роли
+        sessionStorage.removeItem('user_roles');
+        this.tg?.HapticFeedback.notificationOccurred('success');
+        notification.success('Профиль успешно создан');
+
+        // Уходим на главную через паузу
+        setTimeout(() => {
+            window.location.href = '../index.html';
+        }, 1500);
     }
 }
 
