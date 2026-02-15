@@ -38,24 +38,32 @@ class Registration {
     }
 
     showRelevantFields() {
+        const isCandidate = this.userType === 'candidate';
+
         const candidateFields = document.getElementById('candidateFields');
         const employerFields = document.getElementById('employerFields');
 
-        const desiredPositionInput = document.getElementById('desiredPosition');
-        const currentPositionInput = document.getElementById('currentPosition');
+        // Специфичные поля
+        const desiredSalary = document.getElementById('desiredSalary');
+        const desiredPosition = document.getElementById('desiredPosition');
+        const currentPosition = document.getElementById('currentPosition');
 
-        if (this.userType === 'candidate') {
+        if (isCandidate) {
             if (candidateFields) candidateFields.style.display = 'block';
             if (employerFields) employerFields.style.display = 'none';
 
-            if (desiredPositionInput) desiredPositionInput.required = true;
-            if (currentPositionInput) currentPositionInput.required = false;
+            if (desiredSalary) desiredSalary.required = true;
+            if (desiredPosition) desiredPosition.required = true;
+
+            if (currentPosition) currentPosition.required = false;
         } else {
             if (candidateFields) candidateFields.style.display = 'none';
             if (employerFields) employerFields.style.display = 'block';
 
-            if (desiredPositionInput) desiredPositionInput.required = false;
-            if (currentPositionInput) currentPositionInput.required = true;
+            if (desiredSalary) desiredSalary.required = false;
+            if (desiredPosition) desiredPosition.required = false;
+
+            if (currentPosition) currentPosition.required = true;
         }
     }
 
