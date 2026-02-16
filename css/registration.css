@@ -234,6 +234,7 @@ input:checked + .toggle-slider:before {
     font-weight: 600;
     cursor: pointer;
     height: 52px;
+    margin-top: 0.5rem;
 }
 
 .btn-primary:hover {
