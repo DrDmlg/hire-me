@@ -94,27 +94,42 @@ class Registration {
     }
 
     validateForm(data) {
-        if (!data.firstName || !data.lastName || !data.email) {
-            notification.error('Пожалуйста, заполните все обязательные поля');
+        if (!data.firstName) {
+            notification.error('Пожалуйста, укажите имя');
             return false;
         }
 
-        // Валидация email
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailPattern.test(data.email)) {
+        if (!data.lastName) {
+            notification.error('Пожалуйста, укажите фамилию');
+            return false;
+        }
+
+        if (!data.email) {
+            notification.error('Пожалуйста, укажите email');
+            return false;
+        }
+
+        if (!this.validator.validateEmail(data.email)) {
             notification.error('Пожалуйста, введите корректный email');
             return false;
         }
 
         // Валидация специфичных полей
         if (this.userType === 'candidate') {
-            if (!data.desiredPosition || !data.desiredSalary || data.desiredSalary <= 0) {
-                notification.error('Пожалуйста, заполните все поля для кандидата');
+
+            if (!data.desiredPosition) {
+                notification.error('Пожалуйста, укажите желаемую позицию');
                 return false;
             }
+
+            if ( !data.desiredSalary || data.desiredSalary <= 0) {
+                notification.error('Пожалуйста, укажите ожидаемый доход');
+                return false;
+            }
+
         } else {
             if (!data.currentPosition) {
-                notification.error('Пожалуйста, укажите вашу должность в компании');
+                notification.error('Пожалуйста, укажите вашу должность');
                 return false;
             }
         }

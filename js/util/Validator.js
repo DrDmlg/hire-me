@@ -1,4 +1,7 @@
 class Validator {
+
+    static EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
     constructor() {
         this.tg = window.Telegram.WebApp;
     }
@@ -20,6 +23,10 @@ class Validator {
                 max: 100000000,
             });
         }
+    }
+
+    validateEmail(emailInput) {
+        return Validator.EMAIL_PATTERN.test(emailInput);
     }
 }
 
