@@ -3,6 +3,7 @@ class Registration {
         this.tg = window.Telegram.WebApp;
         this.navigation = new NavigationService();
         this.api = apiService;
+        this.validator = validator;
         this.userType = null;
         this.init();
     }
@@ -75,11 +76,7 @@ class Registration {
         }
 
         const phoneInput = document.getElementById('phoneNumber');
-        if (phoneInput) {
-            this.phoneMask = IMask(phoneInput, {
-                mask: '+{7} (000) 000-00-00',
-            });
-        }
+        this.phoneMask = this.validator.validatePhone(phoneInput);
 
         // Обработчики специфичные для кандидата
         if (this.userType === 'candidate') {
@@ -89,19 +86,11 @@ class Registration {
 
     setupCandidateEventListeners() {
         const salaryInput = document.getElementById('desiredSalary');
-        if (salaryInput) {
-            // Создаем маску для числа
-            this.salaryMask = IMask(salaryInput, {
-                mask: Number,
-                thousandsSeparator: ' ',
-                min: 0,
-                max: 100000000,
-            });
+        this.salaryMask = this.validator.validateSalary(salaryInput);
 
-            salaryInput.addEventListener('input', () => {
-                this.tg?.HapticFeedback.impactOccurred('light');
-            });
-        }
+        salaryInput.addEventListener('input', () => {
+            this.tg?.HapticFeedback.impactOccurred('light');
+        });
     }
 
     validateForm(data) {
