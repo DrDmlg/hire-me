@@ -94,7 +94,6 @@ class Registration {
     }
 
     validateForm(data) {
-        // Общая валидация
         if (!data.firstName || !data.lastName || !data.email) {
             notification.error('Пожалуйста, заполните все обязательные поля');
             return false;
