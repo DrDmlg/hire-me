@@ -1,81 +1,54 @@
 /**
  * ResumeManager - главный менеджер для страницы резюме
- * Аналогичен AboutMeManager по структуре
  */
 class ResumeManager {
     constructor() {
         this.profileData = null;
-        this.navigation = new NavigationService();
         this.resumeData = null;
+        this.navigation = new NavigationService();
         this.component = new ResumeComponent();
     }
 
     async init() {
         try {
-            // Инициализация навигации
             this.navigation.init();
-
-            // Загружаем данные профиля
             this.profileData = await ProfileService.loadProfile();
 
-            if (this.profileData) {
-                // Ищем резюме в данных профиля
-                this.extractResumeFromProfile();
+            this.resumeData = this.extractResume(this.profileData);
 
-                // Инициализируем компонент
-                await this.component.init(this.resumeData, this.profileData);
+            await this.component.init(this.resumeData, this.profileData);
+            console.log('ResumeManager успешно инициализирован');
 
-                console.log('ResumeManager initialized successfully');
-            } else {
-                console.error('Не удалось загрузить данные профиля');
-                notification.error('Не удалось загрузить профиль');
-            }
         } catch (error) {
             console.error('ResumeManager initialization error:', error);
-            notification.error('Ошибка загрузки данных');
+            notification.error('Ошибка при загрузке страницы');
         }
     }
 
     /**
-     * Извлекает информацию о резюме из данных профиля
+     * Поиск резюме в метаданных файлов профиля
      */
-    extractResumeFromProfile() {
-        try {
-            if (!this.profileData?.filesMeta || !Array.isArray(this.profileData.filesMeta)) {
-                this.resumeData = null;
-                return;
-            }
+    extractResume(profile) {
+        const files = profile?.filesMeta;
+        if (!Array.isArray(files)) return null;
 
-            // Ищем файл с типом RESUME (или первый PDF файл)
-            const resumeFile = this.profileData.filesMeta.find(file =>
-                file.type === 'RESUME' ||
-                file.mimeType === 'application/pdf' ||
-                file.originalName?.toLowerCase().endsWith('.pdf')
-            );
+        // Приоритет: сначала ищем по типу RESUME, затем просто PDF
+        const file = files.find(f => f.type === 'RESUME') ||
+            files.find(f => f.originalName?.toLowerCase().endsWith('.pdf'));
 
-            if (resumeFile) {
-                this.resumeData = {
-                    id: resumeFile.id,
-                    fileName: resumeFile.originalName,
-                    uploadDate: resumeFile.createdDate,
-                    storageKey: resumeFile.storageKey,
-                    fileSize: resumeFile.size,
-                    mimeType: resumeFile.mimeType
-                };
-                console.log('Найдено резюме в профиле:', this.resumeData);
-            } else {
-                this.resumeData = null;
-                console.log('Резюме не найдено в профиле');
-            }
+        if (!file) return null;
 
-        } catch (error) {
-            console.error('Error extracting resume from profile:', error);
-            this.resumeData = null;
-        }
+        return {
+            id: file.id,
+            fileName: file.originalName,
+            uploadDate: file.createdDate,
+            storageKey: file.storageKey,
+            fileSize: file.size,
+            mimeType: file.mimeType
+        };
     }
 }
 
-// Автоматическая инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     const resumeManager = new ResumeManager();
     resumeManager.init();

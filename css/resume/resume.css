@@ -1,354 +1,182 @@
-/* ========== CSS ПЕРЕМЕННЫЕ ========== */
+/* ========== ОБНОВЛЕННЫЕ ПЕРЕМЕННЫЕ ========== */
 :root {
     --primary: #2563EB;
-    --primary-light: #3B82F6;
-    --primary-dark: #1D4ED8;
-    --accent: #8B5CF6;
+    --primary-soft: rgba(37, 99, 235, 0.08);
     --success: #10B981;
-    --warning: #F59E0B;
-    --error: #EF4444;
-    --bg-main: #FFFFFF;
-    --bg-card: #FFFFFF;
-    --bg-hover: #F8FAFC;
-    --bg-soft: #F1F5F9;
-    --text-primary: #0F172A;
-    --text-secondary: #475569;
+    --success-soft: rgba(16, 185, 129, 0.1);
+    --text-main: #1E293B;
     --text-muted: #64748B;
-    --border: #E2E8F0;
-    --border-light: #F1F5F9;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --radius: 16px;
-    --radius-sm: 12px;
+    --bg-glass: rgba(255, 255, 255, 0.9);
+    --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
 }
 
-/* ========== ОБЛАСТЬ ЗАГРУЗКИ ========== */
+/* ========== ГЛАВНЫЙ КОНТЕЙНЕР ========== */
 .resume-upload-area {
-    background: var(--bg-card);
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 3rem 1.5rem;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 2px dashed #E2E8F0;
+    border-radius: 24px;
+    padding: 2.5rem 1.5rem;
     text-align: center;
-    margin-top: 1rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    min-height: 380px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-height: 420px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-premium);
 }
 
-/* Контур при наведении */
+/* Эффект при наведении */
 .resume-upload-area:hover {
-    border-color: var(--primary-light);
-    background: rgba(37, 99, 235, 0.02);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 25px 30px -10px rgba(37, 99, 235, 0.1);
 }
 
-/* Заголовок */
-.upload-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-    margin-top: 0.5rem;
-}
-
-/* Описание */
-.upload-description {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 2.5rem;
-    line-height: 1.5;
-}
-
-/* Область для отображения статуса */
+/* ========== ДИНАМИЧЕСКАЯ ИКОНКА (STATUS ICON) ========== */
 .upload-drop-zone {
-    width: 100%;
-    max-width: 300px;
-    height: 160px;
-    border: 2px dashed var(--primary-light);
-    border-radius: var(--radius);
+    width: 120px;
+    height: 120px;
+    background: var(--primary-soft);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     position: relative;
-    transition: all 0.3s ease;
-    background: rgba(37, 99, 235, 0.02);
+    transition: all 0.5s ease;
 }
 
-/* Иконка загрузки в пустом состоянии */
-.resume-upload-area.empty .upload-drop-zone::before {
+.upload-drop-zone::after {
     content: '';
-    display: block;
-    width: 64px;
-    height: 64px;
-    background-image: url('/../../images/icons/upload.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.8;
-}
-
-/* Иконка PDF когда есть файл */
-.resume-upload-area.has-file .upload-drop-zone::before {
-    content: ''; /* Убираем эмодзи */
-    display: block;
-    width: 64px;
-    height: 64px;
-    background-image: url('../../images/icons/cv-uploaded.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.9;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-.resume-upload-area:hover .upload-drop-zone {
-    border-color: var(--primary);
-    background: rgba(37, 99, 235, 0.05);
-    transform: scale(1.02);
-}
-
-/* Текст под областью */
-.drop-zone-text {
     position: absolute;
-    bottom: -25px;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-/* Кнопка выбора файла */
-.upload-btn {
     width: 100%;
-    max-width: 260px;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 12px;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.5s ease;
+}
+
+/* Иконка PDF или Облака */
+.upload-drop-zone::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
     transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
-.upload-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+/* ========== ЛОГИКА СОСТОЯНИЙ ========== */
+
+/* 1. Состояние EMPTY (Пусто) */
+.resume-upload-area.empty .upload-drop-zone::before {
+    background-image: url('../../images/icons/upload-cloud.png'); /* Путь к иконке облака */
 }
 
-.upload-btn:active {
-    transform: translateY(0);
+/* 2. Состояние UPLOADING (Загрузка) */
+.resume-upload-area.uploading .upload-drop-zone {
+    background: transparent;
+}
+.resume-upload-area.uploading .upload-drop-zone::after {
+    border-top-color: var(--primary);
+    border-right-color: var(--primary);
+    animation: rotate 1s linear infinite;
+}
+.resume-upload-area.uploading .upload-drop-zone::before {
+    transform: scale(0.8);
+    opacity: 0.5;
 }
 
-/* Требования к файлу */
-.upload-requirements {
-    margin-top: 1.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.requirement-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-/* ========== СОСТОЯНИЯ ФОРМЫ ========== */
-
-/* Состояние: Есть файл */
+/* 3. Состояние HAS-FILE (Успех) */
 .resume-upload-area.has-file {
-    border-color: var(--primary);
-    border-style: solid;
-    background: rgba(16, 185, 129, 0.02);
+    border: 2px solid var(--success);
+    background: linear-gradient(to bottom, #ffffff, #f0fff4);
+}
+.resume-upload-area.has-file .upload-drop-zone {
+    background: var(--success-soft);
+    transform: scale(1.1);
+}
+.resume-upload-area.has-file .upload-drop-zone::before {
+    background-image: url('../../images/icons/cv-uploaded.png'); /* Путь к иконке PDF */
 }
 
-.resume-upload-area.has-file .drop-zone-text {
-    display: none;
-}
-
-/* Информация о файле */
+/* ========== ИНФОРМАЦИЯ О ФАЙЛЕ (КАРТОЧКА) ========== */
 .file-info {
-    text-align: center;
-    margin: 1rem 0 1.5rem;
-    animation: fadeIn 0.4s ease;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    margin: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .file-name {
-    font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    word-break: break-word;
-    padding: 0 1rem;
+    color: var(--text-main);
+    font-size: 1rem;
 }
 
-/* Дата файла */
 .file-date {
-    font-size: 0.9rem;
-    color: var(--primary);
-    font-weight: 500;
-    margin-top: 0.25rem;
-    opacity: 0.9;
+    font-size: 0.85rem;
+    color: var(--success);
+    margin-top: 4px;
 }
 
-/* Вторая кнопка */
-.upload-btn.secondary {
-    background: var(--bg-soft);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    margin-top: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.upload-btn.secondary:hover {
-    background: var(--border);
-    transform: translateY(-2px);
-}
-
-.upload-btn.secondary:active {
-    transform: translateY(0);
-}
-
-/* Прогресс загрузки */
-.upload-progress-container {
+/* ========== КНОПКИ ========== */
+.upload-btn {
     width: 100%;
-    max-width: 300px;
-    margin: 0 auto 2rem;
-    animation: fadeIn 0.3s ease;
-}
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-}
-
-.progress-text {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.progress-percent {
-    font-size: 0.9rem;
+    max-width: 280px;
+    height: 56px;
+    border-radius: 16px;
     font-weight: 700;
-    color: var(--primary);
-}
-
-.progress-bar {
-    height: 6px;
-    background: var(--bg-soft);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.cancel-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: var(--bg-soft);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
+    letter-spacing: 0.3px;
     transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
-.cancel-btn:hover {
-    background: var(--border);
+#mainActionBtn {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
 }
 
-/* Состояние загрузки */
-.resume-upload-area.uploading .upload-drop-zone,
-.resume-upload-area.uploading .upload-btn,
-.resume-upload-area.uploading .upload-requirements {
+#mainActionBtn:active { transform: scale(0.96); }
+
+#secondaryActionBtn {
+    background: transparent;
+    color: #EF4444;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    height: auto;
+    padding: 8px;
+}
+
+/* ========== СКРЫТИЕ ЭЛЕМЕНТОВ ========== */
+#fileInfoContainer, #secondaryActionBtn, .upload-requirements, .upload-btn, .upload-drop-zone {
     display: none;
 }
 
+.resume-upload-area.empty #mainActionBtn,
+.resume-upload-area.empty .upload-drop-zone,
+.resume-upload-area.empty .upload-requirements { display: flex; flex-direction: column; align-items: center; }
+
+.resume-upload-area.has-file #mainActionBtn,
+.resume-upload-area.has-file #secondaryActionBtn,
+.resume-upload-area.has-file .upload-drop-zone,
+.resume-upload-area.has-file #fileInfoContainer { display: block; }
+
+.resume-upload-area.uploading .upload-title,
+.resume-upload-area.uploading .upload-description { display: block; }
+
 /* ========== АНИМАЦИИ ========== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ========== АДАПТИВНОСТЬ ========== */
-@media (max-width: 480px) {
-    .resume-upload-area {
-        padding: 2.5rem 1rem;
-        min-height: 340px;
-    }
-
-    .upload-drop-zone {
-        height: 140px;
-        max-width: 260px;
-        margin-bottom: 1.5rem;
-    }
-
-    .upload-btn {
-        max-width: 220px;
-        padding: 0.875rem 1.25rem;
-    }
-
-    .file-info {
-        margin: 0.75rem 0 1.25rem;
-    }
-
-    .file-name {
-        font-size: 1rem;
-        padding: 0 0.5rem;
-    }
-
-    .upload-progress-container {
-        max-width: 260px;
-    }
-}
-
-@media (max-width: 380px) {
-    .resume-upload-area {
-        min-height: 320px;
-        padding: 2rem 1rem;
-    }
-
-    .upload-drop-zone {
-        height: 120px;
-        max-width: 240px;
-    }
-
-    .upload-title {
-        font-size: 1.2rem;
-    }
-
-    .file-name {
-        font-size: 0.95rem;
-    }
+@keyframes rotate { to { transform: rotate(360deg); } }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

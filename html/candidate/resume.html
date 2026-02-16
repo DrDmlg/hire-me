@@ -25,26 +25,24 @@
 
 <div class="container">
     <div class="content-section">
-        <div class="resume-upload-area" id="uploadArea">
-            <h3 class="upload-title" id="uploadTitle">Добавьте ваше резюме</h3>
+        <div class="resume-upload-area empty" id="uploadArea">
 
-            <p class="upload-description" id="uploadDescription">
-                Нажмите кнопку ниже для выбора файла
-            </p>
+            <h3 class="upload-title" id="uploadTitle">Добавьте ваше резюме</h3>
+            <p class="upload-description" id="uploadDescription">Нажмите кнопку ниже для выбора файла</p>
 
             <div class="upload-drop-zone" id="dropZone">
-                <div class="drop-zone-text" id="dropZoneText">Область для отображения статуса</div>
+                <div class="status-icon-container">
+                    <div class="icon-circle"></div>
+                    <!--                    <img src="../../images/icons/upload-cloud.png" class="icon-main" id="statusIcon" alt="status">-->
+                </div>
             </div>
 
             <div id="fileInfoContainer"></div>
 
             <button class="upload-btn" id="mainActionBtn">Выбрать файл</button>
+            <button class="upload-btn secondary" id="secondaryActionBtn">Удалить</button>
 
-            <button class="upload-btn secondary" id="secondaryActionBtn" style="display: none;">
-                Удалить
-            </button>
-
-            <div class="upload-requirements" id="uploadFooter">
+            <div class="upload-requirements">
                 <div class="requirement-item">
                     <span>• Только PDF формат</span>
                 </div>
