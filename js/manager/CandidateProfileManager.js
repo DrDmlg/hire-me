@@ -6,12 +6,6 @@ class CandidateProfileManager {
         VACANCIES: '../vacancies.html?type=candidate'
     };
 
-    // Конфигурация визуальных состояний статуса
-    static STATUS_THEMES = {
-        'Активный поиск': { text: 'Активный поиск', color: '#10E6A0' },
-        'Не ищу работу': { text: 'Не ищу работу', color: '#e21212' }
-    };
-
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
         this.api = apiService;
@@ -69,20 +63,17 @@ class CandidateProfileManager {
         this.renderStatistics(candidate.stats);
     }
 
-    // Изменение статуса (Логика + API)
     async toggleJobStatus() {
         if (this.isUpdatingStatus) return;
 
         const candidate = this.profileData?.candidate;
-        if (!candidate?.id) return;
-
+        const statusTag = document.getElementById('statusTag');
         const oldStatus = candidate.candidateJobStatus;
         const newStatus = oldStatus === 'Активный поиск' ? 'Не ищу работу' : 'Активный поиск';
 
         try {
             this.isUpdatingStatus = true;
-            // Можно добавить класс лоадера на элемент
-            document.getElementById('statusTag')?.classList.add('loading');
+            statusTag?.classList.add('loading');
 
             const response = await this.api.put(`/candidate/status/${candidate.id}`, {
                 jobStatus: newStatus
@@ -90,6 +81,7 @@ class CandidateProfileManager {
 
             if (response.status >= 200 && response.status < 300) {
                 candidate.candidateJobStatus = newStatus;
+                this.tg?.HapticFeedback.impactOccurred('medium');
                 this.renderStatus();
             }
         } catch (error) {
@@ -97,22 +89,22 @@ class CandidateProfileManager {
             console.error(error);
         } finally {
             this.isUpdatingStatus = false;
-            document.getElementById('statusTag')?.classList.remove('loading');
+            statusTag?.classList.remove('loading')
         }
     }
 
-    // Отрисовка статуса (UI)
     renderStatus() {
         const status = this.profileData?.candidate?.candidateJobStatus;
-        const theme = CandidateProfileManager.STATUS_THEMES[status] || CandidateProfileManager.STATUS_THEMES['Не ищу работу'];
+        const statusTag = document.getElementById('statusTag');
+        const statusText = document.getElementById('userStatus');
 
-        const elements = {
-            text: document.getElementById('userStatus'),
-            dot: document.getElementById('statusDot')
-        };
+        if (!statusTag || !statusText) return;
 
-        if (elements.text) elements.text.textContent = theme.text;
-        if (elements.dot) elements.dot.style.background = theme.color;
+        statusText.textContent = status || 'Активный поиск';
+
+        const isActive = status === 'Активный поиск';
+        statusTag.classList.toggle('status-active', isActive);
+        statusTag.classList.toggle('status-busy', !isActive);
     }
 
     renderStatistics(stats = {}) {
