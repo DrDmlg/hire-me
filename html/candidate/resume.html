@@ -13,42 +13,35 @@
     <link rel="stylesheet" href="../../css/resume/resume.css">
 </head>
 <body>
-
-<header class="app-header">
-    <div class="header-content">
-        <button class="back-button">
-            <img src="../../images/icons/arrow-back.png" alt="Назад">
-        </button>
-        <h1 class="app-title">Моё резюме</h1>
-    </div>
-</header>
-
 <div class="container">
+    <header class="app-header">
+        <div class="header-content">
+
+            <button class="back-button">
+                <img src="../../images/icons/arrow-back.png" alt="Назад">
+            </button>
+
+            <h1 class="app-title">Моё резюме</h1>
+        </div>
+    </header>
+
     <div class="content-section">
         <div class="resume-upload-area empty" id="uploadArea">
-
-            <h3 class="upload-title" id="uploadTitle">Добавьте ваше резюме</h3>
-            <p class="upload-description" id="uploadDescription">Нажмите кнопку ниже для выбора файла</p>
-
-            <div class="upload-drop-zone" id="dropZone">
-                <div class="status-icon-container">
-                    <div class="icon-circle"></div>
-                    <!--                    <img src="../../images/icons/upload-cloud.png" class="icon-main" id="statusIcon" alt="status">-->
-                </div>
-            </div>
-
+            <div class="upload-drop-zone" id="dropZone"></div>
             <div id="fileInfoContainer"></div>
 
-            <button class="upload-btn" id="mainActionBtn">Выбрать файл</button>
-            <button class="upload-btn secondary" id="secondaryActionBtn">Удалить</button>
+            <div class="action-group">
+                <button class="upload-button" id="uploadResumeBtn" title="Загрузить">
+                    <img src="../../images/icons/upload.png" alt="Загрузить">
+                </button>
 
-            <div class="upload-requirements">
-                <div class="requirement-item">
-                    <span>• Только PDF формат</span>
-                </div>
-                <div class="requirement-item">
-                    <span>• Максимальный размер: 5 MB</span>
-                </div>
+                <button class="download-button" id="downloadResumeBtn" title="Скачать">
+                    <img src="../../images/icons/trash.png" alt="Скачать">
+                </button>
+
+                <button class="delete-button" id="deleteResumeBtn" title="Удалить">
+                    <img src="../../images/icons/trash.png" alt="Удалить">
+                </button>
             </div>
 
             <input type="file" id="fileInput" accept=".pdf,application/pdf" style="display: none;">

@@ -25,58 +25,62 @@ class ResumeComponent {
     }
 
     cacheElements() {
-        // Кэшируем только то, с чем реально работаем
-        const ids = ['uploadArea', 'uploadTitle', 'uploadDescription', 'fileInfoContainer', 'mainActionBtn', 'secondaryActionBtn', 'fileInput'];
-        ids.forEach(id => {
-            this.elements[id] = document.getElementById(id);
-        });
+        this.elements = {
+            uploadArea: document.getElementById('uploadArea'),
+            fileInfoContainer: document.getElementById('fileInfoContainer'),
+            uploadBtn: document.getElementById('uploadResumeBtn'),
+            downloadBtn: document.getElementById('downloadResumeBtn'),
+            deleteBtn: document.getElementById('deleteResumeBtn'),
+            fileInput: document.getElementById('fileInput')
+        };
     }
 
-    // Единственная точка правды для UI
     render() {
-        const { uploadArea, uploadTitle, uploadDescription, mainActionBtn } = this.elements;
+        const {uploadArea, uploadBtn, downloadBtn, deleteBtn, fileInfoContainer} = this.elements;
+        const hasFile = !!this.resumeData;
 
-        const state = this.isUploading ? 'uploading' : (this.resumeData ? 'has-file' : 'empty');
-        uploadArea.className = `resume-upload-area ${state}`;
+        // Устанавливаем состояние контейнера
+        uploadArea.className = `resume-upload-area ${this.isUploading ? 'uploading' : (hasFile ? 'has-file' : 'empty')}`;
 
-        if (this.isUploading) {
-            uploadTitle.textContent = 'Загрузка...';
-            uploadDescription.textContent = 'Пожалуйста, подождите';
-        } else if (this.resumeData) {
-            uploadTitle.textContent = 'Резюме загружено';
-            uploadDescription.textContent = 'Доступно для работодателей';
-            mainActionBtn.textContent = 'Скачать резюме';
+        if (hasFile) {
             this.renderFileInfo();
+            // Показываем обе кнопки: заменить и удалить
+            uploadBtn.style.display = 'none';
+            downloadBtn.style.display = 'flex';
+            deleteBtn.style.display = 'flex';
         } else {
-            uploadTitle.textContent = 'Добавьте ваше резюме';
-            uploadDescription.textContent = 'Нажмите кнопку ниже для выбора файла';
-            mainActionBtn.textContent = 'Выбрать файл';
-            this.elements.fileInfoContainer.innerHTML = '';
+            fileInfoContainer.innerHTML = '';
+            uploadBtn.style.display = 'flex';
+            downloadBtn.style.display = 'none';
+            deleteBtn.style.display = 'none';
         }
     }
 
     renderFileInfo() {
         if (!this.resumeData) return;
-        const { fileName, uploadDate } = this.resumeData;
+        const {fileName, uploadDate} = this.resumeData;
         const date = uploadDate ? new Date(uploadDate).toLocaleDateString('ru-RU') : 'неизвестно';
 
         this.elements.fileInfoContainer.innerHTML = `
-            <div class="file-info">
-                <div class="file-name">${Helpers.escapeHtml(fileName)}</div>
-                <div class="file-date">Загружено: ${date}</div>
-            </div>`;
+        <div class="file-info">
+            <div class="file-details">
+                <span class="file-name">${Helpers.escapeHtml(fileName)}</span>
+                <div class="file-status">
+                    <span class="status-dot"></span> 
+                    Видно работодателям
+                </div>
+                <div class="file-date" style="font-size: 0.7rem; color: #64748B; margin-top: 2px;">
+                    Загружено: ${date}
+                </div>
+            </div>
+        </div>`;
     }
 
     bindEvents() {
-        this.elements.mainActionBtn?.addEventListener('click', () => this.handleMainAction());
-        this.elements.secondaryActionBtn?.addEventListener('click', () => this.deleteResume());
+        this.elements.downloadBtn?.addEventListener('click', () => this.downloadResume());
+        this.elements.uploadBtn?.addEventListener('click', () => this.elements.fileInput.click());
+        this.elements.deleteBtn?.addEventListener('click', () => this.deleteResume());
         this.elements.fileInput?.addEventListener('change', (e) => this.handleFileSelect(e));
-    }
-
-    // ============ ЛОГИКА ДЕЙСТВИЙ ============
-
-    handleMainAction() {
-        this.resumeData ? this.downloadResume() : this.elements.fileInput.click();
     }
 
     handleFileSelect(event) {

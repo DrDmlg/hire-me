@@ -21,7 +21,8 @@
 }
 
 /* Кнопка добавить */
-.add-button {
+.add-button,
+.upload-button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -33,7 +34,8 @@
     justify-content: center;
 }
 
-.add-button:hover {
+.add-button:hover,
+.upload-button:hover {
     transform: scale(1.1);
 }
 
