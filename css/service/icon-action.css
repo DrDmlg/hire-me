@@ -22,7 +22,9 @@
 
 /* Кнопка добавить */
 .add-button,
-.upload-button {
+.upload-resume-button,
+.download-resume-button,
+.remove-resume-button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -35,7 +37,9 @@
 }
 
 .add-button:hover,
-.upload-button:hover {
+.upload-resume-button:hover,
+.download-resume-button:hover,
+.remove-resume-button:hover {
     transform: scale(1.1);
 }
 
