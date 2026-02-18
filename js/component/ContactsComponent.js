@@ -37,16 +37,29 @@ class ContactsComponent {
     // ============ ФОРМА ============
     showForm() {
         const form = document.getElementById('contactsForm');
+        const list = document.getElementById('contactsList');
         if (!form) return;
 
         this.fillForm();
         form.style.display = 'block';
+
+        if (list) {
+            list.style.display = 'none';
+        }
         form.scrollIntoView({behavior: 'smooth'});
     }
 
     hideForm() {
         const form = document.getElementById('contactsForm');
-        if (form) form.style.display = 'none';
+        const list = document.getElementById('contactsList');
+
+        if (form) {
+            form.style.display = 'none';
+        }
+
+        if (list) {
+            list.style.display = 'block';
+        }
     }
 
     fillForm() {
@@ -198,11 +211,11 @@ class ContactsComponent {
     }
 
     getEmptyState() {
-        return `            
-            <div class="empty-state">
-                <div class="empty-text">Здесь пока ничего нет</div>
-            </div>
-        `;
+        return `
+        <div class="empty-state-minimal" onclick="document.getElementById('addContactBtn').click()">
+            <span class="add-icon">+</span>
+        </div>
+    `;
     }
 
     // ============ API ОПЕРАЦИИ ============

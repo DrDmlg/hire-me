@@ -98,6 +98,7 @@ class LanguagesComponent {
     // ============ ФОРМА ============
     showForm(language = null) {
         const form = document.getElementById('languageForm');
+        const list = document.getElementById('languagesList');
         const formTitle = document.getElementById('languageFormTitle');
         const saveButton = document.getElementById('saveLanguageButton');
         const updateButton = document.getElementById('updateLanguageButton');
@@ -119,17 +120,21 @@ class LanguagesComponent {
         }
 
         form.style.display = 'block';
+        if (list) list.style.display = 'none';
         form.scrollIntoView({behavior: 'smooth'});
     }
 
     hideForm() {
         const form = document.getElementById('languageForm');
+        const list = document.getElementById('languagesList');
         const saveButton = document.getElementById('saveLanguageButton');
         const updateButton = document.getElementById('updateLanguageButton');
 
         if (form) {
             form.style.display = 'none';
         }
+
+        if (list) list.style.display = 'block';
 
         saveButton.style.display = 'block';
         updateButton.style.display = 'none';
@@ -245,10 +250,10 @@ class LanguagesComponent {
 
     getEmptyState() {
         return `
-            <div class="empty-state">
-                <div class="empty-text">Здесь пока ничего нет</div>
-            </div>
-        `;
+        <div class="empty-state-minimal" onclick="document.getElementById('addLanguageBtn').click()">
+            <span class="add-icon">+</span>
+        </div>
+    `;
     }
 
     // ============ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ============

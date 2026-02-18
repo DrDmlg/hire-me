@@ -74,6 +74,7 @@ class EducationComponent {
     // ============ ФОРМА ============
     showForm(education = null) {
         const form = document.getElementById('educationForm');
+        const list = document.getElementById('educationList');
         const formTitle = document.getElementById('educationFormTitle');
         const saveButton = document.getElementById('saveEducationButton');
         const updateButton = document.getElementById('updateEducationButton');
@@ -95,16 +96,23 @@ class EducationComponent {
         }
 
         form.style.display = 'block';
+        if (list) list.style.display = 'none';
+
         form.scrollIntoView({behavior: 'smooth'});
     }
 
     hideForm() {
         const form = document.getElementById('educationForm');
+        const list = document.getElementById('educationList');
         const saveButton = document.getElementById('saveEducationButton');
         const updateButton = document.getElementById('updateEducationButton');
 
         if (form) {
             form.style.display = 'none';
+        }
+
+        if (list) {
+            list.style.display = 'block';
         }
 
         saveButton.style.display = 'block';
@@ -209,10 +217,10 @@ class EducationComponent {
 
     getEmptyState() {
         return `
-            <div class="empty-state">
-                <div class="empty-text">Здесь пока ничего нет</div>
-            </div>
-        `;
+        <div class="empty-state-minimal" onclick="document.getElementById('addEducationBtn').click()">
+            <span class="add-icon">+</span>
+        </div>
+    `;
     }
 
     // ============ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ============

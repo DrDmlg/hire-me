@@ -89,6 +89,7 @@ class ExperienceComponent {
     // ============ ФОРМА ============
     showForm(experience = null) {
         const form = document.getElementById('experienceForm');
+        const list = document.getElementById('experienceList');
         const formTitle = document.getElementById('formTitle');
         const saveButton = document.getElementById('saveButton');
         const updateButton = document.getElementById('updateButton');
@@ -114,16 +115,21 @@ class ExperienceComponent {
         }
 
         form.style.display = 'block';
+        if (list) list.style.display = 'none';
         form.scrollIntoView({behavior: 'smooth'});
     }
 
     hideForm() {
         const form = document.getElementById('experienceForm');
+        const list = document.getElementById('experienceList');
         const saveButton = document.getElementById('saveButton');
         const updateButton = document.getElementById('updateButton');
 
         if (form) {
             form.style.display = 'none';
+        }
+        if (list) {
+            list.style.display = 'block';
         }
 
         // Всегда показываем кнопку "Сохранить" при скрытии формы
@@ -350,10 +356,10 @@ class ExperienceComponent {
 
     getEmptyState() {
         return `
-            <div class="empty-state">
-                <div class="empty-text">Здесь пока ничего нет</div>
-            </div>
-        `;
+        <div class="empty-state-minimal" onclick="document.getElementById('addExperienceBtn').click()">
+            <span class="add-icon">+</span>
+        </div>
+    `;
     }
 
     // ============ ОСТАЛЬНЫЕ ============

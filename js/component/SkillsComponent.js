@@ -199,10 +199,10 @@ class SkillsComponent {
 
     getEmptyState() {
         return `
-            <div class="empty-state">
-                <div class="empty-text">Здесь пока ничего нет</div>
-            </div>
-        `;
+        <div class="empty-state-minimal" onclick="document.getElementById('addSkillBtn').click()">
+            <span class="add-icon">+</span>
+        </div>
+    `;
     }
 
     validateSkill(skillName) {
