@@ -24,7 +24,10 @@
 .add-button,
 .upload-resume-button,
 .download-resume-button,
-.remove-resume-button {
+.remove-resume-button,
+.arrow-right-button,
+.arrow-left-button,
+.send-publication-button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -39,7 +42,10 @@
 .add-button:hover,
 .upload-resume-button:hover,
 .download-resume-button:hover,
-.remove-resume-button:hover {
+.remove-resume-button:hover,
+.arrow-right-button:hover,
+.arrow-left-button:hover,
+.send-publication-button:hover {
     transform: scale(1.1);
 }
 
