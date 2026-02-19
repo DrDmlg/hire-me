@@ -20,57 +20,34 @@
     transform: translateX(-2px) scale(1.05);
 }
 
-/* Кнопка добавить */
-.add-button,
-.upload-resume-button,
-.download-resume-button,
-.remove-resume-button,
-.arrow-right-button,
-.arrow-left-button,
-.send-publication-button {
+.button-icon {
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    will-change: transform;
+}
+
+.button-icon:hover {
+    transform: scale(1.1);
+}
+
+.button-icon img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.size-32 {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.add-button:hover,
-.upload-resume-button:hover,
-.download-resume-button:hover,
-.remove-resume-button:hover,
-.arrow-right-button:hover,
-.arrow-left-button:hover,
-.send-publication-button:hover {
-    transform: scale(1.1);
-}
-
-/* Кнопка редактировать и удалить */
-.edit-button,
-.delete-button {
+.size-28 {
     width: 28px;
     height: 28px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.edit-button img,
-.delete-button img {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-}
-
-.edit-button:hover,
-.delete-button:hover {
-    transform: scale(1.1);
 }
