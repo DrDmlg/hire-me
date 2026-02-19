@@ -37,11 +37,12 @@ body {
 
 /* --- Контейнер и Шаги --- */
 .vacancy-create-container {
-    padding: 1rem 1.5rem;
-    /* Минимальная высота, чтобы форма не "прыгала" на мобилках */
-    min-height: calc(100vh - 180px);
+    padding: 1rem;
+    /* Используем svh (small viewport height) для мобилок, чтобы избежать прыжков от адресной строки */
+    height: calc(100svh - 100px);
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Запрещаем общий скролл страницы */
 }
 
 .vacancy-form.step {
@@ -52,13 +53,18 @@ body {
 
 .vacancy-form.step.active {
     display: flex;
+    flex-direction: column;
     background: var(--white);
-    padding: 24px;
-    border-radius: 20px; /* чуть больше, чем у инпутов для контраста */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* очень мягкая тень */
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--border);
-    margin-top: 1rem;
-    animation: fadeIn 0.3s ease-out;
+
+    /* Самое важное для фиксации: */
+    height: 100%; /* Занимает всю высоту родителя */
+    max-height: 100%;
+    overflow-y: auto; /* Если поля не влезают (как на iPhone 12), скроллим ВНУТРИ формы */
+    position: relative;
 }
 
 @keyframes fadeIn {
@@ -144,6 +150,7 @@ body {
     padding-top: 2rem;
     border-top: 1px solid var(--border);
 }
+
 
 /* --- Доп. элементы (Валюта, Спиннер) --- */
 .input-with-suffix {

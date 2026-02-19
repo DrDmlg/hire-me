@@ -127,16 +127,6 @@ class VacancyCardComponent {
             `);
         }
 
-        // Рабочее место
-        if (vacancyData.workPlace) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Место работы</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.workPlace)}</p>
-                </div>
-            `);
-        }
-
         // Адрес
         if (vacancyData.address?.name) {
             sections.push(`
