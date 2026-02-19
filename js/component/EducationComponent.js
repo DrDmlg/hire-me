@@ -200,11 +200,11 @@ class EducationComponent {
         container.innerHTML = sortedEducations.map(edu => `
             <div class="education-item fade-in" data-id="${edu.id}">
                 <div class="education-actions">
-                    <button class="edit-button edit-education-btn">
-                        <img src="../../images/icons/edit.png" alt="Редактировать">
+                    <button class="button-icon size-28 edit-education-btn">
+                        <img src="../../images/icons/edit.svg" alt="Редактировать">
                     </button>
-                    <button class="delete-button delete-education-btn">
-                        <img src="../../images/icons/trash.png" alt="Удалить">
+                    <button class="button-icon size-28 delete-education-btn">
+                        <img src="../../images/icons/trash.svg" alt="Удалить">
                     </button>
                 </div>
                 <div class="institution-name">${Helpers.escapeHtml(edu.institutionName)}</div>

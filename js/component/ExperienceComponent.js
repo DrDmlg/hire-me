@@ -323,11 +323,11 @@ class ExperienceComponent {
             return `
             <div class="experience-item fade-in ${exp.isCurrent ? '' : 'past'}" data-id="${exp.id}">
                 <div class="experience-actions">
-                 <button class="button-icon size-28">
+                 <button class="button-icon size-28 edit-btn">
                     <img src="../../images/icons/edit.svg" alt="Редактировать">
                 </button>
 
-                <button class="button-icon size-28">
+                <button class="button-icon size-28 delete-btn">
                     <img src="../../images/icons/trash.svg" alt="Удалить">
                 </button>
                 </div>
