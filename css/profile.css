@@ -405,28 +405,3 @@ body {
 .action-card.primary .action-description {
     color: rgba(255, 255, 255, 0.8);
 }
-
-/* Responsive */
-@media (max-width: 380px) {
-    .container {
-        padding: 0;
-    }
-
-    .quick-stats {
-        grid-template-columns: repeat(2, 1fr);
-        margin: -2rem 1rem 1rem;
-    }
-
-    .stat-item::after {
-        display: none;
-    }
-
-    .actions-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .content-section {
-        padding: 0 1rem 1rem;
-        margin-top: -0.5rem;
-    }
-}

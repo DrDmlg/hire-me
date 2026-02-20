@@ -34,7 +34,6 @@ body {
     width: 100%;
     max-width: 428px;
     margin: 0 auto;
-    padding: 0;
 }
 
 /* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
@@ -44,6 +43,7 @@ body {
     gap: 1rem;
     margin-bottom: 2rem;
     margin-top: 115px;
+    padding: 0 0.5rem;
 }
 
 .action-card {
