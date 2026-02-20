@@ -31,9 +31,10 @@ body {
 }
 
 .container {
-    max-width: 500px;
+    width: 100%;
+    max-width: 428px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0;
 }
 
 /* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
@@ -126,10 +127,6 @@ body {
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-
     .actions-grid {
         gap: 0.75rem;
     }
