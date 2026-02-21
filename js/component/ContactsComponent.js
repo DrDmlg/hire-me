@@ -170,8 +170,8 @@ class ContactsComponent {
         }
 
         const contactsConfig = [
-            {key: 'email', label: 'Email', icon: '../../images/icons/email-contact.png'},
-            {key: 'phoneNumber', label: 'Телефон', icon: '../../images/icons/phone.png'},
+            {key: 'email', label: 'Email', icon: '../../images/icons/email-contact.svg'},
+            {key: 'phoneNumber', label: 'Телефон', icon: '../../images/icons/phone.svg'},
             {key: 'telegram', label: 'Telegram', icon: '../../images/icons/telegram-contact.png'},
             {key: 'whatsapp', label: 'WhatsApp', icon: '../../images/icons/whatsapp-contact.png'}
         ];

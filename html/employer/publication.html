@@ -22,6 +22,15 @@
         </div>
     </header>
 
+    <div class="progress-steps">
+        <div class="step-indicator active" data-step="1"></div>
+        <div class="step-indicator" data-step="2"></div>
+        <div class="step-indicator" data-step="3"></div>
+        <div class="step-indicator" data-step="4"></div>
+        <div class="step-indicator" data-step="5"></div>
+        <div class="step-indicator" data-step="6"></div>
+    </div>
+
     <main class="vacancy-create-container">
         <!-- Шаг 1: Основная информация -->
         <form id="vacancyForm" class="vacancy-form step active" data-step="1">
@@ -48,7 +57,6 @@
                 <div class="form-group half">
                     <label for="workFormat" class="form-label">Формат работы</label>
                     <select id="workFormat" name="workFormat" class="form-select">
-                        <option value="">Выберите формат</option>
                         <option value="Удаленно">Удаленно</option>
                         <option value="Офис">Офис</option>
                         <option value="Гибрид">Гибрид</option>
@@ -62,7 +70,6 @@
                         <option value="">Выберите график</option>
                         <option value="5/2">5/2 (полный день)</option>
                         <option value="Гибкий">Гибкий график</option>
-                        <option value="Сменный">Сменный график</option>
                         <option value="Частичная">Частичная занятость</option>
                     </select>
                 </div>
@@ -78,6 +85,8 @@
             </div>
 
             <div class="step-actions">
+                <div style="width: 32px; height: 32px; flex-shrink: 0;"></div>
+
                 <button type="button" class="button-icon size-32" id="nextStep1" title="Вперед">
                     <img src="../../images/icons/arrow-right.svg" alt="Вперед">
                 </button>
@@ -132,34 +141,19 @@
             </div>
         </form>
 
-        <!-- Шаг 3: Описание -->
+        <!-- Шаг 3: Обязанности -->
         <form class="vacancy-form step" data-step="3">
-
-            <div class="form-group">
-                <label for="aboutCompany" class="form-label">О компании</label>
-                <textarea id="aboutCompany"
-                          name="aboutCompany"
-                          class="form-textarea"
-                          rows="3"
-                          placeholder=""></textarea>
-            </div>
 
             <div class="form-group">
                 <label for="responsibilities" class="form-label">Обязанности</label>
                 <textarea id="responsibilities"
                           name="responsibilities"
                           class="form-textarea"
+                          maxlength="2000"
                           rows="4"
                           placeholder=""></textarea>
-            </div>
 
-            <div class="form-group">
-                <label for="skills" class="form-label">Требования и навыки</label>
-                <textarea id="skills"
-                          name="skills"
-                          class="form-textarea"
-                          rows="4"
-                          placeholder=""></textarea>
+                <div class="char-counter"><span>0</span>/2000</div>
             </div>
 
             <div class="step-actions">
@@ -173,16 +167,71 @@
             </div>
         </form>
 
-        <!-- Шаг 4: Условия и публикация -->
+        <!-- Шаг 4: Требования и навыки -->
         <form class="vacancy-form step" data-step="4">
+
+            <div class="form-group">
+                <label for="skills" class="form-label">Требования и навыки</label>
+                <textarea id="skills"
+                          name="skills"
+                          class="form-textarea"
+                          maxlength="2000"
+                          rows="4"
+                          placeholder=""></textarea>
+
+                <div class="char-counter"><span>0</span>/2000</div>
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="button-icon size-32" id="prevStep4" title="Назад">
+                    <img src="../../images/icons/arrow-left.svg" alt="Назад">
+                </button>
+
+                <button type="button" class="button-icon size-32" id="nextStep4" title="Вперед">
+                    <img src="../../images/icons/arrow-right.svg" alt="Вперед">
+                </button>
+            </div>
+        </form>
+
+        <!-- Шаг 5: Что мы предлагаем -->
+        <form class="vacancy-form step" data-step="5">
 
             <div class="form-group">
                 <label for="suggestion" class="form-label">Что мы предлагаем</label>
                 <textarea id="suggestion"
                           name="suggestion"
                           class="form-textarea"
+                          maxlength="2000"
                           rows="4"
                           placeholder=""></textarea>
+
+                <div class="char-counter"><span>0</span>/2000</div>
+            </div>
+
+            <div class="step-actions">
+                <button type="button" class="button-icon size-32" id="prevStep5" title="Назад">
+                    <img src="../../images/icons/arrow-left.svg" alt="Назад">
+                </button>
+
+                <button type="button" class="button-icon size-32" id="nextStep5" title="Вперед">
+                    <img src="../../images/icons/arrow-right.svg" alt="Вперед">
+                </button>
+            </div>
+        </form>
+
+        <!-- Шаг 6: Что мы предлагаем -->
+        <form class="vacancy-form step" data-step="6">
+
+            <div class="form-group">
+                <label for="aboutCompany" class="form-label">О компании</label>
+                <textarea id="aboutCompany"
+                          name="aboutCompany"
+                          class="form-textarea"
+                          maxlength="2000"
+                          rows="3"
+                          placeholder=""></textarea>
+
+                <div class="char-counter"><span>0</span>/2000</div>
             </div>
 
             <div class="form-group">
@@ -190,12 +239,15 @@
                 <textarea id="additionalInformation"
                           name="additionalInformation"
                           class="form-textarea"
+                          maxlength="2000"
                           rows="3"
                           placeholder=""></textarea>
+
+                <div class="char-counter"><span>0</span>/2000</div>
             </div>
 
             <div class="step-actions">
-                <button type="button" class="button-icon size-32" id="prevStep4" title="Назад">
+                <button type="button" class="button-icon size-32" id="prevStep6" title="Назад">
                     <img src="../../images/icons/arrow-left.svg" alt="Назад">
                 </button>
 

@@ -37,12 +37,11 @@ body {
 
 /* --- Контейнер и Шаги --- */
 .vacancy-create-container {
-    padding: 1rem;
-    /* Используем svh (small viewport height) для мобилок, чтобы избежать прыжков от адресной строки */
-    height: calc(100svh - 100px);
+    padding: 0; /* Убираем 1rem, чтобы форма прилипала к краям */
+    height: calc(100svh - 160px);
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Запрещаем общий скролл страницы */
+    overflow: hidden;
 }
 
 .vacancy-form.step {
@@ -51,25 +50,46 @@ body {
     flex-direction: column;
 }
 
+/* Сама форма теперь — это не карточка, а просто фон страницы */
 .vacancy-form.step.active {
     display: flex;
     flex-direction: column;
-    background: var(--white);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border);
-
-    /* Самое важное для фиксации: */
-    height: 100%; /* Занимает всю высоту родителя */
+    background: var(--white); /* Белый фон на весь экран */
+    padding: 1.5rem; /* Оставляем падинг только внутри для инпутов, как в registration-body */
+    border-radius: 0; /* Убираем скругления */
+    box-shadow: none; /* Убираем тень */
+    border: none;    /* Убираем рамку */
+    height: 100%;
     max-height: 100%;
-    overflow-y: auto; /* Если поля не влезают (как на iPhone 12), скроллим ВНУТРИ формы */
+    overflow-y: auto;
     position: relative;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Контейнер для полосок прогресса */
+.progress-steps {
+    display: flex;
+    gap: 6px; /* Расстояние между полосками */
+    padding: 10px 1.5rem; /* Отступы по бокам как у формы */
+    background: var(--white);
+}
+
+/* Сама полоска */
+.step-indicator {
+    flex: 1; /* Все полоски одинаковой ширины */
+    height: 4px;
+    background-color: var(--border); /* Цвет незаполненного шага */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Активная (заполненная) полоска */
+.step-indicator.active {
+    background-color: var(--primary); /* Твой синий цвет */
 }
 
 /* --- Поля ввода (СТИЛЬ РЕГИСТРАЦИИ) --- */
@@ -136,19 +156,36 @@ body {
 }
 
 .form-textarea {
-    min-height: 120px;
-    resize: none;
-    padding-top: 12px;
+    min-height: 180px; /* Начальная высота */
+    max-height: 400px; /* Чтобы поле не ушло за пределы экрана */
+    overflow-y: hidden; /* Прячем полосу прокрутки, пока она не нужна */
+    resize: none;      /* Отключаем ручной ресайз */
+    line-height: 1.5;
+    transition: height 0.1s ease-out; /* Плавность роста */
+}
+
+.char-counter {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.char-counter.limit-reached {
+    color: var(--error);
 }
 
 /* --- Кнопки --- */
 .step-actions {
     display: flex;
-    justify-content: center; /* Или flex-end, если обе нужны справа */
-    gap: 200px; /* Фиксированное расстояние между кнопками */
+    justify-content: center; /* Чтобы кнопки были по краям */
+    align-items: center;
+    gap: 100px; /* Убираем гигантский gap: 200px, он может сломать верстку */
     margin-top: auto;
-    padding-top: 2rem;
+    padding: 1.5rem 0; /* Падинг сверху и снизу */
     border-top: 1px solid var(--border);
+    background: var(--white);
 }
 
 
@@ -176,14 +213,3 @@ body {
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* --- Адаптивность --- */
-@media (max-width: 480px) {
-    .vacancy-create-container { padding: 1.25rem; }
-    .step-title { font-size: 1.25rem; }
-}
-
-@media (max-width: 380px) {
-    .step-actions { flex-direction: column; }
-    .btn { width: 100%; }
-}

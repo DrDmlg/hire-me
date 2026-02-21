@@ -200,7 +200,7 @@ class ApplicationCardComponent {
         if (contacts.email) {
             html += `
                 <div class="contact-item">
-                    <span class="contact-icon"> <img src="../../images/icons/email-contact.png" alt="Email" style="width: 28px; height: 28px;"></span>
+                    <span class="contact-icon"> <img src="../../images/icons/email-contact.svg" alt="Email" style="width: 28px; height: 28px;"></span>
                     <a href="mailto:${contacts.email}" class="contact-link">${contacts.email}</a>
                 </div>
             `;
@@ -209,7 +209,7 @@ class ApplicationCardComponent {
         if (contacts.phoneNumber) {
             html += `
                 <div class="contact-item">
-                    <span class="contact-icon"><img src="../../images/icons/phone.png" alt="Телефон" style="width: 28px; height: 28px;"></span>
+                    <span class="contact-icon"><img src="../../images/icons/phone.svg" alt="Телефон" style="width: 28px; height: 28px;"></span>
                     <a href="tel:${contacts.phoneNumber}" class="contact-link">${contacts.phoneNumber}</a>
                 </div>
             `;

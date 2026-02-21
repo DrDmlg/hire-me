@@ -2,7 +2,7 @@ class VacancyPublicationComponent {
     constructor() {
         this.api = apiService;
         this.currentStep = 1;
-        this.totalSteps = 4;
+        this.totalSteps = 6;
         this.formData = {};
     }
 
@@ -32,6 +32,33 @@ class VacancyPublicationComponent {
 
         // 2. Обработка публикации через событие submit
         this.container.addEventListener('submit', (e) => this.publishVacancy(e));
+
+        // 3. НОВЫЙ БЛОК: Авто-высота и счетчик символов
+        // Мы слушаем событие 'input' на всем контейнере
+        this.container.addEventListener('input', (e) => {
+            // Проверяем, что печатают именно в textarea
+            if (e.target.tagName === 'TEXTAREA') {
+                const textarea = e.target;
+
+                // Логика счетчика символов
+                const counter = textarea.parentElement.querySelector('.char-counter span');
+                if (counter) {
+                    counter.textContent = textarea.value.length;
+                }
+
+                // Логика авто-высоты
+                textarea.style.height = 'auto'; // Сброс
+                const newHeight = textarea.scrollHeight;
+                textarea.style.height = newHeight + 'px'; // Установка новой высоты
+
+                // Управление скроллом при достижении лимита (например, 400px)
+                if (newHeight >= 400) {
+                    textarea.style.overflowY = 'auto';
+                } else {
+                    textarea.style.overflowY = 'hidden';
+                }
+            }
+        });
     }
 
     // Универсальный метод навигации
