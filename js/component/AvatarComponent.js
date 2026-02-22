@@ -49,15 +49,15 @@ class AvatarComponent {
 
     closeCropper() {
         this.modal.style.display = 'none';
+
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.enableVerticalSwipes();
+        }
+
         this.cropper?.destroy();
         this.cropper = null;
         this.imageToCrop.src = '';
         this.input.value = '';
-
-        document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.width = '';
-        document.body.style.height = '';
     }
 
     async saveCroppedImage() {
@@ -94,14 +94,14 @@ class AvatarComponent {
             return notification.error('Пожалуйста, выберите изображение');
         }
 
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.width = '100%';
-        document.body.style.height = '100%';
-
         const reader = new FileReader();
         reader.onload = (e) => {
             this.modal.style.display = 'flex';
+
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.disableVerticalSwipes();
+            }
+
             this.imageToCrop.src = e.target.result;
 
             this.cropper?.destroy();
