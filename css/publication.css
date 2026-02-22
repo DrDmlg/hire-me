@@ -65,6 +65,19 @@ body {
     position: relative;
 }
 
+/* Когда внутри формы есть фокус на textarea */
+.vacancy-form.step.active:focus-within {
+    height: auto;
+    min-height: 100%;
+}
+
+/* Убираем жесткую привязку высоты у главного контейнера,
+   чтобы он мог прокручиваться вместе с клавиатурой */
+.vacancy-create-container:has(textarea:focus) {
+    height: auto;
+    overflow: visible;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
