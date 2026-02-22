@@ -53,6 +53,11 @@ class AvatarComponent {
         this.cropper = null;
         this.imageToCrop.src = '';
         this.input.value = '';
+
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.height = '';
     }
 
     async saveCroppedImage() {
@@ -88,6 +93,11 @@ class AvatarComponent {
         if (!file.type.startsWith('image/')) {
             return notification.error('Пожалуйста, выберите изображение');
         }
+
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+        document.body.style.height = '100%';
 
         const reader = new FileReader();
         reader.onload = (e) => {
