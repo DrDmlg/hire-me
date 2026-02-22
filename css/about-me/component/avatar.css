@@ -1,0 +1,193 @@
+/* Стили для работы с аватаркой*/
+
+/** Аватарка */
+.avatar-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: bold;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.avatar-container:hover {
+    transform: scale(1.05);
+}
+
+.avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border-radius: 50%;
+}
+
+.avatar-container:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.camera-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Делаем иконку белой */
+    transform: translateY(8px); /* Изначально чуть ниже */
+    transition: transform 0.25s ease; /* Плавное движение */
+}
+
+/* Добавь это правило, чтобы при наведении иконка вставала на место */
+.avatar-container:hover .camera-icon {
+    transform: translateY(0);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-container.is-uploading {
+    pointer-events: none;
+}
+
+.avatar-container.is-uploading .avatar-overlay {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Анимация пульсации иконки во время загрузки */
+@keyframes cameraPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.avatar-container.is-uploading .camera-icon {
+    animation: cameraPulse 1.5s infinite ease-in-out;
+    transform: translateY(0); /* Фиксируем на месте */
+}
+
+/* Исправленные стили для модалки Cropper */
+
+.cropper-overlay {  /* или .cropper-wrapper, .avatar-cropper */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.cropper-container-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.cropper-header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    z-index: 2;
+}
+
+.cropper-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.cropper-cancel,
+.cropper-confirm {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.cropper-confirm {
+    color: var(--primary-light, #3B82F6);
+    font-weight: 700;
+}
+
+/* Контейнер для Cropper */
+.cropper-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    min-height: 0;
+}
+
+/* Стили для контейнера, который создает Cropper */
+.cropper-body .cropper-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+}
+
+/* Затемнение фона (исправляем дублирование) */
+.cropper-body .cropper-modal {
+    background: rgba(0, 0, 0, 0.7) !important;
+    opacity: 1 !important;
+}
+
+/* Круглая область обрезки */
+.cropper-view-box,
+.cropper-face {
+    border-radius: 50%;
+}
+
+/* Стили для области обрезки */
+.cropper-view-box {
+    outline: 2px solid white;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.cropper-face {
+    background-color: transparent !important;
+}
+
+/* Убираем лишние элементы */
+.cropper-line,
+.cropper-point,
+.cropper-dashed {
+    display: none !important;
+}
+
+/* Футер */
+.cropper-footer {
+    flex-shrink: 0;
+    padding: 1rem;
+    text-align: center;
+    color: #999;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.8);
+}

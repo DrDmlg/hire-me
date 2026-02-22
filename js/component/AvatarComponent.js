@@ -4,25 +4,23 @@ class AvatarComponent {
         this.container = document.getElementById('userAvatar');
         this.input = document.getElementById('avatarInput');
         this.profileData = null;
-        this.modal = document.getElementById('cropperModal');
+        this.modal = document.getElementById('cropperOverlay');
         this.imageToCrop = document.getElementById('imageToCrop');
         this.cropper = null;
-
     }
 
     async init(profileData) {
         this.profileData = profileData;
         this.render();
         this.bindEvents();
+        this.bindModalEvents();
     }
 
     render() {
-        // Очищаем контейнер, сохраняя инпут
         const currentImg = this.container.querySelector('.avatar-image');
         if (!currentImg) {
             const img = document.createElement('img');
             img.className = 'avatar-image';
-            // Используем фото из профиля или заглушку
             img.src = this.profileData?.avatarUrl || '../../images/default-avatar.png';
             this.container.prepend(img);
         } else if (this.profileData?.avatarUrl) {
@@ -31,11 +29,56 @@ class AvatarComponent {
     }
 
     bindEvents() {
-        // Клик по кругу открывает выбор файла
         this.container.addEventListener('click', () => this.input.click());
-
-        // Обработка выбора файла
         this.input.addEventListener('change', (e) => this.handleFileSelect(e));
+    }
+
+    bindModalEvents() {
+        document.getElementById('closeCropper').addEventListener('click', () => {
+            this.closeCropper();
+        });
+
+        document.getElementById('saveCroppedImage').addEventListener('click', () => {
+            this.saveCroppedImage();
+        });
+
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) this.closeCropper();
+        });
+    }
+
+    closeCropper() {
+        this.modal.style.display = 'none';
+        this.cropper?.destroy();
+        this.cropper = null;
+        this.imageToCrop.src = '';
+        this.input.value = '';
+    }
+
+    async saveCroppedImage() {
+        if (!this.cropper) return;
+
+        try {
+            this.modal.style.display = 'none';
+            notification.process('Обрабатываем фото...');
+
+            const canvas = this.cropper.getCroppedCanvas({
+                width: 512,
+                height: 512,
+                imageSmoothingQuality: 'high'
+            });
+
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+                await this.uploadAvatar(file);
+                this.closeCropper();
+            }, 'image/jpeg', 0.95);
+
+        } catch (error) {
+            console.error(error);
+            notification.error('Не удалось обработать фото');
+            this.modal.style.display = 'flex';
+        }
     }
 
     handleFileSelect(event) {
@@ -48,58 +91,58 @@ class AvatarComponent {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            // 1. Показываем модалку
             this.modal.style.display = 'flex';
             this.imageToCrop.src = e.target.result;
 
-            // 2. Инициализируем кроппер
-            if (this.cropper) this.cropper.destroy(); // Сброс старого
-
+            this.cropper?.destroy();
             this.cropper = new Cropper(this.imageToCrop, {
-                aspectRatio: 1, // Квадрат
-                viewMode: 1,    // Ограничить область картинкой
-                dragMode: 'move', // Чтобы можно было двигать фото
+                aspectRatio: 1,
+                viewMode: 1,
+                dragMode: 'move',
                 guides: false,
                 center: false,
                 highlight: false,
                 autoCropArea: 1,
                 cropBoxMovable: false,
                 cropBoxResizable: false,
-                background: false
+                background: false,
+                modal: true
             });
         };
         reader.readAsDataURL(file);
-
-        // Сброс инпута
         event.target.value = '';
     }
 
     async uploadAvatar(file) {
         try {
             notification.process('Загружаем фото...');
-            Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
 
             const formData = new FormData();
             formData.append('file', file);
 
-            // Отправляем через наш новый метод
             const response = await this.api.uploadFile(
                 `/profile/avatar/upload/${this.profileData.id}`,
                 formData
             );
 
             notification.success('Аватар обновлен');
-            Telegram.WebApp.HapticFeedback.notificationOccurred('success');
 
-            // Обновляем данные в объекте (если бэк возвращает новый URL)
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+
             if (response.data?.avatarUrl) {
                 this.profileData.avatarUrl = response.data.avatarUrl;
+                this.render();
             }
 
         } catch (error) {
             console.error(error);
             notification.error('Не удалось сохранить фото');
-            // В случае ошибки возвращаем старую картинку
             this.render();
         } finally {
             notification.hideAll();
