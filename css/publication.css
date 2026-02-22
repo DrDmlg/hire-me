@@ -25,7 +25,9 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
-    padding: 0 0 90px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
 
 .container {
@@ -65,18 +67,19 @@ body {
     position: relative;
 }
 
-/* Когда внутри формы есть фокус на textarea */
-.vacancy-form.step.active:focus-within {
-    height: auto;
-    min-height: 100%;
-}
+/*!* Если в контейнере есть фокус на textarea *!*/
+/*.vacancy-create-container:focus-within { !* Занимаем всё пространство *!*/
+/*    height: 100dvh; !* Dynamic Viewport Height — современный стандарт *!*/
+/*    position: fixed;*/
+/*    top: 60px; !* Смещение под хедер *!*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    z-index: 10;*/
+/*}*/
 
-/* Убираем жесткую привязку высоты у главного контейнера,
-   чтобы он мог прокручиваться вместе с клавиатурой */
-.vacancy-create-container:has(textarea:focus) {
-    height: auto;
-    overflow: visible;
-}
+/*vacancy-form.step.active:has(textarea:focus) .step-actions {*/
+/*    display: none;*/
+/*}*/
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
