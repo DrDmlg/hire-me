@@ -213,3 +213,9 @@ body {
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-height: 700px) {
+    .form-textarea {
+        max-height: 220px;
+    }
+}
