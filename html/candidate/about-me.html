@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Обо мне - HireMe</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 
     <link rel="stylesheet" href="../../css/about-me/about-me.css">
     <link rel="stylesheet" href="../../css/about-me/component/experience.css">
@@ -17,6 +18,8 @@
     <link rel="stylesheet" href="../../css/service/icon-action.css">
     <link rel="stylesheet" href="../../css/about-me/layout/header.css">
     <link rel="stylesheet" href="../../css/about-me/layout/empty-state.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"/>
+
 </head>
 <body>
 <div class="container">
@@ -34,9 +37,14 @@
     <!-- Hero Section -->
     <section class="profile-hero">
         <div class="hero-content">
+
             <div class="avatar-container" id="userAvatar">
-                <!-- Avatar will be set dynamically -->
+                <div class="avatar-overlay">
+                    <img src="../../images/icons/camera.svg" alt="Сменить фото" class="camera-icon">
+                </div>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
+
             <h1 class="user-name" id="userName"></h1>
             <div class="user-position" id="userPosition"></div>
         </div>
@@ -429,12 +437,29 @@
     </div>
 </div>
 
+<div id="cropperModal" class="cropper-modal" style="display: none;">
+    <div class="cropper-container-inner">
+        <div class="cropper-header">
+            <button type="button" class="cropper-cancel" id="closeCropper">Отмена</button>
+            <span class="cropper-title">Фото профиля</span>
+            <button type="button" class="cropper-confirm" id="saveCroppedImage">Готово</button>
+        </div>
+        <div class="cropper-body">
+            <img id="imageToCrop" src="" alt="Обрезать фото">
+        </div>
+        <div class="cropper-footer">
+            <p>Перетащите и масштабируйте</p>
+        </div>
+    </div>
+</div>
+
 <script src="../../js/util/Helpers.js"></script>
 <script src="../../js/util/UserProfileFiller.js"></script>
 <script src="../../js/service/ApiService.js"></script>
 <script src="../../js/service/ProfileService.js"></script>
 <script src="../../js/service/NotificationService.js"></script>
 <script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/component/AvatarComponent.js"></script>
 <script src="../../js/component/ExperienceComponent.js"></script>
 <script src="../../js/component/EducationComponent.js"></script>
 <script src="../../js/component/SkillsComponent.js"></script>

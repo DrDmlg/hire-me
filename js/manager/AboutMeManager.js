@@ -14,6 +14,7 @@ class AboutMeManager {
 
     loadManagersForCandidate() {
         this.managers = {
+            avatar: new AvatarComponent(),
             baseInfo: new CandidateExpectationComponent(),
             contact: new ContactsComponent(),
             experience: new ExperienceComponent(),
@@ -25,6 +26,7 @@ class AboutMeManager {
 
     loadManagersForEmployer() {
         this.managers = {
+            avatar: new AvatarComponent(),
             baseInfo: new EmployerDetailComponent(),
             contact: new ContactsComponent(),
             experience: new ExperienceComponent(),
@@ -57,6 +59,7 @@ class AboutMeManager {
     }
 
     async initManagersForCandidate() {
+        await this.managers.avatar.init(this.profileData);
         await this.managers.baseInfo.init(this.profileData);
         await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
         await this.managers.experience.init(this.profileData.workExperiences || []);

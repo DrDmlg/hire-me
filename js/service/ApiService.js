@@ -90,6 +90,41 @@ class ApiService {
             body: data
         });
     }
+
+    /**
+     * Специализированный метод для загрузки файлов (FormData)
+     * Чтобы не изменять основной метод request
+     */
+    async uploadFile(endpoint, formData) {
+        const url = `${this.BASE_URL}${endpoint}`;
+
+        console.log('🟡 API File Upload Request:', url);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                // ВАЖНО: Мы НЕ устанавливаем Content-Type.
+                // Браузер сам добавит multipart/form-data с нужным boundary.
+                headers: {
+                    // Здесь можно добавить заголовки авторизации, если они появятся в будущем
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `Ошибка загрузки: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('🟢 API File Upload Success:', data);
+
+            return { data, status: response.status };
+        } catch (error) {
+            console.error('🔴 API File Upload Error:', error);
+            throw error;
+        }
+    }
 }
 
 // глобальный экземпляр
