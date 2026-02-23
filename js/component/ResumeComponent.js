@@ -112,7 +112,7 @@ class ResumeComponent {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await fetch(`${this.api.BASE_URL}/resume/upload/${profileId}`, {
+            const response = await fetch(`${this.api.BASE_URL}/file/resume/upload/${profileId}`, {
                 method: 'POST',
                 body: formData
             });
@@ -142,7 +142,7 @@ class ResumeComponent {
         try {
             notification.process('Загрузка файла...');
             const response = await fetch(
-                `${this.api.BASE_URL}/resume/download/${this.profileData.id}?key=${encodeURIComponent(this.resumeData.storageKey)}`
+                `${this.api.BASE_URL}/file/resume/download/${this.profileData.id}?key=${encodeURIComponent(this.resumeData.storageKey)}`
             );
 
             if (!response.ok) throw new Error('Download failed');
@@ -171,7 +171,7 @@ class ResumeComponent {
 
         try {
             notification.process('Удаление...');
-            await this.api.delete(`/resume/${this.resumeData.id}`);
+            await this.api.delete(`/file/resume/${this.resumeData.id}`);
 
             this.resumeData = null;
             notification.success('Удалено');

@@ -135,7 +135,7 @@ class AvatarComponent {
             formData.append('file', file);
 
             const response = await this.api.uploadFile(
-                `/profile/avatar/upload/${this.profileData.id}`,
+                `/file/avatar/upload/${this.profileData.id}`,
                 formData
             );
 
