@@ -1,0 +1,94 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+/* Модалка (Bottom Sheet) */
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translate(-50%, 100%); /* Центровка + скрытие внизу */
+    width: 100%;
+    max-width: 428px; /* Твоя ширина из .container */
+    background: var(--bg-card);
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    z-index: 1001;
+    transition: transform 0.3s ease-out;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+}
+
+/* Состояние при открытии */
+.bottom-sheet.active {
+    transform: translate(-50%, 0); /* Выезжает вверх и остается по центру */
+}
+
+.sheet-indicator {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 15px;
+}
+
+.sheet-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sheet-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Делаем контейнер Hero отправной точкой для позиционирования */
+.profile-hero .hero-content {
+    position: relative;
+}
+
+/* Контейнер для центровки имени и кнопки */
+.name-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центрируем всю группу */
+    margin-bottom: 0.25rem;
+}
+
+/* Стилизуем саму кнопку */
+#editUserNameBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 8px; /* Расстояние от имени */
+    margin-right: -36px; /* (28px ширина + 8px отступ) — "вычитаем" кнопку из расчёта центра */
+    flex-shrink: 0;
+}
+
+#editUserNameBtn img {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) invert(1);
+}
+
+/* Индикатор (полоска сверху) — можно убрать, если дизайн позволяет */
+.sheet-indicator {
+    width: 40px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 0 auto 15px;
+}

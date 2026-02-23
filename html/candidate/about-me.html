@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 
     <link rel="stylesheet" href="../../css/about-me/about-me.css">
+    <link rel="stylesheet" href="../../css/about-me/component/personal-information.css">
     <link rel="stylesheet" href="../../css/about-me/component/avatar.css">
     <link rel="stylesheet" href="../../css/about-me/component/experience.css">
     <link rel="stylesheet" href="../../css/about-me/component/education.css">
@@ -40,17 +41,20 @@
         <div class="hero-content">
 
             <div class="avatar-container" id="userAvatar">
-
                 <div class="avatar-overlay">
-                    <img src="../../images/default-avatar.png" alt="Профиль" class="avatar-image">
-
+<!--                    <img src="../../images/default-avatar.png" alt="Профиль" class="avatar-image">-->
                     <img src="../../images/icons/camera.svg" alt="Сменить фото" class="camera-icon">
                 </div>
-
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
 
-            <h1 class="user-name" id="userName"></h1>
+            <div class="name-wrapper">
+                <h1 class="user-name" id="userName"></h1>
+                <button class="button-icon size-28" id="editUserNameBtn">
+                    <img src="../../images/icons/edit.svg" alt="Править">
+                </button>
+            </div>
+
             <div class="user-position" id="userPosition"></div>
         </div>
     </section>
@@ -458,12 +462,37 @@
     </div>
 </div>
 
+<div id="modalOverlay" class="modal-overlay"></div>
+
+<div id="nameModal" class="bottom-sheet">
+    <div class="sheet-header">
+        <div class="sheet-indicator"></div>
+        <h2 class="sheet-title">Личные данные</h2>
+    </div>
+
+    <div class="sheet-body">
+        <div class="form-group">
+            <label class="form-label">Имя</label>
+            <input type="text" id="modalFirstName" class="form-input">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Фамилия</label>
+            <input type="text" id="modalLastName" class="form-input">
+        </div>
+        <div class="sheet-actions">
+            <button type="button" class="btn btn-secondary" id="closeNameModal">Отмена</button>
+            <button type="button" class="btn btn-primary" id="saveNameModal">Сохранить</button>
+        </div>
+    </div>
+</div>
+
 <script src="../../js/util/Helpers.js"></script>
 <script src="../../js/util/UserProfileFiller.js"></script>
 <script src="../../js/service/ApiService.js"></script>
 <script src="../../js/service/ProfileService.js"></script>
 <script src="../../js/service/NotificationService.js"></script>
 <script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/component/PersonalInformationComponent.js"></script>
 <script src="../../js/component/AvatarComponent.js"></script>
 <script src="../../js/component/ExperienceComponent.js"></script>
 <script src="../../js/component/EducationComponent.js"></script>
