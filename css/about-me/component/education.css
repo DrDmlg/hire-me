@@ -39,6 +39,11 @@
     opacity: 1;
 }
 
+select.form-input {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
 .institution-name {
     font-size: 1rem;
     font-weight: 700;
