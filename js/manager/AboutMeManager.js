@@ -27,6 +27,7 @@ class AboutMeManager {
 
     loadManagersForEmployer() {
         this.managers = {
+            personalInformation: new PersonalInformationComponent(),
             avatar: new AvatarComponent(),
             baseInfo: new EmployerDetailComponent(),
             contact: new ContactsComponent(),
@@ -71,6 +72,7 @@ class AboutMeManager {
     }
 
     async initManagersForEmployer() {
+        await this.managers.personalInformation.init(this.profileData);
         await this.managers.baseInfo.init(this.profileData);
         await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
         await this.managers.experience.init(this.profileData.workExperiences || []);

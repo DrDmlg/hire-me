@@ -7,6 +7,8 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <link rel="stylesheet" href="../../css/about-me/about-me.css">
+    <link rel="stylesheet" href="../../css/about-me/component/personal-information.css">
+    <link rel="stylesheet" href="../../css/about-me/component/avatar.css">
     <link rel="stylesheet" href="../../css/about-me/component/experience.css">
     <link rel="stylesheet" href="../../css/about-me/component/contacts.css">
     <link rel="stylesheet" href="../../css/about-me/component/basic-info.css">
@@ -30,10 +32,22 @@
     <!-- Hero Section -->
     <section class="profile-hero">
         <div class="hero-content">
+
             <div class="avatar-container" id="userAvatar">
-                <!-- Avatar will be set dynamically -->
+                <div class="avatar-overlay">
+                    <!--                    <img src="../../images/default-avatar.png" alt="Профиль" class="avatar-image">-->
+                    <img src="../../images/icons/camera.svg" alt="Сменить фото" class="camera-icon">
+                </div>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
-            <h1 class="user-name" id="userName"></h1>
+
+            <div class="name-wrapper">
+                <h1 class="user-name" id="userName"></h1>
+                <button class="button-icon size-28" id="editUserNameBtn">
+                    <img src="../../images/icons/edit.svg" alt="Править">
+                </button>
+            </div>
+
             <div class="user-position" id="userPosition"></div>
         </div>
     </section>
@@ -305,12 +319,61 @@
     </div>
 </div>
 
+<div id="cropperOverlay" class="cropper-overlay" style="display: none;">
+    <div class="cropper-container-inner">
+        <div class="cropper-header">
+            <button type="button" class="cropper-cancel" id="closeCropper">Отмена</button>
+            <span class="cropper-title">Фото профиля</span>
+            <button type="button" class="cropper-confirm" id="saveCroppedImage">Готово</button>
+        </div>
+        <div class="cropper-body">
+            <img id="imageToCrop" src="" alt="Обрезать фото">
+        </div>
+        <div class="cropper-footer">
+            <p>Перетащите и масштабируйте</p>
+        </div>
+    </div>
+</div>
+
+<div id="modalOverlay" class="modal-overlay"></div>
+
+<div id="nameModal" class="bottom-sheet">
+    <div class="sheet-header">
+        <div class="sheet-indicator"></div>
+        <h2 class="sheet-title">Личные данные</h2>
+    </div>
+
+    <div class="sheet-body">
+        <div class="form-group">
+            <label class="form-label">Имя</label>
+            <input type="text"
+                   id="modalFirstName"
+                   class="form-input"
+                   maxlength="64">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Фамилия</label>
+            <input type="text"
+                   id="modalLastName"
+                   class="form-input"
+                   maxlength="64">
+        </div>
+        <div class="sheet-actions">
+            <button type="button" class="btn btn-secondary" id="closeNameModal">Отмена</button>
+            <button type="button" class="btn btn-primary" id="saveNameModal">Сохранить</button>
+        </div>
+    </div>
+</div>
+
 <script src="../../js/util/Helpers.js"></script>
 <script src="../../js/util/UserProfileFiller.js"></script>
 <script src="../../js/service/ApiService.js"></script>
 <script src="../../js/service/ProfileService.js"></script>
 <script src="../../js/service/NotificationService.js"></script>
 <script src="../../js/service/NavigationService.js"></script>
+<script src="../../js/component/PersonalInformationComponent.js"></script>
+<script src="../../js/component/AvatarComponent.js"></script>
 <script src="../../js/component/ExperienceComponent.js"></script>
 <script src="../../js/component/ContactsComponent.js"></script>
 <script src="../../js/component/BaseInfoComponent.js"></script>

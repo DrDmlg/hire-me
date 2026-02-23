@@ -3,13 +3,11 @@ class PersonalInformationComponent {
         this.api = apiService;
         this.profileData = null;
 
-        // Элементы модалки
         this.modal = document.getElementById('nameModal');
         this.overlay = document.getElementById('modalOverlay');
         this.firstNameInput = document.getElementById('modalFirstName');
         this.lastNameInput = document.getElementById('modalLastName');
 
-        // Кнопки
         this.editBtn = document.getElementById('editUserNameBtn');
         this.closeBtn = document.getElementById('closeNameModal');
         this.saveBtn = document.getElementById('saveNameModal');
@@ -52,15 +50,13 @@ class PersonalInformationComponent {
             return;
         }
 
-        notification.process('Сохранение...');
         try {
-            const response = await this.api.patch(`/profile/${this.profileData.telegramUserId}`, {
+            const response = await this.api.patch(`/profile/personal/info/${this.profileData.telegramUserId}`, {
                 firstName,
                 lastName
             });
 
-            if (response.status >= 200 && response.status < 300) {
-                // Обновляем данные в объекте профиля
+            if (response.status === 200) {
                 this.profileData.firstName = firstName;
                 this.profileData.lastName = lastName;
 
@@ -71,7 +67,6 @@ class PersonalInformationComponent {
                 notification.success('Данные обновлены');
             }
         } catch (error) {
-            console.error('Save name error:', error);
             notification.error('Ошибка при сохранении');
         } finally {
             notification.hideAll();

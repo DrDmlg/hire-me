@@ -47,6 +47,7 @@
     display: flex;
     gap: 12px;
     margin-top: 24px;
+    justify-content: flex-end;
 }
 
 /* Делаем контейнер Hero отправной точкой для позиционирования */
@@ -91,4 +92,11 @@
     background: #e0e0e0;
     border-radius: 2px;
     margin: 0 auto 15px;
+}
+
+.user-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: white;
 }

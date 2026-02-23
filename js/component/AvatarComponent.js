@@ -75,7 +75,7 @@ class AvatarComponent {
 
             canvas.toBlob(async (blob) => {
                 const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
-                await this.uploadAvatar(file);
+                // await this.uploadAvatar(file);
                 this.closeCropper();
             }, 'image/jpeg', 0.95);
 
