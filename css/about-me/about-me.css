@@ -1,11 +1,4 @@
 /* Стили для страницы "обо мне" (about-me.html) */
-.container {
-    max-width: 428px;
-    margin: 0 auto;
-    padding: 0;
-    position: relative;
-}
-
 @keyframes rotateIn {
     0% {
         transform: rotate(-180deg) scale(0.5);
@@ -193,10 +186,6 @@
 
 /* Responsive */
 @media (max-width: 380px) {
-    .container {
-        padding: 0;
-    }
-
     .content-section {
         padding: 0 1rem 1rem;
     }

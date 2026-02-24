@@ -1,11 +1,4 @@
 /* Стили для страницы регистрации (registration.html) */
-.container {
-    width: 100%;
-    max-width: 428px;
-    margin: 0 auto;
-    padding: 0;
-}
-
 /* Registration Container - растягиваем на всю ширину */
 .registration-container {
     background: var(--white);

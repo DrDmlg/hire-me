@@ -1,10 +1,4 @@
 /* Стили для страницы выбора регистрации (как какндидат/наниматель) (registration-choice.html) */
-.container {
-    width: 100%;
-    max-width: 428px;
-    margin: 0 auto;
-}
-
 /* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
 .actions-grid {
     display: grid;

@@ -3,12 +3,6 @@ body {
     padding: 5px;
 }
 
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .logo {
     text-align: center;
     margin-bottom: 2rem;
@@ -172,10 +166,6 @@ body {
 
 /* Адаптивность - улучшенная */
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-
     .logo h1 {
         font-size: 2rem;
     }

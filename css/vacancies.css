@@ -1,10 +1,4 @@
 /* Основные стили для страницы вакансий */
-.container {
-    max-width: 428px;
-    margin: 0 auto;
-    padding: 0;
-}
-
 /* Основной контейнер */
 .vacancies-container {
     padding: 1rem;

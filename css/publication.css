@@ -1,9 +1,4 @@
 /* Стили создания вакансии (publication.html) */
-.container {
-    max-width: 428px;
-    margin: 0 auto;
-}
-
 @keyframes slideIn { from { width: 0; } to { width: 100%; } }
 
 /* --- Контейнер и Шаги --- */

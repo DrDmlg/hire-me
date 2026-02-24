@@ -58,3 +58,15 @@ body {
     min-height: 100vh;
     padding: 0 0 90px 0;
 }
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+}

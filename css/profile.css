@@ -1,10 +1,4 @@
 /* Стили для страницы профиля (profile.html) */
-.container {
-    max-width: 428px;
-    margin: 0 auto;
-    padding: 0;
-}
-
 /* Hero Section */
 .profile-hero {
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
