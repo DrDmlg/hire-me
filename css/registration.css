@@ -34,40 +34,6 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.form-input {
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    border-left: 3px solid transparent;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    background: var(--bg-light);
-    height: 48px;
-    -webkit-appearance: none;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--white);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
-    transform: translateY(-1px);
-    border-left: 3px solid var(--primary);
-    padding-left: 14px;
-}
-
-.form-input::placeholder {
-    color: var(--text-gray);
-    opacity: 0.7;
-    font-size: 15px;
-}
-
-.form-input.error {
-    border-color: var(--error);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
 .error-message {
     color: var(--error);
     font-size: 0.75rem;
@@ -258,22 +224,12 @@ input:checked + .toggle-slider:before {
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .form-input,
-    .currency-select {
-        font-size: 16px !important;
-    }
-
     .registration-body {
         padding: 1.25rem;
     }
 
     .form-group {
         margin-bottom: 0.875rem;
-    }
-
-    .form-input {
-        padding: 0.675rem;
-        height: 45px;
     }
 
     .currency-select-wrapper {
@@ -304,11 +260,6 @@ input:checked + .toggle-slider:before {
 @media (max-width: 380px) {
     .registration-body {
         padding: 1rem;
-    }
-
-    .form-input {
-        padding: 0.625rem;
-        height: 45px;
     }
 
     .currency-select {

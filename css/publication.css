@@ -99,7 +99,6 @@
     transform: translateX(4px);
 }
 
-.form-input,
 .form-select,
 .form-textarea {
     width: 100%;
@@ -114,11 +113,10 @@
     color: var(--text-dark);
 }
 
-.form-input, .form-select {
+.form-select {
     height: 48px; /* Высота как в регистрации */
 }
 
-.form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
     outline: none;
@@ -128,7 +126,6 @@
     transform: translateY(-1px);
 }
 
-.form-input::placeholder,
 .form-textarea::placeholder {
     color: var(--text-gray);
     opacity: 0.7;

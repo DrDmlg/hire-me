@@ -31,12 +31,12 @@ class RegistrationChoice {
             try {
                 const roles = JSON.parse(cachedRoles);
 
-                if (roles.isCandidate) {
-                    this.disableCard('candidate');
-                }
-                if (roles.isEmployer) {
-                    this.disableCard('employer');
-                }
+                // if (roles.isCandidate) {
+                //     this.disableCard('candidate');
+                // }
+                // if (roles.isEmployer) {
+                //     this.disableCard('employer');
+                //}
             } catch (e) {
                 console.error("Ошибка парсинга ролей из кэша", e);
             }
