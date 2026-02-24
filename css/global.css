@@ -112,4 +112,9 @@ body {
     .container {
         padding: 5px;
     }
+
+    .action-card {
+        padding: 1.25rem 0.75rem;
+        min-height: 130px;
+    }
 }
