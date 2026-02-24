@@ -108,6 +108,13 @@ body {
     transform: scaleX(1);
 }
 
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 5px;
@@ -116,5 +123,9 @@ body {
     .action-card {
         padding: 1.25rem 0.75rem;
         min-height: 130px;
+    }
+
+    .actions-grid {
+        gap: 0.75rem;
     }
 }
