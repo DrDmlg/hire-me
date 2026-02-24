@@ -1,13 +1,4 @@
 /* Стили для страницы "обо мне" (about-me.html) */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, var(--bg-soft) 0%, var(--bg-main) 100%);
-    color: var(--text-primary);
-    line-height: 1.6;
-    min-height: 100vh;
-    padding: 0 0 90px;
-}
-
 .container {
     max-width: 428px;
     margin: 0 auto;

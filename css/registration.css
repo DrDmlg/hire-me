@@ -1,13 +1,4 @@
 /* Стили для страницы регистрации (registration.html) */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
-    color: var(--text-dark);
-    line-height: 1.6;
-    min-height: 100vh;
-    padding: 0;
-}
-
 .container {
     width: 100%;
     max-width: 428px;
