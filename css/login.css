@@ -1,10 +1,4 @@
 /* Стили для страницы выбора роли (как какндидат/наниматель) (login.html) */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);

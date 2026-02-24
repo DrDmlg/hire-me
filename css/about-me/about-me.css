@@ -1,10 +1,4 @@
 /* Стили для страницы "обо мне" (about-me.html) */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, var(--bg-soft) 0%, var(--bg-main) 100%);

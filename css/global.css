@@ -42,3 +42,10 @@
     --radius: 16px;
     --radius-sm: 12px;
 }
+
+/* ===== БАЗОВЫЕ СБРОСЫ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
