@@ -1,21 +1,4 @@
 /* Стили для страницы выбора роли (как какндидат/наниматель) (login.html) */
-
-:root {
-    --primary: #2563EB;
-    --primary-hover: #1D4ED8;
-    --accent: #8B5CF6;
-    --success: #1958df;
-    --warning: #F59E0B;
-    --error: #EF4444;
-    --bg-light: #F8FAFC;
-    --text-dark: #1E293B;
-    --text-gray: #64748B;
-    --white: #FFFFFF;
-    --border: #E2E8F0;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --radius: 12px;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -31,9 +14,10 @@ body {
 }
 
 .container {
-    max-width: 500px;
+    width: 100%;
+    max-width: 428px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0;
 }
 
 /* ОБНОВЛЕННЫЕ СТИЛИ КАРТОЧЕК - как на главной странице */
@@ -43,6 +27,7 @@ body {
     gap: 1rem;
     margin-bottom: 2rem;
     margin-top: 115px;
+    padding: 0 0.5rem;
 }
 
 .action-card {
@@ -118,10 +103,6 @@ body {
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-
     /* Сохраняем 2 колонки на телефонах, но уменьшаем отступы */
     .actions-grid {
         gap: 0.75rem;
