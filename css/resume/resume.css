@@ -1,16 +1,4 @@
 /* ========== ОБНОВЛЕННЫЕ ПЕРЕМЕННЫЕ ========== */
-:root {
-    --primary: #2563EB;
-    --primary-soft: rgba(37, 99, 235, 0.05);
-    --accent: #8B5CF6;
-    --accent-soft: rgba(139, 92, 246, 0.1);
-    --bg-card: #FFFFFF;
-    --border-light: #F1F5F9;
-    --text-main: #1E293B;
-    --text-muted: #64748B;
-    --shadow-active: 0 15px 30px -10px rgba(37, 99, 235, 0.15);
-}
-
 .content-section {
     padding-top: 20px;
 }
@@ -120,7 +108,7 @@
 
 .file-name {
     font-weight: 00;
-    color: var(--text-main);
+    color: var(--text-dark);
     font-size: 0.95rem;
     display: block;
     white-space: nowrap;

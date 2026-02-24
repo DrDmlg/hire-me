@@ -1,29 +1,4 @@
 /* Стили для страницы "обо мне" (about-me.html) */
-
-:root {
-    --primary: #2563EB;
-    --primary-light: #3B82F6;
-    --primary-dark: #1D4ED8;
-    --primary-soft: #EFF6FF;
-    --accent: #8B5CF6;
-    --success: #10B981;
-    --warning: #F59E0B;
-    --error: #EF4444;
-    --bg-main: #FFFFFF;
-    --bg-card: #FFFFFF;
-    --bg-hover: #F8FAFC;
-    --bg-soft: #F1F5F9;
-    --text-primary: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #64748B;
-    --border: #E2E8F0;
-    --border-light: #F1F5F9;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --radius: 16px;
-    --radius-sm: 12px;
-}
-
 * {
     margin: 0;
     padding: 0;
