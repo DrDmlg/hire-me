@@ -289,12 +289,6 @@
     color: white;
 }
 
-.action-description {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-}
-
 .action-card.primary .action-description {
     color: rgba(255, 255, 255, 0.8);
 }

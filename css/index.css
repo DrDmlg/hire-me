@@ -48,13 +48,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.action-description {
-    font-size: 0.75rem;
-    color: var(--text-gray);
-    line-height: 1.3;
-    max-width: 120px;
-}
-
 /* Стили для кнопки "Перейти в бота" */
 .telegram-integration {
     text-align: center;
@@ -96,10 +89,5 @@ body {
 @media (max-width: 480px) {
     .logo h1 {
         font-size: 2rem;
-    }
-
-    .action-description {
-        font-size: 0.7rem;
-        max-width: 110px;
     }
 }
