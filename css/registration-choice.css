@@ -3,13 +3,6 @@
     margin-top: 115px;
 }
 
-.action-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 0.25rem;
-}
-
 .action-description {
     font-size: 0.75rem;
     color: var(--text-gray);
@@ -27,10 +20,6 @@
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .action-label {
-        font-size: 0.85rem;
-    }
-
     .action-description {
         font-size: 0.7rem;
         max-width: 110px;

@@ -285,13 +285,6 @@
     box-shadow: 0 12px 25px -5px rgba(37, 99, 235, 0.3);
 }
 
-.action-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
 .action-card.primary .action-label {
     color: white;
 }
