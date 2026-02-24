@@ -48,20 +48,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* ОБНОВЛЕННЫЕ СТИЛИ МЕНЮ - с описаниями */
-.action-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    margin-bottom: 0.75rem;
-    display: block;
-    transition: all 0.3s ease;
-}
-
-.action-card:hover .action-icon {
-    transform: scale(1.1);
-}
-
 .action-label {
     font-size: 0.9rem;
     font-weight: 700;
@@ -117,12 +103,6 @@ body {
 @media (max-width: 480px) {
     .logo h1 {
         font-size: 2rem;
-    }
-
-    .action-icon {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 0.5rem;
     }
 
     .action-label {

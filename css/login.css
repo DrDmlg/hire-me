@@ -3,19 +3,6 @@
     margin-top: 115px;
 }
 
-.action-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    margin-bottom: 0.75rem;
-    display: block;
-    transition: all 0.3s ease;
-}
-
-.action-card:hover .action-icon {
-    transform: scale(1.1);
-}
-
 .action-label {
     font-size: 0.9rem;
     font-weight: 700;
@@ -32,12 +19,6 @@
 
 /* Адаптивность */
 @media (max-width: 480px) {
-    .action-icon {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 0.5rem;
-    }
-
     .action-label {
         font-size: 0.85rem;
     }

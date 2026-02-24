@@ -285,18 +285,6 @@
     box-shadow: 0 12px 25px -5px rgba(37, 99, 235, 0.3);
 }
 
-.action-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.action-card:hover .action-icon {
-    transform: scale(1.1);
-}
-
 .action-label {
     font-size: 0.9rem;
     font-weight: 700;

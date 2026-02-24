@@ -115,6 +115,19 @@ body {
     margin-bottom: 2rem;
 }
 
+.action-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin-bottom: 0.75rem;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.action-card:hover .action-icon {
+    transform: scale(1.1);
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 5px;
