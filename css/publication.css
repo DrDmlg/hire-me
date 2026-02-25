@@ -99,31 +99,6 @@
     transform: translateX(4px);
 }
 
-.form-select {
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    line-height: 1.5;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font-size: 16px;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    transition: all 0.3s ease;
-    background: var(--bg-light);
-    color: var(--text-dark);
-}
-
-.form-select {
-    height: 48px; /* Высота как в регистрации */
-}
-
-.form-select:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--white);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
-    transform: translateY(-1px);
-}
-
 .char-counter {
     font-size: 0.75rem;
     color: var(--text-muted);
