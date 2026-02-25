@@ -74,32 +74,6 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Контейнер для зарплаты и валюты */
-.salary-edit-container {
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-}
-
-.currency-select {
-    width: 100px;
-    padding: 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.85rem;
-    background: var(--bg-light);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.currency-select:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--white);
-}
-
 /* Адаптивность */
 @media (max-width: 480px) {
     .info-row {
@@ -116,10 +90,6 @@
 
     .basic-info-form {
         padding: 1.25rem;
-    }
-
-    .currency-select {
-        width: 90px;
     }
 }
 

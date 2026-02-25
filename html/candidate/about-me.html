@@ -43,7 +43,7 @@
 
             <div class="avatar-container" id="userAvatar">
                 <div class="avatar-overlay">
-<!--                    <img src="../../images/default-avatar.png" alt="Профиль" class="avatar-image">-->
+                    <!--                    <img src="../../images/default-avatar.png" alt="Профиль" class="avatar-image">-->
                     <img src="../../images/icons/camera.svg" alt="Сменить фото" class="camera-icon">
                 </div>
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
@@ -121,17 +121,21 @@
 
                     <div class="form-group">
                         <label class="form-label">Желаемая зарплата</label>
-                        <div class="salary-edit-container">
-                            <input type="number"
-                                   class="form-input"
-                                   id="editSalaryInput"
-                                   placeholder="480 000">
+                        <div class="salary-container">
+                            <div class="salary-input">
+                                <input type="text"
+                                       class="form-input"
+                                       id="editSalaryInput"
+                                       placeholder="480 000"
+                                       inputmode="numeric" pattern="[0-9 ]*" required>
+                            </div>
 
-                            <select id="editCurrencySelect"
-                                    class="currency-select">
-                                <option value="RUB">₽ / мес.</option>
-                                <option value="USD">$ / мес.</option>
-                            </select>
+                            <div class="currency-select-wrapper">
+                                <select id="editCurrencySelect" name="currency" class="currency-select">
+                                    <option value="RUB">₽ / мес.</option>
+                                    <option value="USD">$ / мес.</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
