@@ -17,15 +17,23 @@ class AvatarComponent {
     }
 
     render() {
-        const currentImg = this.container.querySelector('.avatar-image');
-        if (!currentImg) {
-            const img = document.createElement('img');
+        const avatarUrl = `${this.api.BASE_URL}/file/avatar/${this.profileData.id}?t=${Date.now()}`;
+
+        let img = this.container.querySelector('.avatar-image');
+
+        if (!img) {
+            img = document.createElement('img');
             img.className = 'avatar-image';
-            img.src = this.profileData?.avatarUrl || '../../images/default-avatar.png';
             this.container.prepend(img);
-        } else if (this.profileData?.avatarUrl) {
-            currentImg.src = this.profileData.avatarUrl;
         }
+
+        img.src = avatarUrl;
+
+        // Если фото нет (404), ставим стандартную иконку
+        img.onerror = () => {
+            img.src = '../../images/icons/no-avatar.svg';
+            img.onerror = null;
+        };
     }
 
     bindEvents() {
@@ -74,8 +82,8 @@ class AvatarComponent {
             });
 
             canvas.toBlob(async (blob) => {
-                const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
-                // await this.uploadAvatar(file);
+                const file = new File([blob], 'avatar.jpg', {type: 'image/jpeg'});
+                await this.uploadAvatar(file);
                 this.closeCropper();
             }, 'image/jpeg', 0.95);
 
@@ -125,7 +133,6 @@ class AvatarComponent {
 
     async uploadAvatar(file) {
         try {
-            notification.process('Загружаем фото...');
 
             if (window.Telegram?.WebApp?.HapticFeedback) {
                 Telegram.WebApp.HapticFeedback.impactOccurred('medium');
@@ -134,22 +141,18 @@ class AvatarComponent {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await this.api.uploadFile(
+            await this.api.uploadFile(
                 `/file/avatar/upload/${this.profileData.id}`,
                 formData
             );
-
-            notification.success('Аватар обновлен');
 
             if (window.Telegram?.WebApp?.HapticFeedback) {
                 Telegram.WebApp.HapticFeedback.notificationOccurred('success');
             }
 
-            if (response.data?.avatarUrl) {
-                this.profileData.avatarUrl = response.data.avatarUrl;
-                this.render();
-            }
+            notification.success('Аватар обновлен');
 
+            this.render();
         } catch (error) {
             console.error(error);
             notification.error('Не удалось сохранить фото');
