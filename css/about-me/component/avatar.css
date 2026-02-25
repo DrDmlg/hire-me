@@ -4,24 +4,6 @@
 .avatar-container {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    font-size: 2rem;
-    font-weight: bold;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.avatar-container:hover {
-    transform: scale(1.05);
 }
 
 .avatar-overlay {

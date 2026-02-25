@@ -98,7 +98,7 @@ body {
 }
 
 .action-card:hover {
-    background: #EFF6FF;
+    background: var(--primary-soft);
     border-color: var(--primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
@@ -279,6 +279,36 @@ body {
     transform: translateY(-50%);
     pointer-events: none;
     color: var(--text-gray);
+}
+
+/** Аватарка */
+.avatar-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1.25rem;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 2.5rem;
+    font-weight: bold;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.avatar-container:hover {
+    transform: scale(1.05);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 @media (max-width: 480px) {
