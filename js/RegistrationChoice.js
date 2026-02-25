@@ -30,7 +30,7 @@ class RegistrationChoice {
         if (cachedRoles) {
             try {
                 const roles = JSON.parse(cachedRoles);
-
+//
                 // if (roles.isCandidate) {
                 //     this.disableCard('candidate');
                 // }

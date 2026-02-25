@@ -152,11 +152,6 @@
     margin-bottom: 0.5rem;
 }
 
-.form-textarea {
-    min-height: 140px;
-    resize: vertical;
-}
-
 .period-inputs {
     display: flex;
     gap: 10px;

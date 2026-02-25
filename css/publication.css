@@ -99,8 +99,7 @@
     transform: translateX(4px);
 }
 
-.form-select,
-.form-textarea {
+.form-select {
     width: 100%;
     padding: 0.6rem 0.75rem;
     line-height: 1.5;
@@ -117,28 +116,12 @@
     height: 48px; /* Высота как в регистрации */
 }
 
-.form-select:focus,
-.form-textarea:focus {
+.form-select:focus {
     outline: none;
     border-color: var(--primary);
     background: var(--white);
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
     transform: translateY(-1px);
-}
-
-.form-textarea::placeholder {
-    color: var(--text-gray);
-    opacity: 0.7;
-    font-size: 15px; /* Чуть меньше основного, как в реге */
-}
-
-.form-textarea {
-    min-height: 180px; /* Начальная высота */
-    max-height: 400px; /* Чтобы поле не ушло за пределы экрана */
-    overflow-y: hidden; /* Прячем полосу прокрутки, пока она не нужна */
-    resize: none;      /* Отключаем ручной ресайз */
-    line-height: 1.5;
-    transition: height 0.1s ease-out; /* Плавность роста */
 }
 
 .char-counter {
@@ -190,9 +173,3 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
-
-@media (max-height: 700px) {
-    .form-textarea {
-        max-height: 220px;
-    }
-}
