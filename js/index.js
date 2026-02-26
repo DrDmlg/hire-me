@@ -5,6 +5,7 @@ class HireMeApp {
         this.tg = window.Telegram.WebApp;
         this.navigation = new NavigationService();
         this.api = apiService;
+        this.avatarContainer = document.getElementById('userAvatar');
     }
 
     init() {
@@ -12,7 +13,7 @@ class HireMeApp {
             this.initTelegram();
         }
 
-        this.initUserProfile();
+        this.setUserAvatar();
         this.navigation.init();
         this.preloadUserRoles();
         this.setupTelegramButton();
@@ -28,31 +29,8 @@ class HireMeApp {
         }
     }
 
-    initUserProfile() {
-        if (this.tg.initDataUnsafe?.user) {
-            const user = this.tg.initDataUnsafe.user;
-            const userAvatar = document.getElementById('userAvatar');
-
-            // Аватар
-            if (user.photo_url) {
-                userAvatar.style.backgroundImage = `url(${user.photo_url})`;
-                userAvatar.style.backgroundSize = 'cover';
-                userAvatar.textContent = '';
-            } else if (user.first_name) {
-                userAvatar.textContent = user.first_name[0].toUpperCase();
-            }
-
-            // Имя
-            let userName = '';
-            if (user.first_name) userName += user.first_name;
-            if (user.last_name) userName += ' ' + user.last_name;
-            document.getElementById('userName').textContent = userName.trim() || 'Пользователь';
-
-            // Цвет аватара
-            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
-            const colorIndex = user.id % colors.length;
-            userAvatar.style.backgroundColor = colors[colorIndex];
-        }
+    setUserAvatar() {
+        UserProfileFiller.updateAvatar(this.avatarContainer, 33,  this.api.BASE_URL)
     }
 
     async preloadUserRoles() {

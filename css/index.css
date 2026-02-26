@@ -29,20 +29,6 @@ body {
     text-align: center;
 }
 
-.user-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    font-size: 2rem;
-    font-weight: bold;
-}
-
 .user-name {
     font-weight: 700;
     margin-bottom: 0.5rem;

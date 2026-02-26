@@ -2,10 +2,12 @@ class BaseProfile {
 
     constructor() {
         this.tg = window.Telegram?.WebApp;
+        this.api = apiService;
         this.profileData = null;
         this.navigation = new NavigationService();
         this.userType = null; // 'candidate' или 'employer'
         this.managers = {};   // Пока пустой
+        this.avatarContainer = document.getElementById('userAvatar');
     }
 
     async init() {
@@ -17,6 +19,7 @@ class BaseProfile {
         this.profileData = await ProfileService.loadProfile();
         await this.determineProfileType();
         await this.initManagers();
+        this.setUserAvatar();
 
         console.log(`Профиль инициализирован для: ${this.userType}`);
     }
@@ -30,7 +33,7 @@ class BaseProfile {
         }
     }
 
-   async determineProfileType() {
+    async determineProfileType() {
         const urlParams = new URLSearchParams(window.location.search);
         this.userType = urlParams.get('type');
         console.log('Пользователь заходит под : ' + this.userType);
@@ -45,8 +48,11 @@ class BaseProfile {
             console.log('Создан EmployerProfileManager');
         }
 
-        // Инициализируем их
         await this.managers.profile.init();
+    }
+
+    setUserAvatar() {
+        UserProfileFiller.updateAvatar(this.avatarContainer, this.profileData.id, this.api.BASE_URL)
     }
 }
 

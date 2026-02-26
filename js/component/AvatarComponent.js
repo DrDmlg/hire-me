@@ -17,23 +17,7 @@ class AvatarComponent {
     }
 
     render() {
-        const avatarUrl = `${this.api.BASE_URL}/file/avatar/${this.profileData.id}?t=${Date.now()}`;
-
-        let img = this.container.querySelector('.avatar-image');
-
-        if (!img) {
-            img = document.createElement('img');
-            img.className = 'avatar-image';
-            this.container.prepend(img);
-        }
-
-        img.src = avatarUrl;
-
-        // Если фото нет (404), ставим стандартную иконку
-        img.onerror = () => {
-            img.src = '../../images/icons/no-avatar.svg';
-            img.onerror = null;
-        };
+        UserProfileFiller.updateAvatar(this.container, this.profileData.id, this.api.BASE_URL);
     }
 
     bindEvents() {

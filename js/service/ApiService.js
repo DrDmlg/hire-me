@@ -1,7 +1,7 @@
 class ApiService {
 
     constructor() {
-        this.BASE_URL = 'https://outspokenly-tonic-hake.cloudpub.ru';
+        this.BASE_URL = 'https://saucily-admirable-piglet.cloudpub.ru';
         //this.BASE_URL ='/api';
     }
 

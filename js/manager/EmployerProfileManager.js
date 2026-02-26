@@ -58,8 +58,6 @@ class EmployerProfileManager {
         const { employer = {} } = this.profileData;
         const stats = employer.stats || {};
 
-        // Общие данные через вспомогательный класс
-        UserProfileFiller.setUserAvatar(this.tg);
         UserProfileFiller.setUserName(this.profileData);
 
         // Локальные данные профиля

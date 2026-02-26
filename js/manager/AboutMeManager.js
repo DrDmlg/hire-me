@@ -1,9 +1,11 @@
 class AboutMeManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
+        this.api = apiService;
         this.userType = this.determineProfileType();
         this.profileData = null;
         this.navigation = new NavigationService();
+        this.avatarContainer = document.getElementById('userAvatar');
 
         if (this.userType === 'candidate') {
             this.loadManagersForCandidate()
@@ -73,6 +75,7 @@ class AboutMeManager {
 
     async initManagersForEmployer() {
         await this.managers.personalInformation.init(this.profileData);
+        await this.managers.avatar.init(this.profileData);
         await this.managers.baseInfo.init(this.profileData);
         await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
         await this.managers.experience.init(this.profileData.workExperiences || []);
@@ -98,7 +101,7 @@ class AboutMeManager {
     }
 
     setUserAvatar() {
-        UserProfileFiller.setUserAvatar(this.tg);
+        UserProfileFiller.updateAvatar(this.avatarContainer, this.profileData.id, this.api.BASE_URL)
     }
 
     determineProfileType() {

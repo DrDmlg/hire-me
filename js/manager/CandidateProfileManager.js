@@ -8,7 +8,6 @@ class CandidateProfileManager {
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
-        this.api = apiService;
         this.profileData = profileData || {};
         this.isUpdatingStatus = false; // Флаг для предотвращения спам-кликов
     }
@@ -54,8 +53,6 @@ class CandidateProfileManager {
     // --- Работа с данными ---
     updateCandidateProfileData() {
         const candidate = this.profileData?.candidate || {};
-
-        UserProfileFiller.setUserAvatar(this.tg);
         UserProfileFiller.setUserName(this.profileData);
 
         this._setElementText('userPosition', candidate.desiredPosition, 'Должность не указана');

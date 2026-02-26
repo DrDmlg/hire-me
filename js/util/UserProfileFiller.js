@@ -9,22 +9,24 @@ class UserProfileFiller {
         userNameElement.textContent = firstName + ' ' + lastName;
     }
 
-    //TODO: Аватар пока берется из данных телеграма. В системе аватар пользователя не сохраняется. Функционала смены аватара не существует
-    static setUserAvatar(tg) {
-        if (!tg?.initDataUnsafe?.user) return;
+    static updateAvatar(container, profileId, baseUrl) {
+        if (!container || !profileId) return;
 
-        const user = tg.initDataUnsafe.user;
-        const avatar = document.getElementById('userAvatar');
+        const avatarUrl = `${baseUrl}/file/avatar/${profileId}?t=${Date.now()}`;
+        let img = container.querySelector('.avatar-image');
 
-        if (user.photo_url) {
-            avatar.innerHTML = `<img src="${user.photo_url}" alt="Avatar" class="avatar-image">`;
-        } else if (user.first_name) {
-            avatar.textContent = user.first_name[0].toUpperCase();
-            const colors = ['#2563EB', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
-            const colorIndex = user.id % colors.length;
-            avatar.style.background = colors[colorIndex];
-            avatar.style.color = 'white';
+        if (!img) {
+            img = document.createElement('img');
+            img.className = 'avatar-image';
+            container.prepend(img);
         }
+
+        img.src = avatarUrl;
+
+        img.onerror = () => {
+            img.src = '/images/icons/no-avatar.svg';
+            img.onerror = null;
+        };
     }
 
     static updateProgressBar(userType, profileData) {
@@ -32,9 +34,9 @@ class UserProfileFiller {
         let total = 0;
 
         if (profileData?.contact) {
-         if (profileData.contact?.email) filled++;
-         if (profileData.contact?.phoneNumber) filled++;
-         if (profileData.contact?.telegram) filled++;
+            if (profileData.contact?.email) filled++;
+            if (profileData.contact?.phoneNumber) filled++;
+            if (profileData.contact?.telegram) filled++;
         }
 
         if (profileData?.workExperiences.length > 0) filled++;
