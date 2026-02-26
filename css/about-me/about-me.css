@@ -146,14 +146,12 @@
     background-color: transparent !important;
 }
 
-/* Убираем лишние элементы */
 .cropper-line,
 .cropper-point,
 .cropper-dashed {
     display: none !important;
 }
 
-/* Футер */
 .cropper-footer {
     flex-shrink: 0;
     padding: 1rem;
@@ -165,33 +163,8 @@
 
 /* Hero Section */
 .profile-hero {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    padding: 2rem 1.5rem 1.5rem;
-    position: relative;
-    overflow: hidden;
+    padding: 2.0rem 1.5rem 1.5rem;
     height: 230px;
-}
-
-.profile-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-}
-
-.user-position {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 1rem;
 }
 
 /* Progress Section */
@@ -303,15 +276,6 @@
     font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.4;
-}
-
-/* Info Grid */
-.info-grid-compact {
-    background: var(--bg-card);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    margin-bottom: 1.5rem;
 }
 
 /* Отступ от шапки при добавлении новой информации в формы опыта, работы и т.д.*/
