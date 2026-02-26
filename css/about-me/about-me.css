@@ -197,7 +197,7 @@
 /* Progress Section */
 .completion-section {
     background: var(--bg-card);
-    margin: -1rem 1.5rem 1.5rem;
+    margin: -1rem 0.6rem 1.5rem;
     padding: 1.25rem;
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow);

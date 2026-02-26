@@ -103,7 +103,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--border);
-    margin: -1.6rem 1.5rem 1.5rem; /* Увеличил отрицательный margin */
+    margin: -1.6rem 0.6rem 1.5rem;
     border-radius: var(--radius-sm);
     overflow: hidden;
     position: relative;
@@ -154,13 +154,6 @@
 }
 
 /* Content Sections  */
-.content-section {
-    padding: 0 1.5rem 1.5rem;
-    position: relative;
-    z-index: 1;
-    margin-top: -0.5rem;
-}
-
 .section-title {
     font-size: 1.1rem;
     font-weight: 700;

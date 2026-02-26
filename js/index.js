@@ -30,7 +30,7 @@ class HireMeApp {
     }
 
     setUserAvatar() {
-        UserProfileFiller.updateAvatar(this.avatarContainer, 33,  this.api.BASE_URL)
+        UserProfileFiller.updateAvatar(this.avatarContainer, 555,  this.api.BASE_URL) //TODO: передавать profileID
     }
 
     async preloadUserRoles() {

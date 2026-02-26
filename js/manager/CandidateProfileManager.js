@@ -8,6 +8,7 @@ class CandidateProfileManager {
 
     constructor(profileData) {
         this.tg = window.Telegram?.WebApp;
+        this.api = apiService;
         this.profileData = profileData || {};
         this.isUpdatingStatus = false; // Флаг для предотвращения спам-кликов
     }
