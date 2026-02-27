@@ -20,7 +20,7 @@
     padding: 20px;
     z-index: 1001;
     transition: transform 0.3s ease-out;
-    box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Состояние при открытии */
@@ -59,34 +59,46 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    gap: 7px;
     margin-bottom: 0.25rem;
-}
-
-/* Стилизуем саму кнопку */
-#editUserNameBtn {
-    background: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 8px;
-    margin-right: -36px;
-    flex-shrink: 0;
-}
-
-#editUserNameBtn img {
-    width: 14px;
-    height: 14px;
-    filter: brightness(0) invert(1);
 }
 
 .user-name {
     font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-    color: white;
+    color: var(--white);
 }
+
+#editUserNameBtn,
+.spacer {
+    width: 24px; /* Ваша иконка size-24 */
+    height: 24px;
+    flex-shrink: 0; /* Запрещаем сжиматься */
+}
+
+.spacer {
+    visibility: hidden; /* Делаем его невидимым, но занимающим место */
+    pointer-events: none; /* Чтобы нельзя было случайно нажать */
+}
+
+/* Стилизуем саму кнопку */
+/*#editUserNameBtn {*/
+/*    background: rgba(255, 255, 255, 0.15);*/
+/*    border: none;*/
+/*    border-radius: 50%;*/
+/*    width: 28px;*/
+/*    height: 28px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    cursor: pointer;*/
+/*    margin-left: 8px;*/
+/*    margin-right: -36px;*/
+/*    flex-shrink: 0;*/
+/*}*/
+
+/*#editUserNameBtn img {*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    filter: brightness(0) invert(1);*/
+/*}*/

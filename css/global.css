@@ -348,6 +348,11 @@ body {
     padding: 0 1rem;
 }
 
+.user-name {
+    font-weight: 700;
+
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 5px 0 5px;

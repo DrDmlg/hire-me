@@ -29,11 +29,6 @@ body {
     text-align: center;
 }
 
-.user-name {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
 /* Стили для кнопки "Перейти в бота" */
 .telegram-integration {
     text-align: center;
