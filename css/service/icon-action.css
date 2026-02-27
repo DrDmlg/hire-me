@@ -34,6 +34,7 @@
     justify-content: center;
     background: transparent;
     will-change: transform;
+    flex-shrink: 0
 }
 
 .button-icon:hover {
@@ -64,4 +65,9 @@
 .size-24 {
     width: 24px;
     height: 24px;
+}
+
+.size-14 {
+    width: 14px;
+    height: 14px;
 }

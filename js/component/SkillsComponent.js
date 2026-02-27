@@ -55,7 +55,9 @@ class SkillsComponent {
         let html = this.skills.map(skill => `
         <div class="skill-tag fade-in" data-id="${skill.id}">
             <span class="skill-name">${Helpers.escapeHtml(skill.displayName)}</span>
-            <button type="button" class="skill-remove-btn" aria-label="Удалить">×</button>
+            <button type="button" class="button-icon size-14 skill-remove-btn" aria-label="Удалить">
+        <img src="../../images/icons/remove-skill.svg" alt="Удалить" class="cancel-icon">
+    </button>
         </div>
     `).join('');
 
@@ -70,7 +72,9 @@ class SkillsComponent {
                            placeholder="Навык..." 
                            maxlength="100"
                            autocomplete="off">
-                    <button type="button" class="skill-input-cancel" id="skillInputCancel">×</button>
+                    <button type="button" class="button-icon size-24" id="skillInputCancel">
+                    <img src="../../images/icons/close.svg" alt="Отмена" class="cancel-icon">
+                    </button>
                 </div>
                 <div class="skills-dropdown" id="skillsDropdown"></div>
             </div>
@@ -264,8 +268,6 @@ class SkillsComponent {
     async createSkill(skillName) {
         if (!skillName) return;
 
-        notification.process('Добавляем навык...');
-
         try {
             const newSkill = {
                 displayName: skillName,
@@ -285,6 +287,7 @@ class SkillsComponent {
 
             this.skills.unshift(savedSkill);
             this.render();
+            this.tg?.HapticFeedback.impactOccurred('medium');
             notification.success('Навык добавлен');
 
         } catch (error) {
@@ -297,7 +300,6 @@ class SkillsComponent {
 
     /** Удаление навыка*/
     async deleteSkillRecord(skillId) {
-        notification.process('Удаляем навык');
 
         try {
             const response = await this.api.delete(`/skill/${skillId}`);
