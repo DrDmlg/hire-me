@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../css/about-me/layout/header.css">
 </head>
 <body>
-<div class="container">
+
     <header class="app-header">
         <div class="header-content">
 
@@ -41,52 +41,54 @@
         </div>
     </section>
 
-    <!-- Quick Stats -->
-    <div class="quick-stats">
-        <div class="stat-item">
-            <div class="stat-value" id="statApplications"></div>
-            <div class="stat-label">Отклики</div>
+    <div class="container">
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="statApplications"></div>
+                <div class="stat-label">Отклики</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statInvitations"></div>
+                <div class="stat-label">Приглашения</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statRejections"></div>
+                <div class="stat-label">Отказы</div>
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-value" id="statInvitations"></div>
-            <div class="stat-label">Приглашения</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value" id="statRejections"></div>
-            <div class="stat-label">Отказы</div>
+
+        <div class="actions-grid">
+            <div class="action-card" data-action="about-me">
+                <img src="../../images/icons/about-me.svg" alt="Обо мне" class="action-icon">
+                <div class="action-label">Обо мне</div>
+                <div class="action-description">Основная информация</div>
+            </div>
+
+            <div class="action-card" data-action="resume">
+                <img src="../../images/icons/cv.svg" alt="Резюме" class="action-icon">
+                <div class="action-label">Резюме</div>
+                <div class="action-description">Опыт и навыки</div>
+            </div>
+
+            <div class="action-card" data-action="vacancies">
+                <img src="../../images/icons/vacancy.svg" alt="Вакансии" class="action-icon">
+                <div class="action-label">Вакансии</div>
+                <div class="action-description">Предложения о работе</div>
+            </div>
         </div>
     </div>
 
-    <div class="actions-grid">
-        <div class="action-card" data-action="about-me">
-            <img src="../../images/icons/about-me.svg" alt="Обо мне" class="action-icon">
-            <div class="action-label">Обо мне</div>
-            <div class="action-description">Основная информация</div>
-        </div>
-
-        <div class="action-card" data-action="resume">
-            <img src="../../images/icons/cv.svg" alt="Резюме" class="action-icon">
-            <div class="action-label">Резюме</div>
-            <div class="action-description">Опыт и навыки</div>
-        </div>
-
-        <div class="action-card" data-action="vacancies">
-            <img src="../../images/icons/vacancy.svg" alt="Вакансии" class="action-icon">
-            <div class="action-label">Вакансии</div>
-            <div class="action-description">Предложения о работе</div>
-        </div>
-    </div>
-</div>
-
-<script src="../../js/util/Helpers.js"></script>
-<script src="../../js/util/UserProfileFiller.js"></script>
-<script src="../../js/service/NotificationService.js"></script>
-<script src="../../js/service/NavigationService.js"></script>
-<script src="../../js/service/ApiService.js"></script>
-<script src="../../js/service/ProfileService.js"></script>
-<script src="../../js/component/ExperienceComponent.js"></script>
-<script src="../../js/component/SkillsComponent.js"></script>
-<script src="../../js/manager/CandidateProfileManager.js"></script>
-<script src="../../js/manager/BaseProfile.js"></script>
+    <script src="../../js/util/Helpers.js"></script>
+    <script src="../../js/util/UserProfileFiller.js"></script>
+    <script src="../../js/service/NotificationService.js"></script>
+    <script src="../../js/service/NavigationService.js"></script>
+    <script src="../../js/service/ApiService.js"></script>
+    <script src="../../js/service/ProfileService.js"></script>
+    <script src="../../js/component/ExperienceComponent.js"></script>
+    <script src="../../js/component/SkillsComponent.js"></script>
+    <script src="../../js/manager/CandidateProfileManager.js"></script>
+    <script src="../../js/manager/BaseProfile.js"></script>
 </body>
 </html>
