@@ -13,7 +13,6 @@ class HireMeApp {
             this.initTelegram();
         }
 
-        this.setUserAvatar();
         this.navigation.init();
         this.preloadUserRoles();
         this.setupTelegramButton();
@@ -29,16 +28,22 @@ class HireMeApp {
         }
     }
 
-    setUserAvatar() {
-        UserProfileFiller.updateAvatar(this.avatarContainer, 555,  this.api.BASE_URL) //TODO: передавать profileID
-    }
-
     async preloadUserRoles() {
         const telegramUserId = Helpers.getTelegramUserId();
         if (!telegramUserId) return;
-        await this.getProfileRoles(telegramUserId);
+
+        const rolesData = await this.getProfileRoles(telegramUserId);
+
+        if (rolesData && rolesData.profileId) {
+            this.setUserAvatar(rolesData.profileId);
+        } else {
+            this.setUserAvatar(null);
+        }
     }
 
+    setUserAvatar(profileId) {
+        UserProfileFiller.updateAvatar(this.avatarContainer, profileId, this.api.BASE_URL);
+    }
 
     setupProfileNavigation() {
         document.querySelectorAll('.profile-link').forEach(link => {
@@ -51,13 +56,13 @@ class HireMeApp {
 
                 if (response == null) {
                     notification.error('Для просмотра и редактирования профиля необходимо зарегистрироваться');
-                } else if (response.isCandidate && response.isEmployer) {
+                } else if (response.candidate && response.employer) {
                     console.log('User has two roles. Redirecting to login.html');
                     window.location.href = 'html/login.html';
-                } else if (response.isCandidate && !response.isEmployer) {
+                } else if (response.candidate && !response.employer) {
                     console.log('User is Candidate. Redirecting to profile.html?type=candidate');
                     window.location.href = 'html/candidate/profile.html?type=candidate';
-                } else if (response.isEmployer && !response.isCandidate) {
+                } else if (response.employer && !response.candidate) {
                     console.log('User is employer. Redirecting to profile.html?type=employer');
                     window.location.href = 'html/employer/profile.html?type=employer';
                 }

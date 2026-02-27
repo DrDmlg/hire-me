@@ -10,17 +10,22 @@ class UserProfileFiller {
     }
 
     static updateAvatar(container, profileId, baseUrl) {
-        if (!container || !profileId) return;
+        if (!container) return;
 
-        const avatarUrl = `${baseUrl}/file/avatar/${profileId}?t=${Date.now()}`;
         let img = container.querySelector('.avatar-image');
-
         if (!img) {
             img = document.createElement('img');
             img.className = 'avatar-image';
             container.prepend(img);
         }
 
+        // Если ID нет (пользователь не найден), сразу ставим заглушку и выходим
+        if (!profileId) {
+            img.src = '/images/icons/no-avatar.svg';
+            return;
+        }
+
+        const avatarUrl = `${baseUrl}/file/avatar/${profileId}?t=${Date.now()}`;
         img.src = avatarUrl;
 
         img.onerror = () => {
