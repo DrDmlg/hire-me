@@ -237,45 +237,18 @@
     background: var(--primary-soft);
     padding: 1.25rem;
     border-radius: var(--radius-sm);
-    border-left: 3px solid var(--accent);
     margin-bottom: 1.5rem;
+    border-left: 3px solid var(--accent);
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
 }
 
 .description-text {
     font-size: 0.9rem;
     color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.description-highlights {
-    display: grid;
-    gap: 0.75rem;
-}
-
-.highlight-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-}
-
-.highlight-icon {
-    width: 20px;
-    height: 20px;
-    background: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.7rem;
-    flex-shrink: 0;
-}
-
-.highlight-text {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 /* Отступ от шапки при добавлении новой информации в формы опыта, работы и т.д.*/
