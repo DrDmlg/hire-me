@@ -24,6 +24,30 @@
     transform: translateX(-2px) scale(1.05);
 }
 
+.step-button {
+    background: var(--white);
+    border: 1px solid var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    flex: 1;
+    height: 35px;
+}
+
+.step-button img {
+    width: 27px;
+    height: 27px;
+    object-fit: contain;
+}
+
+.step-button:hover {
+    transform: translateX(-2px) scale(1.05);
+}
+
 .button-icon {
     border-radius: 50%;
     cursor: pointer;

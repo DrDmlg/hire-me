@@ -5,24 +5,17 @@
 }
 
 .vacancy-form.step {
-    flex: 1; /* Позволяет форме занимать все доступное пространство */
     display: none;
     flex-direction: column;
 }
 
-/* Сама форма теперь — это не карточка, а просто фон страницы */
 .vacancy-form.step.active {
     display: flex;
     flex-direction: column;
-    background: var(--white); /* Белый фон на весь экран */
-    padding: 1.5rem; /* Оставляем падинг только внутри для инпутов, как в registration-body */
-    border-radius: 0; /* Убираем скругления */
-    box-shadow: none; /* Убираем тень */
-    border: none; /* Убираем рамку */
+    background: var(--white);
+    padding: 1.5rem;
     height: 100%;
-    max-height: 100%;
     overflow-y: auto;
-    position: relative;
     animation: fadeIn 0.5s ease-out;
 }
 
@@ -41,13 +34,13 @@
 .progress-steps {
     display: flex;
     gap: 4px;
-    padding: 10px 1.5rem; /* Отступы по бокам как у формы */
+    padding: 10px 1.5rem;
     background: var(--white);
 }
 
 /* Сама полоска */
 .step-indicator {
-    flex: 1; /* Все полоски одинаковой ширины */
+    flex: 1;
     height: 4px;
     background-color: var(--border);
     border-radius: 2px;
@@ -63,10 +56,10 @@
 
 @keyframes slideIn {
     from {
-        transform: scaleX(0); /* Элемент сжат в точку по горизонтали */
+        transform: scaleX(0);
     }
     to {
-        transform: scaleX(1); /* Элемент растянут до 100% своей ширины */
+        transform: scaleX(1);
     }
 }
 
@@ -85,8 +78,6 @@
 /* --- Кнопки --- */
 .step-actions {
     display: flex;
-    justify-content: center; /* Чтобы кнопки были по краям */
-    align-items: center;
     margin-top: auto;
-    padding: 1.5rem 0; /* Падинг сверху и снизу */
+    gap: 5px;
 }
