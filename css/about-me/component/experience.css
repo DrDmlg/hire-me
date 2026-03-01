@@ -140,18 +140,6 @@
     color: var(--text-primary);
 }
 
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-}
-
 .period-inputs {
     display: flex;
     gap: 10px;
@@ -187,13 +175,6 @@
     flex-shrink: 0;
     accent-color: var(--primary);
 }
-
-.checkbox-group .form-label {
-    margin-bottom: 0;
-    cursor: pointer;
-    user-select: none;
-}
-
 
 .form-actions {
     display: flex;

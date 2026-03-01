@@ -1,13 +1,7 @@
 /* Стили создания вакансии (publication.html) */
-@keyframes slideIn { from { width: 0; } to { width: 100%; } }
-
 /* --- Контейнер и Шаги --- */
-.vacancy-create-container {
-    padding: 0; /* Убираем 1rem, чтобы форма прилипала к краям */
-    height: calc(100svh - 160px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+.container.vacancy-publish {
+    height: 615px;
 }
 
 .vacancy-form.step {
@@ -24,36 +18,29 @@
     padding: 1.5rem; /* Оставляем падинг только внутри для инпутов, как в registration-body */
     border-radius: 0; /* Убираем скругления */
     box-shadow: none; /* Убираем тень */
-    border: none;    /* Убираем рамку */
+    border: none; /* Убираем рамку */
     height: 100%;
     max-height: 100%;
     overflow-y: auto;
     position: relative;
+    animation: fadeIn 0.5s ease-out;
 }
 
-/*!* Если в контейнере есть фокус на textarea *!*/
-/*.vacancy-create-container:focus-within { !* Занимаем всё пространство *!*/
-/*    height: 100dvh; !* Dynamic Viewport Height — современный стандарт *!*/
-/*    position: fixed;*/
-/*    top: 60px; !* Смещение под хедер *!*/
-/*    left: 0;*/
-/*    right: 0;*/
-/*    z-index: 10;*/
-/*}*/
-
-/*vacancy-form.step.active:has(textarea:focus) .step-actions {*/
-/*    display: none;*/
-/*}*/
-
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Контейнер для полосок прогресса */
 .progress-steps {
     display: flex;
-    gap: 6px; /* Расстояние между полосками */
+    gap: 4px;
     padding: 10px 1.5rem; /* Отступы по бокам как у формы */
     background: var(--white);
 }
@@ -62,41 +49,25 @@
 .step-indicator {
     flex: 1; /* Все полоски одинаковой ширины */
     height: 4px;
-    background-color: var(--border); /* Цвет незаполненного шага */
+    background-color: var(--border);
     border-radius: 2px;
-    transition: all 0.3s ease;
 }
 
-/* Активная (заполненная) полоска */
+/* Активная полоска */
 .step-indicator.active {
-    background-color: var(--primary); /* Твой синий цвет */
+    background-color: var(--primary);
+    animation: slideIn 0.5s ease-out forwards;
+    transform-origin: left;
+    box-shadow: 0 0 3px var(--primary);
 }
 
-/* --- Поля ввода (СТИЛЬ РЕГИСТРАЦИИ) --- */
-.form-group {
-    margin-bottom: 1.25rem;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    font-size: 0.85rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    font-size: 0.85rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.form-group:focus-within .form-label {
-    color: var(--primary);
-    transform: translateX(4px);
+@keyframes slideIn {
+    from {
+        transform: scaleX(0); /* Элемент сжат в точку по горизонтали */
+    }
+    to {
+        transform: scaleX(1); /* Элемент растянут до 100% своей ширины */
+    }
 }
 
 .char-counter {
@@ -116,35 +87,6 @@
     display: flex;
     justify-content: center; /* Чтобы кнопки были по краям */
     align-items: center;
-    gap: 100px; /* Убираем гигантский gap: 200px, он может сломать верстку */
     margin-top: auto;
     padding: 1.5rem 0; /* Падинг сверху и снизу */
-    border-top: 1px solid var(--border);
-    background: var(--white);
 }
-
-
-/* --- Доп. элементы (Валюта, Спиннер) --- */
-.input-with-suffix {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-suffix {
-    position: absolute;
-    right: 1rem;
-    color: var(--text-gray);
-    font-weight: 500;
-}
-
-.btn-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }

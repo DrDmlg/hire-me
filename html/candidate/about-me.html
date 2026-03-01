@@ -99,7 +99,7 @@
                 <div class="form-title">Предпочтения в работе</div>
                 <form id="basicInfoFormElement">
                     <div class="form-group">
-                        <label class="form-label">Специализация *</label>
+                        <label>Специализация *</label>
                         <input type="text"
                                class="form-input"
                                id="editPositionInput"
@@ -108,7 +108,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Желаемая зарплата</label>
+                        <label>Желаемая зарплата</label>
                         <div class="salary-container">
                             <div class="salary-input">
                                 <input type="text"
@@ -167,7 +167,7 @@
                 <div class="form-title">Редактировать контакты</div>
                 <form id="contactsFormElement">
                     <div class="form-group">
-                        <label class="form-label">Email</label>
+                        <label>Email</label>
                         <input type="email"
                                class="form-input"
                                id="contactEmail"
@@ -176,7 +176,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Телефон</label>
+                        <label>Телефон</label>
                         <input type="tel"
                                class="form-input"
                                id="contactPhone"
@@ -185,7 +185,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Telegram</label>
+                        <label>Telegram</label>
                         <div class="input-with-prefix">
                             <span class="input-prefix">@</span>
                             <input type="text"
@@ -197,7 +197,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">WhatsApp</label>
+                        <label>WhatsApp</label>
                         <input type="tel"
                                class="form-input"
                                id="contactWhatsApp"
@@ -233,17 +233,17 @@
                 <div class="form-title" id="formTitle">Добавить опыт работы</div>
                 <form id="experienceFormElement">
                     <div class="form-group">
-                        <label class="form-label">Компания *</label>
+                        <label>Компания *</label>
                         <input type="text" class="form-input" id="companyName" required
                                placeholder="Whitewill, Capital Group, Knight Frank">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Должность *</label>
+                        <label>Должность *</label>
                         <input type="text" class="form-input" id="position" required
                                placeholder="Брокер по элитной недвижимости">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Начало работы *</label>
+                        <label>Начало работы *</label>
                         <div class="period-inputs">
                             <select class="form-input" id="startMonth" required>
                                 <option value="" disabled selected>Месяц</option>
@@ -266,7 +266,7 @@
                     </div>
 
                     <div class="form-group" id="endDateGroup">
-                        <label class="form-label">Окончание *</label>
+                        <label>Окончание *</label>
                         <div class="period-inputs">
                             <select class="form-input" id="endMonth">
                                 <option value="" disabled selected>Месяц</option>
@@ -288,7 +288,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Описание обязанностей и достижений</label>
+                        <label>Описание обязанностей и достижений</label>
                         <textarea class="form-input form-textarea"
                                   id="workDescription"
                                   maxlength="1000"
@@ -298,7 +298,7 @@
                     <div class="form-group">
                         <div class="checkbox-group">
                             <input type="checkbox" id="currentJob">
-                            <label class="form-label" for="currentJob">Это моё текущее место работы</label>
+                            <label for="currentJob">Это моё текущее место работы</label>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -333,25 +333,25 @@
                 <div class="form-title" id="educationFormTitle">Добавить образование</div>
                 <form id="educationFormElement">
                     <div class="form-group">
-                        <label class="form-label" for="institutionName">Учебное заведение *</label>
+                        <label for="institutionName">Учебное заведение *</label>
                         <input type="text" class="form-input" id="institutionName"
                                placeholder="Высшая школа экономики" maxlength="110" required>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="faculty">Факультет</label>
+                        <label for="faculty">Факультет</label>
                         <input type="text" class="form-input" id="faculty"
                                placeholder="Факультет экономических наук" maxlength="100">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="specialization">Специальность</label>
+                        <label for="specialization">Специальность</label>
                         <input type="text" class="form-input" id="specialization"
                                placeholder="Управление персоналом" maxlength="150">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="graduationYear">Год окончания *</label>
+                        <label for="graduationYear">Год окончания *</label>
                         <select class="form-input" id="graduationYear" required>
                             <option value="" disabled selected>Выберите год</option>
                         </select>
@@ -408,15 +408,15 @@
             <div class="language-form" id="languageForm" style="display: none;">
                 <div class="language-form-title" id="languageFormTitle">Добавить язык</div>
                 <form id="languageFormElement">
-                    <div class="language-form-group">
-                        <label class="language-form-label">Язык *</label>
+                    <div class="form-group">
+                        <label>Язык *</label>
                         <select class="form-select" id="languageName" required>
                             <option value="">Выберите язык</option>
                         </select>
                     </div>
 
-                    <div class="language-form-group">
-                        <label class="language-form-label">Уровень владения *</label>
+                    <div class="form-group">
+                        <label>Уровень владения *</label>
                         <select class="form-select" id="languageLevel" required>
                             <option value="">Выберите уровень</option>
                         </select>
@@ -465,7 +465,7 @@
 
     <div class="sheet-body">
         <div class="form-group">
-            <label class="form-label">Имя</label>
+            <label>Имя</label>
             <input type="text"
                    id="modalFirstName"
                    class="form-input"
@@ -473,7 +473,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Фамилия</label>
+            <label>Фамилия</label>
             <input type="text"
                    id="modalLastName"
                    class="form-input"

@@ -1,16 +1,23 @@
 class VacancyPublicationComponent {
     constructor() {
         this.api = apiService;
+        this.validator = validator;
         this.currentStep = 1;
-        this.totalSteps = 6;
+        this.totalSteps = 7;
         this.formData = {};
     }
 
     async init(profileData = null, existingVacancy = null) {
         this.profileData = profileData;
-        this.container = document.querySelector('.vacancy-create-container');
+        this.container = document.querySelector('.container');
 
         this.bindEvents();
+
+        const salaryInputMin = document.getElementById('salaryMin');
+        const salaryInputMax = document.getElementById('salaryMax');
+
+        this.salaryMaskFrom = this.validator.validateSalary(salaryInputMin);
+        this.salaryMaskTo = this.validator.validateSalary(salaryInputMax);
 
         if (existingVacancy) {
             this.loadExistingData(existingVacancy);
@@ -26,7 +33,6 @@ class VacancyPublicationComponent {
 
             if (btn.id.includes('next')) this.moveStep(1);
             if (btn.id.includes('prev')) this.moveStep(-1);
-            if (btn.id === 'cancelBtn') this.handleCancel();
             if (btn.classList.contains('back-button')) window.history.back();
         });
 
@@ -34,29 +40,18 @@ class VacancyPublicationComponent {
         this.container.addEventListener('submit', (e) => this.publishVacancy(e));
 
         // 3. НОВЫЙ БЛОК: Авто-высота и счетчик символов
-        // Мы слушаем событие 'input' на всем контейнере
         this.container.addEventListener('input', (e) => {
-            // Проверяем, что печатают именно в textarea
             if (e.target.tagName === 'TEXTAREA') {
                 const textarea = e.target;
 
-                // Логика счетчика символов
                 const counter = textarea.parentElement.querySelector('.char-counter span');
-                if (counter) {
-                    counter.textContent = textarea.value.length;
-                }
+                if (counter) counter.textContent = textarea.value.length;
 
                 // Логика авто-высоты
-                textarea.style.height = 'auto'; // Сброс
-                const newHeight = textarea.scrollHeight;
-                textarea.style.height = newHeight + 'px'; // Установка новой высоты
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
 
-                // Управление скроллом при достижении лимита (например, 400px)
-                if (newHeight >= 400) {
-                    textarea.style.overflowY = 'auto';
-                } else {
-                    textarea.style.overflowY = 'hidden';
-                }
+                textarea.style.overflowY = textarea.scrollHeight > 400 ? 'auto' : 'hidden';
             }
         });
     }
@@ -111,9 +106,6 @@ class VacancyPublicationComponent {
 
         if (!this.validateCurrentStep()) return;
 
-        const btn = document.getElementById('publishBtn');
-        this.toggleLoading(btn, true);
-
         try {
             const payload = this.preparePayload();
             const employerId = this.profileData?.employer?.id;
@@ -123,29 +115,14 @@ class VacancyPublicationComponent {
             setTimeout(() => window.history.back(), 2000);
         } catch (error) {
             notification.error('Ошибка публикации');
-            this.toggleLoading(btn, false);
         }
     }
 
-    preparePayload() {
-        // Превращаем плоские данные в структуру бэкенда
-        return {
-            ...this.formData,
-            salary: {
-                from: parseInt(this.formData.salaryFrom) || null,
-                to: parseInt(this.formData.salaryTo) || null
-            },
-            experience: this.formData.experience,
-            address: this.formData.address
-        };
-    }
-
     loadExistingData(data) {
-        // Мапим данные бэкенда на плоскую структуру формы
         this.formData = {
             ...data,
-            salaryFrom: data.salary?.from,
-            salaryTo: data.salary?.to,
+            salaryMin: data.salary?.min,
+            salaryMax: data.salary?.max,
             experience: data.experience?.name,
             address: data.address?.name
         };
@@ -158,17 +135,16 @@ class VacancyPublicationComponent {
         });
     }
 
-    toggleLoading(btn, isLoading) {
-        const text = btn.querySelector('.btn-text');
-        const spinner = btn.querySelector('.btn-spinner');
-        btn.disabled = isLoading;
-        if (text) text.style.display = isLoading ? 'none' : 'block';
-        if (spinner) spinner.style.display = isLoading ? 'block' : 'none';
-    }
-
-    handleCancel() {
-        if (confirm('Все несохраненные данные будут потеряны. Выйти?')) {
-            window.history.back();
-        }
+    preparePayload() {
+        return {
+            ...this.formData,
+            salary: {
+                min: this.salaryMaskFrom ? Number(this.salaryMaskFrom.unmaskedValue) : 0,
+                max: this.salaryMaskTo ? Number(this.salaryMaskTo.unmaskedValue) : 0,
+                currency: this.formData.currency,
+            },
+            experience: this.formData.experience,
+            address: this.formData.address
+        };
     }
 }

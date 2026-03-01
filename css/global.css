@@ -180,6 +180,7 @@ body {
     width: 100%;
     min-height: 180px;
     max-height: 400px;
+    resize: none;
     padding: 0.6rem 0.75rem;
     line-height: 1.5;
     border: 1px solid var(--border);
@@ -350,7 +351,31 @@ body {
 
 .user-name {
     font-weight: 700;
+}
 
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.form-group:focus-within label {
+    color: var(--primary);
+    transform: translateX(4px);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox-group .form-label {
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
 }
 
 @media (max-width: 480px) {
@@ -398,5 +423,9 @@ body {
 
     .currency-select-wrapper::after {
         right: 6px;
+    }
+
+    .form-group {
+        margin-bottom: 0.875rem;
     }
 }
