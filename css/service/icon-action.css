@@ -46,7 +46,7 @@
 }
 
 .step-button:hover {
-    transform: translateX(-2px) scale(1.05);
+    transform: scale(0.96)
 }
 
 .button-icon {
