@@ -36,6 +36,7 @@
     box-shadow: var(--shadow);
     flex: 1;
     height: 35px;
+    touch-action: manipulation;
 }
 
 .step-button img {
