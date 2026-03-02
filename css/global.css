@@ -390,6 +390,13 @@ body {
     user-select: none;
 }
 
+.error-message {
+    color: var(--error);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 5px 0 5px;

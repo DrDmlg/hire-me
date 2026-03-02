@@ -2,10 +2,6 @@ class Validator {
 
     static EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-    constructor() {
-        this.tg = window.Telegram.WebApp;
-    }
-
     validatePhone(phoneInput) {
         if (phoneInput) {
             return IMask(phoneInput, {
