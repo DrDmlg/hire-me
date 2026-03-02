@@ -62,22 +62,20 @@
                 <select id="workFormat"
                         name="workFormat"
                         class="form-select">
-                    <option value="Удаленно">Удаленно</option>
-                    <option value="Офис">Офис</option>
-                    <option value="Гибрид">Гибрид</option>
-                    <option value="Любой">Любой</option>
+                    <option value="REMOTE">Удаленно</option>
+                    <option value="OFFICE">Офис</option>
+                    <option value="HYBRID">Гибрид</option>
                 </select>
             </div>
 
             <div class="form-group half">
-                <label for="workDays">График работы</label>
-                <select id="workDays"
-                        name="workDays"
+                <label for="workSchedule">График работы</label>
+                <select id="workSchedule"
+                        name="workSchedule"
                         class="form-select">
-                    <option value="">Выберите график</option>
-                    <option value="5/2">5/2 (полный день)</option>
-                    <option value="Гибкий">Гибкий график</option>
-                    <option value="Частичная">Частичная занятость</option>
+                    <option value="FULL_TIME">5/2 (полный день)</option>
+                    <option value="FLEXIBLE">Гибкий график</option>
+                    <option value="PART_TIME">Частичная занятость</option>
                 </select>
             </div>
         </div>
@@ -149,11 +147,11 @@
             <select id="experience"
                     name="experience"
                     class="form-select">
-                <option value="">Не имеет значения</option>
-                <option value="Без опыта">Без опыта</option>
-                <option value="1-3 года">1-3 года</option>
-                <option value="3-6 лет">3-6 лет</option>
-                <option value="Более 6 лет">Более 6 лет</option>
+                <option value="ANY">Не имеет значения</option>
+                <option value="NO_EXPERIENCE">Без опыта</option>
+                <option value="ONE_TO_THREE">1-3 года</option>
+                <option value="THREE_TO_SIX">3-6 лет</option>
+                <option value="MORE_THAN_SIX">Более 6 лет</option>
             </select>
         </div>
 

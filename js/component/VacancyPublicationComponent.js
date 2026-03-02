@@ -111,7 +111,7 @@ class VacancyPublicationComponent {
             const employerId = this.profileData?.employer?.id;
 
             await this.api.post(`/vacancy/create/${employerId}`, payload);
-            notification.success('Вакансия опубликована!');
+            notification.success('Вакансия опубликована');
             setTimeout(() => window.history.back(), 2000);
         } catch (error) {
             notification.error('Ошибка публикации');
