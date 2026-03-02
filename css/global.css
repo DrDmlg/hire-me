@@ -108,6 +108,18 @@ body {
     transform: scaleX(1);
 }
 
+.action-card:active {
+    transition: transform 0.1s ease-out;
+    transform: scale(0.96);
+    background-color: var(--primary-soft);
+}
+
+.nav-item:active {
+    opacity: 0.7;
+    transform: scale(0.95);
+    transition: all 0.1s ease;
+}
+
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

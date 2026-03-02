@@ -14,33 +14,10 @@ class NavigationService {
             item.addEventListener('click', function (e) {
 
                 const href = this.getAttribute('href');
-                //
-                // // При переходе на станицу profile.html своя проверка
-                // const CUSTOM_HANDLED_PAGES = ['profile.html'];
-                //
-                // if (CUSTOM_HANDLED_PAGES.includes(href)) {
-                //     return;
-                // }
+                if (!href || href.includes('t.me')) return;
+                e.preventDefault();
 
-                if (href && !href.includes('t.me')) {
-                    e.preventDefault();
-
-                    if (this.classList.contains('action-card')) {
-                        this.style.transform = 'translateY(-2px)';
-                        this.style.background = '#EFF6FF';
-                    } else {
-                        this.style.transform = 'scale(0.98)';
-                    }
-
-                    setTimeout(() => {
-                        window.location.href = this.getAttribute('href');
-                    }, 150);
-                }
-            });
-
-            item.addEventListener('transitionend', () => {
-                item.style.transform = '';
-                item.style.background = '';
+                window.location.href = href;
             });
         });
     }
