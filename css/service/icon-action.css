@@ -72,6 +72,40 @@
     height: 100%;
 }
 
+/* Кнопки модального подтверждения */
+.btn-confirm-cancel,
+.btn-confirm-submit {
+    flex: 1;
+    height: 35px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-confirm-cancel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.btn-confirm-submit {
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--white);
+}
+
+.btn-confirm-cancel:hover,
+.btn-confirm-submit:hover {
+    transform: scale(0.96);
+}
+/* -------------------------------------------- */
+
 .size-40 {
     width: 40px;
     height: 40px;

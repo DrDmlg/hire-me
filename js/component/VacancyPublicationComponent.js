@@ -69,7 +69,6 @@ class VacancyPublicationComponent {
             }
 
         }
-        // if (direction > 0 && !this.validateCurrentStep()) return;
 
         this.syncStepData(); // Сохраняем данные текущего шага
         this.currentStep += direction;
@@ -140,17 +139,26 @@ class VacancyPublicationComponent {
 
         if (!this.validateCurrentStep()) return;
 
-        try {
-            const payload = this.preparePayload();
-            const employerId = this.profileData?.employer?.id;
+        const modal = document.getElementById('confirmModal');
+        modal.style.display = 'flex';
 
-            await this.api.post(`/vacancy/create/${employerId}`, payload);
-            this.tg?.HapticFeedback.notificationOccurred('success');
-            notification.success('Вакансия опубликована');
-            setTimeout(() => window.history.back(), 2000);
-        } catch (error) {
-            notification.error('Ошибка публикации');
-        }
+        document.getElementById('confirmCancel').onclick = () => modal.style.display = 'none';
+
+        document.getElementById('confirmOk').onclick = async () => {
+            modal.style.display = 'none';
+            try {
+                this.syncStepData();
+                const employerId = this.profileData?.employer?.id;
+                await this.api.post(`/vacancy/create/${employerId}`, this.preparePayload());
+
+                this.tg?.HapticFeedback.notificationOccurred('success');
+                notification.success('Опубликовано');
+
+                setTimeout(() => window.history.back(), 1500);
+            } catch (error) {
+                notification.error('Ошибка');
+            }
+        };
     }
 
     loadExistingData(data) {
