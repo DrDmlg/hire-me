@@ -1,5 +1,6 @@
 class VacancyPublicationComponent {
     constructor() {
+        this.tg = window.Telegram.WebApp;
         this.api = apiService;
         this.validator = validator;
         this.currentStep = 1;
@@ -58,7 +59,18 @@ class VacancyPublicationComponent {
 
     // Универсальный метод навигации
     moveStep(direction) {
-        if (direction > 0 && !this.validateCurrentStep()) return;
+        if (direction > 0) {
+            const isValid = this.validateCurrentStep();
+
+            // Вызываем haptic feedback при ошибке валидации
+            if (!isValid) {
+                this.tg?.HapticFeedback.notificationOccurred('error');
+                return;
+            }
+
+            this.tg?.HapticFeedback.notificationOccurred('success');
+        }
+        // if (direction > 0 && !this.validateCurrentStep()) return;
 
         this.syncStepData(); // Сохраняем данные текущего шага
         this.currentStep += direction;
@@ -90,13 +102,36 @@ class VacancyPublicationComponent {
     validateCurrentStep() {
         this.syncStepData();
 
-        // if (this.currentStep === 1) {
-        //     if (!this.formData.title || !this.formData.companyName) {
-        //         notification.error('Заполните должность и компанию');
-        //         return false;
-        //     }
-        // }
-        // Добавь другие проверки по номеру шага здесь
+        if (this.currentStep === 1) {
+            if (!this.formData.title) {
+                notification.error('Укажите должность');
+                return false;
+            }
+
+            if (!this.formData.companyName) {
+                notification.error('Укажите компанию');
+                return false;
+            }
+
+            if (!this.formData.address) {
+                notification.error('Заполните адрес');
+                return false;
+            }
+        }
+
+        if (this.currentStep === 2) {
+            if (!this.formData.salaryMin || !this.formData.salaryMax) {
+                notification.error('Укажите зарплатный диапазон');
+                return false;
+            }
+        }
+
+        if (this.currentStep === 3) {
+            if (!this.formData.responsibilities) {
+                notification.error('Необходимо указать обязанности');
+                return false;
+            }
+        }
         return true;
     }
 
