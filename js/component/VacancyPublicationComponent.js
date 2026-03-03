@@ -152,7 +152,7 @@ class VacancyPublicationComponent {
                 await this.api.post(`/vacancy/create/${employerId}`, this.preparePayload());
 
                 this.tg?.HapticFeedback.notificationOccurred('success');
-                notification.success('Опубликовано');
+                notification.success('Вакансия опубликована');
 
                 setTimeout(() => window.history.back(), 1500);
             } catch (error) {
