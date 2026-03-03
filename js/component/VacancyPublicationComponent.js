@@ -68,7 +68,6 @@ class VacancyPublicationComponent {
                 return;
             }
 
-            this.tg?.HapticFeedback.notificationOccurred('success');
         }
         // if (direction > 0 && !this.validateCurrentStep()) return;
 
@@ -146,6 +145,7 @@ class VacancyPublicationComponent {
             const employerId = this.profileData?.employer?.id;
 
             await this.api.post(`/vacancy/create/${employerId}`, payload);
+            this.tg?.HapticFeedback.notificationOccurred('success');
             notification.success('Вакансия опубликована');
             setTimeout(() => window.history.back(), 2000);
         } catch (error) {
