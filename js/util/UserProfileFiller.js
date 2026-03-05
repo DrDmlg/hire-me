@@ -21,7 +21,7 @@ class UserProfileFiller {
 
         // Если ID нет (пользователь не найден), сразу ставим заглушку и выходим
         if (!profileId) {
-            img.src = '../../images/icons/no-avatar.svg';
+            img.src = '/images/icons/no-avatar.svg';
             return;
         }
 
@@ -29,7 +29,7 @@ class UserProfileFiller {
         img.src = avatarUrl;
 
         img.onerror = () => {
-            img.src = '../../images/icons/no-avatar.svg';
+            img.src = '/images/icons/no-avatar.svg';
             img.onerror = null;
         };
     }

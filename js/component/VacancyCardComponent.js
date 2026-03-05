@@ -3,231 +3,130 @@ class VacancyCardComponent {
         this.api = apiService;
     }
 
-    // Создает HTML карточки из данных вакансии
-    createCard(vacancyData) {
-        const salaryText = this.formatSalary(vacancyData.salary);
-        const previewText = this.createPreview(vacancyData.aboutCompany || vacancyData.responsibilities || '');
+    createCard(v) {
+        const firstLetter = (v.companyName || 'H').charAt(0).toUpperCase();
+        const salary = this.formatSalary(v.salary);
 
         return `
-            <div class="vacancy-card" data-id="${vacancyData.id}">
-                <div class="vacancy-header">
-                    <h3 class="vacancy-title">${Helpers.escapeHtml(vacancyData.title)}</h3>
-                    <div class="vacancy-company">${Helpers.escapeHtml(vacancyData.companyName)}</div>
+            <div class="vacancy-card" data-id="${v.id}">
+                <div class="vacancy-main-content">
+                    <div class="vacancy-header-flex">
+                        <div class="company-logo-badge">
+                            ${firstLetter}
+                        </div>
+                        <div class="title-area">
+                            <h3 class="vacancy-title">${(v.title)}</h3>
+                            <div class="vacancy-company">${(v.companyName)}</div>
+                        </div>
+                    </div>
+
+                    <div class="vacancy-meta-tags">
+                        ${salary ? `<span class="tag-salary">${salary}</span>` : ''}
+                        <span class="tag-pill"><i class="icon-exp"></i> ${(v.experience)}</span>
+                        <span class="tag-pill"><i class="icon-loc"></i> ${(v.workFormat)}</span>
+                    </div>
+
+                    <p class="vacancy-description-preview">
+                        ${this.createPreview(v.responsibilities || v.aboutCompany)}
+                    </p>
+
+                    <div class="vacancy-card-footer">
+                        <button type="button" class="btn-toggle-details">Подробнее</button>
+                        <button type="button" class="btn-quick-apply">Откликнуться</button>
+                    </div>
                 </div>
-                
-                <div class="vacancy-meta">
-                    ${salaryText ? `<span class="vacancy-salary">${salaryText}</span>` : ''}
-                    ${vacancyData.experience?.name ? `<span class="vacancy-experience">${Helpers.escapeHtml(vacancyData.experience.name)}</span>` : ''}
-                    ${vacancyData.workFormat ? `<span class="vacancy-format">${Helpers.escapeHtml(vacancyData.workFormat)}</span>` : ''}
-                </div>
-                
-                ${previewText ? `
-                <div class="vacancy-preview">
-                    ${Helpers.escapeHtml(previewText)}
-                </div>
-                ` : ''}
-                
-                <div class="vacancy-actions">
-                    <button class="btn-view-more" type="button">Подробнее</button>
-                    <button class="btn-apply" type="button">Откликнуться</button>
-                </div>
-                
-                <!-- Детальная информация (скрыта) -->
-                <div class="vacancy-details">
-                    ${this.createDetails(vacancyData)}
-                    <button class="btn-apply-full" type="button">Откликнуться на вакансию</button>
+
+                <div class="vacancy-expandable-content" style="display: none; height: 0; opacity: 0; overflow: hidden;">
+                    <div class="details-inner">
+                        ${this.renderDetailSection('О компании', v.aboutCompany)}
+                        ${this.renderDetailSection('Обязанности', v.responsibilities)}
+                        ${this.renderDetailSection('Требования и навыки', v.skills)}
+                        ${this.renderDetailSection('Что мы предлагаем', v.suggestion)}
+                        ${this.renderDetailSection('Дополнительная информация', v.additionalInformation)}
+                        
+                        <div class="detail-section">
+                            <h4>Локация и график</h4>
+                            <p>${v.address || 'Адрес не указан'} • ${v.workSchedule}</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         `;
     }
 
-    // Форматирует зарплату
-    formatSalary(salary) {
-        if (!salary) return '';
-
-        const from = salary.from ? this.formatNumber(salary.from) : '';
-        const to = salary.to ? this.formatNumber(salary.to) : '';
-
-        if (from && to) {
-            return `${from} - ${to} ₽`;
-        } else if (from) {
-            return `от ${from} ₽`;
-        } else if (to) {
-            return `до ${to} ₽`;
-        }
-
-        return '';
+    renderDetailSection(title, content) {
+        if (!content) return '';
+        return `
+            <div class="detail-section">
+                <h4>${title}</h4>
+                <p>${(content)}</p>
+            </div>
+        `;
     }
 
-    formatNumber(num) {
-        return new Intl.NumberFormat('ru-RU').format(num);
+    formatSalary(salaryObj) {
+        if (!salaryObj || !salaryObj.min || !salaryObj.max) return null;
+
+        const curr = salaryObj.currency === 'USD' ? '$' : '₽';
+        return `${salaryObj.min.toLocaleString()} — ${salaryObj.max.toLocaleString()} ${curr}`;X
     }
 
-    // Создает превью текста (первые 100 символов)
     createPreview(text) {
         if (!text) return '';
-
-        const cleanText = text.trim();
-        if (cleanText.length <= 100) return cleanText;
-
-        return cleanText.substring(0, 100) + '...';
+        return text.length > 130 ? text.substring(0, 130) + '...' : text;
     }
 
-    // Создает детальную информацию
-    createDetails(vacancyData) {
-        const sections = [];
-
-        // О компании
-        if (vacancyData.aboutCompany) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>О компании</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.aboutCompany)}</p>
-                </div>
-            `);
-        }
-
-        // Обязанности
-        if (vacancyData.responsibilities) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Обязанности</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.responsibilities)}</p>
-                </div>
-            `);
-        }
-
-        // Навыки
-        if (vacancyData.skills) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Требования и навыки</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.skills)}</p>
-                </div>
-            `);
-        }
-
-        // Что предлагаем
-        if (vacancyData.suggestion) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Что мы предлагаем</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.suggestion)}</p>
-                </div>
-            `);
-        }
-
-        // Дополнительная информация
-        if (vacancyData.additionalInformation) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Дополнительная информация</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.additionalInformation)}</p>
-                </div>
-            `);
-        }
-
-        // Адрес
-        if (vacancyData.address?.name) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Адрес</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.address.name)}</p>
-                </div>
-            `);
-        }
-
-        // График работы
-        if (vacancyData.workDays) {
-            sections.push(`
-                <div class="detail-section">
-                    <h4>График работы</h4>
-                    <p>${Helpers.escapeHtml(vacancyData.workDays)}</p>
-                </div>
-            `);
-        }
-
-        // Дата публикации
-        if (vacancyData.publishedDate) {
-            const date = new Date(vacancyData.publishedDate);
-            const formattedDate = date.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-
-            sections.push(`
-                <div class="detail-section">
-                    <h4>Дата публикации</h4>
-                    <p>${formattedDate}</p>
-                </div>
-            `);
-        }
-
-        return sections.join('');
-    }
-
-    // Привязывает обработчики событий к карточке
     bindCardEvents(cardElement) {
-        const viewMoreBtn = cardElement.querySelector('.btn-view-more');
-        const applyBtn = cardElement.querySelector('.btn-apply');
-        const applyFullBtn = cardElement.querySelector('.btn-apply-full');
-        const detailsSection = cardElement.querySelector('.vacancy-details');
+        const toggleBtn = cardElement.querySelector('.btn-toggle-details');
+        const expandable = cardElement.querySelector('.vacancy-expandable-content');
+        const applyBtns = cardElement.querySelectorAll('.btn-quick-apply');
 
-        if (viewMoreBtn && detailsSection) {
-            viewMoreBtn.addEventListener('click', () => {
-                const isHidden = detailsSection.style.display === 'none' ||
-                    detailsSection.style.display === '';
+        toggleBtn.addEventListener('click', () => {
+            const isExpanding = expandable.style.display === 'none';
 
-                detailsSection.style.display = isHidden ? 'block' : 'none';
-                viewMoreBtn.textContent = isHidden ? 'Свернуть' : 'Подробнее';
+            if (isExpanding) {
+                cardElement.classList.add('is-active');
+                expandable.style.display = 'block';
+                const fullHeight = expandable.scrollHeight + 'px';
 
-                if (isHidden) {
-                    detailsSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest'
-                    });
-                }
+                // Анимация раскрытия
+                setTimeout(() => {
+                    expandable.style.height = fullHeight;
+                    expandable.style.opacity = '1';
+                    toggleBtn.textContent = 'Свернуть';
+
+                    // Плавный скролл к карточке
+                    cardElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }, 10);
+            } else {
+                expandable.style.height = '0';
+                expandable.style.opacity = '0';
+                toggleBtn.textContent = 'Подробнее';
+                cardElement.classList.remove('is-active');
+                setTimeout(() => {
+                    expandable.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        applyBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.submitApplication(cardElement.dataset.id);
             });
-        }
-
-        // Обработчик для кнопки "Откликнуться" вверху
-        if (applyBtn) {
-            applyBtn.addEventListener('click', () => {
-                const vacancyId = cardElement.dataset.id;
-                this.submitApplication(vacancyId);
-            });
-        }
-
-        // Обработчик для кнопки "Откликнуться" в деталях
-        if (applyFullBtn) {
-            applyFullBtn.addEventListener('click', () => {
-                const vacancyId = cardElement.dataset.id;
-                this.submitApplication(vacancyId);
-            });
-        }
+        });
     }
 
-    // Обработчик отклика на вакансию
     async submitApplication(vacancyId) {
-        console.log('Отклик на вакансию:', vacancyId);
         try {
-            let telegramUserId = Helpers.getTelegramUserId();
-
-            const response = await this.api.post(`/application/apply`, {
-                vacancyId: vacancyId,
-                telegramUserId: telegramUserId
-            });
-
-            if (response.status === 200) {
-                notification.success('Ваш отклик отправлен!');
-            }
-
-        } catch (error) {
-            console.error('error:', error);
+            const userId = Helpers.getTelegramUserId();
+            const response = await this.api.post(`/application/apply`, {vacancyId, telegramUserId: userId});
+            if (response.status === 200) notification.success('Отклик успешно отправлен');
+        } catch (e) {
+            notification.error('Ошибка при отправке отклика');
         }
     }
 }
 
-// Экспортируем для использования
 const vacancyCardComponent = new VacancyCardComponent();

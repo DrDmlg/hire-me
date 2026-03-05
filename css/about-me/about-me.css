@@ -232,24 +232,68 @@
     padding: 0 0.5rem 0;
 }
 
-/* Personal Description */
-.personal-description {
-    background: var(--primary-soft);
-    padding: 1.25rem;
-    border-radius: var(--radius-sm);
-    margin-bottom: 1.5rem;
-    border-left: 3px solid var(--accent);
-    border-top: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow);
-}
+/*!* Headline Section *!*/
+/*!* Сохраняем твою базу без изменений *!*/
+/*.headline-section {*/
+/*    background: var(--primary-soft);*/
+/*    padding: 1.25rem;*/
+/*    border-radius: var(--radius-sm);*/
+/*    margin-bottom: 1.5rem;*/
+/*    border-left: 3px solid var(--accent);*/
+/*    border-top: 1px solid var(--border);*/
+/*    border-right: 1px solid var(--border);*/
+/*    border-bottom: 1px solid var(--border);*/
+/*    box-shadow: var(--shadow);*/
+/*    position: relative;*/
+/*}*/
 
-.description-text {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
+/*!* Поле ввода, которое "притворяется" текстом *!*/
+/*.headline-edit-input {*/
+/*    width: 100%;*/
+/*    min-height: 120px;*/
+/*    background: rgba(255, 255, 255, 0.5); !* Еле заметный белый налет *!*/
+/*    border: 1px dashed var(--accent); !* Пунктир подчеркивает режим правки *!*/
+/*    border-radius: var(--radius-sm);*/
+/*    font-family: inherit;*/
+/*    font-size: 0.9rem;*/
+/*    color: var(--text-dark);*/
+/*    line-height: 1.5;*/
+/*    padding: 8px;*/
+/*    resize: none;*/
+/*    outline: none;*/
+/*    margin-bottom: 8px;*/
+/*}*/
+
+/*.headline-edit-input:focus {*/
+/*    background: var(--white);*/
+/*    border-style: solid;*/
+/*}*/
+
+/*!* Кнопки в стиле "минимализм" *!*/
+/*.headline-actions {*/
+/*    display: flex;*/
+/*    justify-content: flex-end;*/
+/*    gap: 12px;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.btn-text {*/
+/*    background: none;*/
+/*    border: none;*/
+/*    color: var(--text-muted);*/
+/*    font-size: 0.85rem;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.btn-save-simple {*/
+/*    background: var(--primary);*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 6px 16px;*/
+/*    border-radius: 20px;*/
+/*    font-size: 0.85rem;*/
+/*    font-weight: 600;*/
+/*}*/
 
 /* Отступ от шапки при добавлении новой информации в формы опыта, работы и т.д.*/
 .basic-info-form,

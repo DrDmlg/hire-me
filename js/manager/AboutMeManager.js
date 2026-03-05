@@ -17,6 +17,7 @@ class AboutMeManager {
     loadManagersForCandidate() {
         this.managers = {
             personalInformation: new PersonalInformationComponent(),
+            // headLine: new HeadlineComponent(),
             avatar: new AvatarComponent(),
             baseInfo: new CandidateExpectationComponent(),
             contact: new ContactsComponent(),
@@ -30,6 +31,7 @@ class AboutMeManager {
     loadManagersForEmployer() {
         this.managers = {
             personalInformation: new PersonalInformationComponent(),
+            // headLine: new HeadlineComponent(),
             avatar: new AvatarComponent(),
             baseInfo: new EmployerDetailComponent(),
             contact: new ContactsComponent(),
@@ -64,6 +66,7 @@ class AboutMeManager {
 
     async initManagersForCandidate() {
         await this.managers.personalInformation.init(this.profileData);
+        // await this.managers.headLine.init(this.profileData);
         await this.managers.avatar.init(this.profileData);
         await this.managers.baseInfo.init(this.profileData);
         await this.managers.contact.init(this.profileData.contact || {}, this.profileData);
@@ -75,6 +78,7 @@ class AboutMeManager {
 
     async initManagersForEmployer() {
         await this.managers.personalInformation.init(this.profileData);
+        // await this.managers.headLine.init(this.profileData);
         await this.managers.avatar.init(this.profileData);
         await this.managers.baseInfo.init(this.profileData);
         await this.managers.contact.init(this.profileData.contact || {}, this.profileData);

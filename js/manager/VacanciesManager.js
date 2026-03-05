@@ -3,7 +3,7 @@ class VacanciesManager {
         this.tg = window.Telegram?.WebApp;
         this.profileData = null;
         this.navigation = new NavigationService();
-        this.api = apiService
+        this.api = apiService;
         this.vacancies = [];
         this.vacancyCard = vacancyCardComponent;
     }
@@ -32,6 +32,8 @@ class VacanciesManager {
 
                 if (this.vacancies.length > 0) {
                     this.renderVacancies();
+                } else {
+                    this.renderVacancies(); // Очистит спиннер
                 }
             }
         } catch (error) {
@@ -43,30 +45,24 @@ class VacanciesManager {
         const container = document.getElementById('vacanciesList');
         if (!container) return;
 
-        // Очищаем контейнер
         container.innerHTML = '';
 
         this.vacancies.forEach(vacancy => {
             const cardHtml = this.vacancyCard.createCard(vacancy);
             container.insertAdjacentHTML('beforeend', cardHtml);
 
-            // Привязываем события к последней добавленной карточке
             const lastCard = container.lastElementChild;
             if (lastCard) {
                 this.vacancyCard.bindCardEvents(lastCard);
             }
         });
-
-        // Скрываем состояние загрузки
-        const loadingState = container.querySelector('.loading-state');
-        if (loadingState) {
-            loadingState.style.display = 'none';
-        }
     }
 
     showLoadingState() {
         const container = document.getElementById('vacanciesList');
+        const emptyState = document.getElementById('emptyState');
 
+        if (emptyState) emptyState.style.display = 'none';
         if (container) {
             container.innerHTML = `
                 <div class="loading-state">
@@ -79,7 +75,6 @@ class VacanciesManager {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('VacanciesManager starting...');
     const vacanciesManager = new VacanciesManager();
     vacanciesManager.init();
 });
