@@ -66,6 +66,11 @@ body {
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
+.btn-telegram img {
+    height: 32px;
+    width: 32px;
+}
+
 /* Адаптивность - улучшенная */
 @media (max-width: 480px) {
     .logo h1 {

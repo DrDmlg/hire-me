@@ -363,6 +363,7 @@ body {
 
 .user-name {
     font-weight: 700;
+    color: var(--text-dark);
 }
 
 .form-group {

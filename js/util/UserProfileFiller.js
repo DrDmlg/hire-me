@@ -66,4 +66,17 @@ class UserProfileFiller {
         if (percentEl) percentEl.textContent = `${percent}%`;
         if (progressEl) progressEl.style.width = `${percent}%`;
     }
+
+    static initTelegram(tg) {
+        if (!tg) return;
+
+        const style = getComputedStyle(document.documentElement);
+        const primaryColor = style.getPropertyValue('--primary').trim();
+        const bgColor = style.getPropertyValue('--bg-light').trim();
+
+        tg.expand();
+        tg.setHeaderColor(primaryColor);
+        tg.setBackgroundColor(bgColor);
+        tg.enableClosingConfirmation();
+    }
 }

@@ -8,41 +8,44 @@ class HireMeApp {
         this.avatarContainer = document.getElementById('userAvatar');
     }
 
-    init() {
-        if (this.tg) {
-            this.initTelegram();
-        }
+    async init() {
+        UserProfileFiller.initTelegram(this.tg)
 
         this.navigation.init();
-        this.preloadUserRoles();
+        const telegramUserId = Helpers.getTelegramUserId();
+
+        if (telegramUserId) {
+            const userRoles = await this.checkUserRoles(telegramUserId);
+            this.setUserAvatar(userRoles);
+            this.profileData = await ProfileService.loadProfile();
+            this.setName(this.profileData);
+        }
+
         this.setupTelegramButton();
         this.setupProfileNavigation();
     }
 
-    initTelegram() {
-        if (this.tg) {
-            this.tg.expand();
-            this.tg.setHeaderColor('#2563EB');
-            this.tg.setBackgroundColor('#F8FAFC')
-            this.tg.enableClosingConfirmation();
-        }
+    async checkUserRoles(telegramUserId) {
+        return await this.getProfileRoles(telegramUserId);
     }
 
-    async preloadUserRoles() {
-        const telegramUserId = Helpers.getTelegramUserId();
-        if (!telegramUserId) return;
-
-        const rolesData = await this.getProfileRoles(telegramUserId);
-
-        if (rolesData && rolesData.profileId) {
-            this.setUserAvatar(rolesData.profileId);
+    setUserAvatar(userRoles) {
+        if (userRoles && userRoles.profileId) {
+            UserProfileFiller.updateAvatar(this.avatarContainer, userRoles?.profileId, this.api.BASE_URL);
         } else {
-            this.setUserAvatar(null);
+            UserProfileFiller.updateAvatar(null, null, null);
         }
     }
 
-    setUserAvatar(profileId) {
-        UserProfileFiller.updateAvatar(this.avatarContainer, profileId, this.api.BASE_URL);
+    setName(profileData) {
+        const usernameEl = document.getElementById('userName');
+        if (!usernameEl) return
+
+        const displayName = profileData?.firstName
+            || this.tg?.initDataUnsafe?.user?.first_name
+            || 'Пользователь';
+
+        usernameEl.textContent = displayName;
     }
 
     setupProfileNavigation() {

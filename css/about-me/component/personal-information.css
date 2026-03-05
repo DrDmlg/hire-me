@@ -64,41 +64,14 @@
     margin-bottom: 0.25rem;
 }
 
-.user-name {
-    font-size: 1.25rem;
-    color: var(--white);
-}
-
 #editUserNameBtn,
 .spacer {
-    width: 24px; /* Ваша иконка size-24 */
+    width: 24px;
     height: 24px;
-    flex-shrink: 0; /* Запрещаем сжиматься */
+    flex-shrink: 0;
 }
 
 .spacer {
-    visibility: hidden; /* Делаем его невидимым, но занимающим место */
-    pointer-events: none; /* Чтобы нельзя было случайно нажать */
+    visibility: hidden;
+    pointer-events: none;
 }
-
-/* Стилизуем саму кнопку */
-/*#editUserNameBtn {*/
-/*    background: rgba(255, 255, 255, 0.15);*/
-/*    border: none;*/
-/*    border-radius: 50%;*/
-/*    width: 28px;*/
-/*    height: 28px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    cursor: pointer;*/
-/*    margin-left: 8px;*/
-/*    margin-right: -36px;*/
-/*    flex-shrink: 0;*/
-/*}*/
-
-/*#editUserNameBtn img {*/
-/*    width: 14px;*/
-/*    height: 14px;*/
-/*    filter: brightness(0) invert(1);*/
-/*}*/

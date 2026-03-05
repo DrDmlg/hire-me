@@ -167,6 +167,11 @@
     height: 230px;
 }
 
+.profile-hero .user-name {
+    font-size: 1.1rem;
+    color: var(--white);
+}
+
 /* Progress Section */
 .completion-section {
     background: var(--bg-card);
