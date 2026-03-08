@@ -10,7 +10,7 @@ class ApplicationManager {
 
         this.currentFilter = 'all';
         this.selectedVacancy = 'all';
-        this.responseCard = applicationCardComponent;
+        this.responseCard = applicationComponent;
     }
 
     async init() {

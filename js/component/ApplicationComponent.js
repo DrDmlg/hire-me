@@ -1,4 +1,4 @@
-class ApplicationCardComponent {
+class ApplicationComponent {
     constructor() {
         this.api = apiService;
         this.tg = window.Telegram?.WebApp;
@@ -26,7 +26,7 @@ class ApplicationCardComponent {
                         </div>
                         
                         <div class="candidate-meta">
-                            <span class="candidate-tag">
+                            <span class="tag-pill">
                                 <span>${response.candidate?.desiredPosition}</span>
                             </span>
                             
@@ -37,7 +37,7 @@ class ApplicationCardComponent {
                             ` : ''}
                             
                             ${response.candidate?.desiredSalary ? `
-                            <span class="candidate-tag salary-tag">
+                            <span class="tag-salary">
                                 <span>от ${this.formatSalary(response.candidate.desiredSalary)} ₽</span>
                             </span>
                             ` : ''}
@@ -49,10 +49,10 @@ class ApplicationCardComponent {
                 
                 <div class="response-actions">
                     ${response.status === 'NEW' ? `
-                    <button class="btn btn-invite" data-action="invite" data-response-id="${response.id}">
+                    <button class="btn-invite" data-action="invite" data-response-id="${response.id}">
                         Пригласить
                     </button>
-                    <button class="btn btn-reject" data-action="reject" data-response-id="${response.id}">
+                    <button class="btn-reject" data-action="reject" data-response-id="${response.id}">
                         Отклонить
                     </button>
                     ` : ''}
@@ -334,4 +334,4 @@ class ApplicationCardComponent {
     }
 }
 
-const applicationCardComponent = new ApplicationCardComponent();
+const applicationComponent = new ApplicationComponent();
