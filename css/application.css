@@ -1,37 +1,6 @@
-/* Стили для страницы откликов работодателя */
+/* Стили для страницы откликов работодателя (application.css)*/
 
-/* Header с бейджем */
-.header-title-group {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.header-badge {
-    background: var(--error);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 10px;
-    min-width: 24px;
-    text-align: center;
-    animation: pulse 2s infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.7;
-    }
-}
-
-/* Фильтры */
+/* =========================== ФИЛЬТРЫ =========================== */
 .responses-filters {
     background: var(--bg-card);
     padding: 0.75rem 1rem;
@@ -39,31 +8,22 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .filter-tabs {
     display: flex;
+    justify-content: flex-start;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0;
     overflow-x: auto;
-    padding-bottom: 0.25rem;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding-bottom: 2px;
 }
 
 .filter-tabs::-webkit-scrollbar {
     display: none;
-}
-
-.filter-tabs::-webkit-scrollbar-track {
-    background: var(--bg-soft);
-}
-
-.filter-tabs::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 2px;
 }
 
 .filter-tab {
@@ -111,58 +71,22 @@
     text-align: center;
 }
 
-.filter-dropdown {
-    position: relative;
-}
-
-.filter-select {
-    width: 100%;
-    padding: 0.6rem 0.875rem;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    background: var(--bg-main);
-    color: var(--text-primary);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    transition: all 0.3s ease;
-}
-
-.filter-select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.filter-dropdown::after {
-    content: "▼";
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    pointer-events: none;
-}
-
-/* Контейнер откликов */
-/* Группировка по вакансиям */
+/* =========================== ГРУППИРОВКА ВАКАНСИЙ =========================== */
 .vacancy-group {
     background: var(--bg-card);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-light);
-    margin-bottom: 1rem; /* Чуть меньше отступ для компактности */
+    margin-bottom: 1rem;
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .vacancy-group-header {
-    background: var(--white);
+    background: linear-gradient(135deg, var(--white) 0%, var(--bg-soft) 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--border-light);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -182,7 +106,6 @@
     flex: 1;
 }
 
-/* Добавляем обрезку длинных названий вакансий */
 .vacancy-group-title span {
     white-space: nowrap;
     overflow: hidden;
@@ -193,14 +116,14 @@
 }
 
 .vacancy-group-count {
-    background: var(--primary-soft); /* Мягкий фон вместо яркого */
+    background: var(--primary-soft);
     color: var(--primary-dark);
     font-size: 0.7rem;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 8px;
     margin-left: 0.5rem;
-    flex-shrink: 0; /* Чтобы счетчик не сжимался */
+    flex-shrink: 0;
     margin-top: 2px;
 }
 
@@ -212,33 +135,37 @@
     flex-shrink: 0;
 }
 
-/* Контейнер для карточек внутри группы */
 .vacancy-group-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--bg-soft); /* Легкий фон под карточками для контраста */
-    padding: 0; /* По умолчанию 0 */
+    transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease;
+    background: var(--bg-soft);
+    padding: 0;
 }
 
 .vacancy-group.expanded .vacancy-group-header {
     align-items: flex-start;
 }
 
+.vacancy-group.expanded .vacancy-group-arrow {
+    transform: rotate(180deg);
+}
+
 .vacancy-group.expanded .vacancy-group-title span {
-    white-space: normal; /* Разрешаем перенос строк */
-    overflow: visible;   /* Показываем весь текст */
-    text-overflow: clip; /* Убираем многоточие */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .vacancy-group.expanded .vacancy-group-content {
     max-height: 2500px;
-    padding: 8px 4px; /* Небольшой отступ для карточек внутри */
     align-items: flex-start;
+    padding: 4px 2px;
 }
+
 /* Карточка отклика */
 .response-card {
-    min-height: 160px;
+    min-height: 170px;
     height: auto;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     margin: 0 5px 10px 5px;
@@ -251,6 +178,7 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
+
 
 .response-card:last-child {
     border-bottom: none;
@@ -281,7 +209,7 @@
 
 .response-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.7rem;
 }
 
@@ -340,7 +268,7 @@
     padding: 2px 6px;
     background: var(--bg-soft);
     border-radius: var(--radius-sm);
-    color: var(--text-muted); /* По умолчанию нейтральный */
+    color: var(--text-muted);
 }
 
 .status-NEW {
@@ -388,7 +316,6 @@
     justify-content: center;
 }
 
-/* Аналог .btn-quick-apply */
 .btn-invite {
     background: var(--primary-light);
     color: var(--white);
@@ -435,365 +362,7 @@
     line-height: 1.5;
 }
 
-/* =========================== МОДАЛЬНОЕ ОКНО =========================== */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.modal-content {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: slideUp 0.3s ease-out;
-    position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Хедер модального окна */
-.modal-header {
-    position: sticky;
-    top: 0;
-    background: var(--bg-card);
-    padding: 1.5rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--border);
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.modal-close:hover {
-    background: var(--bg-soft);
-    color: var(--text-primary);
-}
-
-/* Тело модального окна */
-.modal-body {
-    padding: 0 1.5rem;
-}
-
-/* Детали кандидата */
-.candidate-detail-header {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.candidate-avatar.large {
-    width: 80px;
-    height: 80px;
-    font-size: 1.75rem;
-    font-weight: 700;
-    border: 3px solid var(--primary);
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-.candidate-info h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.candidate-position {
-    font-size: 1rem;
-    color: var(--primary);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.candidate-location {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Секции в модалке */
-.detail-section {
-    margin: 1.5rem 0;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.detail-section:last-child {
-    border-bottom: none;
-}
-
-.detail-section h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Контактная информация */
-.contact-grid {
-    display: grid;
-    gap: 0.75rem;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: var(--bg-soft);
-    border-radius: var(--radius-sm);
-    transition: all 0.3s ease;
-}
-
-.contact-item:hover {
-    background: var(--bg-hover);
-    transform: translateX(5px);
-}
-
-.contact-icon {
-    font-size: 1.2rem;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--white);
-    border-radius: 8px;
-    flex-shrink: 0;
-}
-
-.contact-link {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.contact-link:hover {
-    color: var(--primary);
-}
-
-/* Ожидания кандидата */
-.expectations-grid {
-    display: grid;
-    gap: 1rem;
-}
-
-.expectation-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    background: var(--bg-soft);
-    border-radius: var(--radius-sm);
-}
-
-.expectation-label {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.expectation-value {
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-/* Информация о статусе */
-.status-info {
-    background: var(--bg-soft);
-    padding: 1.25rem;
-    border-radius: var(--radius-sm);
-}
-
-.status-current {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.status-current span {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.status-current strong {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.status-history {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.status-history p {
-    margin: 0.25rem 0;
-}
-
-/* Управление статусом в модалке */
-.modal-actions {
-    padding: 1.5rem;
-    background: var(--bg-soft);
-    border-top: 1px solid var(--border);
-}
-
-#saveStatus {
-    min-width: 140px;
-}
-
-/* Кнопки действий в модалке */
-.action-buttons {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.action-buttons .btn {
-    flex: 1;
-    min-width: 140px;
-}
-
-.btn-view-resume {
-    background: var(--bg-soft);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-}
-
-/* Заметки работодателя */
-.employer-notes {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-}
-
-.employer-notes h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-}
-
-.notes-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    font-family: inherit;
-    resize: vertical;
-    transition: all 0.3s ease;
-    background: var(--bg-main);
-}
-
-.notes-textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-#saveNotes {
-    margin-top: 0.75rem;
-    width: 100%;
-}
-
 @media (max-width: 600px) {
-    .modal-overlay {
-        align-items: flex-end; /* Прижимаем к низу */
-        padding: 0;
-    }
-
-    .modal-content {
-        border-radius: 20px 20px 0 0; /* Скругляем только верх */
-        max-height: 92vh;
-        width: 100%;
-        animation: slideUp 0.3s ease-out;
-    }
-
-    .candidate-detail-header {
-        flex-direction: column;
-        text-align: center;
-        padding: 1rem 0;
-    }
-
     .action-buttons {
         flex-direction: column;
     }
@@ -805,30 +374,5 @@
     .tag-salary, .tag-pill {
         padding: 4px 8px;
         font-size: 0.75rem;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 400px) {
-
-
-}
-
-@media (max-width: 340px) {
-    .response-actions {
-        flex-direction: column; /* Кнопки одна под другой */
-    }
-
-    .btn-invite, .btn-reject {
-        width: 100%;
-        height: 36px;
     }
 }
