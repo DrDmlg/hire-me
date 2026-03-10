@@ -15,6 +15,7 @@ class Helpers {
 
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
-        return userId ? parseInt(userId) : 442485517; // test ID
+
+        return userId ? parseInt(userId) : null;
     }
 }
