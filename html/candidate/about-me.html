@@ -75,12 +75,9 @@
     <!-- Main Content -->
     <div class="content-section">
 
-        <!-- Personal Description -->
-        <div class="personal-description">
-            <div class="description-text">
-                Создаю цифровые продукты, которые решают реальные проблемы пользователей и приносят бизнесу прибыль.
-                Специализируюсь на FinTech и B2B-сегменте.
-            </div>
+        <!--Headline Description-->
+        <div class="headline-description" id="headlineContainer">
+            <div id="headlineDisplay" class="headline-text"></div>
         </div>
 
         <!-- Basic Info Section -->
@@ -483,6 +480,27 @@
             <button type="button" class="btn btn-secondary" id="closeNameModal">Отмена</button>
             <button type="button" class="btn btn-primary" id="saveNameModal">Сохранить</button>
         </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="headlineOverlay"></div>
+<div id="headlineModal" class="bottom-sheet">
+    <div class="sheet-indicator"></div>
+    <h2 class="sheet-title">Заголовок</h2>
+
+    <div class="form-group">
+        <textarea id="headlineInput"
+                  class="form-textarea"
+                  maxlength="200"
+                  placeholder="Короткий и сильный заголовок: о себе или результатах"></textarea>
+        <div class="char-counter">
+            <span id="headlineCharCount">0</span>/200
+        </div>
+    </div>
+
+    <div class="sheet-actions">
+        <button type="button" class="btn btn-secondary" id="cancelHeadlineBtn">Отмена</button>
+        <button type="button" class="btn btn-primary" id="saveHeadlineBtn">Сохранить</button>
     </div>
 </div>
 

@@ -9,13 +9,6 @@ class Helpers {
     }
 
     static getTelegramUserId() {
-        if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
-            return window.Telegram.WebApp.initDataUnsafe.user.id;
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('user_id');
-
-        return userId ? parseInt(userId) : null;
+        return window.Telegram?.WebApp?.initDataUnsafe?.user?.id || null;
     }
 }
