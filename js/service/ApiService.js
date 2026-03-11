@@ -1,8 +1,8 @@
 class ApiService {
 
     constructor() {
-        this.BASE_URL = 'https://saucily-admirable-piglet.cloudpub.ru';
-        //this.BASE_URL ='/api';
+        //this.BASE_URL = 'https://saucily-admirable-piglet.cloudpub.ru';
+        this.BASE_URL ='/api';
     }
 
     // Основной метод - для кастомных запросов
