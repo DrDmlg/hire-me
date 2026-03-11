@@ -14,12 +14,20 @@ class HireMeApp {
 
         const telegramUserId = Helpers.getTelegramUserId();
 
+        let isNewUser = true;
+
         if (telegramUserId != null) {
             const userRoles = await this.getProfileRoles(telegramUserId);
-            this.profileData = await ProfileService.loadProfile();
-            this.setUserAvatar(userRoles);
-            this.setName(this.profileData);
-        } else {
+
+            if (userRoles && userRoles.profileId) {
+                this.profileData = await ProfileService.loadProfile();
+                this.setUserAvatar(userRoles);
+                this.setName(this.profileData);
+                isNewUser = false;
+            }
+        }
+
+        if (isNewUser) {
             // Анонимный пользователь либо новый пользователь
             this.setUserAvatar(null);
             this.setName(null);
