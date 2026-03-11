@@ -41,7 +41,7 @@ class HireMeApp {
         if (userRoles && userRoles.profileId) {
             UserProfileFiller.updateAvatar(this.avatarContainer, userRoles?.profileId, this.api.BASE_URL);
         } else {
-            UserProfileFiller.updateAvatar(null, null, null);
+            UserProfileFiller.updateAvatar(this.avatarContainer, null, this.api.BASE_URL);
         }
     }
 
