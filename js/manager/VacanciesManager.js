@@ -1,7 +1,6 @@
 class VacanciesManager {
     constructor() {
         this.tg = window.Telegram?.WebApp;
-        this.profileData = null;
         this.navigation = new NavigationService();
         this.api = apiService;
         this.vacancies = [];
@@ -11,7 +10,6 @@ class VacanciesManager {
     async init() {
         try {
             this.navigation.init();
-            this.profileData = await ProfileService.loadProfile();
             await this.loadVacancies();
 
             console.log('VacanciesManager initialized successfully');

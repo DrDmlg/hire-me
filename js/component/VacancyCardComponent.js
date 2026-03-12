@@ -69,7 +69,7 @@ class VacancyCardComponent {
         if (!salaryObj || !salaryObj.min || !salaryObj.max) return null;
 
         const curr = salaryObj.currency === 'USD' ? '$' : '₽';
-        return `${salaryObj.min.toLocaleString()} — ${salaryObj.max.toLocaleString()} ${curr}`;X
+        return `${salaryObj.min.toLocaleString()} — ${salaryObj.max.toLocaleString()} ${curr}`;
     }
 
     createPreview(text) {
@@ -122,9 +122,14 @@ class VacancyCardComponent {
         try {
             const userId = Helpers.getTelegramUserId();
             const response = await this.api.post(`/application/apply`, {vacancyId, telegramUserId: userId});
-            if (response.status === 200) notification.success('Отклик успешно отправлен');
-        } catch (e) {
-            notification.error('Ошибка при отправке отклика');
+
+            if (response.status === 200) {
+                notification.success('Отклик успешно отправлен');
+            } else {
+                notification.error('Ошибка при отправке отклика');
+            }
+        } catch (error) {
+            notification.error(error.message);
         }
     }
 }
