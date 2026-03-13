@@ -35,7 +35,16 @@ class HeadlineComponent {
             ? this.profileData.candidate?.headline
             : this.profileData.employer?.headline;
 
-        this.display.textContent = headline || '';
+        if (!headline || headline.trim() === '') {
+            this.container.classList.add('is-empty');
+
+            this.display.textContent = this.userType === 'candidate'
+                ? 'В чём твоё мастерство и какая у тебя главная фишка?'
+                : 'Кого ищешь в команду и почему работать с тобой — это круто?';
+        } else {
+            this.container.classList.remove('is-empty');
+            this.display.textContent = headline;
+        }
     }
 
     initEventListeners() {

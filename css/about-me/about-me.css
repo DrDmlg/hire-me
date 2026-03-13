@@ -45,9 +45,18 @@
 
 /* Анимация пульсации иконки во время загрузки */
 @keyframes cameraPulse {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
 }
 
 .avatar-container.is-uploading .camera-icon {
@@ -273,6 +282,25 @@
     width: 100%;
     text-align: justify;
     hyphens: auto;
+}
+
+/* Состояние, когда headline не заполнен */
+.headline-description.is-empty {
+    border-style: dashed;
+    border-color: var(--border);
+    background: var(--bg-light);
+    justify-content: center;
+}
+
+.headline-description.is-empty:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.headline-description.is-empty .headline-text {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
 }
 
 /* Отступ от шапки при добавлении новой информации в формы опыта, работы и т.д.*/
