@@ -12,11 +12,16 @@ class ApplicationComponent {
         const initials = this.getInitials(fullName);
         const timeAgo = this.formatTimeAgo(response.appliedAt);
 
+        const avatarUrl = candidate.id
+            ? `${this.api.BASE_URL}/file/avatar/${response.candidate.profileId}?t=${Date.now()}`
+            : null;
+
         return `
             <div class="response-card ${response.status}" data-response-id="${response.id}">
                 <div class="response-header">
-                    <div class="candidate-avatar">
+                    <div class="avatar-container">
                         ${initials}
+                        ${avatarUrl ? `<img src="${avatarUrl}" class="avatar-image" onerror="this.style.display='none'">` : ''}
                     </div>
                     
                     <div class="candidate-main">

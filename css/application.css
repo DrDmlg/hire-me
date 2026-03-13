@@ -213,19 +213,17 @@
     gap: 0.7rem;
 }
 
-.candidate-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 1.2rem;
+.response-card .avatar-container {
+    width: 52px;
+    height: 52px;
     flex-shrink: 0;
-    overflow: hidden;
+    margin: 0;
+    background: var(--white);
+    color: var(--primary);
+    border: 1px solid var(--border-light);
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: none;
 }
 
 .candidate-main {
