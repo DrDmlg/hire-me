@@ -133,6 +133,104 @@ input:checked + .toggle-slider:before {
     min-height: 440px;
 }
 
+.checkbox-group {
+    margin: 0.7rem  0 0.7rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.privacy-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    position: relative;
+    user-select: none;
+}
+
+.checkmark {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    background-color: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.privacy-label input[type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.privacy-label input:checked + .checkmark {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.checkmark:after {
+    content: "";
+    display: none;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+}
+
+.privacy-label input:checked + .checkmark:after {
+    display: block;
+}
+
+.privacy-label input:focus-visible + .checkmark {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+.label-text {
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.policy-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 1.5px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 3;
+}
+
+.policy-link:hover {
+    color: var(--primary-dark);
+    text-decoration-color: var(--primary);
+}
+
+.policy-link:active {
+    opacity: 0.7;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }

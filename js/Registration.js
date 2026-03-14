@@ -134,6 +134,13 @@ class Registration {
             }
         }
 
+        const privacyPolicy = document.getElementById('privacyPolicy');
+        if (!privacyPolicy.checked) {
+            notification.error('Необходимо ваше согласие с политикой конфиденциальности');
+            this.tg?.HapticFeedback.notificationOccurred('error');
+            return false;
+        }
+
         return true;
     }
 
@@ -171,7 +178,9 @@ class Registration {
             firstName: document.getElementById('firstName').value.trim(),
             lastName: document.getElementById('lastName').value.trim(),
             email: document.getElementById('email').value.trim(),
-            phoneNumber: this.phoneMask ? this.phoneMask.unmaskedValue : ''
+            phoneNumber: this.phoneMask ? this.phoneMask.unmaskedValue : '',
+            consentGiven: document.getElementById('privacyPolicy').value.trim(),
+            consentType: 'PRIVACY_POLICY'
         };
 
         if (this.userType === 'candidate') {
