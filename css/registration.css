@@ -256,10 +256,23 @@ input:checked + .toggle-slider:before {
         padding: 0.8rem 1.5rem;
         height: 46px;
     }
+
+    .privacy-label {
+        font-size: 0.8rem;
+        gap: 10px;
+    }
+
+    .label-text {
+        line-height: 1.3;
+    }
 }
 
 @media (max-width: 380px) {
     .registration-body {
         padding: 1rem;
+    }
+
+    .privacy-label {
+        font-size: 0.75rem;
     }
 }
