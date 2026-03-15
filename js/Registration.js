@@ -216,6 +216,8 @@ class Registration {
             lastName: formData.lastName,
             email: formData.email,
             phoneNumber: formData.phoneNumber,
+            consentGiven: formData.consentGiven,
+            consentType: formData.consentType,
             candidateRegistration: {
                 desiredPosition: formData.desiredPosition,
                 desiredSalary: formData.desiredSalary,
@@ -238,6 +240,8 @@ class Registration {
             lastName: formData.lastName,
             email: formData.email,
             phoneNumber: formData.phoneNumber,
+            consentGiven: formData.consentGiven,
+            consentType: formData.consentType,
             employerRegistration: {
                 currentPosition: formData.currentPosition
             }
