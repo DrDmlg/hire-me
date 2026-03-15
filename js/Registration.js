@@ -179,7 +179,7 @@ class Registration {
             lastName: document.getElementById('lastName').value.trim(),
             email: document.getElementById('email').value.trim(),
             phoneNumber: this.phoneMask ? this.phoneMask.unmaskedValue : '',
-            consentGiven: document.getElementById('privacyPolicy').value.trim(),
+            consentGiven: document.getElementById('privacyPolicy').checked,
             consentType: 'PRIVACY_POLICY'
         };
 
